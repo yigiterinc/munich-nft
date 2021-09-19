@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#000",
   },
   homeLogo: {
+    marginLeft: theme.spacing(10),
     marginRight: theme.spacing(10),
   },
   title: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(10),
-      marginRight: theme.spacing(20),
+      marginRight: theme.spacing(10),
       width: 300,
     },
   },
@@ -78,6 +79,9 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: "none",
     },
   },
+  iconsSection: {
+    marginLeft: "150px",
+  },
 }));
 
 const NavBar = () => {
@@ -86,14 +90,14 @@ const NavBar = () => {
 
   return (
     <AppBar className={classes.appBar}>
-      <Toolbar>
+      <Toolbar variant="regular">
         <IconButton
           className={classes.homeLogo}
           onClick={() => {
             window.location.reload(false);
           }}
         >
-          <img src="/images/logo.png" height={32} />
+          <img src="/images/logo.png" height={24} />
         </IconButton>
 
         {renderSearchInputField(classes)}
@@ -103,9 +107,12 @@ const NavBar = () => {
         <div className={classes.pageLinksSection}>
           {navList.map((obj) => (
             <Link href={obj.toLowerCase()} className={classes.navLink}>
-              {obj}
+              {obj.toUpperCase()}
             </Link>
           ))}
+        </div>
+
+        <div className={classes.iconsSection}>
           <IconButton
             edge="end"
             aria-label="account of current user"

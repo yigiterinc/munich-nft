@@ -1,15 +1,16 @@
-import { BrowserRouter as Router, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 
-import Home from './views/Home'
+import NavBar from "./components/Home/Navbar";
+import "./App.css";
 
 function App() {
   return (
     <Router path="/">
       <Switch>
-        <Home />
+        <NavBar />
       </Switch>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;
