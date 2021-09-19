@@ -6,6 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
 
 import Link from "@material-ui/core/Link";
 
@@ -80,7 +81,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   iconsSection: {
-    marginLeft: "150px",
+    marginLeft: "200px",
+  },
+  accountIcon: {
+    marginRight: "5px",
   },
 }));
 
@@ -91,12 +95,7 @@ const NavBar = () => {
   return (
     <AppBar className={classes.appBar}>
       <Toolbar variant="regular">
-        <IconButton
-          className={classes.homeLogo}
-          onClick={() => {
-            window.location.reload(false);
-          }}
-        >
+        <IconButton className={classes.homeLogo} href="/">
           <img src="/images/logo.png" height={24} />
         </IconButton>
 
@@ -114,11 +113,22 @@ const NavBar = () => {
 
         <div className={classes.iconsSection}>
           <IconButton
+            className={classes.accountIcon}
             edge="end"
             aria-label="account of current user"
             color="inherit"
+            href="/profile"
           >
             <AccountCircle />
+          </IconButton>
+
+          <IconButton
+            edge="end"
+            aria-label="metamask wallet of current user"
+            color="inherit"
+            href="/wallet"
+          >
+            <AccountBalanceWalletIcon />
           </IconButton>
         </div>
       </Toolbar>
