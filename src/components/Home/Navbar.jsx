@@ -96,7 +96,7 @@ const NavBar = () => {
     <AppBar className={classes.appBar}>
       <Toolbar variant="regular">
         <IconButton className={classes.homeLogo} href="/">
-          <img src="/images/logo.png" height={24} />
+          <img alt="munich-nft-logo" src="/images/logo.png" height={24} />
         </IconButton>
 
         {renderSearchInputField(classes)}
