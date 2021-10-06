@@ -1,19 +1,21 @@
 import { useState, useEffect } from "react";
 import Web3 from "web3";
 
-import axios from "axios";
-
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 
 import Home from "./views/Home";
+import {
+	fetchCollectionsOfUser,
+	getAssetsAddedCollections,
+} from "./api/opensea";
 
 let web3;
-let seaport;
 
 function App() {
 	const [account, setAccount] = useState(null); // Wallet Address
 	const [balance, setBalance] = useState(null); // In Ether
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [collections, setCollections] = useState(null); // ! To be removed when we move call to collections
 
 	useEffect(async () => {
 		updateUserData();
@@ -21,12 +23,13 @@ function App() {
 
 	useEffect(async () => {
 		if (!web3) await loadWeb3();
-		if (!seaport) await openSeaport();
 
 		if (account) {
 			const newBalance = await fetchBalance();
 			setBalance(web3.utils.fromWei(newBalance, "ether"));
-			fetchNfts(); // TODO this call should be made from somewhere else
+			// TODO we will move this to somewhere else (artist will click import collection button or smth)
+			let collectionsData = await fetchCollectionsOfUser(account);
+			setCollections(await getAssetsAddedCollections(collectionsData));
 		}
 	}, [account]);
 
@@ -34,29 +37,6 @@ function App() {
 		const balance = await web3.eth.getBalance(account);
 
 		return balance;
-	};
-
-	const openSeaport = () => {
-		/* seaport = new OpenSeaPort(Web3.givenProvider, {
-				networkName: Network.Main,
-			}); */
-	};
-
-	const fetchNfts = async () => {
-		let assetsObjects;
-		try {
-			assetsObjects = await axios.get(
-				`https://rinkeby-api.opensea.io/api/v1/assets?owner=${account}&order_direction=desc&offset=0&limit=20`
-			);
-			assetsObjects = assetsObjects.data;
-		} catch (e) {
-			console.log("retrying", e);
-			setTimeout(() => {
-				this.refreshData();
-			}, 1500);
-			return;
-		}
-		console.log(assetsObjects);
 	};
 
 	const updateUserData = async () => {
