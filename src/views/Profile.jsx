@@ -3,7 +3,6 @@ import AssetCard from "../components/profile/AssetCard";
 import Header from "../components/profile/Header";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import dummyAssets from "../dummy/dummyAssets.json";
 import dummyProfile from "../dummy/dummyProfile.json";
 
 const useStyles = makeStyles((theme) => ({
@@ -14,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Profile = () => {
+const Profile = ({ collections }) => {
 	const classes = useStyles();
 
 	return (
@@ -22,9 +21,9 @@ const Profile = () => {
 			<Grid item xs={12}>
 				<Header profile={dummyProfile} />
 			</Grid>
-			{dummyAssets.map((item) => {
+			{collections[0]?.assets?.map((item) => {
 				return (
-					<Grid item xs={12} sm={6} md={4} lg={3}>
+					<Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
 						<AssetCard asset={item} />
 					</Grid>
 				);
