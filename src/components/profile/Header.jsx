@@ -1,6 +1,7 @@
 import React from "react";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
+import PersonIcon from "@material-ui/icons/Person";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -40,7 +41,9 @@ const Header = ({ profile }) => {
 
 	return (
 		<Paper className={classes.title}>
-			<Avatar className={classes.avatar}>{profile.initials}</Avatar>
+			<Avatar className={classes.avatar}>
+				<PersonIcon />
+			</Avatar>
 			<Typography variant="h5" component="h2">
 				{profile.name}
 			</Typography>

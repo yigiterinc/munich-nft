@@ -1,9 +1,15 @@
 import { useState, useEffect } from "react";
 import Web3 from "web3";
 
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	NavLink,
+} from "react-router-dom";
 
 import Home from "./views/Home";
+import Profile from "./views/Profile";
 import {
 	fetchCollectionsOfUser,
 	getAssetsAddedCollections,
@@ -68,9 +74,15 @@ function App() {
 	};
 
 	return (
-		<Router path="/">
+		<Router>
 			<Switch>
-				<Home loginWithMetamask={updateUserData} isLoggedIn={isLoggedIn} />
+				<Route path="/profile">
+					<Profile collections={collections} />
+				</Route>
+				<Route path="/">
+					<Home loginWithMetamask={updateUserData} isLoggedIn={isLoggedIn} />
+					<NavLink to="/profile">Profile</NavLink>
+				</Route>
 			</Switch>
 		</Router>
 	);
