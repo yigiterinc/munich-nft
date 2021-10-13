@@ -1,0 +1,20 @@
+{
+	"name": "munich-nft",
+	"version": "1.0.0",
+	"description": "",
+	"directories": {
+		"test": "test"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@openzeppelin/contracts": "^4.3.2",
+		"@truffle/hdwallet-provider": "^1.0.37",
+		"any-promise": "^1.3.0",
+		"bindings": "^1.5.0",
+		"dotenv": "^10.0.0"
+	}
+}
