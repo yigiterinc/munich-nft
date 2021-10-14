@@ -33,7 +33,7 @@ const AssetCard = ({ asset }) => {
 				<Typography variant="h6" color="textSecondary" gutterBottom>
 					{asset.collection.name}
 				</Typography>
-				<Typography variant="h5" component="h2">
+				<Typography variant="h6" component="h2">
 					{asset.name}
 				</Typography>
 			</CardContent>
