@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState } from "react";
 
 import "../config/config";
 
@@ -17,7 +17,10 @@ if (Web3.givenProvider) {
 }
 
 function MintNft() {
-	const [activeStep, setActiveStep] = React.useState(0);
+	const [activeStep, setActiveStep] = useState(0);
+
+	const [fileUploadResult, setFileUploadResult] = useState(null);
+	const [ipfsDialogOpen, setIpfsDialogOpen] = useState(false);
 
 	const getSteps = () => {
 		return [
@@ -50,11 +53,34 @@ function MintNft() {
 		</Button>
 	);
 
+	const handleReset = () => {};
+
+	const onFileUploaded = (path) => {
+		setFileUploadResult(path);
+	};
+
+	const resetButton = (
+		<Button
+			color="primary"
+			size="large"
+			onClick={handleReset}
+			variant="outlined"
+			size="large"
+		>
+			Done - Mint another!
+		</Button>
+	);
+
 	const stepComponents = [
-		<UploadArt nextButton={nextButton} />,
+		<UploadArt
+			nextButton={nextButton}
+			setIpfsDialogOpen={setIpfsDialogOpen}
+			onUploaded={onFileUploaded}
+			fileUploadResult={fileUploadResult}
+		/>,
 		<AddMetadata nextButton={nextButton} />,
 		<Mint nextButton={nextButton} />,
-		<ListNft nextButton={nextButton} />,
+		<ListNft resetButton={resetButton} />,
 	];
 
 	return (
