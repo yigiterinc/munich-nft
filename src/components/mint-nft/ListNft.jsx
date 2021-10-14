@@ -1,10 +1,10 @@
 import React from "react";
 
-function ListNft({ nextButton }) {
+function ListNft({ resetButton }) {
 	return (
 		<div>
 			<h1>List NFT</h1>
-			{nextButton}
+			{resetButton}
 		</div>
 	);
 }
