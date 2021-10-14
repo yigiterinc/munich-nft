@@ -21,7 +21,6 @@ function App() {
 	const [account, setAccount] = useState(null); // Wallet Address
 	const [balance, setBalance] = useState(null); // In Ether
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
-	const [collections, setCollections] = useState(null); // ! To be removed when we move call to collections
 
 	useEffect(async () => {
 		updateUserData();
@@ -33,9 +32,6 @@ function App() {
 		if (account) {
 			const newBalance = await fetchBalance();
 			setBalance(web3.utils.fromWei(newBalance, "ether"));
-			// TODO we will move this to somewhere else (artist will click import collection button or smth)
-			let collectionsData = await fetchCollectionsOfUser(account);
-			setCollections(await getAssetsAddedCollections(collectionsData));
 		}
 	}, [account]);
 
@@ -77,7 +73,7 @@ function App() {
 		<Router>
 			<Switch>
 				<Route path="/profile">
-					<Profile collections={collections} />
+					<Profile account={account} />
 				</Route>
 				<Route path="/">
 					<Home loginWithMetamask={updateUserData} isLoggedIn={isLoggedIn} />

@@ -3,11 +3,12 @@ import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import PersonIcon from "@material-ui/icons/Person";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
 	title: {
-		height: "20vh",
+		height: "25vh",
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "center",
@@ -19,9 +20,12 @@ const useStyles = makeStyles((theme) => ({
 		width: theme.spacing(8),
 		height: theme.spacing(8),
 	},
+	importButton: {
+		marginTop: "2vh",
+	},
 }));
 
-const Header = ({ profile }) => {
+const Header = ({ profile, openImportModal }) => {
 	const classes = useStyles();
 
 	const truncate = (str, strLen) => {
@@ -50,6 +54,14 @@ const Header = ({ profile }) => {
 			<Typography variant="h6" component="h2" color="textSecondary">
 				{truncate(`${profile.address}`, 13)}
 			</Typography>
+			<Button
+				variant="contained"
+				size="large"
+				className={classes.importButton}
+				onClick={() => openImportModal()}
+			>
+				IMPORT
+			</Button>
 		</Paper>
 	);
 };
