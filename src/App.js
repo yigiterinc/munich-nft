@@ -4,6 +4,8 @@ import Web3 from "web3";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 
 import Home from "./views/Home";
+import MintNft from "./views/MintNft";
+
 import {
 	fetchCollectionsOfUser,
 	getAssetsAddedCollections,
@@ -68,9 +70,14 @@ function App() {
 	};
 
 	return (
-		<Router path="/">
+		<Router>
 			<Switch>
-				<Home loginWithMetamask={updateUserData} isLoggedIn={isLoggedIn} />
+				<MintNft path="/mint-nft" />
+				<Home
+					path="/"
+					loginWithMetamask={updateUserData}
+					isLoggedIn={isLoggedIn}
+				/>
 			</Switch>
 		</Router>
 	);
