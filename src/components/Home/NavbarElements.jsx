@@ -23,6 +23,7 @@ export const Hamburger = styled.div`
     margin-bottom: 4px;
     border-radius: 5px;
   }
+
   @media (max-width: 768px) {
     display: flex;
   }
@@ -35,11 +36,7 @@ export const Menu = styled.div`
   position: relative;
 
   @media (max-width: 768px) {
-    overflow: hidden;
-    flex-direction: column;
-    max-height: ${({ isOpen }) => (isOpen ? "300px" : "0")};
-    transition: max-height 0.3s ease-in;
-    width: 100%;
+    display: none;
   }
 `;
 

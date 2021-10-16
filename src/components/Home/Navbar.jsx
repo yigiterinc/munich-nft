@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Nav,
@@ -43,19 +43,19 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = () => {
   const classes = useStyles();
-  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
       <Nav>
         <Logo href="">
           <img src={logoImage} alt="logo" />
         </Logo>
-        <Hamburger onClick={() => setIsOpen(!isOpen)}>
+        <Hamburger>
           <span />
           <span />
         </Hamburger>
         {renderSearchBar(classes)}
-        <Menu isOpen={isOpen}>
+        <Menu>
           <MenuLink href="/about">About Us</MenuLink>
           <MenuLink href="/market">Marketplace</MenuLink>
           <MenuLink href="/create">Create</MenuLink>
