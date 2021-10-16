@@ -4,36 +4,28 @@ import { Container, Button, Typography } from "@material-ui/core";
 
 import IpfsUploader from "./IpfsUploader";
 
+//TODO
 const useStyles = makeStyles((theme) => ({
 	root: {
 		textAlign: "center",
 	},
 }));
 
-function UploadArt({
-	fileUploadResult,
-	nextButton,
-	setIpfsDialogOpen,
-	onUploaded,
-}) {
+function UploadArt({ addedFileHash, nextButton, onUploaded }) {
 	const classes = useStyles();
 
 	return (
 		<div className={classes.root}>
 			<h1>Upload</h1>
-			{fileUploadResult === null ? (
-				<Container>
-					<Typography variant="h5">Upload your Art</Typography>
-					<IpfsUploader
-						onUploaded={onUploaded}
-						closeDialog={() => setIpfsDialogOpen(false)}
-						openDialog={() => setIpfsDialogOpen(true)}
-					/>
+			{addedFileHash ? (
+				<Container style={{ textAlign: "center" }}>
+					<Typography variant="body2">Uploaded: {addedFileHash}</Typography>
+					{nextButton}
 				</Container>
 			) : (
-				<Container style={{ textAlign: "center" }}>
-					<Typography variant="body2">Uploaded: {fileUploadResult}</Typography>
-					{nextButton}
+				<Container>
+					<Typography variant="h5">Upload your Art</Typography>
+					<IpfsUploader onUploaded={onUploaded} />
 				</Container>
 			)}
 		</div>
