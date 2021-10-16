@@ -2,20 +2,7 @@ import { React, useState, useEffect } from "react";
 
 import "../config/config";
 
-import { Stepper, Step, StepLabel, Button } from "@material-ui/core";
-import Web3 from "web3";
-
-import AddMetadata from "../components/mint-nft/AddMetadata";
-import ListNft from "../components/mint-nft/ListNft";
-import Mint from "../components/mint-nft/Mint";
-import UploadArt from "../components/mint-nft/UploadArt";
 import RenderMintNft from "../components/mint-nft/RenderMintNft";
-
-let web3;
-
-if (Web3.givenProvider) {
-	web3 = new Web3(Web3.givenProvider || "ws://some.local-or-remote.node:8546");
-}
 
 function MintNft() {
 	const [addedFileHash, setAddedFileHash] = useState("");
@@ -43,6 +30,12 @@ function MintNft() {
 			setAddedFileHash={setAddedFileHash}
 			handleReset={handleReset}
 			onFileAdded={onFileAdded}
+			uploadedMetadata={uploadedMetadata}
+			setUploadedMetadata={setUploadedMetadata}
+			nftName={nftName}
+			nftDescription={nftDescription}
+			setNftName={setNftName}
+			setNftDescription={setNftDescription}
 		></RenderMintNft>
 	);
 }

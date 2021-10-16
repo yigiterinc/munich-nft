@@ -63,7 +63,15 @@ function RenderMintNft(props) {
 			onUploaded={props.onFileAdded}
 			addedFileHash={props.addedFileHash}
 		/>,
-		<AddMetadata nextButton={nextButton} prevButton={prevButton} />,
+		<AddMetadata
+			uploadedMetadata={props.uploadedMetadata}
+			addedFileHash={props.addedFileHash}
+			nextButton={nextButton}
+			prevButton={prevButton}
+			setUploadedMetadata={props.setUploadedMetadata}
+			setNftDescription={props.setNftDescription}
+			setNftName={props.setNftName}
+		/>,
 		<Mint nextButton={nextButton} prevButton={prevButton} />,
 		<ListNft resetButton={resetButton} prevButton={prevButton} />,
 	];
