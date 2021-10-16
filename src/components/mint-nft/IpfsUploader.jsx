@@ -6,13 +6,9 @@ import { CID } from "ipfs-http-client";
 import "react-dropzone-uploader/dist/styles.css";
 import Dropzone from "react-dropzone-uploader";
 
-const client = create(new URL("https://ipfs.infura.io:5001"));
+import ipfsHelper from "../../api/ipfs-helper";
 
 function IpfsUploader({ openDialog, onUploaded, closeDialog }) {
-	const getUploadParams = () => {
-		return { url: "https://httpbin.org/post" };
-	};
-
 	// called every time a file's status changes
 	const handleChangeStatus = ({ meta, file }, status) => {
 		console.log(status, meta, file);
@@ -22,9 +18,11 @@ function IpfsUploader({ openDialog, onUploaded, closeDialog }) {
 		files.forEach(async (file) => {
 			console.log(file);
 			openDialog();
-			const res = await client.add(file.file);
-			onUploaded(res.path);
-			console.log(res);
+			// TODO handle errors
+			const uploadResult = await ipfsHelper.addFile(file.file);
+			console.log(await ipfsHelper.getFile(uploadResult.path));
+			onUploaded(uploadResult.path);
+			console.log(uploadResult);
 			file.remove();
 			closeDialog();
 		});
@@ -32,11 +30,10 @@ function IpfsUploader({ openDialog, onUploaded, closeDialog }) {
 
 	return (
 		<Dropzone
-			getUploadParams={getUploadParams}
 			onChangeStatus={handleChangeStatus}
 			onSubmit={handleSubmit}
 			accept="image/*,audio/*,video/*"
-			maxFiles={1}
+			multiple={false}
 			inputContent="Drag your Art here!"
 		/>
 	);
