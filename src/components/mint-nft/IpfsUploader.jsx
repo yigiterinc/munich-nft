@@ -8,7 +8,7 @@ import Dropzone from "react-dropzone-uploader";
 
 import ipfsHelper from "../../api/ipfs-helper";
 
-function IpfsUploader({ openDialog, onUploaded, closeDialog }) {
+function IpfsUploader({ onUploaded }) {
 	// called every time a file's status changes
 	const handleChangeStatus = ({ meta, file }, status) => {
 		console.log(status, meta, file);
@@ -17,14 +17,11 @@ function IpfsUploader({ openDialog, onUploaded, closeDialog }) {
 	const handleSubmit = async (files, allFiles) => {
 		files.forEach(async (file) => {
 			console.log(file);
-			openDialog();
 			// TODO handle errors
 			const uploadResult = await ipfsHelper.addFile(file.file);
-			console.log(await ipfsHelper.getFile(uploadResult.path));
 			onUploaded(uploadResult.path);
 			console.log(uploadResult);
 			file.remove();
-			closeDialog();
 		});
 	};
 
