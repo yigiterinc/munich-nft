@@ -4,7 +4,7 @@ import { Container, Button, Typography } from "@material-ui/core";
 import Web3 from "web3"; // TODO get me out of here
 
 import { CONTRACT_ADDRESS } from "../../config/config"; // TODO get me out of here
-import { ABI } from "../../Res/contract"; // TODO get me out of here
+import { ABI } from "../../res/contract"; // TODO get me out of here
 
 let web3;
 
@@ -27,6 +27,7 @@ function Mint({
 		const account = accounts[0];
 		const contract = new web3.eth.Contract(ABI, CONTRACT_ADDRESS, {
 			from: account, // default from address
+			gasLimit: "200000",
 			gasPrice: "10000000000", // default gas price in wei, 20 gwei in this case
 		});
 		const contractCallRes = await contract.methods
