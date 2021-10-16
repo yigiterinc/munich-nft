@@ -7,7 +7,7 @@ import RenderMintNft from "../components/mint-nft/RenderMintNft";
 function MintNft() {
 	const [addedFileHash, setAddedFileHash] = useState("");
 	const [uploadedMetadata, setUploadedMetadata] = useState("");
-	const [mintedNft, setMintedNft] = useState("");
+	const [mintedNft, setMintedNft] = useState(""); // Address of minted NFT
 	const [listedNft, setListedNft] = useState("");
 	const [nftName, setNftName] = useState("");
 	const [nftDescription, setNftDescription] = useState("");
@@ -36,6 +36,10 @@ function MintNft() {
 			nftDescription={nftDescription}
 			setNftName={setNftName}
 			setNftDescription={setNftDescription}
+			mintedNft={mintedNft}
+			setMintedNft={setMintedNft}
+			resultingTokenId={resultingTokenId}
+			setResultingTokenId={setResultingTokenId}
 		></RenderMintNft>
 	);
 }
