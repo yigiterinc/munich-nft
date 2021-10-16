@@ -72,7 +72,14 @@ function RenderMintNft(props) {
 			setNftDescription={props.setNftDescription}
 			setNftName={props.setNftName}
 		/>,
-		<Mint nextButton={nextButton} prevButton={prevButton} />,
+		<Mint
+			nextButton={nextButton}
+			prevButton={prevButton}
+			uploadedMetadata={props.uploadedMetadata}
+			mintedNft={props.mintedNft}
+			setMintedNft={props.setMintedNft}
+			setResultingTokenId={props.setResultingTokenId}
+		/>,
 		<ListNft resetButton={resetButton} prevButton={prevButton} />,
 	];
 

@@ -34,7 +34,7 @@ const ipfsHelper = {
 			name: nftMetadata.name,
 			description: nftMetadata.description,
 			image: `https://ipfs.io/ipfs/${path}`,
-			// ? (what are the next 2, christian?)
+			// ? (what are the next 2 statements, christian?)
 			external_link: "https://munichnft.com",
 			seller_fee_basis_points: 1000, // Indicates a 10% seller fee.
 			fee_recipient: account,
