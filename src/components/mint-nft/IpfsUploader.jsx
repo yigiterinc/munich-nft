@@ -6,7 +6,7 @@ import { CID } from "ipfs-http-client";
 import "react-dropzone-uploader/dist/styles.css";
 import Dropzone from "react-dropzone-uploader";
 
-import ipfsHelper from "../../api/ipfs-helper";
+import ipfsHelper from "../../api/ipfsHelper";
 
 function IpfsUploader({ onUploaded }) {
 	// called every time a file's status changes
