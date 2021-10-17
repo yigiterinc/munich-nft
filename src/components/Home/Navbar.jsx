@@ -1,88 +1,114 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useEffect, useState } from "react";
+import Button from "@material-ui/core/Button";
+import MenuItem from "@material-ui/core/MenuItem";
 import {
   Nav,
   Logo,
-  Hamburger,
-  Menu,
+  Title,
+  SearchBar,
+  CustomInputBase,
+  NavMenu,
+  NavMobileMenu,
   MenuLink,
   ConnectButton,
 } from "./NavbarElements";
 import logoImage from "../../assets/images/dummy-logo.png";
 
-import InputBase from "@material-ui/core/InputBase";
-import SearchIcon from "@material-ui/icons/Search";
-
-const useStyles = makeStyles((theme) => ({
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: "#f5f5f5",
-    marginLeft: "auto",
-    marginRight: "2rem",
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  inputRoot: {
-    color: "inherit",
-    width: "350px",
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    width: "100%",
-  },
-}));
-
 const Navbar = () => {
-  const classes = useStyles();
+  const { width } = useCurrentWidthOfTheScreen();
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <>
       <Nav>
         <Logo href="">
           <img src={logoImage} alt="logo" />
+          <Title class="nav-title">Dummy</Title>
         </Logo>
-        <Hamburger>
-          <span />
-          <span />
-        </Hamburger>
-        {renderSearchBar(classes)}
-        <Menu>
-          <MenuLink href="/about">About Us</MenuLink>
-          <MenuLink href="/market">Marketplace</MenuLink>
-          <MenuLink href="/create">Create</MenuLink>
-          <MenuLink href="/my-profile">My Profile</MenuLink>
-          <ConnectButton onClick={() => ""}>Connect Wallet</ConnectButton>
-        </Menu>
+        {width > 780 ? (
+          <SearchBar>
+            <CustomInputBase
+              placeholder="Search galleries, items and accounts..."
+              inputProps={{ "aria-label": "search" }}
+            />
+          </SearchBar>
+        ) : (
+          <div />
+        )}
+        {width > 1330 ? (
+          <NavMenu>
+            <MenuLink href="/market">Marketplace</MenuLink>
+            <MenuLink href="/create">Create</MenuLink>
+            <MenuLink href="/import">Import</MenuLink>
+            <MenuLink href="/my-profile">My Profile</MenuLink>
+            <ConnectButton onClick={() => ""}>Connect Wallet</ConnectButton>
+          </NavMenu>
+        ) : (
+          <div>
+            <Button
+              aria-controls="simple-menu"
+              aria-haspopup="true"
+              onClick={handleClick}
+            >
+              Menu
+            </Button>
+            <NavMobileMenu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem href="/market" onClick={handleClose}>
+                Marketplace
+              </MenuItem>
+              <MenuItem href="/create" onClick={handleClose}>
+                Create
+              </MenuItem>
+              <MenuItem href="/import" onClick={handleClose}>
+                Import
+              </MenuItem>
+              <MenuItem href="/my-profile" onClick={handleClose}>
+                My Profile
+              </MenuItem>
+              <ConnectButton onClick={() => ""}>Connect Wallet</ConnectButton>
+            </NavMobileMenu>
+          </div>
+        )}
       </Nav>
     </>
   );
 };
 
-const renderSearchBar = (classes) => {
-  return (
-    <div className={classes.search}>
-      <div className={classes.searchIcon}>
-        <SearchIcon />
-      </div>
-      <InputBase
-        placeholder="Search galleries, items and accounts..."
-        classes={{
-          root: classes.inputRoot,
-          input: classes.inputInput,
-        }}
-        inputProps={{ "aria-label": "search" }}
-      />
-    </div>
+function useCurrentWidthOfTheScreen() {
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
   );
-};
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return windowDimensions;
+}
+
+function getWindowDimensions() {
+  const { innerWidth: width } = window;
+  return {
+    width,
+  };
+}
 
 export default Navbar;
