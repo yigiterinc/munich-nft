@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import InputBase from "@material-ui/core/InputBase";
+import Menu from "@material-ui/core/Menu";
 
 export const Nav = styled.nav`
   padding: 0 2rem;
@@ -8,36 +10,46 @@ export const Nav = styled.nav`
   flex-wrap: wrap;
   background: white;
   heigth: 72px;
+  box-shadow: rgb(4 17 29 / 25%) 0px 0px 8px 0px;
 `;
 
-export const Logo = styled.a``;
-
-export const Hamburger = styled.div`
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-  span {
-    height: 2px;
-    width: 25px;
-    background: #000;
-    margin-bottom: 4px;
-    border-radius: 5px;
-  }
-
-  @media (max-width: 768px) {
-    display: flex;
-  }
+export const Logo = styled.a`
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #000;
 `;
 
-export const Menu = styled.div`
+export const Title = styled.h2`
+  margin-left: 17.5px;
+`;
+
+export const SearchBar = styled.div`
+  position: relative;
+  border-radius: 8px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #d0d0d0;
+  margin-left: auto;
+  margin-right: 2rem;
+`;
+
+export const CustomInputBase = styled(InputBase)`
+  color: inherit;
+  width: 400px;
+  padding: 0.5rem;
+  padding-left: 10px;
+`;
+
+export const NavMenu = styled.div`
   display: flex;
   justift-countent: space-between;
   align-items: center;
   position: relative;
+`;
 
-  @media (max-width: 768px) {
-    display: none;
-  }
+export const NavMobileMenu = styled(Menu)`
+  flex-direction: column;
 `;
 
 export const MenuLink = styled.a`
@@ -60,4 +72,14 @@ export const ConnectButton = styled.button`
   text-decoration: none;
   display: inline-block;
   font-size: 15px;
+
+  &:hover {
+    color: #a9a9a9;
+  }
+
+  &:active {
+    color: #fff;
+    opacity: 1;
+    transition: 0s;
+  }
 `;
