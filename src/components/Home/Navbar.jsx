@@ -13,7 +13,7 @@ const Navbar = () => {
 			<Nav>
 				<BrandLogo />
 				{width > 780 ? <Search /> : <div />}
-				{width > 1330 ? <Menu /> : <MobileMenu />}
+				{width > 1408 ? <Menu /> : <MobileMenu />}
 			</Nav>
 		</>
 	);
