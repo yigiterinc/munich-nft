@@ -9,6 +9,7 @@ import {
 	getAssetsAddedCollections,
 } from "./api/opensea";
 
+import "./App.css";
 let web3;
 
 function App() {
