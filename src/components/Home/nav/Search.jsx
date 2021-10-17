@@ -1,14 +1,35 @@
 import React from "react";
-import { SearchBar, CustomInputBase } from "./NavbarElements";
+import { makeStyles } from "@material-ui/core/styles";
+import InputBase from "@material-ui/core/InputBase";
+
+const useStyles = makeStyles((theme) => ({
+	searchBar: {
+		position: "relative",
+		borderRadius: "8px",
+		borderStyle: "solid",
+		borderWidth: "2px",
+		borderColor: "#d0d0d0",
+		marginLeft: "auto",
+		marginRight: "2rem",
+	},
+	customInputBase: {
+		color: "inherit",
+		width: "400px",
+		padding: "0.5rem",
+		paddingLeft: "10px",
+	},
+}));
 
 const Search = () => {
+	const classes = useStyles();
 	return (
-		<SearchBar>
-			<CustomInputBase
+		<div className={classes.searchBar}>
+			<InputBase
 				placeholder="Search galleries, items and accounts..."
 				inputProps={{ "aria-label": "search" }}
+				className={classes.customInputBase}
 			/>
-		</SearchBar>
+		</div>
 	);
 };
 

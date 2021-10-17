@@ -1,20 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { Nav } from "./nav/NavbarElements";
+import { makeStyles } from "@material-ui/core/styles";
 
 import BrandLogo from "./nav/BrandLogo";
 import Search from "./nav/Search";
 import Menu from "./nav/Menu";
 import MobileMenu from "./nav/MobileMenu";
 
+const useStyles = makeStyles((theme) => ({
+	navBar: {
+		padding: "0 2rem",
+		display: "flex",
+		justifyContent: "space-between",
+		alignItems: "center",
+		flexWrap: "wrap",
+		background: "white",
+		heigth: "72px",
+		boxShadow: "rgb(4 17 29 / 25%) 0px 0px 8px 0px",
+	},
+}));
+
 const Navbar = () => {
 	const { width } = useCurrentWidthOfTheScreen();
+	const classes = useStyles();
+
 	return (
 		<>
-			<Nav>
+			<nav className={classes.navBar}>
 				<BrandLogo />
 				{width > 780 ? <Search /> : <div />}
 				{width > 1408 ? <Menu /> : <MobileMenu />}
-			</Nav>
+			</nav>
 		</>
 	);
 };

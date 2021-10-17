@@ -1,16 +1,42 @@
 import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import MetamaskButton from "./MetamaskButton";
-import { NavMenu, MenuLink } from "./NavbarElements";
+
+const useStyles = makeStyles((theme) => ({
+	navMenu: {
+		display: "flex",
+		justifyContent: "space-between",
+		alignItems: "center",
+		position: "relative",
+	},
+	menuLink: {
+		padding: "1rem 2rem",
+		cursor: "pointer",
+		textAlign: "center",
+		textDecoration: "none",
+		color: "#000",
+		fontSize: "0.85rem",
+	},
+}));
 
 const Menu = () => {
+	const classes = useStyles();
 	return (
-		<NavMenu>
-			<MenuLink href="/market">Marketplace</MenuLink>
-			<MenuLink href="/create">Create</MenuLink>
-			<MenuLink href="/import">Import</MenuLink>
-			<MenuLink href="/my-profile">My Profile</MenuLink>
+		<div className={classes.navMenu}>
+			<a className={classes.menuLink} href="/market">
+				Marketplace
+			</a>
+			<a className={classes.menuLink} href="/create">
+				Create
+			</a>
+			<a className={classes.menuLink} href="/import">
+				Import
+			</a>
+			<a className={classes.menuLink} href="/my-profile">
+				My Profile
+			</a>
 			<MetamaskButton />
-		</NavMenu>
+		</div>
 	);
 };
 
