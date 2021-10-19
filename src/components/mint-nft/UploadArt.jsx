@@ -9,6 +9,9 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		textAlign: "center",
 	},
+	title: {
+		margin: 40,
+	},
 }));
 
 function UploadArt({ addedFileHash, nextButton, onUploaded }) {
@@ -16,15 +19,18 @@ function UploadArt({ addedFileHash, nextButton, onUploaded }) {
 
 	return (
 		<div className={classes.root}>
-			<h1>Upload</h1>
 			{addedFileHash ? (
-				<Container style={{ textAlign: "center" }}>
-					<Typography variant="body2">Uploaded: {addedFileHash}</Typography>
+				<Container>
+					<Typography className={classes.title} variant="body1">
+						Uploaded: {addedFileHash}
+					</Typography>
 					{nextButton}
 				</Container>
 			) : (
 				<Container>
-					<Typography variant="h5">Upload your Art</Typography>
+					<Typography className={classes.title} variant="h5">
+						Upload your Art
+					</Typography>
 					<IpfsUploader onUploaded={onUploaded} />
 				</Container>
 			)}
