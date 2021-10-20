@@ -1,22 +1,31 @@
 import { React, useState } from "react";
 
 import { Stepper, Step, StepLabel, Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 import AddMetadata from "./AddMetadata";
 import ListNft from "./ListNft";
 import UploadArt from "./UploadArt";
 import Mint from "./Mint";
 
+const useStyles = makeStyles((theme) => ({
+	button: {
+		margin: theme.spacing(1),
+	},
+}));
+
 function RenderMintNft(props) {
 	const [activeStep, setActiveStep] = useState(0);
 
+	const classes = useStyles();
+
 	const nextButton = (
 		<Button
+			className={classes.button}
 			color="primary"
 			size="large"
 			onClick={() => setActiveStep((prevActiveStep) => prevActiveStep + 1)}
 			variant="outlined"
-			size="large"
 		>
 			Next
 		</Button>
@@ -24,11 +33,11 @@ function RenderMintNft(props) {
 
 	const prevButton = (
 		<Button
+			className={classes.button}
 			color="primary"
 			size="large"
 			onClick={() => setActiveStep((prevActiveStep) => prevActiveStep - 1)}
 			variant="outlined"
-			size="large"
 		>
 			Previous
 		</Button>
@@ -36,11 +45,11 @@ function RenderMintNft(props) {
 
 	const resetButton = (
 		<Button
+			className={classes.button}
 			color="primary"
 			size="large"
 			onClick={props.handleReset}
 			variant="outlined"
-			size="large"
 		>
 			Done - Mint another!
 		</Button>

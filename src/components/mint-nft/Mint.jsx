@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Button, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 import Web3 from "web3"; // TODO get me out of here
 
@@ -13,6 +14,18 @@ if (Web3.givenProvider) {
 	web3 = new Web3(Web3.givenProvider || "ws://some.local-or-remote.node:8546");
 }
 
+const useStyles = makeStyles((theme) => ({
+	root: {
+		textAlign: "center",
+	},
+	title: {
+		margin: 40,
+	},
+	mintButton: {
+		margin: theme.spacing(1),
+	},
+}));
+
 function Mint({
 	nextButton,
 	prevButton,
@@ -21,6 +34,8 @@ function Mint({
 	uploadedMetadata,
 	setResultingTokenId,
 }) {
+	const classes = useStyles();
+
 	const mintNft = async () => {
 		// TODO get me out of here
 		const accounts = await web3.eth.requestAccounts();
@@ -39,17 +54,22 @@ function Mint({
 	};
 
 	return (
-		<>
+		<div className={classes.root}>
 			{mintedNft ? (
-				<Container style={{ textAlign: "center" }}>
-					<Typography variant="body2">Minted: {mintedNft}</Typography>
+				<Container>
+					<Typography className={classes.title} variant="body2">
+						Minted: {mintedNft}
+					</Typography>
 					{prevButton}
 					{nextButton}
 				</Container>
 			) : (
 				<Container>
-					<Typography variant="h5">Mint your NFT</Typography>
+					<Typography className={classes.title} variant="h5">
+						Mint your NFT
+					</Typography>
 					<Button
+						className={classes.mintButton}
 						color="primary"
 						size="large"
 						variant="outlined"
@@ -61,7 +81,7 @@ function Mint({
 			)}
 			{prevButton}
 			{nextButton}
-		</>
+		</div>
 	);
 }
 
