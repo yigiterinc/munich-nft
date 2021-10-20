@@ -6,10 +6,26 @@ import {
 	Typography,
 	Button,
 	TextField,
-	TextareaAutosize,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 import ipfsHelper from "../../api/ipfsHelper";
+
+const useStyles = makeStyles((theme) => ({
+	root: {
+		textAlign: "center",
+	},
+	title: {
+		margin: 40,
+	},
+	textField: {
+		width: 400,
+		maxWidth: "100%",
+	},
+	button: {
+		marginTop: 20,
+	},
+}));
 
 function AddMetadata({
 	nextButton,
@@ -22,6 +38,8 @@ function AddMetadata({
 	setNftDescription,
 	setNftName,
 }) {
+	const classes = useStyles();
+
 	const handleSubmit = () => {
 		console.log(ipfsHelper);
 		const res = ipfsHelper.addNftMetadata(addedFileHash, {
@@ -32,51 +50,58 @@ function AddMetadata({
 	};
 
 	return (
-		<Container>
-			<Typography variant="h5">Add Information to your Art</Typography>
+		<div className={classes.root}>
 			{uploadedMetadata ? (
-				<Container style={{ textAlign: "center" }}>
-					<Typography variant="body2">Done!</Typography>
+				<Container>
+					<Typography className={classes.title} variant="body1">
+						Done!
+					</Typography>
 					{prevButton}
 					{nextButton}
 				</Container>
 			) : (
-				<Grid
-					container
-					spacing={2}
-					alignContent="center"
-					justify="center"
-					alignItems="center"
-				>
-					<Grid item xs={12}>
-						<TextField
-							variant="outlined"
-							placeholder="Name"
-							value={nftName}
-							onChange={(event) => setNftName(event.target.value)}
-						/>
+				<Container>
+					<Typography className={classes.title} variant="h5">
+						Add Information to your Art
+					</Typography>
+					<Grid container spacing={2} direction="column" alignContent="center">
+						<Grid item xs={12}>
+							<TextField
+								className={classes.textField}
+								variant="outlined"
+								placeholder="Name"
+								fullWidth
+								value={nftName}
+								onChange={(event) => setNftName(event.target.value)}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<TextField
+								className={classes.textField}
+								variant="outlined"
+								placeholder="Description"
+								fullWidth
+								multiline
+								rows={6}
+								value={nftDescription}
+								onChange={(event) => setNftDescription(event.target.value)}
+							/>
+						</Grid>
+						<Grid item xs={12}>
+							<Button
+								className={classes.button}
+								color="primary"
+								size="large"
+								variant="outlined"
+								onClick={() => handleSubmit()}
+							>
+								Create Metadata!
+							</Button>
+						</Grid>
 					</Grid>
-					<Grid item xs={12}>
-						<TextareaAutosize
-							placeholder="Description"
-							rowsMin={6}
-							value={nftDescription}
-							onChange={(event) => setNftDescription(event.target.value)}
-						/>
-					</Grid>
-					<Grid item xs={12}>
-						<Button
-							color="primary"
-							size="large"
-							variant="outlined"
-							onClick={() => handleSubmit()}
-						>
-							Create Metadata!
-						</Button>
-					</Grid>
-				</Grid>
+				</Container>
 			)}
-		</Container>
+		</div>
 	);
 }
 
