@@ -41,19 +41,35 @@ function Mint({
 		const accounts = await web3.eth.requestAccounts();
 		console.log(accounts, accounts[0]);
 		const account = accounts[0];
+
 		const contract = new web3.eth.Contract(ABI, CONTRACT_ADDRESS, {
 			from: account, // default from address
 			gasPrice: "10000000000", // default gas price in wei, 20 gwei in this case
 		});
-		const contractCallRes = await contract.methods
-			.mint(account, `https://ipfs.io/ipfs/${uploadedMetadata}`)
-			.send();
-		console.log(contractCallRes);
+
+		const transaction = await contract.methods.mint(
+			account,
+			`https://ipfs.io/ipfs/${uploadedMetadata}`
+		);
+
+		const options = {
+			to: transaction._parent._address,
+			data: transaction.encodeABI(),
+			gas: await transaction.estimateGas({ from: account }),
+			gasPrice: "10000000000",
+		};
+
+		const signed = await web3.eth.accounts.signTransaction(
+			options,
+			"0x9444d064d9f3da4d8f46b5b3dfa48a4ef4702ebae9687757d1e28dcadee62930"
+		);
+		const receipt = await web3.eth.sendSignedTransaction(signed.rawTransaction);
+		console.log(receipt);
 
 		const nftsMinted = await contract.methods.ownerOf(1).call();
 		console.log(nftsMinted);
-		setMintedNft(contractCallRes.blockHash);
-		setResultingTokenId(contractCallRes.events.Transfer.returnValues.tokenId);
+		setMintedNft(receipt.blockHash);
+		//setResultingTokenId(contractCallRes.events.Transfer.returnValues.tokenId);
 	};
 
 	return (
