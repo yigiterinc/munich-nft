@@ -10,17 +10,17 @@ contract MunichNFT is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    constructor() ERC721("MunichNFT", "MUC") {} // First arg is contract name, second is its symbol
+    mapping (address => uint256) private _tokensMinted;
+    constructor() ERC721("MunichNFT", "MUC") {}
 
-    function mint(address owner, string memory tokenURI) 
-    public onlyOwner
-     returns (uint256) {
+    function mint(address owner, string memory tokenURI) public
+    {
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
         _mint(owner, newItemId);
         _setTokenURI(newItemId, tokenURI);
 
-        return newItemId;
+        _tokensMinted[owner] += 1;
     }
 }
