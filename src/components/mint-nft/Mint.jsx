@@ -39,16 +39,19 @@ function Mint({
 	const mintNft = async () => {
 		// TODO get me out of here
 		const accounts = await web3.eth.requestAccounts();
+		console.log(accounts, accounts[0]);
 		const account = accounts[0];
 		const contract = new web3.eth.Contract(ABI, CONTRACT_ADDRESS, {
 			from: account, // default from address
-			gasLimit: "200000",
 			gasPrice: "10000000000", // default gas price in wei, 20 gwei in this case
 		});
 		const contractCallRes = await contract.methods
 			.mint(account, `https://ipfs.io/ipfs/${uploadedMetadata}`)
 			.send();
 		console.log(contractCallRes);
+
+		const nftsMinted = await contract.methods.ownerOf(1).call();
+		console.log(nftsMinted);
 		setMintedNft(contractCallRes.blockHash);
 		setResultingTokenId(contractCallRes.events.Transfer.returnValues.tokenId);
 	};
@@ -79,8 +82,6 @@ function Mint({
 					</Button>
 				</Container>
 			)}
-			{prevButton}
-			{nextButton}
 		</div>
 	);
 }

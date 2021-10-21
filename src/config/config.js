@@ -1,2 +1,2 @@
-export const NETWORK = "rinkeby"; // ! set to rinkeby or main, upper/lowercase matters
-export const CONTRACT_ADDRESS = "0x96C1c102c739f68c151a7D59b4368c3245db0929";
+export const NETWORK_FOR_OPENSEA_API = "rinkeby"; // ! set to rinkeby or main, upper/lowercase matters
+export const CONTRACT_ADDRESS = "0x4548DD86a34BcFddB21186A49d5096172cd95b15";
