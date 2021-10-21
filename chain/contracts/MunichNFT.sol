@@ -16,7 +16,6 @@ contract MunichNFT is ERC721URIStorage, Ownable {
     function mint(address owner, string memory tokenURI) public
     {
         _tokenIds.increment();
-
         uint256 newItemId = _tokenIds.current();
         _mint(owner, newItemId);
         _setTokenURI(newItemId, tokenURI);
