@@ -40,12 +40,13 @@ function AddMetadata({
 }) {
 	const classes = useStyles();
 
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		console.log(ipfsHelper);
-		const res = ipfsHelper.addNftMetadata(addedFileHash, {
+		const res = await ipfsHelper.addNftMetadata(addedFileHash, {
 			name: nftName,
 			description: nftDescription,
 		});
+		console.log(res);
 		setUploadedMetadata(res);
 	};
 
