@@ -1,10 +1,10 @@
-import { NETWORK } from "../config/config";
+import { NETWORK_FOR_OPENSEA_API } from "../config/config";
 
 const RINKEBY_COLLECTIONS_BASE_URL = "https://rinkeby-api.opensea.io/api/v1";
 const MAINNET_COLLECTIONS_BASE_URL = "https://api.opensea.io/api/v1";
 
 export const OPENSEA_COLLECTIONS_BASE_URL =
-	NETWORK === "main"
+	NETWORK_FOR_OPENSEA_API === "main"
 		? MAINNET_COLLECTIONS_BASE_URL
 		: RINKEBY_COLLECTIONS_BASE_URL;
 
