@@ -1,5 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import Link from "@material-ui/core/Link";
+
 import MetamaskButton from "./MetamaskButton";
 
 const useStyles = makeStyles((theme) => ({
@@ -8,34 +10,35 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "space-between",
 		alignItems: "center",
 		position: "relative",
+		marginLeft: "auto",
+		marginRight: 0,
 	},
 	menuLink: {
-		padding: "1rem 2rem",
+		padding: "1rem 2.5rem",
 		cursor: "pointer",
 		textAlign: "center",
-		textDecoration: "none",
 		color: "#000",
-		fontSize: "0.85rem",
+		fontSize: "0.95rem",
+		"&:focus, &:hover, &:visited, &:link, &:active": {
+			textDecoration: "none",
+		},
+		connectBtn: {},
 	},
 }));
 
 const Menu = () => {
 	const classes = useStyles();
+	const menuLinks = ["market", "create", "import", "profile"];
 	return (
 		<div className={classes.navMenu}>
-			<a className={classes.menuLink} href="/market">
-				Marketplace
-			</a>
-			<a className={classes.menuLink} href="/create">
-				Create
-			</a>
-			<a className={classes.menuLink} href="/import">
-				Import
-			</a>
-			<a className={classes.menuLink} href="/my-profile">
-				My Profile
-			</a>
-			<MetamaskButton />
+			{menuLinks.map((link) => {
+				return (
+					<Link className={classes.menuLink} href={"/".concat(link)}>
+						{link.charAt(0).toUpperCase() + link.slice(1)}
+					</Link>
+				);
+			})}
+			<MetamaskButton className={classes.connectBtn} />
 		</div>
 	);
 };

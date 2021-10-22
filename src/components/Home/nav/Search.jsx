@@ -9,11 +9,10 @@ const useStyles = makeStyles((theme) => ({
 		borderStyle: "solid",
 		borderWidth: "2px",
 		borderColor: "#d0d0d0",
-		marginLeft: "auto",
-		marginRight: "2rem",
+		//marginLeft: "auto",
+		//marginRight: "1rem",
 	},
-	customInputBase: {
-		color: "inherit",
+	inputField: {
 		width: "400px",
 		padding: "0.5rem",
 		paddingLeft: "10px",
@@ -27,7 +26,7 @@ const Search = () => {
 			<InputBase
 				placeholder="Search galleries, items and accounts..."
 				inputProps={{ "aria-label": "search" }}
-				className={classes.customInputBase}
+				className={classes.inputField}
 			/>
 		</div>
 	);

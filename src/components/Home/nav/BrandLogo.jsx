@@ -1,27 +1,37 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import Link from "@material-ui/core/Link";
+import Typography from "@material-ui/core/Typography";
 
 import logoImage from "../../../assets/images/dummy-logo.png";
 
 const useStyles = makeStyles((theme) => ({
+	logoContainer: {
+		width: "auto",
+		marginRight: 80,
+	},
 	logo: {
 		display: "flex",
 		alignItems: "center",
-		textDecoration: "none",
 		color: "#000",
+		"&:focus, &:hover, &:visited, &:link, &:active": {
+			textDecoration: "none",
+		},
 	},
 	title: {
-		marginLeft: "17.5px",
+		paddingLeft: "20px",
 	},
 }));
 
 const BrandLogo = () => {
 	const classes = useStyles();
 	return (
-		<a className={classes.logo} href="">
-			<img src={logoImage} alt="logo" />
-			<h2 className={classes.title}>Dummy</h2>
-		</a>
+		<div className={classes.logoContainer}>
+			<Link className={classes.logo} href="">
+				<img src={logoImage} alt="logo" />
+				<Typography className={classes.title}>Dummy</Typography>
+			</Link>
+		</div>
 	);
 };
 
