@@ -9,8 +9,8 @@ const useStyles = makeStyles((theme) => ({
 		borderStyle: "solid",
 		borderWidth: "2px",
 		borderColor: "#d0d0d0",
-		//marginLeft: "auto",
-		//marginRight: "1rem",
+		marginLeft: "auto",
+		marginRight: "1rem",
 	},
 	inputField: {
 		width: "400px",
