@@ -40,6 +40,10 @@ function MintNft() {
 			setMintedNft={setMintedNft}
 			resultingTokenId={resultingTokenId}
 			setResultingTokenId={setResultingTokenId}
+			listedNft={listedNft}
+			setListedNft={setListedNft}
+			listingPrice={listingPrice}
+			setListingPrice={setListingPrice}
 		></RenderMintNft>
 	);
 }
