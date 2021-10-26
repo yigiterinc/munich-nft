@@ -49,15 +49,16 @@ const ImportCard = ({ collection, nft, addToSelected, removeFromSelected }) => {
 	};
 
 	const handleOnClick = () => {
-		if (!selected && collection) {
-			addToSelected(collection);
-		} else if (!selected && nft) {
-			addToSelected(nft);
-		} else if (selected && collection) {
-			removeFromSelected(collection);
-		} else if (selected && nft) {
-			removeFromSelected(nft);
+		if (!collection && !nft) return;
+
+		const item = collection ? collection : nft;
+
+		if (selected) {
+			removeFromSelected(item);
+		} else {
+			addToSelected(item);
 		}
+
 		setSelected(!selected);
 	};
 
