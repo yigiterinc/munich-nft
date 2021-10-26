@@ -5,6 +5,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import { truncateAddress } from "../../utils";
 
 const useStyles = makeStyles((theme) => ({
 	title: {
@@ -28,21 +29,6 @@ const useStyles = makeStyles((theme) => ({
 const Header = ({ profile, openImportModal }) => {
 	const classes = useStyles();
 
-	const truncate = (str, strLen) => {
-		if (str.length <= strLen) return str;
-
-		const separator = "...";
-
-		const sepLen = separator.length;
-		const charsToShow = strLen - sepLen;
-		const frontChars = Math.ceil(charsToShow / 2);
-		const backChars = Math.floor(charsToShow / 2);
-
-		return (
-			str.substr(0, frontChars) + separator + str.substr(str.length - backChars)
-		);
-	};
-
 	return (
 		<Paper className={classes.title}>
 			<Avatar className={classes.avatar}>
@@ -52,7 +38,7 @@ const Header = ({ profile, openImportModal }) => {
 				{profile.name}
 			</Typography>
 			<Typography variant="h6" component="h2" color="textSecondary">
-				{truncate(`${profile.address}`, 13)}
+				{truncateAddress(`${profile.address}`, 13)}
 			</Typography>
 			<Button
 				variant="contained"
