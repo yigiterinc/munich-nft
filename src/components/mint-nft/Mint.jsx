@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import Web3 from "web3"; // TODO get me out of here
 
-import { CONTRACT_ADDRESS } from "../../config/config"; // TODO get me out of here
+import { getContractAddress } from "../../config/config"; // TODO get me out of here
 import { ABI } from "../../res/contract"; // TODO get me out of here
 
 let web3;
@@ -39,12 +39,14 @@ function Mint({
 	const mintNft = async () => {
 		// TODO get me out of here
 		const accounts = await web3.eth.requestAccounts();
+		const contractAddress = getContractAddress();
+		console.log(contractAddress);
 		console.log(accounts, accounts[0]);
 		const account = accounts[0];
 
-		const contract = new web3.eth.Contract(ABI, CONTRACT_ADDRESS, {
+		const contract = new web3.eth.Contract(ABI, contractAddress, {
 			from: account, // default from address
-			gasPrice: "10000000000", // default gas price in wei, 20 gwei in this case
+			gasPrice: "200000", // default gas price in wei, 20 gwei in this case
 		});
 
 		const transaction = await contract.methods.mint(
@@ -52,16 +54,20 @@ function Mint({
 			`https://ipfs.io/ipfs/${uploadedMetadata}`
 		);
 
+		let gas = 300000;
+		let data = transaction.encodeABI();
+		console.log(gas);
+
 		const options = {
-			to: transaction._parent._address,
-			data: transaction.encodeABI(),
-			gas: await transaction.estimateGas({ from: account }),
-			gasPrice: "10000000000",
+			from: account,
+			to: contractAddress,
+			gas,
+			data,
 		};
 
 		const signed = await web3.eth.accounts.signTransaction(
 			options,
-			"0x9444d064d9f3da4d8f46b5b3dfa48a4ef4702ebae9687757d1e28dcadee62930"
+			"0x9444d064d9f3da4d8f46b5b3dfa48a4ef4702ebae9687757d1e28dcadee62930" // TODO remove PK from here
 		);
 		const receipt = await web3.eth.sendSignedTransaction(signed.rawTransaction);
 		console.log(receipt);
