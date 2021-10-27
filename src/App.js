@@ -74,13 +74,13 @@ function App() {
 
 	return (
 		<Router>
+			<NavBar />
 			<Switch>
-                <NavBar />
+				<Route exact path="/">
+					<Home loginWithMetamask={updateUserData} isLoggedIn={isLoggedIn} />
+				</Route>
 				<Route path="/profile">
 					<Profile account={account} />
-				</Route>
-				<Route path="/">
-					<Home loginWithMetamask={updateUserData} isLoggedIn={isLoggedIn} />
 				</Route>
 			</Switch>
 		</Router>
