@@ -43,12 +43,17 @@ function RenderMintNft(props) {
 		</Button>
 	);
 
+	const resetProgress = () => {
+		props.resetState();
+		setActiveStep(0);
+	};
+
 	const resetButton = (
 		<Button
 			className={classes.button}
 			color="primary"
 			size="large"
-			onClick={props.handleReset}
+			onClick={() => resetProgress()}
 			variant="outlined"
 		>
 			Done - Mint another!

@@ -38,11 +38,9 @@ function Mint({
 
 	const mintNft = async () => {
 		// TODO get me out of here
-		const accounts = await web3.eth.requestAccounts();
+		const account = "0xdB6340c38C7562b5Ed82258289fb4c36025D431E";
 		const contractAddress = getContractAddress();
 		console.log(contractAddress);
-		console.log(accounts, accounts[0]);
-		const account = accounts[0];
 
 		const contract = new web3.eth.Contract(ABI, contractAddress, {
 			from: account, // default from address
@@ -72,10 +70,11 @@ function Mint({
 		const receipt = await web3.eth.sendSignedTransaction(signed.rawTransaction);
 		console.log(receipt);
 
-		const nftsMinted = await contract.methods.ownerOf(1).call();
-		console.log(nftsMinted);
 		setMintedNft(receipt.blockHash);
-		//setResultingTokenId(contractCallRes.events.Transfer.returnValues.tokenId);
+
+		let events = await contract.getPastEvents("allEvents", { fromBlock: 1 });
+		const lastTokenId = events[events.length - 1].returnValues.tokenId;
+		setResultingTokenId(lastTokenId);
 	};
 
 	return (

@@ -18,18 +18,27 @@ function MintNft() {
 		console.log("hash:", addedFileHash);
 	}, [addedFileHash]);
 
-	const handleReset = () => {};
-
 	const onFileAdded = (path) => {
 		setAddedFileHash(path);
+	};
+
+	const resetState = () => {
+		setAddedFileHash("");
+		setUploadedMetadata("");
+		setMintedNft("");
+		setListedNft("");
+		setNftName("");
+		setNftDescription("");
+		setResultingTokenId("");
+		setListingPrice("");
 	};
 
 	return (
 		<RenderMintNft
 			addedFileHash={addedFileHash}
 			setAddedFileHash={setAddedFileHash}
-			handleReset={handleReset}
 			onFileAdded={onFileAdded}
+			resetState={resetState}
 			uploadedMetadata={uploadedMetadata}
 			setUploadedMetadata={setUploadedMetadata}
 			nftName={nftName}
