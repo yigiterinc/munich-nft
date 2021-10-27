@@ -2,17 +2,10 @@ import React from "react";
 import { Container, Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import Web3 from "web3"; // TODO get me out of here
-
 import { getContractAddress } from "../../config/config"; // TODO get me out of here
 import { ABI } from "../../res/contract"; // TODO get me out of here
 
-let web3;
-
-if (Web3.givenProvider) {
-	// TODO get me out of here
-	web3 = new Web3(Web3.givenProvider || "ws://some.local-or-remote.node:8546");
-}
+let web3 = window.web3;
 
 const useStyles = makeStyles((theme) => ({
 	root: {

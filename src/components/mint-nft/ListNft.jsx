@@ -2,7 +2,6 @@ import React from "react";
 import { Typography, Container, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { getContractAddress } from "../../config/config"; // TODO get me out of here
-import Web3 from "web3";
 import { OpenSeaPort, Network } from "opensea-js";
 
 const useStyles = makeStyles((theme) => ({
@@ -14,11 +13,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-let web3;
+let web3 = window.web3;
 let seaport;
-if (Web3.givenProvider) {
-	web3 = new Web3(Web3.givenProvider || "ws://some.local-or-remote.node:8546");
-	seaport = new OpenSeaPort(Web3.givenProvider, {
+if (web3) {
+	seaport = new OpenSeaPort(web3.currentProvider, {
 		networkName: Network.Rinkeby, // TODO read from config
 	});
 }
@@ -36,8 +34,8 @@ function ListNft({
 	const listNft = async () => {
 		const expirationTime = Math.round(Date.now() / 1000 + 60 * 60 * 24 * 365);
 		const contractAddress = getContractAddress();
-		const accounts = await web3.eth.requestAccounts();
-		const account = accounts[0]; // TODO check
+		const accounts = await window.web3.eth.requestAccounts();
+		const account = accounts[0]; // ? is this correct
 
 		const listing = await seaport.createSellOrder({
 			asset: {
