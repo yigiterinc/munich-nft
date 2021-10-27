@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
 import Web3 from "web3";
 
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Home from "./views/Home";
+import NavBar from "./components/Home/Navbar";
+
 import {
 	fetchCollectionsOfUser,
 	getAssetsAddedCollections,
 } from "./api/opensea";
 
+import "./App.css";
 let web3;
 
 function App() {
@@ -68,9 +71,12 @@ function App() {
 	};
 
 	return (
-		<Router path="/">
+		<Router>
 			<Switch>
-				<Home loginWithMetamask={updateUserData} isLoggedIn={isLoggedIn} />
+				<NavBar />
+				<Route path="/">
+					<Home loginWithMetamask={updateUserData} isLoggedIn={isLoggedIn} />
+				</Route>
 			</Switch>
 		</Router>
 	);
