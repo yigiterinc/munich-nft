@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography, Container, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { CONTRACT_ADDRESS } from "../../config/config"; // TODO get me out of here
+import { getContractAddress } from "../../config/config"; // TODO get me out of here
 import Web3 from "web3";
 import { OpenSeaPort, Network } from "opensea-js";
 
@@ -35,7 +35,7 @@ function ListNft({
 
 	const listNft = async () => {
 		const expirationTime = Math.round(Date.now() / 1000 + 60 * 60 * 24 * 365);
-		const contractAddress = CONTRACT_ADDRESS;
+		const contractAddress = getContractAddress();
 		const accounts = await web3.eth.requestAccounts();
 		const account = accounts[0]; // TODO check
 
