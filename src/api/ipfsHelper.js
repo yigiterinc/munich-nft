@@ -1,17 +1,10 @@
 import { create, add } from "ipfs-http-client";
-import Web3 from "web3";
 
 const projectId = process.env.REACT_APP_INFURA_IPFS_PROJECT_ID;
 const projectSecret = process.env.REACT_APP_INFURA_IPFS_PROJECT_SECRET;
 
 const auth =
 	"Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
-
-let web3;
-
-if (Web3.givenProvider) {
-	web3 = new Web3(Web3.givenProvider || "ws://some.local-or-remote.node:8546");
-}
 
 const client = create({
 	host: "ipfs.infura.io",
@@ -28,7 +21,7 @@ const ipfsHelper = {
 		return address;
 	},
 	addNftMetadata: async (path, nftMetadata) => {
-		const accounts = await web3.eth.requestAccounts();
+		const accounts = await window.web3.eth.requestAccounts();
 		const account = accounts[0];
 		console.log(nftMetadata);
 		const doc = JSON.stringify({

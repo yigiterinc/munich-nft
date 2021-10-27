@@ -4,7 +4,6 @@ import { Container, Button, Typography } from "@material-ui/core";
 
 import IpfsUploader from "./IpfsUploader";
 
-//TODO
 const useStyles = makeStyles((theme) => ({
 	root: {
 		textAlign: "center",
