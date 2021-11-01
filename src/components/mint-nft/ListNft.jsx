@@ -1,5 +1,12 @@
-import React from "react";
-import { Typography, Container, TextField, Button } from "@material-ui/core";
+import { React, useState } from "react";
+import {
+	Typography,
+	Container,
+	TextField,
+	Button,
+	Box,
+	CircularProgress,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { listNft } from "../../api/chainHelper";
 
@@ -24,6 +31,11 @@ const useStyles = makeStyles((theme) => ({
 		display: "block",
 		marginBottom: "2vh",
 	},
+	progress: {
+		display: "flex",
+		justifyContent: "center",
+		marginTop: "6vh",
+	},
 }));
 
 function ListNft({
@@ -36,9 +48,12 @@ function ListNft({
 }) {
 	const classes = useStyles();
 
+	const [listingInProgress, setListingInProgress] = useState(false);
+
 	const list = async () => {
 		// ! This is an arbitrary expirationTime, this will be changed in future task
 		// ! We will ask user to set that, that is why code is left ugly
+		setListingInProgress(true);
 		const expirationTime = Math.round(Date.now() / 1000 + 60 * 60 * 24 * 365);
 		const listing = await listNft(
 			expirationTime,
@@ -46,18 +61,21 @@ function ListNft({
 			listingPrice
 		);
 		setListedNft(listing.hash);
+		setListingInProgress(false);
 	};
 
-	const showListingResult = () => {
+	const renderListingResult = () => {
 		return (
 			<Container style={{ textAlign: "center" }}>
-				<Typography variant="body2">Listed: {listedNft}</Typography>
+				<Typography className={classes.info} variant="body2">
+					Listed: {listedNft}
+				</Typography>
 				{resetButton}
 			</Container>
 		);
 	};
 
-	const showListingPrompt = () => {
+	const renderListingPrompt = () => {
 		return (
 			<Container>
 				<Typography className={classes.title} variant="h5">
@@ -86,11 +104,25 @@ function ListNft({
 		);
 	};
 
-	return (
-		<div className={classes.root}>
-			{listedNft ? showListingResult() : showListingPrompt()}
-		</div>
-	);
+	const renderSpinner = () => {
+		return (
+			<Box className={classes.progress}>
+				<CircularProgress />
+			</Box>
+		);
+	};
+
+	const getRenderContent = () => {
+		if (listedNft) {
+			return renderListingResult();
+		} else if (listingInProgress) {
+			return renderSpinner();
+		} else {
+			return renderListingPrompt();
+		}
+	};
+
+	return <div className={classes.root}>{getRenderContent()}</div>;
 }
 
 export default ListNft;

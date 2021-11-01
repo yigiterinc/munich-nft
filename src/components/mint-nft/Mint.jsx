@@ -101,15 +101,19 @@ function Mint({
 		);
 	};
 
+	const renderSpinner = () => {
+		return (
+			<Box className={classes.progress}>
+				<CircularProgress />
+			</Box>
+		);
+	};
+
 	const getRenderContent = () => {
 		if (mintedNft) {
 			return renderMintingResult();
 		} else if (mintInProgress) {
-			return (
-				<Box className={classes.progress}>
-					<CircularProgress />
-				</Box>
-			);
+			return renderSpinner();
 		} else {
 			return renderMintPrompt();
 		}

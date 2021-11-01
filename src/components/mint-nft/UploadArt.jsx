@@ -90,15 +90,19 @@ function UploadArt({ addedFileHash, nextButton, setAddedFileHash }) {
 		);
 	};
 
+	const renderSpinner = () => {
+		return (
+			<Box className={classes.progress}>
+				<CircularProgress />
+			</Box>
+		);
+	};
+
 	const getRenderContent = () => {
 		if (addedFileHash) {
 			return renderUploadResult();
 		} else if (uploading) {
-			return (
-				<Box className={classes.progress}>
-					<CircularProgress />
-				</Box>
-			);
+			return renderSpinner();
 		} else {
 			return renderUploadPrompt();
 		}
