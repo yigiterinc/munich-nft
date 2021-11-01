@@ -4,7 +4,7 @@ import Web3 from "web3";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Home from "./views/Home";
-import NavBar from "./components/Home/Navbar";
+import NavBar from "./components/home/Navbar";
 
 import {
 	fetchCollectionsOfUser,
