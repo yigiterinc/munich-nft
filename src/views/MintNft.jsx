@@ -14,14 +14,6 @@ function MintNft() {
 	const [resultingTokenId, setResultingTokenId] = useState("");
 	const [listingPrice, setListingPrice] = useState(0);
 
-	useEffect(() => {
-		console.log("hash:", addedFileHash);
-	}, [addedFileHash]);
-
-	const onFileAdded = (path) => {
-		setAddedFileHash(path);
-	};
-
 	const resetState = () => {
 		setAddedFileHash("");
 		setUploadedMetadata("");
@@ -34,26 +26,28 @@ function MintNft() {
 	};
 
 	return (
-		<RenderMintNft
-			addedFileHash={addedFileHash}
-			setAddedFileHash={setAddedFileHash}
-			onFileAdded={onFileAdded}
-			resetState={resetState}
-			uploadedMetadata={uploadedMetadata}
-			setUploadedMetadata={setUploadedMetadata}
-			nftName={nftName}
-			nftDescription={nftDescription}
-			setNftName={setNftName}
-			setNftDescription={setNftDescription}
-			mintedNft={mintedNft}
-			setMintedNft={setMintedNft}
-			resultingTokenId={resultingTokenId}
-			setResultingTokenId={setResultingTokenId}
-			listedNft={listedNft}
-			setListedNft={setListedNft}
-			listingPrice={listingPrice}
-			setListingPrice={setListingPrice}
-		></RenderMintNft>
+		<div>
+			<RenderMintNft
+				addedFileHash={addedFileHash}
+				setAddedFileHash={setAddedFileHash}
+				setAddedFileHash={setAddedFileHash}
+				resetState={resetState}
+				uploadedMetadata={uploadedMetadata}
+				setUploadedMetadata={setUploadedMetadata}
+				nftName={nftName}
+				nftDescription={nftDescription}
+				setNftName={setNftName}
+				setNftDescription={setNftDescription}
+				mintedNft={mintedNft}
+				setMintedNft={setMintedNft}
+				resultingTokenId={resultingTokenId}
+				setResultingTokenId={setResultingTokenId}
+				listedNft={listedNft}
+				setListedNft={setListedNft}
+				listingPrice={listingPrice}
+				setListingPrice={setListingPrice}
+			></RenderMintNft>
+		</div>
 	);
 }
 

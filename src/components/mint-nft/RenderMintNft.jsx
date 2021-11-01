@@ -1,6 +1,12 @@
 import { React, useState } from "react";
 
-import { Stepper, Step, StepLabel, Button } from "@material-ui/core";
+import {
+	Stepper,
+	Step,
+	StepLabel,
+	Button,
+	Typography,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import AddMetadata from "./AddMetadata";
@@ -9,8 +15,17 @@ import UploadArt from "./UploadArt";
 import Mint from "./Mint";
 
 const useStyles = makeStyles((theme) => ({
-	button: {
-		margin: theme.spacing(1),
+	pageContainer: {
+		padding: "5vh 3vw",
+	},
+	navigationButton: {
+		margin: theme.spacing(2),
+		padding: "13px 25px",
+	},
+	mainLabel: {
+		letterSpacing: 1.3,
+		textAlign: "center",
+		marginBottom: "5vh",
 	},
 }));
 
@@ -21,7 +36,7 @@ function RenderMintNft(props) {
 
 	const nextButton = (
 		<Button
-			className={classes.button}
+			className={classes.navigationButton}
 			color="primary"
 			size="large"
 			onClick={() => setActiveStep((prevActiveStep) => prevActiveStep + 1)}
@@ -33,7 +48,7 @@ function RenderMintNft(props) {
 
 	const prevButton = (
 		<Button
-			className={classes.button}
+			className={classes.navigationButton}
 			color="primary"
 			size="large"
 			onClick={() => setActiveStep((prevActiveStep) => prevActiveStep - 1)}
@@ -50,7 +65,7 @@ function RenderMintNft(props) {
 
 	const resetButton = (
 		<Button
-			className={classes.button}
+			className={classes.navigationButton}
 			color="primary"
 			size="large"
 			onClick={() => resetProgress()}
@@ -74,7 +89,7 @@ function RenderMintNft(props) {
 	const stepComponents = [
 		<UploadArt
 			nextButton={nextButton}
-			onUploaded={props.onFileAdded}
+			setAddedFileHash={props.setAddedFileHash}
 			addedFileHash={props.addedFileHash}
 		/>,
 		<AddMetadata
@@ -107,8 +122,8 @@ function RenderMintNft(props) {
 		/>,
 	];
 
-	return (
-		<div>
+	const renderProgressStepper = () => {
+		return (
 			<Stepper activeStep={activeStep} alternativeLabel>
 				{steps.map((label) => (
 					<Step key={label}>
@@ -116,7 +131,20 @@ function RenderMintNft(props) {
 					</Step>
 				))}
 			</Stepper>
-			<div>{stepComponents[activeStep]}</div>
+		);
+	};
+
+	const renderCurrentStepComponent = () => (
+		<div>{stepComponents[activeStep]}</div>
+	);
+
+	return (
+		<div className={classes.pageContainer}>
+			<Typography className={classes.mainLabel} variant="h4">
+				Mint NFT
+			</Typography>
+			{renderProgressStepper()}
+			{renderCurrentStepComponent()}
 		</div>
 	);
 }
