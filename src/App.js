@@ -4,7 +4,7 @@ import Web3 from "web3";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Home from "./views/Home";
-import NavBar from "./components/common/Navbar";
+import Navbar from "./components/common/Navbar";
 
 import {
 	fetchCollectionsOfUser,
@@ -71,14 +71,16 @@ function App() {
 	};
 
 	return (
-		<Router>
-			<Switch>
-				<NavBar />
-				<Route path="/">
-					<Home loginWithMetamask={updateUserData} isLoggedIn={isLoggedIn} />
-				</Route>
-			</Switch>
-		</Router>
+		<>
+			<Navbar />
+			<Router>
+				<Switch>
+					<Route path="/">
+						<Home loginWithMetamask={updateUserData} isLoggedIn={isLoggedIn} />
+					</Route>
+				</Switch>
+			</Router>
+		</>
 	);
 }
 
