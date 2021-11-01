@@ -16,7 +16,8 @@ export const mintNft = async (uploadedMetadata, gas) => {
 		return;
 	}
 
-	const account = "0xdB6340c38C7562b5Ed82258289fb4c36025D431E";
+	const accounts = await window.web3.eth.requestAccounts();
+	const account = accounts[0];
 	const contractAddress = getContractAddress();
 
 	const contract = new window.web3.eth.Contract(ABI, contractAddress, {
@@ -24,34 +25,18 @@ export const mintNft = async (uploadedMetadata, gas) => {
 		gasPrice: "200000", // default gas price in wei, 20 gwei in this case
 	});
 
-	const transaction = await contract.methods.mint(
-		account,
-		`https://ipfs.io/ipfs/${uploadedMetadata}`
-	);
+	const txResult = await contract.methods
+		.mint(account, `https://ipfs.io/ipfs/${uploadedMetadata}`)
+		.send({
+			from: account,
+			gas,
+			gasPrice: "200000",
+		});
 
-	let data = transaction.encodeABI();
-
-	const options = {
-		from: account,
-		to: contractAddress,
-		gas,
-		data,
-	};
-
-	const signed = await window.web3.eth.accounts.signTransaction(
-		options,
-		"0x9444d064d9f3da4d8f46b5b3dfa48a4ef4702ebae9687757d1e28dcadee62930"
-	);
-	const receipt = await window.web3.eth.sendSignedTransaction(
-		signed.rawTransaction
-	);
-	console.log(receipt);
-
-	let events = await contract.getPastEvents("allEvents", { fromBlock: 1 });
-	const lastTokenId = events[events.length - 1].returnValues.tokenId;
+	const lastTokenId = txResult.events.Transfer.returnValues.tokenId;
 
 	return {
-		blockhash: receipt.blockHash,
+		blockhash: txResult.blockHash,
 		id: lastTokenId,
 	};
 };
