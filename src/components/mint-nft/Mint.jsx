@@ -1,11 +1,14 @@
-import React from "react";
-import { Container, Button, Typography } from "@material-ui/core";
+import { React, useState } from "react";
+import {
+	Container,
+	Button,
+	Typography,
+	CircularProgress,
+	Box,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { getContractAddress } from "../../config/config"; // TODO get me out of here
-import { ABI } from "../../res/contract"; // TODO get me out of here
-
-let web3 = window.web3;
+import { mintNft } from "../../api/chainHelper";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -16,6 +19,20 @@ const useStyles = makeStyles((theme) => ({
 	},
 	mintButton: {
 		margin: theme.spacing(1),
+	},
+	info: {
+		fontSize: "17px",
+		marginBottom: "3vh",
+		letterSpacing: "1px",
+	},
+	textContainer: {
+		maxWidth: "40vw",
+		margin: "0 auto",
+	},
+	progress: {
+		display: "flex",
+		justifyContent: "center",
+		marginTop: "6vh",
 	},
 }));
 
@@ -29,75 +46,76 @@ function Mint({
 }) {
 	const classes = useStyles();
 
-	const mintNft = async () => {
-		// TODO get me out of here
-		const account = "0xdB6340c38C7562b5Ed82258289fb4c36025D431E";
-		const contractAddress = getContractAddress();
-		console.log(contractAddress);
+	const [mintInProgress, setMintInProgress] = useState(false);
 
-		const contract = new web3.eth.Contract(ABI, contractAddress, {
-			from: account, // default from address
-			gasPrice: "200000", // default gas price in wei, 20 gwei in this case
-		});
+	const mint = async () => {
+		setMintInProgress(true);
 
-		const transaction = await contract.methods.mint(
-			account,
-			`https://ipfs.io/ipfs/${uploadedMetadata}`
-		);
+		const mintingResult = await mintNft(uploadedMetadata, 300000);
 
-		let gas = 300000;
-		let data = transaction.encodeABI();
-		console.log(gas);
-
-		const options = {
-			from: account,
-			to: contractAddress,
-			gas,
-			data,
-		};
-
-		const signed = await web3.eth.accounts.signTransaction(
-			options,
-			"0x9444d064d9f3da4d8f46b5b3dfa48a4ef4702ebae9687757d1e28dcadee62930" // TODO remove PK from here
-		);
-		const receipt = await web3.eth.sendSignedTransaction(signed.rawTransaction);
-		console.log(receipt);
-
-		setMintedNft(receipt.blockHash);
-
-		let events = await contract.getPastEvents("allEvents", { fromBlock: 1 });
-		const lastTokenId = events[events.length - 1].returnValues.tokenId;
-		setResultingTokenId(lastTokenId);
+		setMintedNft(mintingResult.blockhash);
+		setResultingTokenId(mintingResult.id);
+		setMintInProgress(false);
 	};
 
-	return (
-		<div className={classes.root}>
-			{mintedNft ? (
-				<Container>
-					<Typography className={classes.title} variant="body2">
-						Minted: {mintedNft}
+	const mintButton = () => {
+		return (
+			<Button
+				className={classes.mintButton}
+				color="primary"
+				size="large"
+				variant="outlined"
+				onClick={() => mint()}
+			>
+				Mint!
+			</Button>
+		);
+	};
+
+	const renderMintingResult = () => {
+		return (
+			<Container>
+				<Typography className={classes.title} variant="body2">
+					Minted: {mintedNft}
+				</Typography>
+				{prevButton}
+				{nextButton}
+			</Container>
+		);
+	};
+
+	const renderMintPrompt = () => {
+		return (
+			<Container>
+				<Typography className={classes.title} variant="h5">
+					Mint your NFT
+				</Typography>
+				<div className={classes.textContainer}>
+					<Typography className={classes.info} variant="body1">
+						We are almost there! Now let's mint your NFT on the Ethereum
+						blockchain. This might take some time to be completed.
 					</Typography>
-					{prevButton}
-					{nextButton}
-				</Container>
-			) : (
-				<Container>
-					<Typography className={classes.title} variant="h5">
-						Mint your NFT
-					</Typography>
-					<Button
-						className={classes.mintButton}
-						color="primary"
-						size="large"
-						variant="outlined"
-						onClick={() => mintNft()}
-					>
-						Mint!
-					</Button>
-				</Container>
-			)}
-		</div>
-	);
+				</div>
+				{mintButton()}
+			</Container>
+		);
+	};
+
+	const getRenderContent = () => {
+		if (mintedNft) {
+			return renderMintingResult();
+		} else if (mintInProgress) {
+			return (
+				<Box className={classes.progress}>
+					<CircularProgress />
+				</Box>
+			);
+		} else {
+			return renderMintPrompt();
+		}
+	};
+
+	return <div className={classes.root}>{getRenderContent()}</div>;
 }
 
 export default Mint;
