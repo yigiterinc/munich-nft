@@ -21,3 +21,6 @@ export const FETCH_ASSETS_IN_COLLECTION_ENDPOINT = (
 	limit = 20
 ) =>
 	`${OPENSEA_COLLECTIONS_BASE_URL}/assets?order_direction=desc&offset=${offset}&limit=${limit}&collection=${slug}`;
+
+export const FETCH_SINGLE_ASSET_ENDPOINT = (contractAddress, tokenId) =>
+	`${OPENSEA_COLLECTIONS_BASE_URL}/asset/${contractAddress}/${tokenId}`;

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Web3 from "web3";
+import NftDetails from "./views/NftDetails";
 
 import {
 	BrowserRouter as Router,
@@ -82,6 +83,10 @@ function App() {
 				<Route path="/profile">
 					<Profile account={account} />
 				</Route>
+				<Route
+					path="/token/:contractAddressId/:tokenId/"
+					component={NftDetails}
+				></Route>
 			</Switch>
 		</Router>
 	);

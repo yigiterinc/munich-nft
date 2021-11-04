@@ -5,6 +5,7 @@ import axiosRetry from "axios-retry";
 import {
 	FETCH_ACCOUNT_COLLECTIONS_ENDPOINT,
 	FETCH_ASSETS_IN_COLLECTION_ENDPOINT,
+	FETCH_SINGLE_ASSET_ENDPOINT,
 } from "../constants/openseaApiConstants";
 
 axiosRetry(axios, { retries: 3, retryDelay: 1000 });
@@ -49,4 +50,12 @@ const fetchAssetsInCollection = async (slug) => {
 
 	const endpoint = FETCH_ASSETS_IN_COLLECTION_ENDPOINT(slug);
 	return axios.get(endpoint);
+};
+
+export const fetchSingleAsset = async (contractAddress, tokenId) => {
+	const endpoint = FETCH_SINGLE_ASSET_ENDPOINT(contractAddress, tokenId);
+	const resp = await axios.get(endpoint);
+	const data = resp.data;
+
+	return data;
 };
