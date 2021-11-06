@@ -41,7 +41,7 @@ function a11yProps(index) {
 }
 
 const useStyles = makeStyles((theme) => ({
-	root: {
+	customTabContainer: {
 		flexGrow: 1,
 		marginTop: "2.5vw",
 	},
@@ -63,16 +63,24 @@ const CustomTabs = () => {
 	};
 
 	return (
-		<div className={classes.root}>
+		<div className={classes.customTabContainer}>
 			<AppBar
 				color="transparent"
 				position="static"
 				className={classes.tabContainer}
 			>
 				<Tabs classNamevalue={value} onChange={handleChange}>
-					<Tab className={classes.tab} label="Buy" {...a11yProps(0)} />
-					<Tab className={classes.tab} label="Details" {...a11yProps(1)} />
-					<Tab className={classes.tab} label="Offers" {...a11yProps(2)} />
+					<Tab className={classes.tab} label="Details" {...a11yProps(0)} />
+					<Tab
+						className={classes.tab}
+						label="Price History"
+						{...a11yProps(1)}
+					/>
+					<Tab
+						className={classes.tab}
+						label="Item Activity"
+						{...a11yProps(2)}
+					/>
 				</Tabs>
 			</AppBar>
 			<TabPanel value={value} index={0}>

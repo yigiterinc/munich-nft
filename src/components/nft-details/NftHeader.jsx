@@ -14,7 +14,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const NftDetailsHeader = (nftJson) => {
+const NftHeader = (nftJson) => {
 	const classes = useStyles();
 	return (
 		<div className={classes.headerContainer}>
@@ -26,4 +26,4 @@ const NftDetailsHeader = (nftJson) => {
 	);
 };
 
-export default NftDetailsHeader;
+export default NftHeader;

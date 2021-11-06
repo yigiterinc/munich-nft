@@ -13,19 +13,25 @@ import marketplaceLogo from "../../assets/images/openseaLogo.png";
 import { OPENSEA_NFT_BASE_URL } from "../../constants/openseaApiConstants";
 
 const useStyles = makeStyles({
-	nftCardContainer: {
+	nftImageContainer: {
 		width: "508px",
 		borderRadius: "10px",
 		border: "1px solid rgb(229, 232, 235)",
 		overflow: "hidden",
 	},
-	headerContainer: {
+	header: {
 		padding: "0.5vw",
 		justifyContent: "flex-end",
 	},
-	likeButtonPanel: {
+	likeButtonContainer: {
 		display: "flex",
 		alignItems: "center",
+	},
+	likeButton: {
+		marginRight: "0.1vw",
+		"&:hover": {
+			backgroundColor: "transparent",
+		},
 	},
 	marketButton: {
 		marginRight: "auto",
@@ -34,39 +40,30 @@ const useStyles = makeStyles({
 			backgroundColor: "transparent",
 		},
 	},
-	likeButton: {
-		marginRight: "0.1vw",
-		"&:hover": {
-			backgroundColor: "transparent",
-		},
-	},
-	likeCount: {
+	likeText: {
 		marginRight: "0.5vw",
 	},
 });
 
-const NftImagePanel = (nftJson) => {
+const NftImage = (nftJson) => {
 	const classes = useStyles();
 	const [isLiked, setIsLiked] = useState(false);
 	const toggleLikeButton = () => setIsLiked(!isLiked);
 
 	return (
-		<>
-			<Grid className={classes.nftGridContainer}>
-				<div className={classes.nftCardContainer}>
-					{renderNftHeader(classes, nftJson, isLiked, toggleLikeButton)}
-					{renderNftImage(classes, nftJson.imageSrc)}
-				</div>
-			</Grid>
-		</>
+		<div className={classes.nftImageContainer}>
+			{renderHeader(classes, nftJson, isLiked, toggleLikeButton)}
+			{renderNftImage(classes, nftJson.imageSrc)}
+		</div>
 	);
 };
 
-const renderNftHeader = (classes, nftJson, isLiked, func) => {
-	let contractAddressId = nftJson.contractAddressId;
-	let tokenId = nftJson.tokenId;
+const renderHeader = (classes, nftJson, isLiked, toggleLikeButton) => {
+	const contractAddressId = nftJson.contractAddressId;
+	const tokenId = nftJson.tokenId;
+
 	return (
-		<CardActions className={classes.headerContainer}>
+		<CardActions className={classes.header}>
 			<IconButton
 				href={OPENSEA_NFT_BASE_URL + "/" + contractAddressId + "/" + tokenId}
 				target="_blank"
@@ -79,7 +76,7 @@ const renderNftHeader = (classes, nftJson, isLiked, func) => {
 				<img src={marketplaceLogo} alt="market-logo" height={25} width={25} />
 			</IconButton>
 
-			<div className={classes.likeButtonPanel}>
+			<div className={classes.likeButtonContainer}>
 				{isLiked ? (
 					<IconButton
 						size="small"
@@ -88,7 +85,7 @@ const renderNftHeader = (classes, nftJson, isLiked, func) => {
 					>
 						<FavoriteIcon
 							onClick={() => {
-								func();
+								toggleLikeButton();
 							}}
 							color="secondary"
 						/>
@@ -101,13 +98,13 @@ const renderNftHeader = (classes, nftJson, isLiked, func) => {
 					>
 						<FavoriteBorderIcon
 							onClick={() => {
-								func();
+								toggleLikeButton();
 							}}
 							color="secondary"
 						/>
 					</IconButton>
 				)}
-				<Typography className={classes.likeCount}>0</Typography>
+				<Typography className={classes.likeText}>0</Typography>
 			</div>
 		</CardActions>
 	);
@@ -123,4 +120,4 @@ const renderNftImage = (classes, imageSrc) => {
 	);
 };
 
-export default NftImagePanel;
+export default NftImage;
