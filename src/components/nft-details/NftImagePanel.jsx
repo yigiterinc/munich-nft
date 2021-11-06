@@ -9,11 +9,12 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import IconButton from "@material-ui/core/IconButton";
 
-import marketplaceLogo from "../../../assets/images/openseaLogo.png";
-import { OPENSEA_NFT_BASE_URL } from "../../../constants/openseaApiConstants";
+import marketplaceLogo from "../../assets/images/openseaLogo.png";
+import { OPENSEA_NFT_BASE_URL } from "../../constants/openseaApiConstants";
 
 const useStyles = makeStyles({
 	nftCardContainer: {
+		width: "508px",
 		borderRadius: "10px",
 		border: "1px solid rgb(229, 232, 235)",
 		overflow: "hidden",
@@ -51,9 +52,11 @@ const NftImagePanel = (nftJson) => {
 
 	return (
 		<>
-			<Grid item xs={5} className={classes.nftCardContainer}>
-				{renderNftHeader(classes, nftJson, isLiked, toggleLikeButton)}
-				{renderNftImage(classes, nftJson.imageSrc)}
+			<Grid className={classes.nftGridContainer}>
+				<div className={classes.nftCardContainer}>
+					{renderNftHeader(classes, nftJson, isLiked, toggleLikeButton)}
+					{renderNftImage(classes, nftJson.imageSrc)}
+				</div>
 			</Grid>
 		</>
 	);
