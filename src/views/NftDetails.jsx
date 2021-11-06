@@ -1,65 +1,54 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import { fetchSingleAsset } from "../api/opensea";
-import NftImage from "../components/Home/nft-details/NftImage";
+import NftImagePanel from "../components/Home/nft-details/NftImagePanel";
+import NftDetailsPanel from "../components/Home/nft-details/NftDetailsPanel";
 
-const useStyles = makeStyles((theme) => ({
-	nftDetailsContainer: {
-		width: "100vw",
-		height: "100vh",
-		display: "flex",
-		justifyContent: "center",
-	},
+const useStyles = makeStyles({
 	gridContainer: {
 		paddingTop: "3vw",
-		paddingLeft: "10vw",
-		paddingRight: "10vw",
-		backgroundColor: "brown",
-	},
-	nftContainer: {
-		padding: theme.spacing(1),
-		textAlign: "center",
-		color: theme.palette.text.secondary,
-		whiteSpace: "nowrap",
-		marginBottom: theme.spacing(1),
-		backgroundColor: "white",
+		paddingLeft: "12vw",
 	},
 	spinner: {
 		position: "absolute",
 		left: "50%",
 		top: "50%",
 	},
-}));
+});
 
 const NftDetails = () => {
 	const classes = useStyles();
-	const [nft, setNft] = useState(null);
+	const [nftJson, setNftJson] = useState(null);
 	const { contractAddressId, tokenId } = useParams();
 
 	useEffect(async () => {
 		const tokenData = await fetchSingleAsset(contractAddressId, tokenId);
-		setNft(tokenData);
+		let customJson = {
+			name: tokenData.name,
+			imageSrc: tokenData.image_url,
+			backgroundColor: tokenData.background_color,
+			description: tokenData.description,
+			owner: tokenData.owner.address,
+			collection: tokenData.collection.slug,
+			contractAddressId: contractAddressId,
+			tokenId: tokenId,
+		};
+		setNftJson(customJson);
 	}, []);
-
 	return (
-		<div className={classes.nftDetailsContainer}>
-			{nft ? (
-				<Grid container spacing={4} className={classes.gridContainer}>
-					<Grid item xs={8}>
-						<NftImage url={nft.image_original_url} />
-					</Grid>
-					<Grid item xs={4}>
-						<Box className={classes.nftContainer}>xs=4</Box>
-					</Grid>
+		<>
+			{nftJson ? (
+				<Grid container className={classes.gridContainer}>
+					<NftImagePanel {...nftJson} />
+					<NftDetailsPanel nft={nftJson} />
 				</Grid>
 			) : (
 				<CircularProgress className={classes.spinner} />
 			)}
-		</div>
+		</>
 	);
 };
 

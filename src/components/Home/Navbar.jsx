@@ -7,14 +7,14 @@ import BrandLogo from "./nav/BrandLogo";
 import Search from "./nav/Search";
 import Menu from "./nav/Menu";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
 	root: {
 		flexGrow: 1,
 	},
 	navBar: {
 		background: "white",
 	},
-}));
+});
 
 const Navbar = () => {
 	const classes = useStyles();

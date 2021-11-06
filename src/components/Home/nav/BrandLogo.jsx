@@ -2,10 +2,9 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
-
 import logoImage from "../../../assets/images/dummy-logo.png";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
 	logoContainer: {
 		width: "auto",
 		marginRight: 80,
@@ -21,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 	title: {
 		paddingLeft: "20px",
 	},
-}));
+});
 
 const BrandLogo = () => {
 	const classes = useStyles();
