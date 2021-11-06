@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
@@ -23,11 +22,6 @@ const StatisticsGroup = () => {
 	const classes = useStyles();
 	let like = 1;
 	let view = 1;
-	// <div className={classes.section}>
-	// 	<Typography>
-	// 		Owned by <Link>asdad</Link>
-	// 	</Typography>
-	// </div>;
 
 	return (
 		<div className={classes.statisticsGroupContainer}>

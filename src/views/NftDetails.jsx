@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import { fetchSingleAsset } from "../api/opensea";
-import NftImagePanel from "../components/nft-details/NftImagePanel";
+import NftImage from "../components/nft-details/NftImage";
 import NftDetailsPanel from "../components/nft-details/NftDetailsPanel";
 
 const useStyles = makeStyles({
-	gridContainer: {
+	nftDetailsContainer: {
 		display: "flex",
 		paddingTop: "2vw",
 		justifyContent: "center",
 	},
+	moreFromThisCollectionContainer: {},
 	spinner: {
 		position: "absolute",
 		left: "50%",
@@ -39,16 +39,26 @@ const NftDetails = () => {
 		};
 		setNftJson(customJson);
 	}, []);
+
 	return (
 		<>
 			{nftJson ? (
-				<div className={classes.gridContainer}>
-					<NftImagePanel {...nftJson} />
-					<NftDetailsPanel {...nftJson} />
-				</div>
+				renderEntirePage(classes, nftJson)
 			) : (
 				<CircularProgress className={classes.spinner} />
 			)}
+		</>
+	);
+};
+
+const renderEntirePage = (classes, nftJson) => {
+	return (
+		<>
+			<div className={classes.nftDetailsContainer}>
+				<NftImage {...nftJson} />
+				<NftDetailsPanel {...nftJson} />
+			</div>
+			<div className={classes.moreFromThisCollectionContainer}></div>
 		</>
 	);
 };
