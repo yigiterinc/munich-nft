@@ -4,7 +4,7 @@ import Link from "@material-ui/core/Link";
 
 import MetamaskButton from "./MetamaskButton";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
 	navMenu: {
 		display: "flex",
 		justifyContent: "space-between",
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 		connectBtn: {},
 	},
-}));
+});
 
 const Menu = () => {
 	const classes = useStyles();
