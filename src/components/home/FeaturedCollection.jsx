@@ -2,6 +2,10 @@ import React from "react";
 import { Paper, Typography, Grid, Item } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
+import { MdOutlineFavoriteBorder } from "react-icons/md";
+
+import EthereumLogo from "../../assets/images/ethereum.png";
+
 const useStyles = makeStyles((theme) => ({
 	root: {
 		width: "40vw",
@@ -39,6 +43,14 @@ const useStyles = makeStyles((theme) => ({
 		letterSpacing: "1.2px",
 		textTransform: "capitalize",
 		width: "calc(50%- 20px)",
+	},
+	marketLogo: {
+		maxWidth: 45,
+		maxHeight: 45,
+	},
+	favButton: {
+		width: 40,
+		height: 40,
 	},
 }));
 
@@ -89,14 +101,14 @@ function FeaturedCollection() {
 				<div className={classes.flexItem}></div>
 
 				<div className={classes.flexItem}>
-					<Typography variant="h2" className={classes.bodyLabel}>
-						MARKET_LOGO
-					</Typography>
+					<div variant="h2" className={classes.bodyLabel}>
+						<img src={EthereumLogo} className={classes.marketLogo} />
+					</div>
 				</div>
 				<div>
-					<Typography variant="h2" className={classes.bodyLabel}>
-						FAV_BUTTON
-					</Typography>
+					<div variant="h2" className={classes.bodyLabel}>
+						<MdOutlineFavoriteBorder className={classes.favButton} />
+					</div>
 				</div>
 			</div>
 		);
