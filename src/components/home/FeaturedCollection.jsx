@@ -36,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
 	bodyLabel: {
 		margin: "18px 20px",
 		fontSize: "24px",
-		fontWeight: "1.5",
 		letterSpacing: "1.2px",
 		textTransform: "capitalize",
 		width: "calc(50%- 20px)",
@@ -75,9 +74,10 @@ function FeaturedCollection() {
 						{dummyCollectionData.name}
 					</Typography>
 				</div>
+
 				<div>
 					<Typography variant="h2" className={classes.bodyLabel}>
-						Price
+						{dummyCollectionData.price} {dummyCollectionData.currency}
 					</Typography>
 				</div>
 				<div className={classes.flexItem}>
@@ -85,11 +85,9 @@ function FeaturedCollection() {
 						{dummyCollectionData.nftName}
 					</Typography>
 				</div>
-				<div>
-					<Typography variant="h2" className={classes.bodyLabel}>
-						{dummyCollectionData.price} {dummyCollectionData.currency}
-					</Typography>
-				</div>
+
+				<div className={classes.flexItem}></div>
+
 				<div className={classes.flexItem}>
 					<Typography variant="h2" className={classes.bodyLabel}>
 						MARKET_LOGO
