@@ -3,10 +3,10 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({});
 
-const PriceHistory = (nftJson) => {
+const MoreFromThisCollection = (nftJson) => {
 	const classes = useStyles();
 
-	return <div></div>;
+	return <></>;
 };
 
-export default PriceHistory;
+export default MoreFromThisCollection;

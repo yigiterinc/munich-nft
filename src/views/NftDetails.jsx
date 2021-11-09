@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import { fetchSingleAsset } from "../api/opensea";
 import NftImage from "../components/nft-details/NftImage";
 import NftDetailsPanel from "../components/nft-details/NftDetailsPanel";
+import MoreFromThisCollection from "../components/nft-details/MoreFromThisCollection";
 
 const useStyles = makeStyles({
 	nftDetailsContainer: {
@@ -12,7 +14,6 @@ const useStyles = makeStyles({
 		paddingTop: "2vw",
 		justifyContent: "center",
 	},
-	moreFromThisCollectionContainer: {},
 	spinner: {
 		position: "absolute",
 		left: "50%",
@@ -27,17 +28,19 @@ const NftDetails = () => {
 
 	useEffect(async () => {
 		const tokenData = await fetchSingleAsset(contractAddressId, tokenId);
-		let customJson = {
+		let json = {
 			name: tokenData.name,
 			imageSrc: tokenData.image_url,
 			backgroundColor: tokenData.background_color,
 			description: tokenData.description,
 			owner: tokenData.owner.address,
-			collection: tokenData.collection.slug,
+			collection: tokenData.collection.name,
+			tokenStandard: tokenData.asset_contract.schema_name,
 			contractAddressId: contractAddressId,
 			tokenId: tokenId,
 		};
-		setNftJson(customJson);
+
+		setNftJson(json);
 	}, []);
 
 	return (
@@ -53,13 +56,12 @@ const NftDetails = () => {
 
 const renderEntirePage = (classes, nftJson) => {
 	return (
-		<>
-			<div className={classes.nftDetailsContainer}>
-				<NftImage {...nftJson} />
-				<NftDetailsPanel {...nftJson} />
-			</div>
-			<div className={classes.moreFromThisCollectionContainer}></div>
-		</>
+		<div className={classes.nftDetailsContainer}>
+			<Grid item={true} xs={1} />
+			<NftImage {...nftJson} />
+			<NftDetailsPanel {...nftJson} />
+			<MoreFromThisCollection {...nftJson} />
+		</div>
 	);
 };
 

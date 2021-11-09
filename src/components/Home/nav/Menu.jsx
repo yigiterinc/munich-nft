@@ -33,7 +33,7 @@ const Menu = () => {
 		<div className={classes.navMenu}>
 			{menuLinks.map((link) => {
 				return (
-					<Link className={classes.menuLink} href={"/".concat(link)}>
+					<Link key={link} className={classes.menuLink} href={"/".concat(link)}>
 						{link.charAt(0).toUpperCase() + link.slice(1)}
 					</Link>
 				);

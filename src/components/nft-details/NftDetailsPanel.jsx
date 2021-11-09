@@ -3,11 +3,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import CustomTabs from "./CustomTabs";
 import NftHeader from "./NftHeader";
-import StatisticsGroup from "./StatisticsGroup";
+import CollectionGroup from "./CollectionGroup";
+import PriceField from "./PriceField";
 
 const useStyles = makeStyles({
 	nftDetailsPanel: {
-		width: "40vw",
+		width: "20vw",
 		marginLeft: "20px",
 	},
 });
@@ -16,10 +17,16 @@ const NftDetailsPanel = (nftJson) => {
 	const classes = useStyles();
 
 	return (
-		<Grid xs={5} className={classes.nftDetailsPanel}>
+		<Grid
+			xs={4}
+			item={true}
+			component="span"
+			className={classes.nftDetailsPanel}
+		>
 			<NftHeader {...nftJson} />
-			<StatisticsGroup />
-			<CustomTabs />
+			<CollectionGroup {...nftJson} />
+			<PriceField />
+			<CustomTabs {...nftJson} />
 		</Grid>
 	);
 };
