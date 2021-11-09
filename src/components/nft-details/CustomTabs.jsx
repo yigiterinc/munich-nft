@@ -6,6 +6,8 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
+import DescriptionTab from "./tabs/DescriptionTab";
+import DetailsTab from "./tabs/DetailsTab";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -40,7 +42,7 @@ function a11yProps(index) {
 	};
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
 	customTabContainer: {
 		flexGrow: 1,
 		marginTop: "2.5vw",
@@ -52,9 +54,9 @@ const useStyles = makeStyles((theme) => ({
 	tab: {
 		textTransform: "capitalize",
 	},
-}));
+});
 
-const CustomTabs = () => {
+const CustomTabs = (nftJson) => {
 	const classes = useStyles();
 	const [value, setValue] = React.useState(0);
 
@@ -69,13 +71,13 @@ const CustomTabs = () => {
 				position="static"
 				className={classes.tabContainer}
 			>
-				<Tabs classNamevalue={value} onChange={handleChange}>
-					<Tab className={classes.tab} label="Details" {...a11yProps(0)} />
-					<Tab
-						className={classes.tab}
-						label="Price History"
-						{...a11yProps(1)}
-					/>
+				<Tabs
+					value={value}
+					onChange={handleChange}
+					aria-label="simple tabs example"
+				>
+					<Tab className={classes.tab} label="Description" {...a11yProps(0)} />
+					<Tab className={classes.tab} label="Details" {...a11yProps(1)} />
 					<Tab
 						className={classes.tab}
 						label="Item Activity"
@@ -84,13 +86,13 @@ const CustomTabs = () => {
 				</Tabs>
 			</AppBar>
 			<TabPanel value={value} index={0}>
-				Item One
+				<DescriptionTab {...nftJson} />
 			</TabPanel>
 			<TabPanel value={value} index={1}>
-				Item Two
+				<DetailsTab {...nftJson} />
 			</TabPanel>
 			<TabPanel value={value} index={2}>
-				Item Three
+				3{/* <DetailsTab {...nftJson} /> */}
 			</TabPanel>
 		</div>
 	);

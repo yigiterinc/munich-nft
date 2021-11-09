@@ -35,7 +35,7 @@ const useStyles = makeStyles({
 	},
 	marketButton: {
 		marginRight: "auto",
-		paddingRight: "0.2vw",
+		marginLeft: "0.15vw",
 		"&:hover": {
 			backgroundColor: "transparent",
 		},
@@ -53,7 +53,7 @@ const NftImage = (nftJson) => {
 	return (
 		<div className={classes.nftImageContainer}>
 			{renderHeader(classes, nftJson, isLiked, toggleLikeButton)}
-			{renderNftImage(classes, nftJson.imageSrc)}
+			{renderNftImage(classes, nftJson)}
 		</div>
 	);
 };
@@ -61,7 +61,6 @@ const NftImage = (nftJson) => {
 const renderHeader = (classes, nftJson, isLiked, toggleLikeButton) => {
 	const contractAddressId = nftJson.contractAddressId;
 	const tokenId = nftJson.tokenId;
-
 	return (
 		<CardActions className={classes.header}>
 			<IconButton
@@ -95,13 +94,11 @@ const renderHeader = (classes, nftJson, isLiked, toggleLikeButton) => {
 						size="small"
 						aria-label="fav-button"
 						className={classes.likeButton}
+						onClick={() => {
+							toggleLikeButton();
+						}}
 					>
-						<FavoriteBorderIcon
-							onClick={() => {
-								toggleLikeButton();
-							}}
-							color="secondary"
-						/>
+						<FavoriteBorderIcon color="secondary" />
 					</IconButton>
 				)}
 				<Typography className={classes.likeText}>0</Typography>
@@ -110,11 +107,12 @@ const renderHeader = (classes, nftJson, isLiked, toggleLikeButton) => {
 	);
 };
 
-const renderNftImage = (classes, imageSrc) => {
+const renderNftImage = (classes, nftJson) => {
+	const backgroundColor = "#" + nftJson.backgroundColor;
 	return (
 		<Grid container justifyContent="center" className={classes.imageContainer}>
-			<Card>
-				<CardMedia component="img" src={imageSrc} />
+			<Card style={{ backgroundColor }}>
+				<CardMedia component="img" src={nftJson.imageSrc} />
 			</Card>
 		</Grid>
 	);
