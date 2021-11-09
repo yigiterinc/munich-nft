@@ -74,32 +74,32 @@ const CustomTabs = (nftJson) => {
 				<Tabs
 					value={value}
 					onChange={handleChange}
-					variant="scrollable"
-					scrollButtons="auto"
-					aria-label="scrollable auto tabs example"
+					// variant="scrollable"
+					// scrollButtons="auto"
+					// aria-label="scrollable auto tabs example"
 				>
-					<Tab className={classes.tab} label="DESCRIPTION" {...a11yProps(0)} />
-					<Tab className={classes.tab} label="DETAILS" {...a11yProps(1)} />
-					<Tab className={classes.tab} label="PROPERTIES" {...a11yProps(2)} />
-					<Tab
+					<Tab className={classes.tab} label="PROPERTIES" {...a11yProps(0)} />
+					<Tab className={classes.tab} label="DESCRIPTION" {...a11yProps(1)} />
+					<Tab className={classes.tab} label="DETAILS" {...a11yProps(2)} />
+					{/* <Tab
 						className={classes.tab}
 						label="ITEM ACTIVITY"
 						{...a11yProps(3)}
-					/>
+					/> */}
 				</Tabs>
 			</AppBar>
 			<TabPanel value={value} index={0}>
-				<DescriptionTab {...nftJson} />
-			</TabPanel>
-			<TabPanel value={value} index={1}>
-				<DetailsTab {...nftJson} />
-			</TabPanel>
-			<TabPanel value={value} index={2}>
 				<PropertiesTab {...nftJson} />
 			</TabPanel>
-			<TabPanel value={value} index={3}>
-				<ItemActivityTab {...nftJson} />
+			<TabPanel value={value} index={1}>
+				<DescriptionTab {...nftJson} />
 			</TabPanel>
+			<TabPanel value={value} index={2}>
+				<DetailsTab {...nftJson} />
+			</TabPanel>
+			{/* <TabPanel value={value} index={3}>
+				<ItemActivityTab {...nftJson} />
+			</TabPanel> */}
 		</>
 	);
 };
