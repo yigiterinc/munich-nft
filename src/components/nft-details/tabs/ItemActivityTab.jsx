@@ -3,10 +3,10 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({});
 
-const ItemActivity = (nftJson) => {
+const ItemActivityTab = (nftJson) => {
 	const classes = useStyles();
 
 	return <div></div>;
 };
 
-export default ItemActivity;
+export default ItemActivityTab;

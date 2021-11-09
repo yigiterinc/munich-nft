@@ -29,9 +29,7 @@ const DetailsTab = (nftJson) => {
 				<Button
 					className={classes.ethScanButton}
 					variant="contained"
-					href={
-						"https://https://etherscan.io/address/" + nftJson.contractAddressId
-					}
+					href={"https://etherscan.io/address/" + nftJson.contractAddressId}
 					target="_blank"
 					rel="noopener noreferrer"
 				>
