@@ -38,21 +38,24 @@ const useStyles = makeStyles({
 	},
 });
 
-const PriceField = () => {
+const PriceField = (nftJson) => {
 	const classes = useStyles();
-	let price = 2;
 
 	return (
 		<>
-			{price ? (
+			{nftJson.price ? (
 				<div className={classes.priceFieldBorder}>
 					<div className={classes.priceFieldContainer}>
 						<div className={classes.pricePanel}>
 							<div className={classes.priceBox}>
 								<Icon icon="mdi:ethereum" width="36" height="36" />
-								<Typography className={classes.price}>{price}</Typography>
+								<Typography className={classes.price}>
+									{nftJson.price}
+								</Typography>
 							</div>
-							<Typography className={classes.usdPrice}>($7950.00)</Typography>
+							<Typography className={classes.usdPrice}>
+								{/* {"($" + { usdPrice } + ")"} */}
+							</Typography>
 						</div>
 						<div className={classes.buttonPanel}>
 							<Button

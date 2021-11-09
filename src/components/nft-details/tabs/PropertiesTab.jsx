@@ -6,14 +6,14 @@ import Grid from "@material-ui/core/Grid";
 const useStyles = makeStyles({
 	propertyContainer: {
 		width: "110px",
-		backgroundColor: "rgba(21, 178, 229, 0.06)",
+		backgroundColor: "rgba(220, 94, 132, 0.06)",
 		borderRadius: "6px",
-		border: "1px solid rgb(21, 178, 229)",
+		border: "1px solid rgb(230,46,132)",
 		padding: "10px",
 		textAlign: "center",
 	},
 	propertyType: {
-		color: "rgb(21, 178, 229)",
+		color: "rgb(255, 0, 117)",
 		textTransform: "uppercase",
 	},
 	typeText: {
