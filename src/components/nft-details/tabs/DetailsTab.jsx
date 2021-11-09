@@ -22,7 +22,7 @@ const useStyles = makeStyles({
 
 const DetailsTab = (nftJson) => {
 	const classes = useStyles();
-
+	let network = NETWORK === "main" ? "ethereum" : NETWORK;
 	return (
 		<div className={classes.detailsTabContainer}>
 			<div className={classes.ethScanButtonPanel}>
@@ -66,8 +66,8 @@ const DetailsTab = (nftJson) => {
 						className={classes.listItemText}
 						primary={
 							"Blockchain: " +
-							NETWORK.charAt(0).toUpperCase() +
-							NETWORK.slice(1)
+							network.charAt(0).toUpperCase() +
+							network.slice(1)
 						}
 					/>
 				</ListItem>

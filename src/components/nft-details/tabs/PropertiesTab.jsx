@@ -64,37 +64,26 @@ const PropertiesTab = (nftJson) => {
 	);
 };
 
-export const customPropertiesHelper = (traits, collectionSize) => {
-	let properties = [];
-	traits.forEach((trait) => {
-		if (trait.value !== 0) {
-			const type = trait.trait_type;
-			const value = trait.value;
-			const rarity =
-				((trait.trait_count / collectionSize) * 100).toFixed(0) + "%";
-
-			properties.push({ type, value, rarity });
-		}
-	});
-	return properties;
-};
-
 export const renderProperties = (classes, properties) => {
 	return (
 		<>
 			<Grid container spacing={1}>
-				<Grid container item xs={12} spacing={3}>
-					{renderRows(classes, properties.slice(0, 3))}
-				</Grid>
-				<Grid container item xs={12} spacing={3}>
-					{renderRows(classes, properties.slice(3, 6))}
-				</Grid>
-				<Grid container item xs={12} spacing={3}>
-					{renderRows(classes, properties.slice(6, 9))}
-				</Grid>
+				{renderGrids(classes, properties)}
 			</Grid>
 		</>
 	);
+};
+
+export const renderGrids = (classes, properties) => {
+	const row = [];
+	for (let i = 0; i < properties.length; i += 3) {
+		row.push(
+			<Grid container item xs={12} spacing={3}>
+				{renderRows(classes, properties.slice(i, i + 3))}
+			</Grid>
+		);
+	}
+	return row;
 };
 
 export const renderRows = (classes, properties) => {
@@ -120,4 +109,22 @@ export const renderRows = (classes, properties) => {
 		</>
 	);
 };
+
+export const customPropertiesHelper = (traits, collectionSize) => {
+	let properties = [];
+	traits.forEach((trait) => {
+		if (trait.value !== 0) {
+			if (trait.trait_count !== 0) {
+				const type = trait.trait_type;
+				const value = trait.value;
+				const rarity =
+					((trait.trait_count / collectionSize) * 100).toFixed(1) + "%";
+
+				properties.push({ type, value, rarity });
+			}
+		}
+	});
+	return properties;
+};
+
 export default PropertiesTab;
