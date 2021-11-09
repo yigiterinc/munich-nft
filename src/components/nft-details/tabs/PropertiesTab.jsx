@@ -100,7 +100,7 @@ export const renderRows = (classes, properties) => {
 							</div>
 							<div className={classes.propertyValue}>{property.value}</div>
 							<div className={classes.propertyRarity}>
-								{property.rarity + " have this trait"}
+								{"Rarity: " + property.rarity}
 							</div>
 						</div>
 					</Grid>
