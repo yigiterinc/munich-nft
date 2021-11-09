@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import DescriptionTab from "./tabs/DescriptionTab";
 import DetailsTab from "./tabs/DetailsTab";
+import ItemActivityTab from "./tabs/ItemActivityTab";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -92,7 +93,7 @@ const CustomTabs = (nftJson) => {
 				<DetailsTab {...nftJson} />
 			</TabPanel>
 			<TabPanel value={value} index={2}>
-				3{/* <DetailsTab {...nftJson} /> */}
+				<ItemActivityTab {...nftJson} />
 			</TabPanel>
 		</div>
 	);
