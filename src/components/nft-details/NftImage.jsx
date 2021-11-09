@@ -15,6 +15,7 @@ import { OPENSEA_NFT_BASE_URL } from "../../constants/openseaApiConstants";
 const useStyles = makeStyles({
 	nftImageContainer: {
 		width: "508px",
+		maxHeight: "550px",
 		borderRadius: "10px",
 		border: "1px solid rgb(229, 232, 235)",
 		overflow: "hidden",

@@ -10,8 +10,10 @@ const useStyles = makeStyles({
 	},
 	nftTitle: {
 		marginRight: "auto",
-		overflow: "hidden",
 		fontSize: "28px",
+		overflow: "hidden",
+		whiteSpace: "nowrap",
+		textOverflow: "ellipsis",
 	},
 });
 

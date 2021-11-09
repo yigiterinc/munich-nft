@@ -6,7 +6,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { fetchSingleAsset } from "../api/opensea";
 import NftImage from "../components/nft-details/NftImage";
 import NftDetailsPanel from "../components/nft-details/NftDetailsPanel";
-import MoreFromThisCollection from "../components/nft-details/MoreFromThisCollection";
 
 const useStyles = makeStyles({
 	nftDetailsContainer: {
@@ -38,6 +37,8 @@ const NftDetails = () => {
 			tokenStandard: tokenData.asset_contract.schema_name,
 			contractAddressId: contractAddressId,
 			tokenId: tokenId,
+			properties: tokenData.traits,
+			collectionSize: tokenData.collection.stats.count,
 		};
 
 		setNftJson(json);
@@ -60,7 +61,7 @@ const renderEntirePage = (classes, nftJson) => {
 			<Grid item={true} xs={1} />
 			<NftImage {...nftJson} />
 			<NftDetailsPanel {...nftJson} />
-			<MoreFromThisCollection {...nftJson} />
+			{/* <MoreFromThisCollection {...nftJson} /> WILL BE DONE IN THE FUTURE WHEN WE HAVE A MARKET PAGE :) */}
 		</div>
 	);
 };
