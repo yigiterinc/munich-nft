@@ -9,6 +9,7 @@ import Box from "@material-ui/core/Box";
 import DescriptionTab from "./tabs/DescriptionTab";
 import DetailsTab from "./tabs/DetailsTab";
 import ItemActivityTab from "./tabs/ItemActivityTab";
+import PropertiesTab from "./tabs/PropertiesTab";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -17,8 +18,8 @@ function TabPanel(props) {
 		<div
 			role="tabpanel"
 			hidden={value !== index}
-			id={`simple-tabpanel-${index}`}
-			aria-labelledby={`simple-tab-${index}`}
+			id={`scrollable-auto-tabpanel-${index}`}
+			aria-labelledby={`scrollable-auto-tab-${index}`}
 			{...other}
 		>
 			{value === index && (
@@ -38,17 +39,15 @@ TabPanel.propTypes = {
 
 function a11yProps(index) {
 	return {
-		id: `simple-tab-${index}`,
-		"aria-controls": `simple-tabpanel-${index}`,
+		id: `scrollable-auto-tab-${index}`,
+		"aria-controls": `scrollable-auto-tabpanel-${index}`,
 	};
 }
 
 const useStyles = makeStyles({
-	customTabContainer: {
+	tabContainer: {
 		flexGrow: 1,
 		marginTop: "2.5vw",
-	},
-	tabContainer: {
 		boxShadow: "none",
 		borderBottom: "1px solid gray",
 	},
@@ -66,7 +65,7 @@ const CustomTabs = (nftJson) => {
 	};
 
 	return (
-		<div className={classes.customTabContainer}>
+		<>
 			<AppBar
 				color="transparent"
 				position="static"
@@ -75,14 +74,17 @@ const CustomTabs = (nftJson) => {
 				<Tabs
 					value={value}
 					onChange={handleChange}
-					aria-label="simple tabs example"
+					variant="scrollable"
+					scrollButtons="auto"
+					aria-label="scrollable auto tabs example"
 				>
-					<Tab className={classes.tab} label="Description" {...a11yProps(0)} />
-					<Tab className={classes.tab} label="Details" {...a11yProps(1)} />
+					<Tab className={classes.tab} label="DESCRIPTION" {...a11yProps(0)} />
+					<Tab className={classes.tab} label="DETAILS" {...a11yProps(1)} />
+					<Tab className={classes.tab} label="PROPERTIES" {...a11yProps(2)} />
 					<Tab
 						className={classes.tab}
-						label="Item Activity"
-						{...a11yProps(2)}
+						label="ITEM ACTIVITY"
+						{...a11yProps(3)}
 					/>
 				</Tabs>
 			</AppBar>
@@ -93,9 +95,12 @@ const CustomTabs = (nftJson) => {
 				<DetailsTab {...nftJson} />
 			</TabPanel>
 			<TabPanel value={value} index={2}>
+				<PropertiesTab {...nftJson} />
+			</TabPanel>
+			<TabPanel value={value} index={3}>
 				<ItemActivityTab {...nftJson} />
 			</TabPanel>
-		</div>
+		</>
 	);
 };
 

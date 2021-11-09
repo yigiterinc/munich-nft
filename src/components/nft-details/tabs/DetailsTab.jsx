@@ -37,7 +37,7 @@ const DetailsTab = (nftJson) => {
 				</Button>
 			</div>
 			<Divider />
-			<List component="nav">
+			<List component={"span"}>
 				<ListItem>
 					<ListItemText
 						className={classes.listItemText}
@@ -53,13 +53,22 @@ const DetailsTab = (nftJson) => {
 				<ListItem>
 					<ListItemText
 						className={classes.listItemText}
-						primary={"Token Standard: " + nftJson.tokenStandard}
+						primary={
+							"Token Standard: " +
+							nftJson.tokenStandard.substring(0, 3) +
+							"-" +
+							nftJson.tokenStandard.slice(3, 7)
+						}
 					/>
 				</ListItem>
 				<ListItem>
 					<ListItemText
 						className={classes.listItemText}
-						primary={"Blockchain: " + NETWORK}
+						primary={
+							"Blockchain: " +
+							NETWORK.charAt(0).toUpperCase() +
+							NETWORK.slice(1)
+						}
 					/>
 				</ListItem>
 			</List>
