@@ -4,6 +4,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import { fetchSingleAsset } from "../api/opensea";
+import { convertWeiToEth } from "../api/crypto";
+
 import NftImage from "../components/nft-details/NftImage";
 import NftDetailsPanel from "../components/nft-details/NftDetailsPanel";
 
@@ -25,24 +27,27 @@ const NftDetails = () => {
 	const [nftJson, setNftJson] = useState(null);
 	const { contractAddressId, tokenId } = useParams();
 
-	useEffect(async () => {
-		const tokenData = await fetchSingleAsset(contractAddressId, tokenId);
-		let json = {
-			name: tokenData.name,
-			imageSrc: tokenData.image_url,
-			backgroundColor: tokenData.background_color,
-			description: tokenData.description,
-			owner: tokenData.owner.address,
-			collection: tokenData.collection.name,
-			tokenStandard: tokenData.asset_contract.schema_name,
-			contractAddressId: contractAddressId,
-			tokenId: tokenId,
-			properties: tokenData.traits,
-			collectionSize: tokenData.collection.stats.count,
+	useEffect(() => {
+		const fetchData = async () => {
+			const tokenData = await fetchSingleAsset(contractAddressId, tokenId);
+			let json = {
+				name: tokenData.name,
+				imageSrc: tokenData.image_url,
+				backgroundColor: tokenData.background_color,
+				description: tokenData.description,
+				owner: tokenData.owner.address,
+				collection: tokenData.collection.name,
+				tokenStandard: tokenData.asset_contract.schema_name,
+				contractAddressId,
+				tokenId,
+				properties: tokenData.traits,
+				collectionSize: tokenData.collection.stats.count,
+				price: convertWeiToEth(tokenData.orders[0].current_price),
+			};
+			setNftJson(json);
 		};
-
-		setNftJson(json);
-	}, []);
+		fetchData();
+	}, [contractAddressId, tokenId]);
 
 	return (
 		<>

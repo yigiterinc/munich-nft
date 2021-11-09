@@ -25,7 +25,7 @@ const NftDetailsPanel = (nftJson) => {
 		>
 			<NftHeader {...nftJson} />
 			<CollectionGroup {...nftJson} />
-			<PriceField />
+			<PriceField {...nftJson} />
 			<CustomTabs {...nftJson} />
 		</Grid>
 	);
