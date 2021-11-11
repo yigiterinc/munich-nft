@@ -4,8 +4,8 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles({
-	propertyContainer: {
-		width: "110px",
+	propertyBox: {
+		width: "150px",
 		backgroundColor: "rgba(220, 94, 132, 0.06)",
 		borderRadius: "6px",
 		border: "1px solid rgb(230,46,132)",
@@ -31,6 +31,7 @@ const useStyles = makeStyles({
 		overflow: "hidden",
 		textOverflow: "ellipsis",
 		whiteSpace: "nowrap",
+		textTransform: "capitalize",
 	},
 	propertyRarity: {
 		color: "rgb(112, 122, 131)",
@@ -45,10 +46,10 @@ const PropertiesTab = (nftJson) => {
 	let properties = null;
 
 	if (nftJson.properties !== null) {
-		properties = customPropertiesHelper(
-			nftJson.properties,
-			nftJson.collectionSize
+		let sorted = nftJson.properties.sort(
+			(a, b) => (a.trait_type > b.trait_type && 1) || -1
 		);
+		properties = customPropertiesHelper(sorted, nftJson.collectionSize);
 	}
 
 	return (
@@ -66,11 +67,9 @@ const PropertiesTab = (nftJson) => {
 
 export const renderProperties = (classes, properties) => {
 	return (
-		<>
-			<Grid container spacing={1}>
-				{renderGrids(classes, properties)}
-			</Grid>
-		</>
+		<Grid container spacing={1} justifyContent="flex-start">
+			{renderGrids(classes, properties)}
+		</Grid>
 	);
 };
 
@@ -78,7 +77,7 @@ export const renderGrids = (classes, properties) => {
 	const row = [];
 	for (let i = 0; i < properties.length; i += 3) {
 		row.push(
-			<Grid container item xs={12} spacing={3}>
+			<Grid container item xs={12} spacing={3} key={i}>
 				{renderRows(classes, properties.slice(i, i + 3))}
 			</Grid>
 		);
@@ -89,10 +88,10 @@ export const renderGrids = (classes, properties) => {
 export const renderRows = (classes, properties) => {
 	return (
 		<>
-			{properties.map((property) => {
+			{properties.map((property, key) => {
 				return (
-					<Grid item xs={4}>
-						<div className={classes.propertyContainer}>
+					<Grid item xs={4} key={key}>
+						<div className={classes.propertyBox}>
 							<div className={classes.propertyType}>
 								<Typography className={classes.typeText}>
 									{property.type}

@@ -14,15 +14,17 @@ import { OPENSEA_NFT_BASE_URL } from "../../constants/openseaApiConstants";
 
 const useStyles = makeStyles({
 	nftImageContainer: {
-		width: "508px",
-		maxHeight: "550px",
+		width: "512px",
+		height: "550px",
 		borderRadius: "10px",
 		border: "1px solid rgb(229, 232, 235)",
-		overflow: "hidden",
 	},
 	header: {
 		padding: "0.5vw",
 		justifyContent: "flex-end",
+	},
+	imageContainer: {
+		justifyContent: "center",
 	},
 	likeButtonContainer: {
 		display: "flex",
@@ -111,11 +113,9 @@ const renderHeader = (classes, nftJson, isLiked, toggleLikeButton) => {
 const renderNftImage = (classes, nftJson) => {
 	const backgroundColor = "#" + nftJson.backgroundColor;
 	return (
-		<Grid container justifyContent="center" className={classes.imageContainer}>
-			<Card style={{ backgroundColor }}>
-				<CardMedia component="img" src={nftJson.imageSrc} />
-			</Card>
-		</Grid>
+		<Card style={{ backgroundColor }}>
+			<CardMedia component="img" src={nftJson.imageSrc} />
+		</Card>
 	);
 };
 

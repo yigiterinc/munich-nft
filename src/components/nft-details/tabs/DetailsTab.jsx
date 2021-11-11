@@ -12,6 +12,9 @@ const useStyles = makeStyles({
 		"& span, & svg": {
 			fontSize: "14px",
 			padding: 0,
+			textOverflow: "ellipsis",
+			whiteSpace: "nowrap",
+			overflow: "hidden",
 		},
 	},
 	ethScanButtonPanel: {
