@@ -1,23 +1,31 @@
 import { useState, useEffect } from "react";
 import Web3 from "web3";
 
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	NavLink,
+} from "react-router-dom";
 
 import Home from "./views/Home";
 import MintNft from "./views/MintNft";
+
+import Profile from "./views/Profile";
+import NavBar from "./components/Home/Navbar";
 
 import {
 	fetchCollectionsOfUser,
 	getAssetsAddedCollections,
 } from "./api/opensea";
 
+import "./App.css";
 let web3;
 
 function App() {
 	const [account, setAccount] = useState(null); // Wallet Address
 	const [balance, setBalance] = useState(null); // In Ether
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
-	const [collections, setCollections] = useState(null); // ! To be removed when we move call to collections
 
 	useEffect(async () => {
 		updateUserData();
@@ -29,9 +37,6 @@ function App() {
 		if (account) {
 			const newBalance = await fetchBalance();
 			setBalance(web3.utils.fromWei(newBalance, "ether"));
-			// TODO we will move this to somewhere else (artist will click import collection button or smth)
-			let collectionsData = await fetchCollectionsOfUser(account);
-			setCollections(await getAssetsAddedCollections(collectionsData));
 		}
 	}, [account]);
 
@@ -71,8 +76,10 @@ function App() {
 
 	return (
 		<Router>
+			<NavBar />
 			<Switch>
 				<MintNft path="/mint-nft" />
+				<Profile account={account} />
 				<Home
 					path="/"
 					loginWithMetamask={updateUserData}
