@@ -4,11 +4,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import DescriptionTab from "./tabs/DescriptionTab";
 import DetailsTab from "./tabs/DetailsTab";
-import ItemActivityTab from "./tabs/ItemActivityTab";
 import PropertiesTab from "./tabs/PropertiesTab";
 
 function TabPanel(props) {
@@ -24,7 +22,7 @@ function TabPanel(props) {
 		>
 			{value === index && (
 				<Box p={3}>
-					<Typography>{children}</Typography>
+					<Box>{children}</Box>
 				</Box>
 			)}
 		</div>
@@ -45,6 +43,9 @@ function a11yProps(index) {
 }
 
 const useStyles = makeStyles({
+	box: {
+		justifyContent: "center",
+	},
 	tabContainer: {
 		flexGrow: 1,
 		marginTop: "2.5vw",
@@ -71,23 +72,13 @@ const CustomTabs = (nftJson) => {
 				position="static"
 				className={classes.tabContainer}
 			>
-				<Tabs
-					value={value}
-					onChange={handleChange}
-					// variant="scrollable"
-					// scrollButtons="auto"
-					// aria-label="scrollable auto tabs example"
-				>
+				<Tabs value={value} onChange={handleChange} centered>
 					<Tab className={classes.tab} label="PROPERTIES" {...a11yProps(0)} />
 					<Tab className={classes.tab} label="DESCRIPTION" {...a11yProps(1)} />
 					<Tab className={classes.tab} label="DETAILS" {...a11yProps(2)} />
-					{/* <Tab
-						className={classes.tab}
-						label="ITEM ACTIVITY"
-						{...a11yProps(3)}
-					/> */}
 				</Tabs>
 			</AppBar>
+
 			<TabPanel value={value} index={0}>
 				<PropertiesTab {...nftJson} />
 			</TabPanel>

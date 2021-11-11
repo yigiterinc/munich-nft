@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
+import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import { fetchSingleAsset } from "../api/opensea";
 import { convertWeiToEth, convertEthToUsd } from "../api/crypto";
@@ -13,7 +14,6 @@ const useStyles = makeStyles({
 	nftDetailsContainer: {
 		display: "flex",
 		paddingTop: "2vw",
-		justifyContent: "center",
 	},
 	spinner: {
 		position: "absolute",
@@ -42,7 +42,6 @@ const NftDetails = () => {
 				tokenId,
 				properties: tokenData.traits,
 				collectionSize: tokenData.collection.stats.count,
-				price: convertWeiToEth(tokenData.orders[0].current_price),
 			};
 			setNftJson(json);
 		};
@@ -62,12 +61,15 @@ const NftDetails = () => {
 
 const renderEntirePage = (classes, nftJson) => {
 	return (
-		<div className={classes.nftDetailsContainer}>
+		<Container className={classes.nftDetailsContainer}>
 			<Grid item={true} xs={1} />
-			<NftImage {...nftJson} />
-			<NftDetailsPanel {...nftJson} />
-			{/* <MoreFromThisCollection {...nftJson} /> WILL BE DONE IN THE FUTURE WHEN WE HAVE A MARKET PAGE :) */}
-		</div>
+			<Grid item={true} xs={5}>
+				<NftImage {...nftJson} />
+			</Grid>
+			<Grid item={true} xs={6}>
+				<NftDetailsPanel {...nftJson} />
+			</Grid>
+		</Container>
 	);
 };
 
