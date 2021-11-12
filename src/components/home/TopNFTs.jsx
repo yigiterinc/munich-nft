@@ -1,13 +1,12 @@
 import React from "react";
 import Carousel from "react-multi-carousel";
-import { Typography } from "@material-ui/core";
 import "react-multi-carousel/lib/styles.css";
 import { makeStyles } from "@material-ui/core/styles";
 import NFTSummary from "./NFTSummary";
 
 const useStyles = makeStyles({
-	title: {
-		textAlign: "center",
+	carouselContainer: {
+		marginTop: "3vh",
 	},
 	carouselItem: {
 		padding: "20px 0 20px 20px",
@@ -17,14 +16,14 @@ const useStyles = makeStyles({
 const responsive = {
 	desktop: {
 		breakpoint: { max: 3000, min: 1024 },
-		items: 4,
+		items: 3,
 		slidesToSlide: 3,
 		partialVisibilityGutter: 60,
 	},
 	tablet: {
 		breakpoint: { max: 1024, min: 464 },
 		items: 3,
-		slidesToSlide: 2,
+		slidesToSlide: 3,
 		partialVisibilityGutter: 50,
 	},
 	mobile: {
@@ -90,10 +89,7 @@ const TopNFTs = ({ deviceType }) => {
 	const classes = useStyles();
 
 	return (
-		<div>
-			<Typography className={classes.title} variant="h4">
-				Top NFTs
-			</Typography>
+		<div className={classes.carouselContainer}>
 			<Carousel
 				ssr
 				partialVisible

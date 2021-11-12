@@ -1,5 +1,6 @@
 import React from "react";
 import Instruction from "./Instruction";
+import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { IoMdWallet } from "react-icons/io";
 import { BsDownload, BsCoin } from "react-icons/bs";
@@ -12,7 +13,7 @@ const instructions = [
 		label: "Connect your wallet",
 		icon: <IoMdWallet size={iconSize} />,
 		description:
-			"Connect your MetaMask wallet by clicking \"Connect Wallet\" button on top right corner",
+			'Connect your MetaMask wallet by clicking "Connect Wallet" button on top right corner',
 	},
 	{
 		label: "Import/Create NFTs",
@@ -54,7 +55,7 @@ function HowItWorks() {
 
 	return (
 		<div>
-			<h5 className={classes.title}>How it Works</h5>
+			<Typography className={classes.title}>How It Works</Typography>
 			<div className={classes.instructionsContainer}>
 				{instructions.map((instruction, i) => (
 					<Instruction key={i} data={instruction} />

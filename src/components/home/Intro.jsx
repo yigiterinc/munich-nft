@@ -1,27 +1,26 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
+import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
-	paper: {
+	box: {
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "space-around",
 		alignItems: "center",
-		width: "30vw",
+		width: "auto",
 		height: "50vh",
+		borderRadius: "10px",
+		boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
 	},
 	text: {
+		textAlign: "center",
+		fontSize: "36px",
+		fontWeight: "lighter",
+		letterSpacing: "2px",
 		lineHeight: 1.5,
-		letterSpacing: 1,
-		border: "solid transparent",
-		borderRadius: 10,
-		backgroundImage:
-			"linear-gradient(white, white), linear-gradient(90deg, rgba(93,78,156,1) 0%, rgba(184,202,250,1) 100%)",
-		backgroundOrigin: "border-box",
-		backgroundClip: "padding-box, border-box",
 		padding: 30,
 	},
 	buttonGroup: {
@@ -32,26 +31,40 @@ const useStyles = makeStyles((theme) => ({
 			margin: theme.spacing(3),
 		},
 	},
+	button: {
+		fontSize: "1.3rem",
+		padding: "10px 20px",
+	},
 }));
 
 export default function Intro() {
 	const classes = useStyles();
 
 	return (
-		<Paper className={classes.paper}>
-			<Typography variant="h4" className={classes.text}>
+		<Box className={classes.box}>
+			<Typography className={classes.text}>
 				“Insert brand name here” is <br /> the de-facto platform to <br />{" "}
 				create your outstanding art <br /> gallery that reveals your <br />{" "}
 				virtuosity
 			</Typography>
 			<div className={classes.buttonGroup}>
-				<Button variant="contained" color="primary" size="large">
+				<Button
+					variant="contained"
+					color="primary"
+					size="large"
+					className={classes.button}
+				>
 					Explore
 				</Button>
-				<Button variant="contained" color="primary" size="large">
+				<Button
+					variant="contained"
+					color="primary"
+					size="large"
+					className={classes.button}
+				>
 					Create
 				</Button>
 			</div>
-		</Paper>
+		</Box>
 	);
 }

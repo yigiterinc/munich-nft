@@ -8,6 +8,11 @@ import GallerySummary from "./GallerySummary";
 const useStyles = makeStyles({
 	title: {
 		textAlign: "center",
+		fontSize: "30px",
+		fontWeight: "lighter",
+		letterSpacing: "2px",
+		textTransform: "uppercase",
+		marginBottom: "5vh",
 	},
 	carouselItem: {
 		padding: "20px 0 20px 20px",
@@ -110,9 +115,7 @@ const TopGalleries = ({ deviceType }) => {
 
 	return (
 		<div>
-			<Typography className={classes.title} variant="h4">
-				Top Galleries
-			</Typography>
+			<Typography className={classes.title}>Top Galleries</Typography>
 			<Carousel
 				ssr
 				partialVisible
