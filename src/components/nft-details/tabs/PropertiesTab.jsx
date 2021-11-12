@@ -43,26 +43,12 @@ const useStyles = makeStyles({
 
 const PropertiesTab = (nftJson) => {
 	const classes = useStyles();
-	let properties = null;
-
-	if (nftJson.properties !== null) {
-		let sorted = nftJson.properties.sort(
-			(a, b) => (a.trait_type > b.trait_type && 1) || -1
-		);
-		properties = customPropertiesHelper(sorted, nftJson.collectionSize);
-	}
-
-	return (
-		<>
-			{properties.length === 0 ? (
-				<div>
-					<Typography component="span">It has no properties</Typography>
-				</div>
-			) : (
-				renderProperties(classes, properties)
-			)}
-		</>
+	let sorted = nftJson.properties.sort(
+		(a, b) => (a.trait_type > b.trait_type && 1) || -1
 	);
+	let properties = customPropertiesHelper(sorted, nftJson.collectionSize);
+
+	return <>{renderProperties(classes, properties)}</>;
 };
 
 export const renderProperties = (classes, properties) => {

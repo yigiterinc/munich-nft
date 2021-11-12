@@ -65,6 +65,19 @@ const CustomTabs = (nftJson) => {
 		setValue(newValue);
 	};
 
+	const tabLabels =
+		nftJson.properties.length === 0
+			? ["Description", "Details"]
+			: ["Properties", "Description", "Details"];
+
+	const tabLabelComponents =
+		nftJson.properties.length === 0
+			? [<DescriptionTab {...nftJson} />, <DetailsTab {...nftJson} />]
+			: [
+					<PropertiesTab {...nftJson} />,
+					<DescriptionTab {...nftJson} />,
+					<DetailsTab {...nftJson} />,
+			  ];
 	return (
 		<>
 			<AppBar
@@ -73,24 +86,27 @@ const CustomTabs = (nftJson) => {
 				className={classes.tabContainer}
 			>
 				<Tabs value={value} onChange={handleChange} centered>
-					<Tab className={classes.tab} label="PROPERTIES" {...a11yProps(0)} />
-					<Tab className={classes.tab} label="DESCRIPTION" {...a11yProps(1)} />
-					<Tab className={classes.tab} label="DETAILS" {...a11yProps(2)} />
+					{tabLabels.map((tabLabel, index) => {
+						return (
+							<Tab
+								key={index}
+								className={classes.tab}
+								label={tabLabel}
+								{...a11yProps(index)}
+							/>
+						);
+					})}
 				</Tabs>
 			</AppBar>
-
-			<TabPanel value={value} index={0}>
-				<PropertiesTab {...nftJson} />
-			</TabPanel>
-			<TabPanel value={value} index={1}>
-				<DescriptionTab {...nftJson} />
-			</TabPanel>
-			<TabPanel value={value} index={2}>
-				<DetailsTab {...nftJson} />
-			</TabPanel>
-			{/* <TabPanel value={value} index={3}>
-				<ItemActivityTab {...nftJson} />
-			</TabPanel> */}
+			<>
+				{tabLabelComponents.map((Component, index) => {
+					return (
+						<TabPanel value={value} index={index}>
+							{Component}
+						</TabPanel>
+					);
+				})}
+			</>
 		</>
 	);
 };

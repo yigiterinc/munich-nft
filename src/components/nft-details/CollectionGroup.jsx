@@ -11,10 +11,6 @@ const useStyles = makeStyles({
 		display: "flex",
 		alignItems: "center",
 	},
-	section: {
-		display: "flex",
-		marginLeft: "1vw",
-	},
 	collectionSection: {
 		maxWidth: "60%",
 		textOverflow: "ellipsis",
@@ -28,30 +24,12 @@ const useStyles = makeStyles({
 
 const CollectionGroup = (nftJson) => {
 	const classes = useStyles();
-	let like = 1;
-	let view = 1;
 
 	return (
 		<div className={classes.collectionGroupContainer}>
 			<div className={classes.collectionSection}>
 				<Link href="">{nftJson.collection}</Link>
 			</div>
-			{view > 0 ? (
-				<div className={classes.section}>
-					<VisibilityIcon className={classes.icon} />
-					<Typography>{view} views</Typography>
-				</div>
-			) : (
-				<div />
-			)}
-			{like > 0 ? (
-				<div className={classes.section}>
-					<FavoriteBorderIcon className={classes.icon} />
-					<Typography>{like} likes</Typography>
-				</div>
-			) : (
-				<div />
-			)}
 		</div>
 	);
 };
