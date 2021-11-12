@@ -18,7 +18,7 @@ const NftDetailsPanel = (nftJson) => {
 		<div className={classes.nftDetailsPanel}>
 			<NftHeader {...nftJson} />
 			<CollectionGroup {...nftJson} />
-			<PriceField />
+			<PriceField {...nftJson} />
 			<CustomTabs {...nftJson} />
 		</div>
 	);

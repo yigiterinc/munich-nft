@@ -30,6 +30,11 @@ const NftDetails = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			const tokenData = await fetchSingleAsset(contractAddressId, tokenId);
+			let currentPrice = null;
+			if (tokenData.orders.length !== 0) {
+				currentPrice =
+					tokenData.orders[tokenData.orders.length - 1].current_price;
+			}
 			let json = {
 				name: tokenData.name,
 				imageSrc: tokenData.image_url,
@@ -42,7 +47,9 @@ const NftDetails = () => {
 				tokenId,
 				properties: tokenData.traits,
 				collectionSize: tokenData.collection.stats.count,
+				price: currentPrice,
 			};
+
 			setNftJson(json);
 		};
 		fetchData();
