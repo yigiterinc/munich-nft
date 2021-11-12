@@ -5,7 +5,6 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import { fetchSingleAsset } from "../api/opensea";
-import { convertWeiToEth, convertEthToUsd } from "../api/crypto";
 
 import NftImage from "../components/nft-details/NftImage";
 import NftDetailsPanel from "../components/nft-details/NftDetailsPanel";
