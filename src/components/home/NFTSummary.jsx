@@ -38,7 +38,7 @@ const NFTSummary = ({ nft }) => {
 			<Card>
 				<CardMedia
 					component="img"
-					image={nft.image}
+					image={nft?.image}
 					className={classes.cardMedia}
 				/>
 				<CardActions className={classes.cardActions}>
