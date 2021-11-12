@@ -1,6 +1,9 @@
 import React from "react";
 import { Paper, Typography, Grid, Item } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import IconButton from "@material-ui/core/IconButton";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 
@@ -11,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 		width: "40vw",
 		minWidth: "500px",
 		borderRadius: "15px",
-		boxShadow: "rgba(0, 0, 0, 0.20) 1.95px 1.95px 2.6px;",
+		boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
 	},
 	imageContainer: {
 		height: "60vh",
@@ -26,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
 		height: "auto",
 		width: "inherit",
 		minWidth: "inherit",
-		background: "#e1ebe8",
 		borderRadius: "0px 0px 15px 15px",
 		display: "flex",
 		justifyContent: "space-between",
@@ -44,9 +46,9 @@ const useStyles = makeStyles((theme) => ({
 		textTransform: "capitalize",
 		width: "calc(50%- 20px)",
 	},
-	marketLogo: {
-		maxWidth: 45,
-		maxHeight: 45,
+	ethLogo: {
+		display: "flex",
+		alignItems: "center",
 	},
 	favButton: {
 		width: 40,
@@ -87,7 +89,8 @@ function FeaturedCollection() {
 					</Typography>
 				</div>
 
-				<div>
+				<div className={classes.ethLogo}>
+					<img src={EthereumLogo} alt="eth-logo" height={40} />
 					<Typography variant="h2" className={classes.bodyLabel}>
 						{dummyCollectionData.price} {dummyCollectionData.currency}
 					</Typography>
@@ -101,9 +104,22 @@ function FeaturedCollection() {
 				<div className={classes.flexItem}></div>
 
 				<div className={classes.flexItem}>
-					<div variant="h2" className={classes.bodyLabel}>
-						<img src={EthereumLogo} className={classes.marketLogo} />
-					</div>
+					<IconButton
+						target="_blank"
+						rel="noopener noreferrer"
+						size="small"
+						disableRipple
+						disableFocusRipple
+						className={classes.bodyLabel}
+					>
+						<img
+							className={classes.marketLogo}
+							src={"images/openseaLogo.png"}
+							alt="market-logo"
+							height={35}
+							width={35}
+						/>
+					</IconButton>
 				</div>
 				<div>
 					<div variant="h2" className={classes.bodyLabel}>
