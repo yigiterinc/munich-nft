@@ -71,7 +71,7 @@ function App() {
 	const loadAccount = async () => {
 		// Returns the list of accounts that metamask is aware of
 		const accounts = await web3.eth.getAccounts();
-		setAccount(accounts[0]);
+		setAccount(accounts[0].toLowerCase());
 	};
 
 	return (
