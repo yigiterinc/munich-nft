@@ -30,10 +30,53 @@ const Profile = ({ account }) => {
 	const [importedNfts, setImportedNfts] = useState(null);
 	const classes = useStyles();
 
+	const assetBelongsToCurrentUser = async (asset) => {
+		if (asset.owner.user.username === 'NullAddress') {
+			if (asset.last_sale) {
+				const txHash = asset.last_sale.transaction.transaction_hash
+				window.web3.defaultChain = 'rinkeby'
+				const tx = await window.web3.eth.getTransactionReceipt(txHash)
+				return tx.logs[0].topics.join().indexOf(account.substring(3)) >= 0;
+			} else if (asset.creator.address === account) {
+				return true;
+			}
+		}
+
+		return asset.owner.address === account
+	}
+
+	const filterAssetsInCollectionByOwner = async (collectionWithAssets) => {
+		let filteredCollections = collectionWithAssets[0]
+		let currCollection;
+		for (let i = 0; i < filteredCollections.length; i++) {
+			let assetsOfUserInCurrCollection = []
+			currCollection = filteredCollections[i];
+
+			let asset;
+			for (let i = 0; i < currCollection.assets.length; i++) {
+				asset = currCollection.assets[i]
+
+				if (await assetBelongsToCurrentUser(asset)) {
+					assetsOfUserInCurrCollection.push(asset)
+				}
+			}
+
+			filteredCollections[i].assets = assetsOfUserInCurrCollection
+		}
+
+		return filteredCollections;
+	}
+
 	useEffect(async () => {
 		if (account) {
 			let collectionsData = await fetchCollectionsOfUser(account);
-			setCollections(await getAssetsAddedCollections(collectionsData));
+			let collectionsWithAssets = [];
+
+			collectionsWithAssets
+				.push(await getAssetsAddedCollections(collectionsData))
+			let filtered = await filterAssetsInCollectionByOwner(collectionsWithAssets)
+			console.log(filtered);
+			setCollections(filtered);
 		}
 	}, [account, openImportModal]);
 
@@ -73,7 +116,7 @@ const Profile = ({ account }) => {
 				<Import
 					collections={collections}
 					onImportCollections={(collections) => {
-						console.log(collections);
+						console.log('onImportCollections', collections);
 						setImportedCollections(collections);
 						setOpenImportModal(false);
 					}}
