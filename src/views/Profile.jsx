@@ -73,10 +73,12 @@ const Profile = ({ account }) => {
 				<Import
 					collections={collections}
 					onImportCollections={(collections) => {
+						console.log(collections);
 						setImportedCollections(collections);
 						setOpenImportModal(false);
 					}}
 					onImportNfts={(nfts) => {
+						console.log(nfts);
 						setImportedNfts(nfts);
 						setOpenImportModal(false);
 					}}

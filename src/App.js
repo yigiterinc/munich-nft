@@ -12,7 +12,7 @@ import Home from "./views/Home";
 import MintNft from "./views/MintNft";
 
 import Profile from "./views/Profile";
-import NavBar from "./components/Home/Navbar";
+import NavBar from "./components/common/Navbar";
 
 import {
 	fetchCollectionsOfUser,
@@ -76,15 +76,15 @@ function App() {
 
 	return (
 		<Router>
-			<NavBar />
+			<NavBar/>
 			<Switch>
-				<MintNft path="/mint-nft" />
-				<Profile account={account} />
 				<Home
-					path="/"
+					exact path="/"
 					loginWithMetamask={updateUserData}
 					isLoggedIn={isLoggedIn}
 				/>
+				<MintNft path="/mint-nft" account={account}/>
+				<Profile path="/profile" account={account} />
 			</Switch>
 		</Router>
 	);
