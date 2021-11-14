@@ -10,9 +10,12 @@ if (window.web3) {
 	});
 }
 
-export const mintNftAfterDeployingNewContract = async (uploadedMetadata, gas) => {
+export const mintNftAfterDeployingNewContract = async (
+	uploadedMetadata,
+	gas
+) => {
 	// TODO
-}
+};
 
 export const mintNft = async (uploadedMetadata, gas, contractAddress) => {
 	if (!window.web3) {

@@ -42,7 +42,7 @@ const ImportCard = ({ collection, nft, addToSelected, removeFromSelected }) => {
 	const classes = useStyles();
 
 	const truncateString = (str, num) => {
-		if (str.length <= num) {
+		if (!str || str.length <= num) {
 			return str;
 		}
 		return str.slice(0, num) + "...";
