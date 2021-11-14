@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Link from "@material-ui/core/Link";
+import { Link } from "react-router-dom"
 import Typography from "@material-ui/core/Typography";
 
 import logoImage from "../../../assets/images/dummy-logo.png";
@@ -27,7 +27,7 @@ const BrandLogo = () => {
 	const classes = useStyles();
 	return (
 		<div className={classes.logoContainer}>
-			<Link className={classes.logo} href="">
+			<Link className={classes.logo} to='/'>
 				<img src={logoImage} alt="logo" />
 				<Typography className={classes.title}>Dummy</Typography>
 			</Link>
