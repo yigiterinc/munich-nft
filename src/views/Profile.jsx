@@ -30,19 +30,39 @@ const Profile = ({ account }) => {
 	const [importedNfts, setImportedNfts] = useState(null);
 	const classes = useStyles();
 
-	const assetBelongsToCurrentUser = async (asset) => {
-		if (asset.owner.user.username === 'NullAddress') {
-			if (asset.last_sale) {
-				const txHash = asset.last_sale.transaction.transaction_hash
-				window.web3.defaultChain = 'rinkeby'
-				const tx = await window.web3.eth.getTransactionReceipt(txHash)
-				return tx.logs[0].topics.join().indexOf(account.substring(3)) >= 0;
-			} else if (asset.creator.address === account) {
-				return true;
-			}
+	const userSoldTheAsset = (asset, tx) => {
+		if (!asset.last_sale.event_type === 'successful')	return false;
+		console.log('asset: ', asset,' tx: ', tx);
+
+		if (tx.from !== account && tx.logs[0]?.data.indexOf(account) >= 0) {	// case 1
+			return true;
+		} else if (tx.from === account && tx.logs[0]?.data.indexOf(account) < 0) {
+			return tx.logs.length > 2;
+		} else if (tx.from === tx.logs[0]?.data.substring(0, 42)) {
+			return true;
 		}
 
-		return asset.owner.address === account
+		return false;
+	}
+
+	const assetBelongsToCurrentUser = async (asset) => {
+		if (asset.owner.address === account) {
+			return true;
+		}
+
+		if (!asset.last_sale) {
+			return asset.creator.address === account;
+		}
+
+		window.web3.defaultChain = 'rinkeby'
+		const txHash = asset.last_sale.transaction.transaction_hash
+		const tx = await window.web3.eth.getTransactionReceipt(txHash)
+
+		if (userSoldTheAsset(asset, tx)) {
+			return false;
+		}
+
+		return tx.logs[0].topics.join().indexOf(account.substring(3)) >= 0;
 	}
 
 	const filterAssetsInCollectionByOwner = async (collectionWithAssets) => {
