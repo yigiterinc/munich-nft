@@ -44,7 +44,7 @@ const GallerySummary = ({ gallery }) => {
 				/>
 				<CardActions className={classes.cardActions}>
 					<Typography className={classes.creator} variant="body2">
-						Created by ...
+						Created by CreatorName
 					</Typography>
 
 					<div className={classes.likeButtonContainer}>

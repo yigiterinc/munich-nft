@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
@@ -15,7 +16,7 @@ const useStyles = makeStyles({
 		overflow: "hidden",
 	},
 	cardMedia: {
-		height: "20vh",
+		height: "12vh",
 		objectFit: "contain",
 	},
 	cardActions: {
@@ -41,23 +42,16 @@ const NFTSummary = ({ nft }) => {
 					image={nft?.image}
 					className={classes.cardMedia}
 				/>
+				<CardContent>
+					<Typography variant="body1" color="textSecondary" gutterBottom>
+						CollectionName
+					</Typography>
+					<Typography variant="body1" component="h2">
+						NftName
+					</Typography>
+				</CardContent>
 				<CardActions className={classes.cardActions}>
-					<IconButton
-						target="_blank"
-						rel="noopener noreferrer"
-						size="small"
-						disableRipple
-						disableFocusRipple
-						className={classes.marketButton}
-					>
-						<img
-							src={"images/openseaLogo.png"}
-							alt="market-logo"
-							height={25}
-							width={25}
-						/>
-					</IconButton>
-
+					<div></div>
 					<div className={classes.likeButtonContainer}>
 						{isLiked ? (
 							<IconButton

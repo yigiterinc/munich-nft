@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Paper, Typography, Grid, Item } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
@@ -54,6 +54,15 @@ const useStyles = makeStyles((theme) => ({
 		width: 40,
 		height: 40,
 	},
+	likeButtonContainer: {
+		display: "flex",
+		alignItems: "center",
+		margin: "18px 20px",
+		fontSize: "24px",
+		letterSpacing: "1.2px",
+		textTransform: "capitalize",
+		width: "calc(50%- 20px)",
+	},
 }));
 
 const dummyCollectionData = {
@@ -66,6 +75,8 @@ const dummyCollectionData = {
 };
 
 function FeaturedCollection() {
+	const [isLiked, setIsLiked] = useState(false);
+	const toggleLikeButton = () => setIsLiked(!isLiked);
 	const classes = useStyles();
 
 	const Image = () => {
@@ -103,27 +114,33 @@ function FeaturedCollection() {
 
 				<div className={classes.flexItem}></div>
 
-				<div className={classes.flexItem}>
-					<IconButton
-						target="_blank"
-						rel="noopener noreferrer"
-						size="small"
-						disableRipple
-						disableFocusRipple
-						className={classes.bodyLabel}
-					>
-						<img
-							className={classes.marketLogo}
-							src={"images/openseaLogo.png"}
-							alt="market-logo"
-							height={35}
-							width={35}
-						/>
-					</IconButton>
-				</div>
+				<div className={classes.flexItem}></div>
 				<div>
-					<div variant="h2" className={classes.bodyLabel}>
-						<MdOutlineFavoriteBorder className={classes.favButton} />
+					<div variant="h2" className={classes.likeButtonContainer}>
+						{isLiked ? (
+							<IconButton
+								aria-label="fav-button"
+								className={classes.likeButton}
+							>
+								<FavoriteIcon
+									onClick={() => {
+										toggleLikeButton();
+									}}
+									color="secondary"
+								/>
+							</IconButton>
+						) : (
+							<IconButton
+								aria-label="fav-button"
+								className={classes.likeButton}
+								onClick={() => {
+									toggleLikeButton();
+								}}
+							>
+								<FavoriteBorderIcon color="secondary" />
+							</IconButton>
+						)}
+						<Typography className={classes.likeText}>0</Typography>
 					</div>
 				</div>
 			</div>
