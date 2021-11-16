@@ -13,6 +13,7 @@ import MintNft from "./views/MintNft";
 
 import Profile from "./views/Profile";
 import NavBar from "./components/common/Navbar";
+import { createUser } from "./api/backend";
 
 import {
 	fetchCollectionsOfUser,
@@ -51,6 +52,7 @@ function App() {
 		await loadAccount();
 
 		if (account && balance) {
+			await createUser({ username: account, walletAddress: account});
 			setIsLoggedIn(true);
 		}
 	};

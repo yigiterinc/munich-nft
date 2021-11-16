@@ -34,7 +34,7 @@ const Profile = ({ account }) => {
 		if (!asset.last_sale.event_type === 'successful')	return false;
 		console.log('asset: ', asset,' tx: ', tx);
 
-		if (tx.from !== account && tx.logs[0]?.data.indexOf(account) >= 0) {	// case 1
+		if (tx.from !== account && tx.logs[0]?.data.indexOf(account) >= 0) {
 			return true;
 		} else if (tx.from === account && tx.logs[0]?.data.indexOf(account) < 0) {
 			return tx.logs.length > 2;
