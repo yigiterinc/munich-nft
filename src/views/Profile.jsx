@@ -5,7 +5,6 @@ import Import from "../components/profile/Import";
 import Modal from "../components/common/Modal";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import dummyProfile from "../dummy/dummyProfile.json";
 import {
 	fetchCollectionsOfUser,
 	getAssetsAddedCollections,
@@ -23,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Profile = ({ account }) => {
+const Profile = ({ account, user }) => {
 	const [openImportModal, setOpenImportModal] = useState(false);
 	const [collections, setCollections] = useState(null);
 	const [importedCollections, setImportedCollections] = useState(null);
@@ -105,7 +104,7 @@ const Profile = ({ account }) => {
 			<Grid container spacing={4} className={classes.gridContainer}>
 				<Grid item xs={12}>
 					<Header
-						profile={dummyProfile}
+						profile={user}
 						openImportModal={() => setOpenImportModal(true)}
 					/>
 				</Grid>
