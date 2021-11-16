@@ -13,22 +13,19 @@ import MintNft from "./views/MintNft";
 
 import Profile from "./views/Profile";
 import NavBar from "./components/common/Navbar";
-import { createOrFetchUser } from "./api/backend";
-
-import {
-	fetchCollectionsOfUser,
-	getAssetsAddedCollections,
-} from "./api/opensea";
+import { createOrFetchUser } from "./api/strapi";
 
 import "./App.css";
+
 let web3;
 
 function App() {
+	const [walletAddress, setWalletAddress] = useState("");
 	const [loggedInUser, setLoggedInUser] = useState(null); // Wallet Address
 
 	useEffect(async () => {
 		await updateUserData();
-	}, [loggedInUser]);
+	}, [walletAddress]);
 
 	useEffect(async () => {
 		if (!web3) await loadWeb3();
@@ -36,11 +33,9 @@ function App() {
 
 	const updateUserData = async () => {
 		await loadWeb3();
-		let acc = await loadAccount();
-		const strapiUser = await createOrFetchUser(
-				{ username: acc, walletAddress: acc});
-		setLoggedInUser(strapiUser)
-		console.log(loggedInUser);
+		await loadAccount();
+		setLoggedInUser(await createOrFetchUser(
+			{ username: 'Alien', walletAddress: walletAddress }));
 	};
 
 	const loadWeb3 = async () => {
@@ -59,19 +54,20 @@ function App() {
 	const loadAccount = async () => {
 		// Returns the list of accounts that metamask is aware of
 		const accounts = await web3.eth.getAccounts();
-		return accounts[0].toLowerCase();
+		setWalletAddress(accounts[0].toLowerCase());
 	};
 
 	return (
 		<Router>
-			<NavBar/>
+			<NavBar />
 			<Switch>
 				<Home
 					exact path="/"
+					account={walletAddress}
 					loginWithMetamask={updateUserData}
 				/>
-				<MintNft path="/mint-nft" account={loggedInUser}/>
-				<Profile path="/profile" account={loggedInUser} />
+				<MintNft path="/mint-nft" account={walletAddress} user={loggedInUser} />
+				<Profile path="/profile" account={walletAddress} user={loggedInUser} />
 			</Switch>
 		</Router>
 	);
