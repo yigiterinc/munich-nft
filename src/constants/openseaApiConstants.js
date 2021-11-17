@@ -1,10 +1,10 @@
 import { NETWORK } from "../config/config";
 
 const RINKEBY_COLLECTIONS_BASE_URL = "https://rinkeby-api.opensea.io/api/v1";
-const RINKEBY_NFT_BASE_URL = "https://testnets.opensea.io/assets";
+const RINKEBY_BASE_URL = "https://testnets.opensea.io/assets";
 
 const MAINNET_COLLECTIONS_BASE_URL = "https://api.opensea.io/api/v1";
-const MAINNET_NFT_BASE_URL = "https://opensea.io/assets";
+const MAINNET_BASE_URL = "https://opensea.io/assets";
 
 export const OPENSEA_COLLECTIONS_BASE_URL =
 	NETWORK === "main"
@@ -12,7 +12,7 @@ export const OPENSEA_COLLECTIONS_BASE_URL =
 		: RINKEBY_COLLECTIONS_BASE_URL;
 
 export const OPENSEA_NFT_BASE_URL =
-	NETWORK === "main" ? MAINNET_NFT_BASE_URL : RINKEBY_NFT_BASE_URL;
+	NETWORK === "main" ? MAINNET_BASE_URL : RINKEBY_BASE_URL;
 
 export const FETCH_ACCOUNT_COLLECTIONS_ENDPOINT = (
 	account,
