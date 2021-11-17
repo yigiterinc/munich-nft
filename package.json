@@ -12,6 +12,7 @@
 		"@testing-library/user-event": "^12.8.3",
 		"axios": "^0.22.0",
 		"axios-retry": "^3.2.0",
+		"compressorjs": "^1.1.1",
 		"dotenv": "^10.0.0",
 		"ipfs-http-client": "^53.0.1",
 		"opensea-js": "^1.2.1",
@@ -23,6 +24,7 @@
 		"react-scripts": "^3.4.4",
 		"react-swipeable-views": "^0.14.0",
 		"styled-components": "^5.3.1",
+		"use-file-upload": "^1.0.11",
 		"web-vitals": "^1.1.2",
 		"web3": "^1.5.2"
 	},

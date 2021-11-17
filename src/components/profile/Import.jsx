@@ -57,10 +57,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Import({
-	collections,
-	onImportCollections,
-	onImportNfts,
-}) {
+																 collections,
+																 onImportCollections,
+																 onImportNfts,
+															 }) {
 	const classes = useStyles();
 	const theme = useTheme();
 	const [value, setValue] = useState(0);
@@ -81,7 +81,7 @@ export default function Import({
 
 	const removeFromSelectedCollections = (collection) => {
 		setSelectedCollections(
-			selectedCollections.filter((item) => item !== collection)
+			selectedCollections.filter((item) => item !== collection),
 		);
 	};
 
@@ -126,19 +126,19 @@ export default function Import({
 				>
 					<Grid container spacing={2}>
 						{collections?.map((item) => {
-							return (
-								<Grid key={item.slug} item xs={4}>
-									<ImportCard
-										collection={item}
-										addToSelected={(collection) =>
-											addToSelectedCollections(collection)
-										}
-										removeFromSelected={(collection) =>
-											removeFromSelectedCollections(collection)
-										}
-									/>
-								</Grid>
-							);
+								return (
+									<Grid key={item.slug} item xs={4}>
+										<ImportCard
+											collection={item}
+											addToSelected={(collection) =>
+												addToSelectedCollections(collection)
+											}
+											removeFromSelected={(collection) =>
+												removeFromSelectedCollections(collection)
+											}
+										/>
+									</Grid>
+								);
 						})}
 					</Grid>
 				</TabPanel>
@@ -150,7 +150,7 @@ export default function Import({
 				>
 					<Grid container spacing={2}>
 						{collections?.map((collection) =>
-							collection.assets.map((item) => {
+							collection?.assets.map((item) => {
 								return (
 									<Grid key={item.id} item xs={4}>
 										<ImportCard
@@ -160,7 +160,7 @@ export default function Import({
 										/>
 									</Grid>
 								);
-							})
+							}),
 						)}
 					</Grid>
 				</TabPanel>
