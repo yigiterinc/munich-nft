@@ -14,46 +14,29 @@ import MintNft from "./views/MintNft";
 
 import Profile from "./views/Profile";
 import NavBar from "./components/common/Navbar";
-
-import {
-	fetchCollectionsOfUser,
-	getAssetsAddedCollections,
-} from "./api/opensea";
+import { createOrFetchUser } from "./api/strapi";
 
 import "./App.css";
+
 let web3;
 
 function App() {
-	const [account, setAccount] = useState(null); // Wallet Address
-	const [balance, setBalance] = useState(null); // In Ether
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [walletAddress, setWalletAddress] = useState("");
+	const [loggedInUser, setLoggedInUser] = useState(null); // Wallet Address
 
 	useEffect(async () => {
-		updateUserData();
-	}, [account, balance]);
+		await updateUserData();
+	}, [walletAddress]);
 
 	useEffect(async () => {
 		if (!web3) await loadWeb3();
-
-		if (account) {
-			const newBalance = await fetchBalance();
-			setBalance(web3.utils.fromWei(newBalance, "ether"));
-		}
-	}, [account]);
-
-	const fetchBalance = async () => {
-		const balance = await web3.eth.getBalance(account);
-
-		return balance;
-	};
+	}, [loggedInUser]);
 
 	const updateUserData = async () => {
 		await loadWeb3();
 		await loadAccount();
-
-		if (account && balance) {
-			setIsLoggedIn(true);
-		}
+		setLoggedInUser(await createOrFetchUser(
+			{ username: 'Alien', walletAddress: walletAddress }));
 	};
 
 	const loadWeb3 = async () => {
@@ -72,7 +55,7 @@ function App() {
 	const loadAccount = async () => {
 		// Returns the list of accounts that metamask is aware of
 		const accounts = await web3.eth.getAccounts();
-		setAccount(accounts[0]);
+		setWalletAddress(accounts[0].toLowerCase());
 	};
 
 	return (
@@ -80,13 +63,12 @@ function App() {
 			<NavBar />
 			<Switch>
 				<Home
-					exact
-					path="/"
+					exact path="/"
+					account={walletAddress}
 					loginWithMetamask={updateUserData}
-					isLoggedIn={isLoggedIn}
 				/>
-				<MintNft path="/mint-nft" account={account} />
-				<Profile path="/profile" account={account} />
+				<MintNft path="/mint-nft" account={walletAddress} user={loggedInUser} />
+				<Profile path="/profile" account={walletAddress} user={loggedInUser} />
 			</Switch>
 		</Router>
 	);
