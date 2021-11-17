@@ -2,7 +2,7 @@ import { React, useState, useEffect } from "react";
 import { Typography, Select, MenuItem } from "@material-ui/core";
 import { getMunichNftContractAddress } from "../../config/config";
 
-import { fetchUserCollections } from "../../api/backend";
+import { fetchUserCollections } from "../../api/strapi";
 
 import { makeStyles } from "@material-ui/core";
 
