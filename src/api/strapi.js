@@ -1,10 +1,9 @@
 import axios from "axios";
-
-import axiosRetry from "axios-retry";
-import { GET_USER_UPDATE_URL, IMAGE_UPLOAD_URL, MUNICH_NFT_USERS_URL } from "../constants/strapiConstants";
-import { Image } from "@material-ui/icons";
-
-axiosRetry(axios, { retries: 3, retryDelay: 1000 });
+import {
+	GET_USER_UPDATE_URL,
+	IMAGE_UPLOAD_URL,
+	MUNICH_NFT_USERS_URL,
+} from "../constants/strapiConstants";
 
 // TODO: should fetch user's collections and their names
 export const fetchUserCollections = (address) => {
@@ -15,7 +14,7 @@ export const fetchUserCollections = (address) => {
 	];
 };
 
-export const uploadProfileImage = async (image, user) => {
+export const uploadProfileImage = async (image) => {
 	const formData = new FormData();
 	formData.append('files', image);
 	console.log(image);
@@ -23,18 +22,19 @@ export const uploadProfileImage = async (image, user) => {
 	let uploadResult;
 	try {
 		uploadResult = await axios.post(IMAGE_UPLOAD_URL, formData);
+		console.log("upload", uploadResult);
+		return uploadResult;
 	} catch (error) {
-		console.log('error while uploading image to library: ', error);
-	}
-
-	try {
-		user.profilePicture = uploadResult;
-		const response = await axios.put(GET_USER_UPDATE_URL(user.id), user);
-	  return response.data;
-	} catch (error) {
-		console.log('error while updating user image: ', error);
+		console.log('error while uploading image to library: ', { error });
 	}
 };
+
+export const changeUserProfilePicture = async (image, user) => {
+		user.profilePicture = image.data[0];
+		console.log(user, GET_USER_UPDATE_URL(user.id));
+		const response = await axios.put(GET_USER_UPDATE_URL(user.id), user);
+		return response.data;
+}
 
 // Fetches if user is already present in DB, otherwise saves to db
 export const createOrFetchUser = async (
@@ -66,7 +66,7 @@ export const createOrFetchUser = async (
 	return user;
 };
 
-const fetchExistingUser = async (walletAddress) => {
+export const fetchExistingUser = async (walletAddress) => {
 	const url =
 		`${MUNICH_NFT_USERS_URL}?walletAddress=${walletAddress}`
 

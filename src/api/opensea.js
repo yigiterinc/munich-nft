@@ -7,7 +7,7 @@ import {
 	FETCH_ASSETS_IN_COLLECTION_ENDPOINT,
 } from "../constants/openseaApiConstants";
 
-axiosRetry(axios, { retries: 3, retryDelay: 1000 });
+//axiosRetry(axios, { retries: 3, retryDelay: 1000 });
 
 export const fetchCollectionsOfUser = async (accountAddress) => {
 	if (!accountAddress) return;

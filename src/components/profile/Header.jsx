@@ -8,7 +8,8 @@ import Compressor from "compressorjs";
 import { makeStyles } from "@material-ui/core/styles";
 import { truncateAddress } from "../../utils";
 import { useFileUpload } from "use-file-upload";
-import { uploadProfileImage } from "../../api/strapi";
+import { changeUserProfilePicture, uploadProfileImage } from "../../api/strapi";
+import { STRAPI_BASE_URL } from "../../constants/strapiConstants";
 
 const useStyles = makeStyles((theme) => ({
 	title: {
@@ -52,58 +53,67 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = ({ profile, openImportModal }) => {
 	const classes = useStyles();
-	const [profileImage, setProfileImage] = useFileUpload();
+	const [uploadedProfileImage, setUploadedProfileImage] = useFileUpload();
 	const [compressedImage, setCompressedImage] = useState();
 
 	useEffect(async () => {
-		if (profileImage) {
+		if (uploadedProfileImage) {
 			compressImage();
-			let response = await uploadProfileImage(compressedImage);
-			console.log(response);
 		}
-	}, [profileImage]);
+	}, [uploadedProfileImage]);
+
+	useEffect(async () => {
+		if (compressedImage) {
+			let response;
+			let image = await uploadProfileImage(compressedImage, profile).then(resp => response = resp);
+			let profileImageUploadResult = await changeUserProfilePicture(image, profile);
+			console.log(profileImageUploadResult);
+		}
+	}, [compressedImage]);
 
 	const compressImage = () => {
-		return new Compressor(profileImage.file, {
+		return new Compressor(uploadedProfileImage.file, {
 			quality: 0.6,
 			success: (compressedResult) => {
 				setCompressedImage(new File([compressedResult], profile.address, {
-					type: compressedResult.type
+					type: compressedResult.type,
 				}));
 			},
 		});
 	};
 
-	const DefaultAvatar = () => {
-		return (
-			<Avatar className={classes.avatar}>
-				<PersonIcon onClick={() =>
-					setProfileImage(
-						{ accept: "image/*", multiple: false },
-						({ name, size, source, file }) => {
-							console.log("File Selected", { name, size, source, file });
-						},
-					)
-				} />
-			</Avatar>
+	const handleProfileImageUpload = () => {
+		setUploadedProfileImage(
+			{ accept: "image/*", multiple: false },
+			({ name, size, source, file }) => {
+				console.log("File Selected", { name, size, source, file });
+			},
 		);
 	};
 
-	const UploadedImage = () => {
+	const ImageWithUploadOnClick = (source) => {
 		return (
 			<img
-				src={profileImage?.source}
+				src={source}
 				alt="preview"
 				className={classes.image}
-				onClick={() =>
-					setProfileImage(
-						{ accept: "image/*", multiple: false },
-						({ name, size, source, file }) => {
-							console.log("File Selected", { name, size, source, file });
-						},
-					)
-				}
-			/>);
+				onClick={() => handleProfileImageUpload()}
+			/>
+		);
+	};
+
+	const ProfileImage = () => {
+		if (uploadedProfileImage) {
+			return ImageWithUploadOnClick(uploadedProfileImage?.source);
+		} else if (profile?.profilePicture?.url) {
+			return ImageWithUploadOnClick(STRAPI_BASE_URL + profile.profilePicture.url);
+		} else {
+			return (
+				<Avatar className={classes.avatar}>
+					<PersonIcon onClick={() => handleProfileImageUpload()} />
+				</Avatar>
+			);
+		}
 	};
 
 	const ProfileSummary = () => {
@@ -118,20 +128,8 @@ const Header = ({ profile, openImportModal }) => {
 			</>);
 	};
 
-	const renderProfile = () => {
-		const elements = [];
-		elements.push(profileImage ? UploadedImage() : DefaultAvatar());
-		elements.push(ProfileSummary());
-
-		return elements;
-
-	};
-
-	return (
-		<Paper className={classes.title}>
-			{
-				renderProfile()
-			}
+	const importButton = () => {
+		return (
 			<Button
 				variant="contained"
 				size="large"
@@ -140,6 +138,24 @@ const Header = ({ profile, openImportModal }) => {
 			>
 				IMPORT
 			</Button>
+		)
+	}
+
+	const renderProfile = () => {
+		const elements = [];
+		elements.push(ProfileImage());
+		elements.push(ProfileSummary());
+		elements.push(importButton())
+
+		return elements;
+	};
+
+	return (
+		<Paper className={classes.title}>
+			{
+				profile &&
+				renderProfile()
+			}
 		</Paper>
 	);
 };
