@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Web3 from "web3";
+import NftDetails from "./views/NftDetails";
 
 import {
 	BrowserRouter as Router,
@@ -76,14 +77,15 @@ function App() {
 
 	return (
 		<Router>
-			<NavBar/>
+			<NavBar />
 			<Switch>
 				<Home
-					exact path="/"
+					exact
+					path="/"
 					loginWithMetamask={updateUserData}
 					isLoggedIn={isLoggedIn}
 				/>
-				<MintNft path="/mint-nft" account={account}/>
+				<MintNft path="/mint-nft" account={account} />
 				<Profile path="/profile" account={account} />
 			</Switch>
 		</Router>
