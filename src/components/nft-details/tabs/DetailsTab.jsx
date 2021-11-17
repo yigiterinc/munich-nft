@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
@@ -24,8 +24,23 @@ const useStyles = makeStyles({
 });
 
 const DetailsTab = (nftJson) => {
+	const computeBlockchain = () => {
+		return "Blockchain: " + network.charAt(0).toUpperCase() + network.slice(1);
+	};
+	const computeTokenStandard = () => {
+		return (
+			"Token Standard: " +
+			nftJson.tokenStandard.substring(0, 3) +
+			"-" +
+			nftJson.tokenStandard.slice(3, 7)
+		);
+	};
+
 	const classes = useStyles();
-	let network = NETWORK === "main" ? "ethereum" : NETWORK;
+	const network = NETWORK === "main" ? "ethereum" : NETWORK;
+	const blockchain = useMemo(() => computeBlockchain(network), [network]);
+	const tokenStandard = useMemo(() => computeTokenStandard(), [nftJson]);
+
 	return (
 		<div className={classes.detailsTabContainer}>
 			<div className={classes.ethScanButtonPanel}>
@@ -56,23 +71,11 @@ const DetailsTab = (nftJson) => {
 				<ListItem>
 					<ListItemText
 						className={classes.listItemText}
-						primary={
-							"Token Standard: " +
-							nftJson.tokenStandard.substring(0, 3) +
-							"-" +
-							nftJson.tokenStandard.slice(3, 7)
-						}
+						primary={tokenStandard}
 					/>
 				</ListItem>
 				<ListItem>
-					<ListItemText
-						className={classes.listItemText}
-						primary={
-							"Blockchain: " +
-							network.charAt(0).toUpperCase() +
-							network.slice(1)
-						}
-					/>
+					<ListItemText className={classes.listItemText} primary={blockchain} />
 				</ListItem>
 			</List>
 		</div>
