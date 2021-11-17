@@ -10,8 +10,10 @@ import {
 } from "react-router-dom";
 
 import Home from "./views/Home";
+import MintNft from "./views/MintNft";
+
 import Profile from "./views/Profile";
-import NavBar from "./components/Home/Navbar";
+import NavBar from "./components/common/Navbar";
 
 import {
 	fetchCollectionsOfUser,
@@ -77,16 +79,14 @@ function App() {
 		<Router>
 			<NavBar />
 			<Switch>
-				<Route exact path="/">
-					<Home loginWithMetamask={updateUserData} isLoggedIn={isLoggedIn} />
-				</Route>
-				<Route path="/profile">
-					<Profile account={account} />
-				</Route>
-				<Route
-					path="/token/:contractAddressId/:tokenId/"
-					component={NftDetails}
-				></Route>
+				<Home
+					exact
+					path="/"
+					loginWithMetamask={updateUserData}
+					isLoggedIn={isLoggedIn}
+				/>
+				<MintNft path="/mint-nft" account={account} />
+				<Profile path="/profile" account={account} />
 			</Switch>
 		</Router>
 	);
