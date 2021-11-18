@@ -7,11 +7,7 @@ import BrandLogo from "./nav/BrandLogo";
 import Search from "./nav/Search";
 import Menu from "./nav/Menu";
 
-<<<<<<< HEAD:src/components/Home/Navbar.jsx
 const useStyles = makeStyles({
-=======
-const useStyles = makeStyles(() => ({
->>>>>>> development:src/components/common/Navbar.jsx
 	root: {
 		flexGrow: 1,
 	},
