@@ -7,7 +7,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import IconButton from "@material-ui/core/IconButton";
 
 import marketplaceLogo from "../../assets/images/openseaLogo.png";
-import { OPENSEA_NFT_BASE_URL } from "../../constants/openseaApiConstants";
+import { OPENSEA_BASE_URL } from "../../constants/openseaApiConstants";
 
 const useStyles = makeStyles({
 	nftImageContainer: {
@@ -47,7 +47,7 @@ const renderHeader = (classes, nftJson) => {
 	return (
 		<CardActions className={classes.header}>
 			<IconButton
-				href={OPENSEA_NFT_BASE_URL + "/" + contractAddressId + "/" + tokenId}
+				href={OPENSEA_BASE_URL + "/" + contractAddressId + "/" + tokenId}
 				target="_blank"
 				rel="noopener noreferrer"
 				size="small"
