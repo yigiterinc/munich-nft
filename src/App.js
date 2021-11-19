@@ -60,15 +60,14 @@ function App() {
 
 	return (
 		<Router>
-			<NavBar user={loggedInUser}/>
+			<NavBar user={loggedInUser} onWalletConnection={setWalletAddress}/>
 			<Switch>
 				<Home
 					exact path="/"
 					account={walletAddress}
-					loginWithMetamask={updateUserData}
 				/>
 				<MintNft path="/mint-nft" account={walletAddress} user={loggedInUser} />
-				<Profile path="/profile" account={walletAddress} user={loggedInUser} />
+				<Profile path="/profile/:userId" account={walletAddress} user={loggedInUser} />
 			</Switch>
 		</Router>
 	);
