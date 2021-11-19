@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const Navbar = (loggedInUser) => {
+const Navbar = ({ loggedInUser, onWalletConnection }) => {
 	const classes = useStyles();
 
 	return (
@@ -25,7 +25,7 @@ const Navbar = (loggedInUser) => {
 				<Toolbar>
 					<BrandLogo />
 					<Search />
-					<Menu user={loggedInUser}/>
+					<Menu user={loggedInUser} onWalletConnection={onWalletConnection}/>
 				</Toolbar>
 			</AppBar>
 		</div>

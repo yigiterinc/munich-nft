@@ -26,7 +26,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const Menu = (user) => {
+const Menu = ({ user, onWalletConnection }) => {
 	const classes = useStyles();
 	const menu = [
 		{
@@ -39,7 +39,7 @@ const Menu = (user) => {
 		},
 		{
 			label: "Profile",
-			route: "/profile/" + user.id
+			route: "/profile"
 		}
 	]
 
@@ -52,7 +52,7 @@ const Menu = (user) => {
 					</Link>
 				);
 			}))}
-			<MetamaskButton className={classes.connectBtn} />
+			<MetamaskButton onWalletConnection={onWalletConnection} className={classes.connectBtn} />
 		</div>
 	);
 };
