@@ -6,7 +6,7 @@ import {
 	BrowserRouter as Router,
 	Switch,
 	Route,
-	NavLink,
+	NavLink, Redirect,
 } from "react-router-dom";
 
 import Home from "./views/Home";
@@ -36,7 +36,7 @@ function App() {
 		await loadWeb3();
 		await loadAccount();
 		setLoggedInUser(await createOrFetchUser(
-			{ username: 'Alien', walletAddress: walletAddress }));
+			{ username: "Alien", walletAddress: walletAddress }));
 	};
 
 	const loadWeb3 = async () => {
@@ -60,14 +60,28 @@ function App() {
 
 	return (
 		<Router>
-			<NavBar user={loggedInUser} onWalletConnection={setWalletAddress}/>
+			<NavBar user={loggedInUser} onWalletConnection={setWalletAddress} />
 			<Switch>
-				<Home
-					exact path="/"
-					account={walletAddress}
-				/>
-				<MintNft path="/mint-nft" account={walletAddress} user={loggedInUser} />
-				<Profile path="/profile/:userId" account={walletAddress} user={loggedInUser} />
+				<Route exact path="/">
+					<Home
+						exact path="/"
+						account={walletAddress}
+					/>
+				</Route>
+				<Route path="/mint-nft">
+					<MintNft account={walletAddress} user={loggedInUser} />
+				</Route>
+				<Route path="/profile/:userId"
+							 render={(props) =>
+								 !loggedInUser ? (
+										 <Redirect to="/"/>
+									 )
+									 : (
+										 <Profile {...props} />
+									 )
+							 }>
+					<Profile account={walletAddress} user={loggedInUser} />
+				</Route>
 			</Switch>
 		</Router>
 	);
