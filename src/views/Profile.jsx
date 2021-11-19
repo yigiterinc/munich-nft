@@ -9,6 +9,7 @@ import {
 	fetchCollectionsOfUser,
 	getAssetsAddedCollections,
 } from "../api/opensea";
+import { saveImportedCollections } from "../api/strapi";
 
 const useStyles = makeStyles((theme) => ({
 	gridContainer: {
@@ -108,8 +109,8 @@ const Profile = ({ account, user }) => {
 						openImportModal={() => setOpenImportModal(true)}
 					/>
 				</Grid>
-				{importedCollections &&
-					importedCollections.map((collection) =>
+				{user?.importedCollections &&
+					user.importedCollections.map((collection) =>
 						collection.assets.map((item) => {
 							return (
 								<Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
@@ -118,14 +119,6 @@ const Profile = ({ account, user }) => {
 							);
 						})
 					)}
-				{importedNfts &&
-					importedNfts.map((item) => {
-						return (
-							<Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
-								<AssetCard asset={item} />
-							</Grid>
-						);
-					})}
 			</Grid>
 			<Modal
 				title="Import"
@@ -134,9 +127,10 @@ const Profile = ({ account, user }) => {
 			>
 				<Import
 					collections={collections}
-					onImportCollections={(collections) => {
+					onImportCollections={async (collections) => {
 						console.log('onImportCollections', collections);
 						setImportedCollections(collections);
+						await saveImportedCollections(user, collections);
 						setOpenImportModal(false);
 					}}
 					onImportNfts={(nfts) => {

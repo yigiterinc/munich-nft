@@ -31,23 +31,27 @@ const Menu = ({ user, onWalletConnection }) => {
 	const menu = [
 		{
 			label: "Marketplace",
-			route: "/market"
+			getRoute: () => "/market"
 		},
 		{
 			label: "Create",
-			route: "/mint-nft"
+			getRoute: () => "/mint-nft"
 		},
 		{
 			label: "Profile",
-			route: "/profile"
+			getRoute: () => {
+				return `/profile/${user ? user.id : ''}`
+			}
 		}
 	]
 
 	return (
 		<div className={classes.navMenu}>
-			{menu.map(((menuItem, i) => {
+			{menu
+				.filter(item => item.label !== "Profile" || user)
+				.map(((menuItem, i) => {
 				return (
-					<Link key={i} className={classes.menuLink} to={menuItem.route}>
+					<Link key={i} className={classes.menuLink} to={menuItem.getRoute()}>
 						{menuItem.label}
 					</Link>
 				);

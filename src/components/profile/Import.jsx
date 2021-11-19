@@ -56,8 +56,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Import({
-																 collections,
+export default function Import({ collections,
 																 onImportCollections,
 																 onImportNfts,
 															 }) {
