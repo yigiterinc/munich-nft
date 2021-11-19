@@ -1,4 +1,5 @@
-import { React, useState, useEffect } from "react";
+import React from "react";
+import { useState, useEffect } from "react";
 
 import "../config/config";
 
@@ -26,10 +27,8 @@ function MintNft() {
 	};
 
 	return (
-		<div>
 			<RenderMintNft
 				addedFileHash={addedFileHash}
-				setAddedFileHash={setAddedFileHash}
 				setAddedFileHash={setAddedFileHash}
 				resetState={resetState}
 				uploadedMetadata={uploadedMetadata}
@@ -46,8 +45,7 @@ function MintNft() {
 				setListedNft={setListedNft}
 				listingPrice={listingPrice}
 				setListingPrice={setListingPrice}
-			></RenderMintNft>
-		</div>
+				/>
 	);
 }
 

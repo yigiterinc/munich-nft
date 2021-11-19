@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Link from "@material-ui/core/Link";
+import {Link} from "react-router-dom"
 
 import MetamaskButton from "./MetamaskButton";
 
@@ -26,18 +26,32 @@ const useStyles = makeStyles({
 	},
 });
 
-const Menu = () => {
+const Menu = (user) => {
 	const classes = useStyles();
-	const menuLinks = ["market", "create", "import", "profile"];
+	const menu = [
+		{
+			label: "Marketplace",
+			route: "/market"
+		},
+		{
+			label: "Create",
+			route: "/mint-nft"
+		},
+		{
+			label: "Profile",
+			route: "/profile/" + user.id
+		}
+	]
+
 	return (
 		<div className={classes.navMenu}>
-			{menuLinks.map((link) => {
+			{menu.map(((menuItem, i) => {
 				return (
-					<Link key={link} className={classes.menuLink} href={"/".concat(link)}>
-						{link.charAt(0).toUpperCase() + link.slice(1)}
+					<Link key={i} className={classes.menuLink} to={menuItem.route}>
+						{menuItem.label}
 					</Link>
 				);
-			})}
+			}))}
 			<MetamaskButton className={classes.connectBtn} />
 		</div>
 	);

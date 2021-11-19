@@ -32,8 +32,7 @@ export const uploadProfileImage = async (image) => {
 export const changeUserProfilePicture = async (image, user) => {
 		user.profilePicture = image.data[0];
 		console.log(user, GET_USER_UPDATE_URL(user.id));
-		const response = await axios.put(GET_USER_UPDATE_URL(user.id), user);
-		return response.data;
+		return await updateUser(user)
 }
 
 // Fetches if user is already present in DB, otherwise saves to db
@@ -73,4 +72,14 @@ export const fetchExistingUser = async (walletAddress) => {
 	const resp = await axios.get(url);
 
 	return resp.data[0]
+}
+
+const updateUser = async (user) => {
+	const response = await axios.put(GET_USER_UPDATE_URL(user.id), user);
+	return response.data;
+}
+
+export const saveImportedCollections = async (user, collectionsToSave) => {
+	user.importedCollections = collectionsToSave;
+	return await updateUser(user)
 }
