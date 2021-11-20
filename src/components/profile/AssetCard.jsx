@@ -8,13 +8,12 @@ import Typography from "@material-ui/core/Typography";
 const useStyles = makeStyles({
 	root: {
 		minWidth: 200,
-		minHeight: 450,
-		height: "100%",
+		minHeight: 200,
+		height: "auto",
 		cursor: "pointer",
 	},
 	image: {
 		height: "30vh",
-		objectFit: "contain",
 	},
 });
 
