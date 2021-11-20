@@ -75,6 +75,7 @@ export const fetchExistingUser = async (walletAddress) => {
 }
 
 const updateUser = async (user) => {
+	console.log(GET_USER_UPDATE_URL(user.id));
 	const response = await axios.put(GET_USER_UPDATE_URL(user.id), user);
 	return response.data;
 }
@@ -82,4 +83,34 @@ const updateUser = async (user) => {
 export const saveImportedCollections = async (user, collectionsToSave) => {
 	user.importedCollections = collectionsToSave;
 	return await updateUser(user)
+}
+
+export const saveImportedNfts = async (user, selectedCollectionNftPairs) => {
+	selectedCollectionNftPairs.map((collectionNftPair) => {
+		let existingCollectionInStrapi = user.importedCollections
+			.find(collection => collection.slug === collectionNftPair.collection.slug)
+
+		if (existingCollectionInStrapi) {
+			existingCollectionInStrapi.assets.push(collectionNftPair.nft);
+		} else {
+			const allAssetsFromOpenseaInThisCollection =
+				collectionNftPair.collection.assets;
+
+			const selectedAssetsOnly =
+				allAssetsFromOpenseaInThisCollection
+				.filter(asset => anySelectedCollectionNftPairContainsThisAsset(asset, selectedCollectionNftPairs))
+
+			collectionNftPair.collection.assets = selectedAssetsOnly;
+			user.importedCollections.push(collectionNftPair.collection)
+		}
+	})
+
+	return await updateUser(user)
+}
+
+const anySelectedCollectionNftPairContainsThisAsset =
+	(asset, selectedCollectionNftPairs) => {
+
+	return selectedCollectionNftPairs
+		.some(nftCollection => nftCollection.nft === asset)
 }
