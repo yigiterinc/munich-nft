@@ -9,6 +9,7 @@ import {
 	fetchCollectionsOfUser,
 	getAssetsAddedCollections,
 } from "../api/opensea";
+import { saveImportedCollections, saveImportedNfts } from "../api/strapi";
 
 const useStyles = makeStyles((theme) => ({
 	gridContainer: {
@@ -31,7 +32,6 @@ const Profile = ({ account, user }) => {
 
 	const userSoldTheAsset = (asset, tx) => {
 		if (!asset.last_sale.event_type === 'successful')	return false;
-		console.log('asset: ', asset,' tx: ', tx);
 
 		if (tx.from !== account && tx.logs[0]?.data.indexOf(account) >= 0) {
 			return true;
@@ -108,9 +108,9 @@ const Profile = ({ account, user }) => {
 						openImportModal={() => setOpenImportModal(true)}
 					/>
 				</Grid>
-				{importedCollections &&
-					importedCollections.map((collection) =>
-						collection.assets.map((item) => {
+				{user?.importedCollections &&
+					user?.importedCollections?.map((collection) =>
+						collection?.assets?.map((item) => {
 							return (
 								<Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
 									<AssetCard asset={item} />
@@ -118,14 +118,6 @@ const Profile = ({ account, user }) => {
 							);
 						})
 					)}
-				{importedNfts &&
-					importedNfts.map((item) => {
-						return (
-							<Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
-								<AssetCard asset={item} />
-							</Grid>
-						);
-					})}
 			</Grid>
 			<Modal
 				title="Import"
@@ -134,15 +126,15 @@ const Profile = ({ account, user }) => {
 			>
 				<Import
 					collections={collections}
-					onImportCollections={(collections) => {
-						console.log('onImportCollections', collections);
+					onImportCollections={async (collections) => {
 						setImportedCollections(collections);
+						await saveImportedCollections(user, collections);
 						setOpenImportModal(false);
 					}}
 					onImportNfts={(nfts) => {
-						console.log(nfts);
 						setImportedNfts(nfts);
 						setOpenImportModal(false);
+						saveImportedNfts(user, nfts)
 					}}
 				/>
 			</Modal>

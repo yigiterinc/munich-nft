@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import "../config/config";
 
@@ -26,28 +26,25 @@ function MintNft() {
 	};
 
 	return (
-		<div>
-			<RenderMintNft
-				addedFileHash={addedFileHash}
-				setAddedFileHash={setAddedFileHash}
-				setAddedFileHash={setAddedFileHash}
-				resetState={resetState}
-				uploadedMetadata={uploadedMetadata}
-				setUploadedMetadata={setUploadedMetadata}
-				nftName={nftName}
-				nftDescription={nftDescription}
-				setNftName={setNftName}
-				setNftDescription={setNftDescription}
-				mintedNft={mintedNft}
-				setMintedNft={setMintedNft}
-				resultingTokenId={resultingTokenId}
-				setResultingTokenId={setResultingTokenId}
-				listedNft={listedNft}
-				setListedNft={setListedNft}
-				listingPrice={listingPrice}
-				setListingPrice={setListingPrice}
-			></RenderMintNft>
-		</div>
+		<RenderMintNft
+			addedFileHash={addedFileHash}
+			setAddedFileHash={setAddedFileHash}
+			resetState={resetState}
+			uploadedMetadata={uploadedMetadata}
+			setUploadedMetadata={setUploadedMetadata}
+			nftName={nftName}
+			nftDescription={nftDescription}
+			setNftName={setNftName}
+			setNftDescription={setNftDescription}
+			mintedNft={mintedNft}
+			setMintedNft={setMintedNft}
+			resultingTokenId={resultingTokenId}
+			setResultingTokenId={setResultingTokenId}
+			listedNft={listedNft}
+			setListedNft={setListedNft}
+			listingPrice={listingPrice}
+			setListingPrice={setListingPrice}
+		/>
 	);
 }
 
