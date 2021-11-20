@@ -75,7 +75,7 @@ export default function Import({ collections,
 	};
 
 	const removeFromSelectedNfts = (nft) => {
-		setSelectedNfts(selectedNfts.filter((item) => item !== nft));
+		setSelectedNfts(selectedNfts.filter((item) => item.nft !== nft));
 	};
 
 	const removeFromSelectedCollections = (collection) => {
@@ -151,10 +151,10 @@ export default function Import({ collections,
 						{collections?.map((collection) =>
 							collection?.assets.map((item) => {
 								return (
-									<Grid key={item.id} item xs={4}>
+									<Grid key={item?.id} item xs={4}>
 										<ImportCard
 											nft={item}
-											addToSelected={(nft) => addToSelectedNfts(nft)}
+											addToSelected={(nft) => addToSelectedNfts({ collection, nft })}
 											removeFromSelected={(nft) => removeFromSelectedNfts(nft)}
 										/>
 									</Grid>
