@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import AssetCard from "../components/profile/AssetCard";
+import AssetCard from "../components/common/AssetCard";
 import Header from "../components/profile/Header";
 import Import from "../components/profile/Import";
 import Modal from "../components/common/Modal";
@@ -31,7 +31,7 @@ const Profile = ({ account, user }) => {
 	const classes = useStyles();
 
 	const userSoldTheAsset = (asset, tx) => {
-		if (!asset.last_sale.event_type === 'successful')	return false;
+		if (!asset.last_sale.event_type === "successful") return false;
 
 		if (tx.from !== account && tx.logs[0]?.data.indexOf(account) >= 0) {
 			return true;
@@ -42,7 +42,7 @@ const Profile = ({ account, user }) => {
 		}
 
 		return false;
-	}
+	};
 
 	const assetBelongsToCurrentUser = async (asset) => {
 		if (asset.owner.address === account) {
@@ -53,47 +53,50 @@ const Profile = ({ account, user }) => {
 			return asset.creator.address === account;
 		}
 
-		window.web3.defaultChain = 'rinkeby'
-		const txHash = asset.last_sale.transaction.transaction_hash
-		const tx = await window.web3.eth.getTransactionReceipt(txHash)
+		window.web3.defaultChain = "rinkeby";
+		const txHash = asset.last_sale.transaction.transaction_hash;
+		const tx = await window.web3.eth.getTransactionReceipt(txHash);
 
 		if (userSoldTheAsset(asset, tx)) {
 			return false;
 		}
 
 		return tx.logs[0].topics.join().indexOf(account.substring(3)) >= 0;
-	}
+	};
 
 	const filterAssetsInCollectionByOwner = async (collectionWithAssets) => {
-		let filteredCollections = collectionWithAssets[0]
+		let filteredCollections = collectionWithAssets[0];
 		let currCollection;
 		for (let i = 0; i < filteredCollections.length; i++) {
-			let assetsOfUserInCurrCollection = []
+			let assetsOfUserInCurrCollection = [];
 			currCollection = filteredCollections[i];
 
 			let asset;
 			for (let i = 0; i < currCollection.assets.length; i++) {
-				asset = currCollection.assets[i]
+				asset = currCollection.assets[i];
 
 				if (await assetBelongsToCurrentUser(asset)) {
-					assetsOfUserInCurrCollection.push(asset)
+					assetsOfUserInCurrCollection.push(asset);
 				}
 			}
 
-			filteredCollections[i].assets = assetsOfUserInCurrCollection
+			filteredCollections[i].assets = assetsOfUserInCurrCollection;
 		}
 
 		return filteredCollections;
-	}
+	};
 
 	useEffect(async () => {
 		if (account) {
 			let collectionsData = await fetchCollectionsOfUser(account);
 			let collectionsWithAssets = [];
 
-			collectionsWithAssets
-				.push(await getAssetsAddedCollections(collectionsData))
-			let filtered = await filterAssetsInCollectionByOwner(collectionsWithAssets)
+			collectionsWithAssets.push(
+				await getAssetsAddedCollections(collectionsData)
+			);
+			let filtered = await filterAssetsInCollectionByOwner(
+				collectionsWithAssets
+			);
 			console.log(filtered);
 			setCollections(filtered);
 		}
@@ -134,7 +137,7 @@ const Profile = ({ account, user }) => {
 					onImportNfts={(nfts) => {
 						setImportedNfts(nfts);
 						setOpenImportModal(false);
-						saveImportedNfts(user, nfts)
+						saveImportedNfts(user, nfts);
 					}}
 				/>
 			</Modal>

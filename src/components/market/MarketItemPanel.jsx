@@ -1,9 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-
-import AssetCard from "../../components/profile/AssetCard";
+import MarketItem from "../../components/market/MarketItem";
 
 const useStyles = makeStyles((theme) => ({
 	filterDiv: {
@@ -26,11 +24,12 @@ export const renderMarketItems = (classes, listedNfts) => {
 };
 
 export const renderGrids = (classes, listedNfts) => {
+	const col = 4;
 	const row = [];
-	for (let i = 0; i < listedNfts.length; i += 4) {
+	for (let i = 0; i < listedNfts.length; i += col) {
 		row.push(
 			<Grid container item xs={12} spacing={3} key={i}>
-				{renderRows(classes, listedNfts.slice(i, i + 4))}
+				{renderRows(classes, listedNfts.slice(i, i + col))}
 			</Grid>
 		);
 	}
@@ -41,11 +40,7 @@ export const renderRows = (classes, listedNfts) => {
 	return (
 		<>
 			{listedNfts.map((item) => {
-				return (
-					<Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
-						<AssetCard asset={item} />
-					</Grid>
-				);
+				return <MarketItem {...item} />;
 			})}
 		</>
 	);

@@ -6,13 +6,13 @@ import Box from "@material-ui/core/Box";
 const useStyles = makeStyles((theme) => ({
 	filterDiv: {
 		border: "1 px solid black",
+		height: "100%",
 	},
-	spinner: {},
 }));
 
 const Filter = () => {
 	const classes = useStyles();
-	return <Box className={classes.filterDiv}></Box>;
+	return <div className={classes.filterDiv}></div>;
 };
 
 export default Filter;

@@ -60,11 +60,12 @@ export const renderProperties = (classes, properties) => {
 };
 
 export const renderGrids = (classes, properties) => {
+	const col = 3;
 	const row = [];
-	for (let i = 0; i < properties.length; i += 3) {
+	for (let i = 0; i < properties.length; i += col) {
 		row.push(
 			<Grid container item xs={12} spacing={3} key={i}>
-				{renderRows(classes, properties.slice(i, i + 3))}
+				{renderRows(classes, properties.slice(i, i + col))}
 			</Grid>
 		);
 	}

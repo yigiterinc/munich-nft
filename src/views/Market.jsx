@@ -25,7 +25,7 @@ const Market = () => {
 
 	useEffect(() => {
 		const fetchMarketData = () => {
-			const assets = marketJson;
+			const assets = marketJson; // will be updated when we have real listed NFT data
 
 			setListedNfts(assets);
 		};

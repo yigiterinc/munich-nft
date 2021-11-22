@@ -1,18 +1,14 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import AssetCard from "../common/AssetCard";
 
-import Box from "@material-ui/core/Box";
-
-const useStyles = makeStyles((theme) => ({
-	filterDiv: {
-		border: "1 px solid black",
-	},
-	spinner: {},
-}));
-
-const MarketItem = () => {
-	const classes = useStyles();
-	return <Box className={classes.filterDiv}></Box>;
+const MarketItem = (item) => {
+	let dummyPrice = 1;
+	return (
+		<Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
+			<AssetCard asset={item} price={dummyPrice} />
+		</Grid>
+	);
 };
 
 export default MarketItem;
