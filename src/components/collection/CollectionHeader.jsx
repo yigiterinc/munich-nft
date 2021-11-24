@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import { truncateAddress } from "../../utils";
 
 const useStyles = makeStyles((theme) => ({
 	collectionHeaderContainer: {
@@ -11,23 +12,23 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: "center",
 	},
 	banner: {
-		height: "40vh",
+		height: theme.spacing(30),
 		width: "80vw",
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "center",
 		alignItems: "center",
-		backgroundImage: `url(images/banner.jpg)`,
+		backgroundImage: (collection) => `url(${collection?.banner_image_url})`,
 	},
 	image: {
 		objectFit: "cover",
-		marginTop: "2vh",
+		marginTop: theme.spacing(-7),
 		borderRadius: "50%",
-		height: theme.spacing(12),
-		width: theme.spacing(12),
+		height: theme.spacing(14),
+		width: theme.spacing(14),
 	},
 	name: {
-		marginTop: theme.spacing(1),
+		marginTop: theme.spacing(2),
 		fontWeight: "lighter",
 	},
 	description: {
@@ -38,29 +39,33 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const CollectionHeader = () => {
-	const classes = useStyles();
+const CollectionHeader = ({ collection, assets }) => {
+	const classes = useStyles(collection);
 
 	return (
 		<div className={classes.collectionHeaderContainer}>
-			<Paper className={classes.banner}>
-				<img src="images/cat.jpg" alt="preview" className={classes.image} />
-			</Paper>
+			<Paper className={classes.banner}></Paper>
+			<img
+				src={collection?.image_url}
+				alt="preview"
+				className={classes.image}
+			/>
 			<Typography className={classes.name} variant="h5" component="h2">
-				Collection Name
+				{collection?.name}
 			</Typography>
-			<Typography className={classes.name} variant="h6" component="h2">
-				Collection Creator
-			</Typography>
+			{assets && (
+				<Typography className={classes.name} variant="h6" component="h2">
+					{assets[0]?.creator?.user?.username
+						? assets[0]?.creator?.user?.username
+						: truncateAddress(assets[0]?.creator?.address, 13)}
+				</Typography>
+			)}
 			<Typography
 				className={classes.description}
 				variant="body1"
 				component="h2"
 			>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-				veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-				commodo consequat.
+				{collection?.description}
 			</Typography>
 		</div>
 	);
