@@ -1,4 +1,6 @@
 export function truncateAddress(str, strLen) {
+	if (!str) return;
+
 	if (str.length <= strLen) return str;
 
 	const separator = "...";
