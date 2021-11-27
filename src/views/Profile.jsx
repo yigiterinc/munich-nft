@@ -26,15 +26,15 @@ const useStyles = makeStyles((theme) => ({
 		width: "85vw",
 		boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(63, 174, 223) 0px 0px 0px 5px",
 		borderRadius: "2px",
-		marginBottom: "5vh"
+		marginBottom: "5vh",
 	},
 	importButton: {
 		display: "block",
 		margin: "0 auto",
 	},
 	galleriesContainer: {
-		width: "auto"
-	}
+		width: "auto",
+	},
 }));
 
 const Profile = ({ account, user }) => {
@@ -107,10 +107,10 @@ const Profile = ({ account, user }) => {
 			let collectionsWithAssets = [];
 
 			collectionsWithAssets.push(
-				await getAssetsAddedCollections(collectionsData)
+				await getAssetsAddedCollections(collectionsData),
 			);
 			let filtered = await filterAssetsInCollectionByOwner(
-				collectionsWithAssets
+				collectionsWithAssets,
 			);
 			console.log(filtered);
 			setCollections(filtered);
@@ -130,7 +130,7 @@ const Profile = ({ account, user }) => {
 				}),
 			)}
 		</>;
-	}
+	};
 
 	return (
 		<div className={classes.mainContainer}>
@@ -139,7 +139,7 @@ const Profile = ({ account, user }) => {
 				openImportModal={() => setOpenImportModal(true)}
 			/>
 			<Grid container spacing={4} className={classes.gridContainer}>
-					{assets()}
+				{assets()}
 			</Grid>
 			<Modal
 				title="Import"

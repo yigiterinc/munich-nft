@@ -39,8 +39,7 @@ function App() {
 		await loadAccount();
 		setLoggedInUser(
 			await createOrFetchUser({
-				username: "Alien",
-				walletAddress: walletAddress,
+				walletAddress
 			})
 		);
 	};

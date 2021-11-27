@@ -25,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
 		background: lighten("rgb(236,239,241)", 0.6),
 		"&:hover": {
 			background: "rgb(236,239,241)",
-			cursor: "pointer"
-		}
+			cursor: "pointer",
+		},
 	},
 	avatar: {
 		width: theme.spacing(14),
@@ -37,8 +37,8 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: "1vh",
 		background: "rgb(224,227,225)",
 		"&:hover": {
-			background: darken("rgb(224,227,225)", 0.05)
-		}
+			background: darken("rgb(224,227,225)", 0.05),
+		},
 	},
 	image: {
 		objectFit: "cover",
@@ -82,11 +82,11 @@ const ProfileHeader = ({ profile, openImportModal }) => {
 		if (compressedImage) {
 			let response;
 			let image = await uploadProfileImage(compressedImage, profile).then(
-				(resp) => (response = resp)
+				(resp) => (response = resp),
 			);
 			let profileImageUploadResult = await changeUserProfilePicture(
 				image,
-				profile
+				profile,
 			);
 			console.log(profileImageUploadResult);
 		}
@@ -99,7 +99,7 @@ const ProfileHeader = ({ profile, openImportModal }) => {
 				setCompressedImage(
 					new File([compressedResult], profile.address, {
 						type: compressedResult.type,
-					})
+					}),
 				);
 			},
 		});
@@ -110,7 +110,7 @@ const ProfileHeader = ({ profile, openImportModal }) => {
 			{ accept: "image/*", multiple: false },
 			({ name, size, source, file }) => {
 				console.log("File Selected", { name, size, source, file });
-			}
+			},
 		);
 	};
 
@@ -130,7 +130,7 @@ const ProfileHeader = ({ profile, openImportModal }) => {
 			return ImageWithUploadOnClick(uploadedProfileImage?.source);
 		} else if (profile?.profilePicture?.url) {
 			return ImageWithUploadOnClick(
-				STRAPI_BASE_URL + profile.profilePicture.url
+				STRAPI_BASE_URL + profile.profilePicture.url,
 			);
 		} else {
 			return (
@@ -145,7 +145,7 @@ const ProfileHeader = ({ profile, openImportModal }) => {
 		return (
 			<div className={classes.profileSummary}>
 				<Typography className={classes.name} variant="h5" component="h2">
-					{profile?.username}
+					{profile?.username !== "null" ? profile.username : "Alien"}
 				</Typography>
 				<Typography
 					className={classes.address}
@@ -182,10 +182,10 @@ const ProfileHeader = ({ profile, openImportModal }) => {
 
 	return (
 		<div className={classes.mainContainer}>
-			<Paper elevation={1} className={classes.headerContainer}/>
+			<Paper elevation={1} className={classes.headerContainer} />
 			{profile && renderProfile()}
 		</div>
-)
+	);
 };
 
 export default ProfileHeader;
