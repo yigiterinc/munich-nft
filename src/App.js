@@ -1,7 +1,14 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Web3 from "web3";
+import NftDetails from "./views/NftDetails";
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	NavLink,
+	Redirect,
+} from "react-router-dom";
 
 import Home from "./views/Home";
 import Navbar from "./components/common/Navbar";
@@ -11,44 +18,36 @@ import {
 	getAssetsAddedCollections,
 } from "./api/opensea";
 
+import MintNft from "./views/MintNft";
+import Collection from "./views/Collection";
+import Profile from "./views/Profile";
+import { createOrFetchUser } from "./api/strapi";
+
 import "./App.css";
+
 let web3;
 
 function App() {
-	const [account, setAccount] = useState(null); // Wallet Address
-	const [balance, setBalance] = useState(null); // In Ether
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
-	const [collections, setCollections] = useState(null); // ! To be removed when we move call to collections
+	const [walletAddress, setWalletAddress] = useState("");
+	const [loggedInUser, setLoggedInUser] = useState(null); // Wallet Address
 
 	useEffect(async () => {
-		updateUserData();
-	}, [account, balance]);
+		await updateUserData();
+	}, [walletAddress]);
 
 	useEffect(async () => {
 		if (!web3) await loadWeb3();
-
-		if (account) {
-			const newBalance = await fetchBalance();
-			setBalance(web3.utils.fromWei(newBalance, "ether"));
-			// TODO we will move this to somewhere else (artist will click import collection button or smth)
-			let collectionsData = await fetchCollectionsOfUser(account);
-			setCollections(await getAssetsAddedCollections(collectionsData));
-		}
-	}, [account]);
-
-	const fetchBalance = async () => {
-		const balance = await web3.eth.getBalance(account);
-
-		return balance;
-	};
+	}, [loggedInUser]);
 
 	const updateUserData = async () => {
 		await loadWeb3();
 		await loadAccount();
-
-		if (account && balance) {
-			setIsLoggedIn(true);
-		}
+		setLoggedInUser(
+			await createOrFetchUser({
+				username: "Alien",
+				walletAddress: walletAddress,
+			})
+		);
 	};
 
 	const loadWeb3 = async () => {
@@ -67,20 +66,32 @@ function App() {
 	const loadAccount = async () => {
 		// Returns the list of accounts that metamask is aware of
 		const accounts = await web3.eth.getAccounts();
-		setAccount(accounts[0]);
+		setWalletAddress(accounts[0].toLowerCase());
 	};
 
-	return (
-		<>
-			<Navbar />
-			<Router>
-				<Switch>
-					<Route path="/">
-						<Home loginWithMetamask={updateUserData} isLoggedIn={isLoggedIn} />
-					</Route>
-				</Switch>
-			</Router>
-		</>
+	return (	
+		<Router>
+			<Navbar user={loggedInUser} onWalletConnection={setWalletAddress} />
+			<Switch>
+				<Route exact path="/">
+					<Home exact path="/" account={walletAddress} />
+				</Route>
+				<Route path="/mint-nft">
+					<MintNft account={walletAddress} user={loggedInUser} />
+				</Route>
+				<Route path="/collection/:slug">
+					<Collection account={walletAddress} user={loggedInUser} />
+				</Route>
+				<Route
+					path="/profile/:userId"
+					render={(props) =>
+						!loggedInUser ? <Redirect to="/" /> : <Profile {...props} />
+					}
+				>
+					<Profile account={walletAddress} user={loggedInUser} />
+				</Route>
+			</Switch>
+		</Router>
 	);
 }
 
