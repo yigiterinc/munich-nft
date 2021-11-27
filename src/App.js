@@ -6,12 +6,13 @@ import {
 	BrowserRouter as Router,
 	Switch,
 	Route,
-	NavLink, Redirect,
+	NavLink,
+	Redirect,
 } from "react-router-dom";
 
 import Home from "./views/Home";
 import MintNft from "./views/MintNft";
-
+import Collection from "./views/Collection";
 import Profile from "./views/Profile";
 import NavBar from "./components/common/Navbar";
 import { createOrFetchUser } from "./api/strapi";
@@ -35,8 +36,12 @@ function App() {
 	const updateUserData = async () => {
 		await loadWeb3();
 		await loadAccount();
-		setLoggedInUser(await createOrFetchUser(
-			{ username: "Alien", walletAddress: walletAddress }));
+		setLoggedInUser(
+			await createOrFetchUser({
+				username: "Alien",
+				walletAddress: walletAddress,
+			})
+		);
 	};
 
 	const loadWeb3 = async () => {
@@ -63,23 +68,20 @@ function App() {
 			<NavBar user={loggedInUser} onWalletConnection={setWalletAddress} />
 			<Switch>
 				<Route exact path="/">
-					<Home
-						exact path="/"
-						account={walletAddress}
-					/>
+					<Home exact path="/" account={walletAddress} />
 				</Route>
 				<Route path="/mint-nft">
 					<MintNft account={walletAddress} user={loggedInUser} />
 				</Route>
-				<Route path="/profile/:userId"
-							 render={(props) =>
-								 !loggedInUser ? (
-										 <Redirect to="/"/>
-									 )
-									 : (
-										 <Profile {...props} />
-									 )
-							 }>
+				<Route path="/collection/:slug">
+					<Collection account={walletAddress} user={loggedInUser} />
+				</Route>
+				<Route
+					path="/profile/:userId"
+					render={(props) =>
+						!loggedInUser ? <Redirect to="/" /> : <Profile {...props} />
+					}
+				>
 					<Profile account={walletAddress} user={loggedInUser} />
 				</Route>
 			</Switch>
