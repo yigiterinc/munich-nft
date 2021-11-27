@@ -14,14 +14,16 @@ const useStyles = makeStyles({
 		marginRight: 0,
 	},
 	menuLink: {
-		padding: "1rem 2.5rem",
+		marginRight: "25px",
 		cursor: "pointer",
 		textAlign: "center",
 		color: "#000",
-		fontSize: "0.95rem",
 		"&:focus, &:hover, &:visited, &:link, &:active": {
 			textDecoration: "none",
 		},
+		fontSize: "18px",
+		letterSpacing: "1.3px",
+		fontWeight: "500",
 		connectBtn: {},
 	},
 });
@@ -30,11 +32,7 @@ const Menu = ({ user, onWalletConnection }) => {
 	const classes = useStyles();
 	const menu = [
 		{
-			label: "Marketplace",
-			getRoute: () => "/market"
-		},
-		{
-			label: "Create",
+			label: "Mint NFT",
 			getRoute: () => "/mint-nft"
 		},
 		{
@@ -42,7 +40,7 @@ const Menu = ({ user, onWalletConnection }) => {
 			getRoute: () => {
 				return `/profile/${user ? user.id : ''}`
 			}
-		}
+		},
 	]
 
 	return (

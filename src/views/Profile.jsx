@@ -12,15 +12,29 @@ import {
 import { saveImportedCollections, saveImportedNfts } from "../api/strapi";
 
 const useStyles = makeStyles((theme) => ({
+	mainContainer: {
+		paddingTop: "4vh",
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
+	},
 	gridContainer: {
-		paddingTop: "3vw",
-		paddingLeft: "10vw",
-		paddingRight: "10vw",
+		paddingTop: "2vw",
+		paddingLeft: "5vw",
+		paddingRight: "5vw",
+		width: "85vw",
+		boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(63, 174, 223) 0px 0px 0px 5px",
+		borderRadius: "2px",
+		marginBottom: "5vh"
 	},
 	importButton: {
 		display: "block",
 		margin: "0 auto",
 	},
+	galleriesContainer: {
+		width: "auto"
+	}
 }));
 
 const Profile = ({ account, user }) => {
@@ -55,9 +69,10 @@ const Profile = ({ account, user }) => {
 
 		window.web3.defaultChain = "rinkeby";
 		const txHash = asset.last_sale.transaction.transaction_hash;
+		console.log(txHash);
 		const tx = await window.web3.eth.getTransactionReceipt(txHash);
 
-		if (userSoldTheAsset(asset, tx)) {
+		if (!tx || userSoldTheAsset(asset, tx)) {
 			return false;
 		}
 
@@ -102,25 +117,29 @@ const Profile = ({ account, user }) => {
 		}
 	}, [account, openImportModal]);
 
+	const assets = () => {
+		return <>
+			{user?.importedCollections &&
+			user.importedCollections.map((collection) =>
+				collection?.assets?.map((item) => {
+					return (
+						<Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
+							<AssetCard asset={item} />
+						</Grid>
+					);
+				}),
+			)}
+		</>;
+	}
+
 	return (
-		<>
+		<div className={classes.mainContainer}>
+			<ProfileHeader
+				profile={user}
+				openImportModal={() => setOpenImportModal(true)}
+			/>
 			<Grid container spacing={4} className={classes.gridContainer}>
-				<Grid item xs={12}>
-					<ProfileHeader
-						profile={user}
-						openImportModal={() => setOpenImportModal(true)}
-					/>
-				</Grid>
-				{user?.importedCollections &&
-					user?.importedCollections?.map((collection) =>
-						collection?.assets?.map((item) => {
-							return (
-								<Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
-									<AssetCard asset={item} />
-								</Grid>
-							);
-						})
-					)}
+					{assets()}
 			</Grid>
 			<Modal
 				title="Import"
@@ -141,7 +160,7 @@ const Profile = ({ account, user }) => {
 					}}
 				/>
 			</Modal>
-		</>
+		</div>
 	);
 };
 

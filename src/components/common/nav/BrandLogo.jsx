@@ -28,7 +28,7 @@ const BrandLogo = () => {
 		<div className={classes.logoContainer}>
 			<Link className={classes.logo} to='/'>
 				<img src={logoImage} alt="logo" />
-				<Typography className={classes.title}>Dummy</Typography>
+				<Typography className={classes.title}>Munich NFT</Typography>
 			</Link>
 		</div>
 	);

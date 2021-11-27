@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: "center",
 	},
 	banner: {
-		height: theme.spacing(30),
+		minHeight: theme.spacing(40),
 		width: "80vw",
 		display: "flex",
 		flexDirection: "column",
