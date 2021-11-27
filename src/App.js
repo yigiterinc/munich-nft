@@ -13,11 +13,6 @@ import {
 import Home from "./views/Home";
 import Navbar from "./components/common/Navbar";
 
-import {
-	fetchCollectionsOfUser,
-	getAssetsAddedCollections,
-} from "./api/opensea";
-
 import MintNft from "./views/MintNft";
 import Collection from "./views/Collection";
 import Profile from "./views/Profile";
