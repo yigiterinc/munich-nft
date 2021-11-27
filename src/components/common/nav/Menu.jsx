@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 		},
 		connectBtn: {},
 	},
-}));
+});
 
 const Menu = ({ user, onWalletConnection }) => {
 	const classes = useStyles();

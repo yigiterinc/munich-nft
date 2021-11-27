@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 	navBar: {
 		background: "white",
 	},
-}));
+});
 
 const Navbar = (props) => {
 	const classes = useStyles();
