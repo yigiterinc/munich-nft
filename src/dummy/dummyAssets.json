@@ -1,0 +1,1445 @@
+[
+	{
+		"id": 64364690,
+		"token_id": "25550377366457121618594577482823729639217372247063809348087016129203590397953",
+		"num_sales": 0,
+		"background_color": null,
+		"image_url": "https://lh3.googleusercontent.com/I5ytsotb1R24kJ5SuyrHLnlnKOE-HS5wBIk0D85T2TC9o-OAwVlMnI5d4kAlDLz0g90Ukr0RL5YBOKqEp1jXRZEgMMHjjpKidn8YfA",
+		"image_preview_url": "https://lh3.googleusercontent.com/I5ytsotb1R24kJ5SuyrHLnlnKOE-HS5wBIk0D85T2TC9o-OAwVlMnI5d4kAlDLz0g90Ukr0RL5YBOKqEp1jXRZEgMMHjjpKidn8YfA=s250",
+		"image_thumbnail_url": "https://lh3.googleusercontent.com/I5ytsotb1R24kJ5SuyrHLnlnKOE-HS5wBIk0D85T2TC9o-OAwVlMnI5d4kAlDLz0g90Ukr0RL5YBOKqEp1jXRZEgMMHjjpKidn8YfA=s128",
+		"image_original_url": null,
+		"animation_url": null,
+		"animation_original_url": null,
+		"name": "The first $1 paper money",
+		"description": "The very first small size issued $1 bill (1928). Signatures of Harold Theodore Tate and Andrew W. Mellon.",
+		"external_link": null,
+		"asset_contract": {
+			"address": "0x495f947276749ce646f68ac8c248420045cb7b5e",
+			"asset_contract_type": "semi-fungible",
+			"created_date": "2020-12-02T17:40:53.232025",
+			"name": "OpenSea Collection",
+			"nft_version": null,
+			"opensea_version": "2.0.0",
+			"owner": 102384,
+			"schema_name": "ERC1155",
+			"symbol": "OPENSTORE",
+			"total_supply": null,
+			"description": "",
+			"external_link": null,
+			"image_url": null,
+			"default_to_fiat": false,
+			"dev_buyer_fee_basis_points": 0,
+			"dev_seller_fee_basis_points": 0,
+			"only_proxied_transfers": false,
+			"opensea_buyer_fee_basis_points": 0,
+			"opensea_seller_fee_basis_points": 250,
+			"buyer_fee_basis_points": 0,
+			"seller_fee_basis_points": 250,
+			"payout_address": null
+		},
+		"permalink": "https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/25550377366457121618594577482823729639217372247063809348087016129203590397953",
+		"collection": {
+			"banner_image_url": null,
+			"chat_url": null,
+			"created_date": "2021-10-02T21:49:17.341329",
+			"default_to_fiat": false,
+			"description": null,
+			"dev_buyer_fee_basis_points": "0",
+			"dev_seller_fee_basis_points": "0",
+			"discord_url": null,
+			"display_data": {
+				"card_display_style": "contain",
+				"images": []
+			},
+			"external_url": null,
+			"featured": false,
+			"featured_image_url": null,
+			"hidden": true,
+			"safelist_request_status": "not_requested",
+			"image_url": null,
+			"is_subject_to_whitelist": false,
+			"large_image_url": null,
+			"medium_username": null,
+			"name": "bariscemal Collection",
+			"only_proxied_transfers": false,
+			"opensea_buyer_fee_basis_points": "0",
+			"opensea_seller_fee_basis_points": "250",
+			"payout_address": null,
+			"require_email": false,
+			"short_description": null,
+			"slug": "bariscemal-collection",
+			"telegram_url": null,
+			"twitter_username": null,
+			"instagram_username": null,
+			"wiki_url": null
+		},
+		"decimals": null,
+		"token_metadata": null,
+		"owner": {
+			"user": {
+				"username": "NullAddress"
+			},
+			"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/1.png",
+			"address": "0x0000000000000000000000000000000000000000",
+			"config": ""
+		},
+		"sell_orders": [
+			{
+				"created_date": "2021-10-03T19:01:01.501550",
+				"closing_date": "2022-04-02T21:50:43",
+				"closing_extendable": false,
+				"expiration_time": 1648936243,
+				"listing_time": 1633287549,
+				"order_hash": "0x93be9ecaf142768151e030555f72b2d233843e8cc0696803f28448a16e71ba7b",
+				"metadata": {
+					"asset": {
+						"id": "25550377366457121618594577482823729639217372247063809348087016129203590397953",
+						"address": "0x495f947276749ce646f68ac8c248420045cb7b5e",
+						"quantity": "1"
+					},
+					"schema": "ERC1155"
+				},
+				"exchange": "0x7be8076f4ea4a4ad08075c2508e481d6c946d12b",
+				"maker": {
+					"user": 3428854,
+					"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/12.png",
+					"address": "0x387d0048ccebe314018d8f52649efec7886575a0",
+					"config": ""
+				},
+				"taker": {
+					"user": 1766,
+					"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/1.png",
+					"address": "0x0000000000000000000000000000000000000000",
+					"config": ""
+				},
+				"current_price": "100000000000000.0000000000000",
+				"current_bounty": "1000000000000",
+				"bounty_multiple": "0.01",
+				"maker_relayer_fee": "250",
+				"taker_relayer_fee": "0",
+				"maker_protocol_fee": "0",
+				"taker_protocol_fee": "0",
+				"maker_referrer_fee": "0",
+				"fee_recipient": {
+					"user": 3585,
+					"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/28.png",
+					"address": "0x5b3256965e7c3cf26e11fcaf296dfc8807c01073",
+					"config": "verified"
+				},
+				"fee_method": 1,
+				"side": 1,
+				"sale_kind": 0,
+				"target": "0x495f947276749ce646f68ac8c248420045cb7b5e",
+				"how_to_call": 0,
+				"calldata": "0xf242432a000000000000000000000000387d0048ccebe314018d8f52649efec7886575a00000000000000000000000000000000000000000000000000000000000000000387d0048ccebe314018d8f52649efec7886575a0000000000000010000000001000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000000",
+				"replacement_pattern": "0x000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+				"static_target": "0x0000000000000000000000000000000000000000",
+				"static_extradata": "0x",
+				"payment_token": "0x0000000000000000000000000000000000000000",
+				"payment_token_contract": {
+					"id": 1,
+					"symbol": "ETH",
+					"address": "0x0000000000000000000000000000000000000000",
+					"image_url": "https://storage.opensea.io/files/6f8e2979d428180222796ff4a33ab929.svg",
+					"name": "Ether",
+					"decimals": 18,
+					"eth_price": "1.000000000000000",
+					"usd_price": "3392.780000000000200000"
+				},
+				"base_price": "100000000000000",
+				"extra": "0",
+				"quantity": "1",
+				"salt": "17561265646224584298397949287669496953866124194923153704644519240436937175832",
+				"v": 27,
+				"r": "0x586748002430ef18d6f2f9960bf5a16b0886faafb5d351d933e77c099b4f14cd",
+				"s": "0x58e3faafae33954454a988c997f9863b6424b44062f0fc7f77096a5ae6d1a857",
+				"approved_on_chain": false,
+				"cancelled": false,
+				"finalized": false,
+				"marked_invalid": false,
+				"prefixed_hash": "0xb9b25a970f04828d1cc64236900ad2974e70c76cce61e2bf05931c862c9d4cc8"
+			}
+		],
+		"creator": {
+			"user": {
+				"username": "bariscemal"
+			},
+			"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/12.png",
+			"address": "0x387d0048ccebe314018d8f52649efec7886575a0",
+			"config": ""
+		},
+		"traits": [],
+		"last_sale": null,
+		"top_bid": null,
+		"listing_date": null,
+		"is_presale": true,
+		"transfer_fee_payment_token": null,
+		"transfer_fee": null
+	},
+	{
+		"id": 63844234,
+		"token_id": "159",
+		"num_sales": 0,
+		"background_color": null,
+		"image_url": "https://lh3.googleusercontent.com/lf4Mvp_ywQOT_8UUg2Jw_9OTmIMy2FcASa_mtWL-FkvG2ytwlv15mrfbxN7yFi1QQE0rcAFGWaZhDibrZx70Pyh1WxjZlIPLLqxE",
+		"image_preview_url": "https://lh3.googleusercontent.com/lf4Mvp_ywQOT_8UUg2Jw_9OTmIMy2FcASa_mtWL-FkvG2ytwlv15mrfbxN7yFi1QQE0rcAFGWaZhDibrZx70Pyh1WxjZlIPLLqxE=s250",
+		"image_thumbnail_url": "https://lh3.googleusercontent.com/lf4Mvp_ywQOT_8UUg2Jw_9OTmIMy2FcASa_mtWL-FkvG2ytwlv15mrfbxN7yFi1QQE0rcAFGWaZhDibrZx70Pyh1WxjZlIPLLqxE=s128",
+		"image_original_url": "https://gangaroos.com/output/159.jpg",
+		"animation_url": null,
+		"animation_original_url": null,
+		"name": "Gangaroo #159",
+		"description": "Gangaroos is a ground-breaking custom minting NFT project. 3600 Gangaroos minted on the Ethereum blockchain, with over 450 traits to choose from! Get your Gangaroo at https://gangaroos.com. Make the Gangaroo you love!",
+		"external_link": null,
+		"asset_contract": {
+			"address": "0x1f7f315d0bfa34524097b44123030c56d4784170",
+			"asset_contract_type": "non-fungible",
+			"created_date": "2021-09-29T13:33:26.389864",
+			"name": "Gangaroos",
+			"nft_version": "3.0",
+			"opensea_version": null,
+			"owner": 67002418,
+			"schema_name": "ERC721",
+			"symbol": "GANG",
+			"total_supply": "0",
+			"description": "Gangaroos are the first fully customizable NFT. 3600 Gangaroos minted on the Ethereum blockchain, with over 450 unique traits to choose from! Get your Gangaroo at https://gangaroos.com\n\nKey Project Features\n\n* Customizable minting, first of its kind. Over 450 traits for you to hand pick from to help craft your custom NFT.\n\n* Full commercial ownership for your Gangaroo NFT design (Customized or Traditional)\nCommunity wallet.\n\n* After sellout 100% of secondary sale royalties will be going to the community wallet for eternity!\nProfit sharing from the revenue of any Gangaroos branded merchandise which will go to the community wallet\n\n* The distribution of the funds in the community wallet will be voted on by the Gangaroos token holders\n\n* All Gangaroos token holders will vote on proposed ideas & features that will create our 2.0 Roadmap.\n\n* Every Gangaroo minted will be unique with no two being the exact same (Customized or Traditional).",
+			"external_link": "https://gangaroos.com/",
+			"image_url": "https://lh3.googleusercontent.com/OWTlZt4QCH2V6pGy6MOGKXWYdZpGg7Ett_IkHqBINxEq1HwWw184T0servuqKc38eNtTqhMmssIh9sIdsq0fYVauo18AfWLvyERTaw=s120",
+			"default_to_fiat": false,
+			"dev_buyer_fee_basis_points": 0,
+			"dev_seller_fee_basis_points": 1000,
+			"only_proxied_transfers": false,
+			"opensea_buyer_fee_basis_points": 0,
+			"opensea_seller_fee_basis_points": 250,
+			"buyer_fee_basis_points": 0,
+			"seller_fee_basis_points": 1250,
+			"payout_address": "0x8e394a9a2a56b1cd1dbb7e8f97a11119d0ad7003"
+		},
+		"permalink": "https://opensea.io/assets/0x1f7f315d0bfa34524097b44123030c56d4784170/159",
+		"collection": {
+			"banner_image_url": "https://lh3.googleusercontent.com/OCz08vONk4hBKO668IEr4aAdb-z-L3kbngA1oxhJGT0nBPk18oDXwMEFRwbIA2xH16PEr2JwxwJA6p6g5GugaHJN-FH0RlNJvR50Dd4=s2500",
+			"chat_url": null,
+			"created_date": "2021-09-29T13:59:53.082502",
+			"default_to_fiat": false,
+			"description": "Gangaroos are the first fully customizable NFT. 3600 Gangaroos minted on the Ethereum blockchain, with over 450 unique traits to choose from! Get your Gangaroo at https://gangaroos.com\n\nKey Project Features\n\n* Customizable minting, first of its kind. Over 450 traits for you to hand pick from to help craft your custom NFT.\n\n* Full commercial ownership for your Gangaroo NFT design (Customized or Traditional)\nCommunity wallet.\n\n* After sellout 100% of secondary sale royalties will be going to the community wallet for eternity!\nProfit sharing from the revenue of any Gangaroos branded merchandise which will go to the community wallet\n\n* The distribution of the funds in the community wallet will be voted on by the Gangaroos token holders\n\n* All Gangaroos token holders will vote on proposed ideas & features that will create our 2.0 Roadmap.\n\n* Every Gangaroo minted will be unique with no two being the exact same (Customized or Traditional).",
+			"dev_buyer_fee_basis_points": "0",
+			"dev_seller_fee_basis_points": "1000",
+			"discord_url": "https://discord.gg/3y5tetDErB",
+			"display_data": {
+				"card_display_style": "contain"
+			},
+			"external_url": "https://gangaroos.com/",
+			"featured": false,
+			"featured_image_url": "https://lh3.googleusercontent.com/-Aax9en4QwQ-nHlZZ9vYjjnFMT21gBaPw8ns-WZ9W7sQs8yZEIu5UflmYQbyB33Rb6ZB1SmJxT8f8lyNs_Pgy6zO0BY50SEJfH5u=s300",
+			"hidden": false,
+			"safelist_request_status": "not_requested",
+			"image_url": "https://lh3.googleusercontent.com/OWTlZt4QCH2V6pGy6MOGKXWYdZpGg7Ett_IkHqBINxEq1HwWw184T0servuqKc38eNtTqhMmssIh9sIdsq0fYVauo18AfWLvyERTaw=s120",
+			"is_subject_to_whitelist": false,
+			"large_image_url": "https://lh3.googleusercontent.com/-Aax9en4QwQ-nHlZZ9vYjjnFMT21gBaPw8ns-WZ9W7sQs8yZEIu5UflmYQbyB33Rb6ZB1SmJxT8f8lyNs_Pgy6zO0BY50SEJfH5u=s300",
+			"medium_username": null,
+			"name": "Gangaroos",
+			"only_proxied_transfers": false,
+			"opensea_buyer_fee_basis_points": "0",
+			"opensea_seller_fee_basis_points": "250",
+			"payout_address": "0x8e394a9a2a56b1cd1dbb7e8f97a11119d0ad7003",
+			"require_email": false,
+			"short_description": null,
+			"slug": "gangaroos",
+			"telegram_url": null,
+			"twitter_username": "gangaroosNFT",
+			"instagram_username": null,
+			"wiki_url": null
+		},
+		"decimals": 0,
+		"token_metadata": "https://gangaroos.com/metadata/159.json",
+		"owner": {
+			"user": {
+				"username": "bariscemal"
+			},
+			"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/12.png",
+			"address": "0x387d0048ccebe314018d8f52649efec7886575a0",
+			"config": ""
+		},
+		"sell_orders": [
+			{
+				"created_date": "2021-10-04T10:23:59.654341",
+				"closing_date": "2022-04-02T12:26:12",
+				"closing_extendable": false,
+				"expiration_time": 1648902372,
+				"listing_time": 1633342933,
+				"order_hash": "0x27ec029c8e14eeb2a95c71a56d70f032e5c59e16432bb6c3f57382200d36b4a2",
+				"metadata": {
+					"asset": {
+						"id": "159",
+						"address": "0x1f7f315d0bfa34524097b44123030c56d4784170"
+					},
+					"schema": "ERC721"
+				},
+				"exchange": "0x7be8076f4ea4a4ad08075c2508e481d6c946d12b",
+				"maker": {
+					"user": 3428854,
+					"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/12.png",
+					"address": "0x387d0048ccebe314018d8f52649efec7886575a0",
+					"config": ""
+				},
+				"taker": {
+					"user": 1766,
+					"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/1.png",
+					"address": "0x0000000000000000000000000000000000000000",
+					"config": ""
+				},
+				"current_price": "99000000000000000.00000000000",
+				"current_bounty": "990000000000000",
+				"bounty_multiple": "0.01",
+				"maker_relayer_fee": "1250",
+				"taker_relayer_fee": "0",
+				"maker_protocol_fee": "0",
+				"taker_protocol_fee": "0",
+				"maker_referrer_fee": "0",
+				"fee_recipient": {
+					"user": 3585,
+					"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/28.png",
+					"address": "0x5b3256965e7c3cf26e11fcaf296dfc8807c01073",
+					"config": "verified"
+				},
+				"fee_method": 1,
+				"side": 1,
+				"sale_kind": 0,
+				"target": "0x1f7f315d0bfa34524097b44123030c56d4784170",
+				"how_to_call": 0,
+				"calldata": "0x23b872dd000000000000000000000000387d0048ccebe314018d8f52649efec7886575a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000009f",
+				"replacement_pattern": "0x000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000",
+				"static_target": "0x0000000000000000000000000000000000000000",
+				"static_extradata": "0x",
+				"payment_token": "0x0000000000000000000000000000000000000000",
+				"payment_token_contract": {
+					"id": 1,
+					"symbol": "ETH",
+					"address": "0x0000000000000000000000000000000000000000",
+					"image_url": "https://storage.opensea.io/files/6f8e2979d428180222796ff4a33ab929.svg",
+					"name": "Ether",
+					"decimals": 18,
+					"eth_price": "1.000000000000000",
+					"usd_price": "3392.780000000000200000"
+				},
+				"base_price": "99000000000000000",
+				"extra": "0",
+				"quantity": "1",
+				"salt": "72623723393169324634451141493153201614674502698632619130763600385029478441089",
+				"v": 28,
+				"r": "0x9c0a2460352129c1e2ef8e2fd66b2ba643e8cabc2630eb534a3264a237fd42bc",
+				"s": "0x19a81ca02568ef95f01125fe330bb2fd063e3d979d394b0b98a27ac847020d4f",
+				"approved_on_chain": false,
+				"cancelled": false,
+				"finalized": false,
+				"marked_invalid": false,
+				"prefixed_hash": "0xc7bf209ae634251b986132e6ea153383f0cf9d6c2bd3869765103518e6bd0ea0"
+			}
+		],
+		"creator": {
+			"user": {
+				"username": "og_giraffe"
+			},
+			"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/2.png",
+			"address": "0x8e394a9a2a56b1cd1dbb7e8f97a11119d0ad7003",
+			"config": ""
+		},
+		"traits": [
+			{
+				"trait_type": "Gloves",
+				"value": "Diamond",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 17,
+				"order": null
+			},
+			{
+				"trait_type": "Generation",
+				"value": 1,
+				"display_type": "number",
+				"max_value": null,
+				"trait_count": 0,
+				"order": null
+			},
+			{
+				"trait_type": "Stamina",
+				"value": 3,
+				"display_type": null,
+				"max_value": "10",
+				"trait_count": 0,
+				"order": null
+			},
+			{
+				"trait_type": "Defense",
+				"value": 5,
+				"display_type": null,
+				"max_value": "10",
+				"trait_count": 0,
+				"order": null
+			},
+			{
+				"trait_type": "Robe",
+				"value": "Red Gold",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 9,
+				"order": null
+			},
+			{
+				"trait_type": "Power",
+				"value": 2,
+				"display_type": null,
+				"max_value": "10",
+				"trait_count": 0,
+				"order": null
+			},
+			{
+				"trait_type": "Speed",
+				"value": 6,
+				"display_type": null,
+				"max_value": "10",
+				"trait_count": 0,
+				"order": null
+			},
+			{
+				"trait_type": "Eyes",
+				"value": "Smirk Heterochromia",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 5,
+				"order": null
+			},
+			{
+				"trait_type": "Trunks",
+				"value": "Pink White Polka Dots",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 10,
+				"order": null
+			},
+			{
+				"trait_type": "Fur",
+				"value": "Trippy",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 13,
+				"order": null
+			},
+			{
+				"trait_type": "Jewelry",
+				"value": "Lit Chain",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 10,
+				"order": null
+			},
+			{
+				"trait_type": "Background",
+				"value": "Trippy",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 12,
+				"order": null
+			},
+			{
+				"trait_type": "Head",
+				"value": "Red Yellow Baseball Cap",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 2,
+				"order": null
+			},
+			{
+				"trait_type": "Clothes",
+				"value": "GMI Black Hoodie",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 11,
+				"order": null
+			},
+			{
+				"trait_type": "Accessory",
+				"value": "Scars",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 12,
+				"order": null
+			},
+			{
+				"trait_type": "Mouth",
+				"value": "Black Grill",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 1,
+				"order": null
+			}
+		],
+		"last_sale": null,
+		"top_bid": null,
+		"listing_date": null,
+		"is_presale": false,
+		"transfer_fee_payment_token": null,
+		"transfer_fee": null
+	},
+	{
+		"id": 64364691,
+		"token_id": "25550377366457121618594577482823729639217372247063809348087016129203590397953",
+		"num_sales": 0,
+		"background_color": null,
+		"image_url": "https://lh3.googleusercontent.com/I5ytsotb1R24kJ5SuyrHLnlnKOE-HS5wBIk0D85T2TC9o-OAwVlMnI5d4kAlDLz0g90Ukr0RL5YBOKqEp1jXRZEgMMHjjpKidn8YfA",
+		"image_preview_url": "https://lh3.googleusercontent.com/I5ytsotb1R24kJ5SuyrHLnlnKOE-HS5wBIk0D85T2TC9o-OAwVlMnI5d4kAlDLz0g90Ukr0RL5YBOKqEp1jXRZEgMMHjjpKidn8YfA=s250",
+		"image_thumbnail_url": "https://lh3.googleusercontent.com/I5ytsotb1R24kJ5SuyrHLnlnKOE-HS5wBIk0D85T2TC9o-OAwVlMnI5d4kAlDLz0g90Ukr0RL5YBOKqEp1jXRZEgMMHjjpKidn8YfA=s128",
+		"image_original_url": null,
+		"animation_url": null,
+		"animation_original_url": null,
+		"name": "The first $1 paper money",
+		"description": "The very first small size issued $1 bill (1928). Signatures of Harold Theodore Tate and Andrew W. Mellon.",
+		"external_link": null,
+		"asset_contract": {
+			"address": "0x495f947276749ce646f68ac8c248420045cb7b5e",
+			"asset_contract_type": "semi-fungible",
+			"created_date": "2020-12-02T17:40:53.232025",
+			"name": "OpenSea Collection",
+			"nft_version": null,
+			"opensea_version": "2.0.0",
+			"owner": 102384,
+			"schema_name": "ERC1155",
+			"symbol": "OPENSTORE",
+			"total_supply": null,
+			"description": "",
+			"external_link": null,
+			"image_url": null,
+			"default_to_fiat": false,
+			"dev_buyer_fee_basis_points": 0,
+			"dev_seller_fee_basis_points": 0,
+			"only_proxied_transfers": false,
+			"opensea_buyer_fee_basis_points": 0,
+			"opensea_seller_fee_basis_points": 250,
+			"buyer_fee_basis_points": 0,
+			"seller_fee_basis_points": 250,
+			"payout_address": null
+		},
+		"permalink": "https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/25550377366457121618594577482823729639217372247063809348087016129203590397953",
+		"collection": {
+			"banner_image_url": null,
+			"chat_url": null,
+			"created_date": "2021-10-02T21:49:17.341329",
+			"default_to_fiat": false,
+			"description": null,
+			"dev_buyer_fee_basis_points": "0",
+			"dev_seller_fee_basis_points": "0",
+			"discord_url": null,
+			"display_data": {
+				"card_display_style": "contain",
+				"images": []
+			},
+			"external_url": null,
+			"featured": false,
+			"featured_image_url": null,
+			"hidden": true,
+			"safelist_request_status": "not_requested",
+			"image_url": null,
+			"is_subject_to_whitelist": false,
+			"large_image_url": null,
+			"medium_username": null,
+			"name": "bariscemal Collection",
+			"only_proxied_transfers": false,
+			"opensea_buyer_fee_basis_points": "0",
+			"opensea_seller_fee_basis_points": "250",
+			"payout_address": null,
+			"require_email": false,
+			"short_description": null,
+			"slug": "bariscemal-collection",
+			"telegram_url": null,
+			"twitter_username": null,
+			"instagram_username": null,
+			"wiki_url": null
+		},
+		"decimals": null,
+		"token_metadata": null,
+		"owner": {
+			"user": {
+				"username": "NullAddress"
+			},
+			"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/1.png",
+			"address": "0x0000000000000000000000000000000000000000",
+			"config": ""
+		},
+		"sell_orders": [
+			{
+				"created_date": "2021-10-03T19:01:01.501550",
+				"closing_date": "2022-04-02T21:50:43",
+				"closing_extendable": false,
+				"expiration_time": 1648936243,
+				"listing_time": 1633287549,
+				"order_hash": "0x93be9ecaf142768151e030555f72b2d233843e8cc0696803f28448a16e71ba7b",
+				"metadata": {
+					"asset": {
+						"id": "25550377366457121618594577482823729639217372247063809348087016129203590397953",
+						"address": "0x495f947276749ce646f68ac8c248420045cb7b5e",
+						"quantity": "1"
+					},
+					"schema": "ERC1155"
+				},
+				"exchange": "0x7be8076f4ea4a4ad08075c2508e481d6c946d12b",
+				"maker": {
+					"user": 3428854,
+					"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/12.png",
+					"address": "0x387d0048ccebe314018d8f52649efec7886575a0",
+					"config": ""
+				},
+				"taker": {
+					"user": 1766,
+					"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/1.png",
+					"address": "0x0000000000000000000000000000000000000000",
+					"config": ""
+				},
+				"current_price": "100000000000000.0000000000000",
+				"current_bounty": "1000000000000",
+				"bounty_multiple": "0.01",
+				"maker_relayer_fee": "250",
+				"taker_relayer_fee": "0",
+				"maker_protocol_fee": "0",
+				"taker_protocol_fee": "0",
+				"maker_referrer_fee": "0",
+				"fee_recipient": {
+					"user": 3585,
+					"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/28.png",
+					"address": "0x5b3256965e7c3cf26e11fcaf296dfc8807c01073",
+					"config": "verified"
+				},
+				"fee_method": 1,
+				"side": 1,
+				"sale_kind": 0,
+				"target": "0x495f947276749ce646f68ac8c248420045cb7b5e",
+				"how_to_call": 0,
+				"calldata": "0xf242432a000000000000000000000000387d0048ccebe314018d8f52649efec7886575a00000000000000000000000000000000000000000000000000000000000000000387d0048ccebe314018d8f52649efec7886575a0000000000000010000000001000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000000",
+				"replacement_pattern": "0x000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+				"static_target": "0x0000000000000000000000000000000000000000",
+				"static_extradata": "0x",
+				"payment_token": "0x0000000000000000000000000000000000000000",
+				"payment_token_contract": {
+					"id": 1,
+					"symbol": "ETH",
+					"address": "0x0000000000000000000000000000000000000000",
+					"image_url": "https://storage.opensea.io/files/6f8e2979d428180222796ff4a33ab929.svg",
+					"name": "Ether",
+					"decimals": 18,
+					"eth_price": "1.000000000000000",
+					"usd_price": "3392.780000000000200000"
+				},
+				"base_price": "100000000000000",
+				"extra": "0",
+				"quantity": "1",
+				"salt": "17561265646224584298397949287669496953866124194923153704644519240436937175832",
+				"v": 27,
+				"r": "0x586748002430ef18d6f2f9960bf5a16b0886faafb5d351d933e77c099b4f14cd",
+				"s": "0x58e3faafae33954454a988c997f9863b6424b44062f0fc7f77096a5ae6d1a857",
+				"approved_on_chain": false,
+				"cancelled": false,
+				"finalized": false,
+				"marked_invalid": false,
+				"prefixed_hash": "0xb9b25a970f04828d1cc64236900ad2974e70c76cce61e2bf05931c862c9d4cc8"
+			}
+		],
+		"creator": {
+			"user": {
+				"username": "bariscemal"
+			},
+			"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/12.png",
+			"address": "0x387d0048ccebe314018d8f52649efec7886575a0",
+			"config": ""
+		},
+		"traits": [],
+		"last_sale": null,
+		"top_bid": null,
+		"listing_date": null,
+		"is_presale": true,
+		"transfer_fee_payment_token": null,
+		"transfer_fee": null
+	},
+	{
+		"id": 63844235,
+		"token_id": "159",
+		"num_sales": 0,
+		"background_color": null,
+		"image_url": "https://lh3.googleusercontent.com/lf4Mvp_ywQOT_8UUg2Jw_9OTmIMy2FcASa_mtWL-FkvG2ytwlv15mrfbxN7yFi1QQE0rcAFGWaZhDibrZx70Pyh1WxjZlIPLLqxE",
+		"image_preview_url": "https://lh3.googleusercontent.com/lf4Mvp_ywQOT_8UUg2Jw_9OTmIMy2FcASa_mtWL-FkvG2ytwlv15mrfbxN7yFi1QQE0rcAFGWaZhDibrZx70Pyh1WxjZlIPLLqxE=s250",
+		"image_thumbnail_url": "https://lh3.googleusercontent.com/lf4Mvp_ywQOT_8UUg2Jw_9OTmIMy2FcASa_mtWL-FkvG2ytwlv15mrfbxN7yFi1QQE0rcAFGWaZhDibrZx70Pyh1WxjZlIPLLqxE=s128",
+		"image_original_url": "https://gangaroos.com/output/159.jpg",
+		"animation_url": null,
+		"animation_original_url": null,
+		"name": "Gangaroo #159",
+		"description": "Gangaroos is a ground-breaking custom minting NFT project. 3600 Gangaroos minted on the Ethereum blockchain, with over 450 traits to choose from! Get your Gangaroo at https://gangaroos.com. Make the Gangaroo you love!",
+		"external_link": null,
+		"asset_contract": {
+			"address": "0x1f7f315d0bfa34524097b44123030c56d4784170",
+			"asset_contract_type": "non-fungible",
+			"created_date": "2021-09-29T13:33:26.389864",
+			"name": "Gangaroos",
+			"nft_version": "3.0",
+			"opensea_version": null,
+			"owner": 67002418,
+			"schema_name": "ERC721",
+			"symbol": "GANG",
+			"total_supply": "0",
+			"description": "Gangaroos are the first fully customizable NFT. 3600 Gangaroos minted on the Ethereum blockchain, with over 450 unique traits to choose from! Get your Gangaroo at https://gangaroos.com\n\nKey Project Features\n\n* Customizable minting, first of its kind. Over 450 traits for you to hand pick from to help craft your custom NFT.\n\n* Full commercial ownership for your Gangaroo NFT design (Customized or Traditional)\nCommunity wallet.\n\n* After sellout 100% of secondary sale royalties will be going to the community wallet for eternity!\nProfit sharing from the revenue of any Gangaroos branded merchandise which will go to the community wallet\n\n* The distribution of the funds in the community wallet will be voted on by the Gangaroos token holders\n\n* All Gangaroos token holders will vote on proposed ideas & features that will create our 2.0 Roadmap.\n\n* Every Gangaroo minted will be unique with no two being the exact same (Customized or Traditional).",
+			"external_link": "https://gangaroos.com/",
+			"image_url": "https://lh3.googleusercontent.com/OWTlZt4QCH2V6pGy6MOGKXWYdZpGg7Ett_IkHqBINxEq1HwWw184T0servuqKc38eNtTqhMmssIh9sIdsq0fYVauo18AfWLvyERTaw=s120",
+			"default_to_fiat": false,
+			"dev_buyer_fee_basis_points": 0,
+			"dev_seller_fee_basis_points": 1000,
+			"only_proxied_transfers": false,
+			"opensea_buyer_fee_basis_points": 0,
+			"opensea_seller_fee_basis_points": 250,
+			"buyer_fee_basis_points": 0,
+			"seller_fee_basis_points": 1250,
+			"payout_address": "0x8e394a9a2a56b1cd1dbb7e8f97a11119d0ad7003"
+		},
+		"permalink": "https://opensea.io/assets/0x1f7f315d0bfa34524097b44123030c56d4784170/159",
+		"collection": {
+			"banner_image_url": "https://lh3.googleusercontent.com/OCz08vONk4hBKO668IEr4aAdb-z-L3kbngA1oxhJGT0nBPk18oDXwMEFRwbIA2xH16PEr2JwxwJA6p6g5GugaHJN-FH0RlNJvR50Dd4=s2500",
+			"chat_url": null,
+			"created_date": "2021-09-29T13:59:53.082502",
+			"default_to_fiat": false,
+			"description": "Gangaroos are the first fully customizable NFT. 3600 Gangaroos minted on the Ethereum blockchain, with over 450 unique traits to choose from! Get your Gangaroo at https://gangaroos.com\n\nKey Project Features\n\n* Customizable minting, first of its kind. Over 450 traits for you to hand pick from to help craft your custom NFT.\n\n* Full commercial ownership for your Gangaroo NFT design (Customized or Traditional)\nCommunity wallet.\n\n* After sellout 100% of secondary sale royalties will be going to the community wallet for eternity!\nProfit sharing from the revenue of any Gangaroos branded merchandise which will go to the community wallet\n\n* The distribution of the funds in the community wallet will be voted on by the Gangaroos token holders\n\n* All Gangaroos token holders will vote on proposed ideas & features that will create our 2.0 Roadmap.\n\n* Every Gangaroo minted will be unique with no two being the exact same (Customized or Traditional).",
+			"dev_buyer_fee_basis_points": "0",
+			"dev_seller_fee_basis_points": "1000",
+			"discord_url": "https://discord.gg/3y5tetDErB",
+			"display_data": {
+				"card_display_style": "contain"
+			},
+			"external_url": "https://gangaroos.com/",
+			"featured": false,
+			"featured_image_url": "https://lh3.googleusercontent.com/-Aax9en4QwQ-nHlZZ9vYjjnFMT21gBaPw8ns-WZ9W7sQs8yZEIu5UflmYQbyB33Rb6ZB1SmJxT8f8lyNs_Pgy6zO0BY50SEJfH5u=s300",
+			"hidden": false,
+			"safelist_request_status": "not_requested",
+			"image_url": "https://lh3.googleusercontent.com/OWTlZt4QCH2V6pGy6MOGKXWYdZpGg7Ett_IkHqBINxEq1HwWw184T0servuqKc38eNtTqhMmssIh9sIdsq0fYVauo18AfWLvyERTaw=s120",
+			"is_subject_to_whitelist": false,
+			"large_image_url": "https://lh3.googleusercontent.com/-Aax9en4QwQ-nHlZZ9vYjjnFMT21gBaPw8ns-WZ9W7sQs8yZEIu5UflmYQbyB33Rb6ZB1SmJxT8f8lyNs_Pgy6zO0BY50SEJfH5u=s300",
+			"medium_username": null,
+			"name": "Gangaroos",
+			"only_proxied_transfers": false,
+			"opensea_buyer_fee_basis_points": "0",
+			"opensea_seller_fee_basis_points": "250",
+			"payout_address": "0x8e394a9a2a56b1cd1dbb7e8f97a11119d0ad7003",
+			"require_email": false,
+			"short_description": null,
+			"slug": "gangaroos",
+			"telegram_url": null,
+			"twitter_username": "gangaroosNFT",
+			"instagram_username": null,
+			"wiki_url": null
+		},
+		"decimals": 0,
+		"token_metadata": "https://gangaroos.com/metadata/159.json",
+		"owner": {
+			"user": {
+				"username": "bariscemal"
+			},
+			"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/12.png",
+			"address": "0x387d0048ccebe314018d8f52649efec7886575a0",
+			"config": ""
+		},
+		"sell_orders": [
+			{
+				"created_date": "2021-10-04T10:23:59.654341",
+				"closing_date": "2022-04-02T12:26:12",
+				"closing_extendable": false,
+				"expiration_time": 1648902372,
+				"listing_time": 1633342933,
+				"order_hash": "0x27ec029c8e14eeb2a95c71a56d70f032e5c59e16432bb6c3f57382200d36b4a2",
+				"metadata": {
+					"asset": {
+						"id": "159",
+						"address": "0x1f7f315d0bfa34524097b44123030c56d4784170"
+					},
+					"schema": "ERC721"
+				},
+				"exchange": "0x7be8076f4ea4a4ad08075c2508e481d6c946d12b",
+				"maker": {
+					"user": 3428854,
+					"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/12.png",
+					"address": "0x387d0048ccebe314018d8f52649efec7886575a0",
+					"config": ""
+				},
+				"taker": {
+					"user": 1766,
+					"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/1.png",
+					"address": "0x0000000000000000000000000000000000000000",
+					"config": ""
+				},
+				"current_price": "99000000000000000.00000000000",
+				"current_bounty": "990000000000000",
+				"bounty_multiple": "0.01",
+				"maker_relayer_fee": "1250",
+				"taker_relayer_fee": "0",
+				"maker_protocol_fee": "0",
+				"taker_protocol_fee": "0",
+				"maker_referrer_fee": "0",
+				"fee_recipient": {
+					"user": 3585,
+					"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/28.png",
+					"address": "0x5b3256965e7c3cf26e11fcaf296dfc8807c01073",
+					"config": "verified"
+				},
+				"fee_method": 1,
+				"side": 1,
+				"sale_kind": 0,
+				"target": "0x1f7f315d0bfa34524097b44123030c56d4784170",
+				"how_to_call": 0,
+				"calldata": "0x23b872dd000000000000000000000000387d0048ccebe314018d8f52649efec7886575a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000009f",
+				"replacement_pattern": "0x000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000",
+				"static_target": "0x0000000000000000000000000000000000000000",
+				"static_extradata": "0x",
+				"payment_token": "0x0000000000000000000000000000000000000000",
+				"payment_token_contract": {
+					"id": 1,
+					"symbol": "ETH",
+					"address": "0x0000000000000000000000000000000000000000",
+					"image_url": "https://storage.opensea.io/files/6f8e2979d428180222796ff4a33ab929.svg",
+					"name": "Ether",
+					"decimals": 18,
+					"eth_price": "1.000000000000000",
+					"usd_price": "3392.780000000000200000"
+				},
+				"base_price": "99000000000000000",
+				"extra": "0",
+				"quantity": "1",
+				"salt": "72623723393169324634451141493153201614674502698632619130763600385029478441089",
+				"v": 28,
+				"r": "0x9c0a2460352129c1e2ef8e2fd66b2ba643e8cabc2630eb534a3264a237fd42bc",
+				"s": "0x19a81ca02568ef95f01125fe330bb2fd063e3d979d394b0b98a27ac847020d4f",
+				"approved_on_chain": false,
+				"cancelled": false,
+				"finalized": false,
+				"marked_invalid": false,
+				"prefixed_hash": "0xc7bf209ae634251b986132e6ea153383f0cf9d6c2bd3869765103518e6bd0ea0"
+			}
+		],
+		"creator": {
+			"user": {
+				"username": "og_giraffe"
+			},
+			"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/2.png",
+			"address": "0x8e394a9a2a56b1cd1dbb7e8f97a11119d0ad7003",
+			"config": ""
+		},
+		"traits": [
+			{
+				"trait_type": "Gloves",
+				"value": "Diamond",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 17,
+				"order": null
+			},
+			{
+				"trait_type": "Generation",
+				"value": 1,
+				"display_type": "number",
+				"max_value": null,
+				"trait_count": 0,
+				"order": null
+			},
+			{
+				"trait_type": "Stamina",
+				"value": 3,
+				"display_type": null,
+				"max_value": "10",
+				"trait_count": 0,
+				"order": null
+			},
+			{
+				"trait_type": "Defense",
+				"value": 5,
+				"display_type": null,
+				"max_value": "10",
+				"trait_count": 0,
+				"order": null
+			},
+			{
+				"trait_type": "Robe",
+				"value": "Red Gold",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 9,
+				"order": null
+			},
+			{
+				"trait_type": "Power",
+				"value": 2,
+				"display_type": null,
+				"max_value": "10",
+				"trait_count": 0,
+				"order": null
+			},
+			{
+				"trait_type": "Speed",
+				"value": 6,
+				"display_type": null,
+				"max_value": "10",
+				"trait_count": 0,
+				"order": null
+			},
+			{
+				"trait_type": "Eyes",
+				"value": "Smirk Heterochromia",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 5,
+				"order": null
+			},
+			{
+				"trait_type": "Trunks",
+				"value": "Pink White Polka Dots",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 10,
+				"order": null
+			},
+			{
+				"trait_type": "Fur",
+				"value": "Trippy",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 13,
+				"order": null
+			},
+			{
+				"trait_type": "Jewelry",
+				"value": "Lit Chain",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 10,
+				"order": null
+			},
+			{
+				"trait_type": "Background",
+				"value": "Trippy",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 12,
+				"order": null
+			},
+			{
+				"trait_type": "Head",
+				"value": "Red Yellow Baseball Cap",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 2,
+				"order": null
+			},
+			{
+				"trait_type": "Clothes",
+				"value": "GMI Black Hoodie",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 11,
+				"order": null
+			},
+			{
+				"trait_type": "Accessory",
+				"value": "Scars",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 12,
+				"order": null
+			},
+			{
+				"trait_type": "Mouth",
+				"value": "Black Grill",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 1,
+				"order": null
+			}
+		],
+		"last_sale": null,
+		"top_bid": null,
+		"listing_date": null,
+		"is_presale": false,
+		"transfer_fee_payment_token": null,
+		"transfer_fee": null
+	},
+	{
+		"id": 64364692,
+		"token_id": "25550377366457121618594577482823729639217372247063809348087016129203590397953",
+		"num_sales": 0,
+		"background_color": null,
+		"image_url": "https://lh3.googleusercontent.com/I5ytsotb1R24kJ5SuyrHLnlnKOE-HS5wBIk0D85T2TC9o-OAwVlMnI5d4kAlDLz0g90Ukr0RL5YBOKqEp1jXRZEgMMHjjpKidn8YfA",
+		"image_preview_url": "https://lh3.googleusercontent.com/I5ytsotb1R24kJ5SuyrHLnlnKOE-HS5wBIk0D85T2TC9o-OAwVlMnI5d4kAlDLz0g90Ukr0RL5YBOKqEp1jXRZEgMMHjjpKidn8YfA=s250",
+		"image_thumbnail_url": "https://lh3.googleusercontent.com/I5ytsotb1R24kJ5SuyrHLnlnKOE-HS5wBIk0D85T2TC9o-OAwVlMnI5d4kAlDLz0g90Ukr0RL5YBOKqEp1jXRZEgMMHjjpKidn8YfA=s128",
+		"image_original_url": null,
+		"animation_url": null,
+		"animation_original_url": null,
+		"name": "The first $1 paper money",
+		"description": "The very first small size issued $1 bill (1928). Signatures of Harold Theodore Tate and Andrew W. Mellon.",
+		"external_link": null,
+		"asset_contract": {
+			"address": "0x495f947276749ce646f68ac8c248420045cb7b5e",
+			"asset_contract_type": "semi-fungible",
+			"created_date": "2020-12-02T17:40:53.232025",
+			"name": "OpenSea Collection",
+			"nft_version": null,
+			"opensea_version": "2.0.0",
+			"owner": 102384,
+			"schema_name": "ERC1155",
+			"symbol": "OPENSTORE",
+			"total_supply": null,
+			"description": "",
+			"external_link": null,
+			"image_url": null,
+			"default_to_fiat": false,
+			"dev_buyer_fee_basis_points": 0,
+			"dev_seller_fee_basis_points": 0,
+			"only_proxied_transfers": false,
+			"opensea_buyer_fee_basis_points": 0,
+			"opensea_seller_fee_basis_points": 250,
+			"buyer_fee_basis_points": 0,
+			"seller_fee_basis_points": 250,
+			"payout_address": null
+		},
+		"permalink": "https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/25550377366457121618594577482823729639217372247063809348087016129203590397953",
+		"collection": {
+			"banner_image_url": null,
+			"chat_url": null,
+			"created_date": "2021-10-02T21:49:17.341329",
+			"default_to_fiat": false,
+			"description": null,
+			"dev_buyer_fee_basis_points": "0",
+			"dev_seller_fee_basis_points": "0",
+			"discord_url": null,
+			"display_data": {
+				"card_display_style": "contain",
+				"images": []
+			},
+			"external_url": null,
+			"featured": false,
+			"featured_image_url": null,
+			"hidden": true,
+			"safelist_request_status": "not_requested",
+			"image_url": null,
+			"is_subject_to_whitelist": false,
+			"large_image_url": null,
+			"medium_username": null,
+			"name": "bariscemal Collection",
+			"only_proxied_transfers": false,
+			"opensea_buyer_fee_basis_points": "0",
+			"opensea_seller_fee_basis_points": "250",
+			"payout_address": null,
+			"require_email": false,
+			"short_description": null,
+			"slug": "bariscemal-collection",
+			"telegram_url": null,
+			"twitter_username": null,
+			"instagram_username": null,
+			"wiki_url": null
+		},
+		"decimals": null,
+		"token_metadata": null,
+		"owner": {
+			"user": {
+				"username": "NullAddress"
+			},
+			"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/1.png",
+			"address": "0x0000000000000000000000000000000000000000",
+			"config": ""
+		},
+		"sell_orders": [
+			{
+				"created_date": "2021-10-03T19:01:01.501550",
+				"closing_date": "2022-04-02T21:50:43",
+				"closing_extendable": false,
+				"expiration_time": 1648936243,
+				"listing_time": 1633287549,
+				"order_hash": "0x93be9ecaf142768151e030555f72b2d233843e8cc0696803f28448a16e71ba7b",
+				"metadata": {
+					"asset": {
+						"id": "25550377366457121618594577482823729639217372247063809348087016129203590397953",
+						"address": "0x495f947276749ce646f68ac8c248420045cb7b5e",
+						"quantity": "1"
+					},
+					"schema": "ERC1155"
+				},
+				"exchange": "0x7be8076f4ea4a4ad08075c2508e481d6c946d12b",
+				"maker": {
+					"user": 3428854,
+					"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/12.png",
+					"address": "0x387d0048ccebe314018d8f52649efec7886575a0",
+					"config": ""
+				},
+				"taker": {
+					"user": 1766,
+					"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/1.png",
+					"address": "0x0000000000000000000000000000000000000000",
+					"config": ""
+				},
+				"current_price": "100000000000000.0000000000000",
+				"current_bounty": "1000000000000",
+				"bounty_multiple": "0.01",
+				"maker_relayer_fee": "250",
+				"taker_relayer_fee": "0",
+				"maker_protocol_fee": "0",
+				"taker_protocol_fee": "0",
+				"maker_referrer_fee": "0",
+				"fee_recipient": {
+					"user": 3585,
+					"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/28.png",
+					"address": "0x5b3256965e7c3cf26e11fcaf296dfc8807c01073",
+					"config": "verified"
+				},
+				"fee_method": 1,
+				"side": 1,
+				"sale_kind": 0,
+				"target": "0x495f947276749ce646f68ac8c248420045cb7b5e",
+				"how_to_call": 0,
+				"calldata": "0xf242432a000000000000000000000000387d0048ccebe314018d8f52649efec7886575a00000000000000000000000000000000000000000000000000000000000000000387d0048ccebe314018d8f52649efec7886575a0000000000000010000000001000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000000",
+				"replacement_pattern": "0x000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+				"static_target": "0x0000000000000000000000000000000000000000",
+				"static_extradata": "0x",
+				"payment_token": "0x0000000000000000000000000000000000000000",
+				"payment_token_contract": {
+					"id": 1,
+					"symbol": "ETH",
+					"address": "0x0000000000000000000000000000000000000000",
+					"image_url": "https://storage.opensea.io/files/6f8e2979d428180222796ff4a33ab929.svg",
+					"name": "Ether",
+					"decimals": 18,
+					"eth_price": "1.000000000000000",
+					"usd_price": "3392.780000000000200000"
+				},
+				"base_price": "100000000000000",
+				"extra": "0",
+				"quantity": "1",
+				"salt": "17561265646224584298397949287669496953866124194923153704644519240436937175832",
+				"v": 27,
+				"r": "0x586748002430ef18d6f2f9960bf5a16b0886faafb5d351d933e77c099b4f14cd",
+				"s": "0x58e3faafae33954454a988c997f9863b6424b44062f0fc7f77096a5ae6d1a857",
+				"approved_on_chain": false,
+				"cancelled": false,
+				"finalized": false,
+				"marked_invalid": false,
+				"prefixed_hash": "0xb9b25a970f04828d1cc64236900ad2974e70c76cce61e2bf05931c862c9d4cc8"
+			}
+		],
+		"creator": {
+			"user": {
+				"username": "bariscemal"
+			},
+			"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/12.png",
+			"address": "0x387d0048ccebe314018d8f52649efec7886575a0",
+			"config": ""
+		},
+		"traits": [],
+		"last_sale": null,
+		"top_bid": null,
+		"listing_date": null,
+		"is_presale": true,
+		"transfer_fee_payment_token": null,
+		"transfer_fee": null
+	},
+	{
+		"id": 63844236,
+		"token_id": "159",
+		"num_sales": 0,
+		"background_color": null,
+		"image_url": "https://lh3.googleusercontent.com/lf4Mvp_ywQOT_8UUg2Jw_9OTmIMy2FcASa_mtWL-FkvG2ytwlv15mrfbxN7yFi1QQE0rcAFGWaZhDibrZx70Pyh1WxjZlIPLLqxE",
+		"image_preview_url": "https://lh3.googleusercontent.com/lf4Mvp_ywQOT_8UUg2Jw_9OTmIMy2FcASa_mtWL-FkvG2ytwlv15mrfbxN7yFi1QQE0rcAFGWaZhDibrZx70Pyh1WxjZlIPLLqxE=s250",
+		"image_thumbnail_url": "https://lh3.googleusercontent.com/lf4Mvp_ywQOT_8UUg2Jw_9OTmIMy2FcASa_mtWL-FkvG2ytwlv15mrfbxN7yFi1QQE0rcAFGWaZhDibrZx70Pyh1WxjZlIPLLqxE=s128",
+		"image_original_url": "https://gangaroos.com/output/159.jpg",
+		"animation_url": null,
+		"animation_original_url": null,
+		"name": "Gangaroo #159",
+		"description": "Gangaroos is a ground-breaking custom minting NFT project. 3600 Gangaroos minted on the Ethereum blockchain, with over 450 traits to choose from! Get your Gangaroo at https://gangaroos.com. Make the Gangaroo you love!",
+		"external_link": null,
+		"asset_contract": {
+			"address": "0x1f7f315d0bfa34524097b44123030c56d4784170",
+			"asset_contract_type": "non-fungible",
+			"created_date": "2021-09-29T13:33:26.389864",
+			"name": "Gangaroos",
+			"nft_version": "3.0",
+			"opensea_version": null,
+			"owner": 67002418,
+			"schema_name": "ERC721",
+			"symbol": "GANG",
+			"total_supply": "0",
+			"description": "Gangaroos are the first fully customizable NFT. 3600 Gangaroos minted on the Ethereum blockchain, with over 450 unique traits to choose from! Get your Gangaroo at https://gangaroos.com\n\nKey Project Features\n\n* Customizable minting, first of its kind. Over 450 traits for you to hand pick from to help craft your custom NFT.\n\n* Full commercial ownership for your Gangaroo NFT design (Customized or Traditional)\nCommunity wallet.\n\n* After sellout 100% of secondary sale royalties will be going to the community wallet for eternity!\nProfit sharing from the revenue of any Gangaroos branded merchandise which will go to the community wallet\n\n* The distribution of the funds in the community wallet will be voted on by the Gangaroos token holders\n\n* All Gangaroos token holders will vote on proposed ideas & features that will create our 2.0 Roadmap.\n\n* Every Gangaroo minted will be unique with no two being the exact same (Customized or Traditional).",
+			"external_link": "https://gangaroos.com/",
+			"image_url": "https://lh3.googleusercontent.com/OWTlZt4QCH2V6pGy6MOGKXWYdZpGg7Ett_IkHqBINxEq1HwWw184T0servuqKc38eNtTqhMmssIh9sIdsq0fYVauo18AfWLvyERTaw=s120",
+			"default_to_fiat": false,
+			"dev_buyer_fee_basis_points": 0,
+			"dev_seller_fee_basis_points": 1000,
+			"only_proxied_transfers": false,
+			"opensea_buyer_fee_basis_points": 0,
+			"opensea_seller_fee_basis_points": 250,
+			"buyer_fee_basis_points": 0,
+			"seller_fee_basis_points": 1250,
+			"payout_address": "0x8e394a9a2a56b1cd1dbb7e8f97a11119d0ad7003"
+		},
+		"permalink": "https://opensea.io/assets/0x1f7f315d0bfa34524097b44123030c56d4784170/159",
+		"collection": {
+			"banner_image_url": "https://lh3.googleusercontent.com/OCz08vONk4hBKO668IEr4aAdb-z-L3kbngA1oxhJGT0nBPk18oDXwMEFRwbIA2xH16PEr2JwxwJA6p6g5GugaHJN-FH0RlNJvR50Dd4=s2500",
+			"chat_url": null,
+			"created_date": "2021-09-29T13:59:53.082502",
+			"default_to_fiat": false,
+			"description": "Gangaroos are the first fully customizable NFT. 3600 Gangaroos minted on the Ethereum blockchain, with over 450 unique traits to choose from! Get your Gangaroo at https://gangaroos.com\n\nKey Project Features\n\n* Customizable minting, first of its kind. Over 450 traits for you to hand pick from to help craft your custom NFT.\n\n* Full commercial ownership for your Gangaroo NFT design (Customized or Traditional)\nCommunity wallet.\n\n* After sellout 100% of secondary sale royalties will be going to the community wallet for eternity!\nProfit sharing from the revenue of any Gangaroos branded merchandise which will go to the community wallet\n\n* The distribution of the funds in the community wallet will be voted on by the Gangaroos token holders\n\n* All Gangaroos token holders will vote on proposed ideas & features that will create our 2.0 Roadmap.\n\n* Every Gangaroo minted will be unique with no two being the exact same (Customized or Traditional).",
+			"dev_buyer_fee_basis_points": "0",
+			"dev_seller_fee_basis_points": "1000",
+			"discord_url": "https://discord.gg/3y5tetDErB",
+			"display_data": {
+				"card_display_style": "contain"
+			},
+			"external_url": "https://gangaroos.com/",
+			"featured": false,
+			"featured_image_url": "https://lh3.googleusercontent.com/-Aax9en4QwQ-nHlZZ9vYjjnFMT21gBaPw8ns-WZ9W7sQs8yZEIu5UflmYQbyB33Rb6ZB1SmJxT8f8lyNs_Pgy6zO0BY50SEJfH5u=s300",
+			"hidden": false,
+			"safelist_request_status": "not_requested",
+			"image_url": "https://lh3.googleusercontent.com/OWTlZt4QCH2V6pGy6MOGKXWYdZpGg7Ett_IkHqBINxEq1HwWw184T0servuqKc38eNtTqhMmssIh9sIdsq0fYVauo18AfWLvyERTaw=s120",
+			"is_subject_to_whitelist": false,
+			"large_image_url": "https://lh3.googleusercontent.com/-Aax9en4QwQ-nHlZZ9vYjjnFMT21gBaPw8ns-WZ9W7sQs8yZEIu5UflmYQbyB33Rb6ZB1SmJxT8f8lyNs_Pgy6zO0BY50SEJfH5u=s300",
+			"medium_username": null,
+			"name": "Gangaroos",
+			"only_proxied_transfers": false,
+			"opensea_buyer_fee_basis_points": "0",
+			"opensea_seller_fee_basis_points": "250",
+			"payout_address": "0x8e394a9a2a56b1cd1dbb7e8f97a11119d0ad7003",
+			"require_email": false,
+			"short_description": null,
+			"slug": "gangaroos",
+			"telegram_url": null,
+			"twitter_username": "gangaroosNFT",
+			"instagram_username": null,
+			"wiki_url": null
+		},
+		"decimals": 0,
+		"token_metadata": "https://gangaroos.com/metadata/159.json",
+		"owner": {
+			"user": {
+				"username": "bariscemal"
+			},
+			"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/12.png",
+			"address": "0x387d0048ccebe314018d8f52649efec7886575a0",
+			"config": ""
+		},
+		"sell_orders": [
+			{
+				"created_date": "2021-10-04T10:23:59.654341",
+				"closing_date": "2022-04-02T12:26:12",
+				"closing_extendable": false,
+				"expiration_time": 1648902372,
+				"listing_time": 1633342933,
+				"order_hash": "0x27ec029c8e14eeb2a95c71a56d70f032e5c59e16432bb6c3f57382200d36b4a2",
+				"metadata": {
+					"asset": {
+						"id": "159",
+						"address": "0x1f7f315d0bfa34524097b44123030c56d4784170"
+					},
+					"schema": "ERC721"
+				},
+				"exchange": "0x7be8076f4ea4a4ad08075c2508e481d6c946d12b",
+				"maker": {
+					"user": 3428854,
+					"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/12.png",
+					"address": "0x387d0048ccebe314018d8f52649efec7886575a0",
+					"config": ""
+				},
+				"taker": {
+					"user": 1766,
+					"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/1.png",
+					"address": "0x0000000000000000000000000000000000000000",
+					"config": ""
+				},
+				"current_price": "99000000000000000.00000000000",
+				"current_bounty": "990000000000000",
+				"bounty_multiple": "0.01",
+				"maker_relayer_fee": "1250",
+				"taker_relayer_fee": "0",
+				"maker_protocol_fee": "0",
+				"taker_protocol_fee": "0",
+				"maker_referrer_fee": "0",
+				"fee_recipient": {
+					"user": 3585,
+					"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/28.png",
+					"address": "0x5b3256965e7c3cf26e11fcaf296dfc8807c01073",
+					"config": "verified"
+				},
+				"fee_method": 1,
+				"side": 1,
+				"sale_kind": 0,
+				"target": "0x1f7f315d0bfa34524097b44123030c56d4784170",
+				"how_to_call": 0,
+				"calldata": "0x23b872dd000000000000000000000000387d0048ccebe314018d8f52649efec7886575a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000009f",
+				"replacement_pattern": "0x000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000",
+				"static_target": "0x0000000000000000000000000000000000000000",
+				"static_extradata": "0x",
+				"payment_token": "0x0000000000000000000000000000000000000000",
+				"payment_token_contract": {
+					"id": 1,
+					"symbol": "ETH",
+					"address": "0x0000000000000000000000000000000000000000",
+					"image_url": "https://storage.opensea.io/files/6f8e2979d428180222796ff4a33ab929.svg",
+					"name": "Ether",
+					"decimals": 18,
+					"eth_price": "1.000000000000000",
+					"usd_price": "3392.780000000000200000"
+				},
+				"base_price": "99000000000000000",
+				"extra": "0",
+				"quantity": "1",
+				"salt": "72623723393169324634451141493153201614674502698632619130763600385029478441089",
+				"v": 28,
+				"r": "0x9c0a2460352129c1e2ef8e2fd66b2ba643e8cabc2630eb534a3264a237fd42bc",
+				"s": "0x19a81ca02568ef95f01125fe330bb2fd063e3d979d394b0b98a27ac847020d4f",
+				"approved_on_chain": false,
+				"cancelled": false,
+				"finalized": false,
+				"marked_invalid": false,
+				"prefixed_hash": "0xc7bf209ae634251b986132e6ea153383f0cf9d6c2bd3869765103518e6bd0ea0"
+			}
+		],
+		"creator": {
+			"user": {
+				"username": "og_giraffe"
+			},
+			"profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/2.png",
+			"address": "0x8e394a9a2a56b1cd1dbb7e8f97a11119d0ad7003",
+			"config": ""
+		},
+		"traits": [
+			{
+				"trait_type": "Gloves",
+				"value": "Diamond",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 17,
+				"order": null
+			},
+			{
+				"trait_type": "Generation",
+				"value": 1,
+				"display_type": "number",
+				"max_value": null,
+				"trait_count": 0,
+				"order": null
+			},
+			{
+				"trait_type": "Stamina",
+				"value": 3,
+				"display_type": null,
+				"max_value": "10",
+				"trait_count": 0,
+				"order": null
+			},
+			{
+				"trait_type": "Defense",
+				"value": 5,
+				"display_type": null,
+				"max_value": "10",
+				"trait_count": 0,
+				"order": null
+			},
+			{
+				"trait_type": "Robe",
+				"value": "Red Gold",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 9,
+				"order": null
+			},
+			{
+				"trait_type": "Power",
+				"value": 2,
+				"display_type": null,
+				"max_value": "10",
+				"trait_count": 0,
+				"order": null
+			},
+			{
+				"trait_type": "Speed",
+				"value": 6,
+				"display_type": null,
+				"max_value": "10",
+				"trait_count": 0,
+				"order": null
+			},
+			{
+				"trait_type": "Eyes",
+				"value": "Smirk Heterochromia",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 5,
+				"order": null
+			},
+			{
+				"trait_type": "Trunks",
+				"value": "Pink White Polka Dots",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 10,
+				"order": null
+			},
+			{
+				"trait_type": "Fur",
+				"value": "Trippy",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 13,
+				"order": null
+			},
+			{
+				"trait_type": "Jewelry",
+				"value": "Lit Chain",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 10,
+				"order": null
+			},
+			{
+				"trait_type": "Background",
+				"value": "Trippy",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 12,
+				"order": null
+			},
+			{
+				"trait_type": "Head",
+				"value": "Red Yellow Baseball Cap",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 2,
+				"order": null
+			},
+			{
+				"trait_type": "Clothes",
+				"value": "GMI Black Hoodie",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 11,
+				"order": null
+			},
+			{
+				"trait_type": "Accessory",
+				"value": "Scars",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 12,
+				"order": null
+			},
+			{
+				"trait_type": "Mouth",
+				"value": "Black Grill",
+				"display_type": null,
+				"max_value": null,
+				"trait_count": 1,
+				"order": null
+			}
+		],
+		"last_sale": null,
+		"top_bid": null,
+		"listing_date": null,
+		"is_presale": false,
+		"transfer_fee_payment_token": null,
+		"transfer_fee": null
+	}
+]

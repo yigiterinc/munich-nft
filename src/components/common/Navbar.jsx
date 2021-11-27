@@ -7,7 +7,8 @@ import BrandLogo from "./nav/BrandLogo";
 import Search from "./nav/Search";
 import Menu from "./nav/Menu";
 
-const useStyles = makeStyles((theme) => ({
+
+const useStyles = makeStyles({
 	root: {
 		flexGrow: 1,
 	},
@@ -16,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Navbar = () => {
+const Navbar = (props) => {
 	const classes = useStyles();
 
 	return (
@@ -25,7 +26,7 @@ const Navbar = () => {
 				<Toolbar>
 					<BrandLogo />
 					<Search />
-					<Menu />
+					<Menu {...props}/>
 				</Toolbar>
 			</AppBar>
 		</div>
