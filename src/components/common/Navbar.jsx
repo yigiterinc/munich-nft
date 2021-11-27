@@ -7,6 +7,7 @@ import BrandLogo from "./nav/BrandLogo";
 import Search from "./nav/Search";
 import Menu from "./nav/Menu";
 
+
 const useStyles = makeStyles({
 	root: {
 		flexGrow: 1,
@@ -14,7 +15,7 @@ const useStyles = makeStyles({
 	navBar: {
 		background: "white",
 	},
-});
+}));
 
 const Navbar = (props) => {
 	const classes = useStyles();

@@ -11,10 +11,16 @@ import {
 } from "react-router-dom";
 
 import Home from "./views/Home";
+import Navbar from "./components/common/Navbar";
+
+import {
+	fetchCollectionsOfUser,
+	getAssetsAddedCollections,
+} from "./api/opensea";
+
 import MintNft from "./views/MintNft";
 import Collection from "./views/Collection";
 import Profile from "./views/Profile";
-import NavBar from "./components/common/Navbar";
 import { createOrFetchUser } from "./api/strapi";
 
 import "./App.css";
@@ -63,9 +69,9 @@ function App() {
 		setWalletAddress(accounts[0].toLowerCase());
 	};
 
-	return (
+	return (	
 		<Router>
-			<NavBar user={loggedInUser} onWalletConnection={setWalletAddress} />
+			<Navbar user={loggedInUser} onWalletConnection={setWalletAddress} />
 			<Switch>
 				<Route exact path="/">
 					<Home exact path="/" account={walletAddress} />

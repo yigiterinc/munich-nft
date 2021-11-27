@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
 	searchBar: {
 		position: "relative",
 		borderRadius: "8px",
