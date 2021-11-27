@@ -8,7 +8,7 @@ function MetamaskButton({onWalletConnection}) {
 		onWalletConnection(accounts[0].toLowerCase());
 	}
 
-	return (
+  return (
 		<Button onClick={() => loginWithMetamask()} variant="contained">
 			Connect with Metamask
 		</Button>
