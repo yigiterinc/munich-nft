@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Header = ({ profile, openImportModal }) => {
+const ProfileHeader = ({ profile, openImportModal }) => {
 	const classes = useStyles();
 	const [uploadedProfileImage, setUploadedProfileImage] = useFileUpload();
 	const [compressedImage, setCompressedImage] = useState();
@@ -65,8 +65,13 @@ const Header = ({ profile, openImportModal }) => {
 	useEffect(async () => {
 		if (compressedImage) {
 			let response;
-			let image = await uploadProfileImage(compressedImage, profile).then(resp => response = resp);
-			let profileImageUploadResult = await changeUserProfilePicture(image, profile);
+			let image = await uploadProfileImage(compressedImage, profile).then(
+				(resp) => (response = resp)
+			);
+			let profileImageUploadResult = await changeUserProfilePicture(
+				image,
+				profile
+			);
 			console.log(profileImageUploadResult);
 		}
 	}, [compressedImage]);
@@ -75,9 +80,11 @@ const Header = ({ profile, openImportModal }) => {
 		return new Compressor(uploadedProfileImage.file, {
 			quality: 0.6,
 			success: (compressedResult) => {
-				setCompressedImage(new File([compressedResult], profile.address, {
-					type: compressedResult.type,
-				}));
+				setCompressedImage(
+					new File([compressedResult], profile.address, {
+						type: compressedResult.type,
+					})
+				);
 			},
 		});
 	};
@@ -87,7 +94,7 @@ const Header = ({ profile, openImportModal }) => {
 			{ accept: "image/*", multiple: false },
 			({ name, size, source, file }) => {
 				console.log("File Selected", { name, size, source, file });
-			},
+			}
 		);
 	};
 
@@ -106,7 +113,9 @@ const Header = ({ profile, openImportModal }) => {
 		if (uploadedProfileImage) {
 			return ImageWithUploadOnClick(uploadedProfileImage?.source);
 		} else if (profile?.profilePicture?.url) {
-			return ImageWithUploadOnClick(STRAPI_BASE_URL + profile.profilePicture.url);
+			return ImageWithUploadOnClick(
+				STRAPI_BASE_URL + profile.profilePicture.url
+			);
 		} else {
 			return (
 				<Avatar className={classes.avatar}>
@@ -122,10 +131,16 @@ const Header = ({ profile, openImportModal }) => {
 				<Typography className={classes.name} variant="h5" component="h2">
 					{profile?.username}
 				</Typography>
-				<Typography className={classes.address} variant="h6" component="h2" color="textSecondary">
+				<Typography
+					className={classes.address}
+					variant="h6"
+					component="h2"
+					color="textSecondary"
+				>
 					{truncateAddress(`${profile?.walletAddress}`, 13)}
 				</Typography>
-			</>);
+			</>
+		);
 	};
 
 	const importButton = () => {
@@ -138,26 +153,19 @@ const Header = ({ profile, openImportModal }) => {
 			>
 				IMPORT
 			</Button>
-		)
-	}
+		);
+	};
 
 	const renderProfile = () => {
 		const elements = [];
 		elements.push(ProfileImage());
 		elements.push(ProfileSummary());
-		elements.push(importButton())
+		elements.push(importButton());
 
 		return elements;
 	};
 
-	return (
-		<Paper className={classes.title}>
-			{
-				profile &&
-				renderProfile()
-			}
-		</Paper>
-	);
+	return <Paper className={classes.title}>{profile && renderProfile()}</Paper>;
 };
 
-export default Header;
+export default ProfileHeader;

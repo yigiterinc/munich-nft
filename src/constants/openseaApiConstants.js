@@ -30,3 +30,6 @@ export const FETCH_ASSETS_IN_COLLECTION_ENDPOINT = (
 
 export const FETCH_SINGLE_ASSET_ENDPOINT = (contractAddress, tokenId) =>
 	`${OPENSEA_COLLECTIONS_BASE_URL}/asset/${contractAddress}/${tokenId}`;
+
+export const FETCH_SINGLE_COLLECTION_ENDPOINT = (slug) =>
+	`${OPENSEA_COLLECTIONS_BASE_URL}/collection/${slug}`;
