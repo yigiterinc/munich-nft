@@ -6,130 +6,99 @@ import Typography from "@material-ui/core/Typography";
 import { useFileUpload } from "use-file-upload";
 import { makeStyles } from "@material-ui/core/styles";
 import FileDropzone from "../components/common/FileDropzone";
-
-const useStyles = makeStyles((theme) => ({
-  gridContainer: {
-    paddingTop: "3vw",
-    paddingLeft: "10vw",
-    paddingRight: "10vw",
-  },
-  gridItem: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  image: {
-    width: 120,
-    height: 120,
-    borderRadius: "50%",
-    marginTop: 20,
-  },
-  uploadButton: {
-    marginTop: 10,
-  },
-  createButton: {
-    marginTop: 20,
-  },
-  coverImageText: {
-    marginBottom: "20px"
-  },
-  textField: {
-    marginTop: 20,
-    [theme.breakpoints.up("xs")]: {
-      width: "70vw",
-    },
-    [theme.breakpoints.up("sm")]: {
-      width: "60vw",
-    },
-    [theme.breakpoints.up("md")]: {
-      width: "45vw",
-    },
-    [theme.breakpoints.up("lg")]: {
-      width: "30vw",
-    },
-  },
-}));
+import AddGalleryMetadata from "../components/create-gallery/AddGalleryMetadata";
+import SelectGalleryNfts from "../components/create-gallery/SelectGalleryNfts";
+import { uploadImageToMediaGallery } from "../api/strapi";
 
 const CreateGallery = () => {
   const [collectionName, setCollectionName] = useState();
   const [collectionDescription, setCollectionDescription] = useState();
-  const classes = useStyles();
-
-  const defaultSrc = "./images/add-photo.png";
   const [coverImage, setCoverImage] = useFileUpload();
+
+  const [activeStep, setActiveStep] = useState(0);
+
+  const nextButton = (
+    <Button
+      style={{
+        background: "#FF6700",
+        color: "#FFFFFF",
+        margin: "13px 25px",
+        padding: "13px 25px",
+      }}
+      size="large"
+      onClick={() => setActiveStep((prevActiveStep) => prevActiveStep + 1)}
+      variant="contained"
+    >
+      Next
+    </Button>
+  );
+
+  const prevButton = (
+    <Button
+      style={{
+        background: "#FF6700",
+        color: "#FFFFFF",
+        margin: "13px 25px",
+        padding: "13px 25px",
+      }}
+      color="primary"
+      size="large"
+      onClick={() => setActiveStep((prevActiveStep) => prevActiveStep - 1)}
+      variant="outlined"
+    >
+      Previous
+    </Button>
+  );
+
+  const submitButton = (
+    <Button
+      style={{
+        background: "#FF6700",
+        color: "#FFFFFF",
+        margin: "13px 25px",
+        padding: "13px 25px",
+      }}
+      color="primary"
+      size="large"
+      onClick={() => handleSubmit()}
+      variant="outlined"
+    >
+      Previous
+    </Button>
+  );
+
+  const handleDropzoneSubmit = async (file) => {
+    const uploadResult = await uploadImageToMediaGallery(file);
+    console.log(uploadResult);
+  }
+
+  const dropzone = (
+    <FileDropzone dropzoneStyles={{ minWidth: "35vw", minHeight: "30vh", textAlign: "center" }}
+                  text="Click or drag to upload a cover image"
+                  handleSubmit={handleDropzoneSubmit} // TODO
+                  handleChangeStatus={() => console.log("status changed")}/>
+  )
+
+
+  let stepComponents = [
+    <AddGalleryMetadata nextButton={nextButton}
+                        fileUploader={dropzone}
+                        coverImage={coverImage}
+                        setCoverImage={setCoverImage}
+                        collectionName={collectionName}
+                        setCollectionName={setCollectionName}
+                        collectionDescription={collectionDescription}
+                        setCollectionDescription={setCollectionDescription}/>,
+    <SelectGalleryNfts nextButton={nextButton}
+                       prevButton={prevButton}
+                       submitButton={submitButton}/>
+  ]
 
   const handleSubmit = () => {
   }
 
   return (
-    <Grid
-      container
-      direction="column"
-      justifyContent="center"
-      alignItems="center"
-      spacing={4}
-      className={classes.gridContainer}
-    >
-      <Grid item xs={12} className={classes.gridItem}>
-        <Typography variant="h5" component="h2" className={classes.coverImageText}>
-          Cover Image
-        </Typography>
-        {
-          coverImage ?
-          <img
-            src={coverImage?.source || defaultSrc}
-            alt="preview"
-            className={classes.image}
-          />
-            :
-
-          <FileDropzone dropzoneStyles={{ minWidth: "35vw", minHeight: "30vh", textAlign: "center" }}
-                        text="Click to upload a cover image"
-                        handleSubmit={() => console.log("submitted")} // TODO
-                        handleChangeStatus={() => console.log("status changed")}/>
-        }
-      </Grid>
-
-      <Grid item xs={12} className={classes.gridItem}>
-        <Typography variant="h5" component="h2">
-          Gallery Name
-        </Typography>
-        <TextField
-          className={classes.textField}
-          variant="outlined"
-          placeholder="Example: Kitty Cats"
-          fullWidth
-          value={collectionName}
-          onChange={(event) => setCollectionName(event.target.value)}
-        />
-      </Grid>
-      <Grid item xs={12} className={classes.gridItem}>
-        <Typography variant="h5" component="h2">
-          Description
-        </Typography>
-        <TextField
-          className={classes.textField}
-          variant="outlined"
-          placeholder="Description"
-          fullWidth
-          multiline
-          rows={7}
-          value={collectionDescription}
-          onChange={(event) => setCollectionDescription(event.target.value)}
-        />
-      </Grid>
-      <Grid item xs={12} className={classes.gridItem}>
-        <Button
-          variant="contained"
-          size="large"
-          color="primary"
-          className={classes.createButton}
-          onClick={() => handleSubmit()}
-        >
-          Create
-        </Button>
-      </Grid>
-    </Grid>
+    stepComponents[activeStep]
   );
 };
 

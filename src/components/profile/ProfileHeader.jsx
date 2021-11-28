@@ -8,7 +8,7 @@ import Compressor from "compressorjs";
 import { darken, lighten, makeStyles } from "@material-ui/core/styles";
 import { truncateAddress } from "../../utils";
 import { useFileUpload } from "use-file-upload";
-import { changeUserProfilePicture, uploadProfileImage } from "../../api/strapi";
+import { changeUserProfilePicture, uploadImageToMediaGallery } from "../../api/strapi";
 import { STRAPI_BASE_URL } from "../../constants/strapiConstants";
 
 const useStyles = makeStyles((theme) => ({
@@ -81,7 +81,7 @@ const ProfileHeader = ({ profile, openImportModal }) => {
 	useEffect(async () => {
 		if (compressedImage) {
 			let response;
-			let image = await uploadProfileImage(compressedImage, profile).then(
+			let image = await uploadImageToMediaGallery(compressedImage, profile).then(
 				(resp) => (response = resp),
 			);
 			let profileImageUploadResult = await changeUserProfilePicture(

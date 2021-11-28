@@ -14,7 +14,7 @@ export const fetchUserCollections = (address) => {
 	];
 };
 
-export const uploadProfileImage = async (image) => {
+export const uploadImageToMediaGallery = async (image) => {
 	const formData = new FormData();
 	formData.append("files", image);
 	console.log(image);
