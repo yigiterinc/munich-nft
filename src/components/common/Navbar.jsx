@@ -4,7 +4,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 
 import BrandLogo from "./nav/BrandLogo";
-import Search from "./nav/Search";
+import SearchBar from "./SearchBar";
 import Menu from "./nav/Menu";
 
 const useStyles = makeStyles({
@@ -13,6 +13,9 @@ const useStyles = makeStyles({
 	},
 	navBar: {
 		background: "white",
+	},
+	searchBarContainer: {
+		width: "400px",
 	},
 });
 
@@ -23,7 +26,9 @@ const Navbar = (props) => {
 			<AppBar className={classes.navBar}>
 				<Toolbar>
 					<BrandLogo />
-					<Search />
+					<div className={classes.searchBarContainer}>
+						<SearchBar placeholder="Search items, collections and accounts" />
+					</div>
 					<Menu {...props} />
 				</Toolbar>
 			</AppBar>
