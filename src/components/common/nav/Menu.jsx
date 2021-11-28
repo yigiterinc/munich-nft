@@ -54,7 +54,11 @@ const Menu = ({ user, onWalletConnection }) => {
 					</Link>
 				);
 			}))}
-			<MetamaskButton onWalletConnection={onWalletConnection} className={classes.connectBtn} />
+			<MetamaskButton
+				onWalletConnection={onWalletConnection}
+				user={user}
+				className={classes.connectBtn}
+			/>
 		</div>
 	);
 };

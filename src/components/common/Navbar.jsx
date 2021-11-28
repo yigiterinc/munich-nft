@@ -7,7 +7,6 @@ import BrandLogo from "./nav/BrandLogo";
 import Search from "./nav/Search";
 import Menu from "./nav/Menu";
 
-
 const useStyles = makeStyles({
 	root: {
 		flexGrow: 1,
@@ -19,14 +18,13 @@ const useStyles = makeStyles({
 
 const Navbar = (props) => {
 	const classes = useStyles();
-
 	return (
 		<div className={classes.root}>
 			<AppBar position="static" className={classes.navbar}>
 				<Toolbar>
 					<BrandLogo />
 					<Search />
-					<Menu {...props}/>
+					<Menu {...props} />
 				</Toolbar>
 			</AppBar>
 		</div>
