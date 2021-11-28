@@ -63,8 +63,7 @@ function App() {
 		const accounts = await web3.eth.getAccounts();
 		setWalletAddress(accounts[0].toLowerCase());
 	};
-
-	return (	
+	return (
 		<Router>
 			<Navbar user={loggedInUser} onWalletConnection={setWalletAddress} />
 			<Switch>
