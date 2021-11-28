@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import AssetCard from "../components/common/AssetCard";
 import ProfileHeader from "../components/profile/ProfileHeader";
 import Import from "../components/profile/Import";
 import Modal from "../components/common/Modal";
@@ -10,6 +9,8 @@ import {
 	getAssetsAddedCollections,
 } from "../api/opensea";
 import { saveImportedCollections, saveImportedNfts } from "../api/strapi";
+import { Link } from "react-router-dom"
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
 	mainContainer: {
@@ -19,21 +20,40 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "center",
 		alignItems: "center",
 	},
-	gridContainer: {
+	galleriesContainer: {
+		width: "85vw",
+		boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(63, 174, 223) 0px 0px 0px 5px",
 		paddingTop: "2vw",
 		paddingLeft: "5vw",
 		paddingRight: "5vw",
-		width: "85vw",
-		boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(63, 174, 223) 0px 0px 0px 5px",
 		borderRadius: "2px",
+		minHeight: "30vh",
 		marginBottom: "5vh",
 	},
 	importButton: {
 		display: "block",
 		margin: "0 auto",
 	},
-	galleriesContainer: {
-		width: "auto",
+	noGalleryFoundContainer: {
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
+		width: "85vw",
+		minHeight: "30vh",
+		paddingBottom: "1vh",
+		paddingTop: "2vh",
+		boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(63, 174, 223) 0px 0px 0px 5px",
+	},
+	noGalleryFoundDescription: {
+		fontSize: "20px",
+		letterSpacing: "1px",
+		width: "60vw",
+		marginBottom: "4vh",
+	},
+	createGalleryButton: {
+		paddingTop: "2vh",
+		paddingBottom: "2vh",
 	},
 }));
 
@@ -117,19 +137,22 @@ const Profile = ({ account, user }) => {
 		}
 	}, [account, openImportModal]);
 
-	const assets = () => {
-		return <>
-			{user?.importedCollections &&
-			user.importedCollections.map((collection) =>
-				collection?.assets?.map((item) => {
-					return (
-						<Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
-							<AssetCard asset={item} />
-						</Grid>
-					);
-				}),
-			)}
-		</>;
+	const galleries = () => {
+		return (<Grid container spacing={4} className={classes.galleriesContainer}>
+			<p>Hello</p>
+		</Grid>);
+	};
+
+	const noGalleryFound = () => {
+		return (
+			<div className={classes.noGalleryFoundContainer}>
+				<p className={classes.noGalleryFoundDescription}>
+					Galleries are a great way to present your NFT portfolio to people!
+					Create one by clicking the button below.
+				</p>
+				<Button component={Link} to="/create-gallery" variant={"outlined"} className={classes.createGalleryButton}>Create Gallery</Button>
+			</div>
+		);
 	};
 
 	return (
@@ -138,9 +161,7 @@ const Profile = ({ account, user }) => {
 				profile={user}
 				openImportModal={() => setOpenImportModal(true)}
 			/>
-			<Grid container spacing={4} className={classes.gridContainer}>
-				{assets()}
-			</Grid>
+			{user?.galleries ? galleries() : noGalleryFound()}
 			<Modal
 				title="Import"
 				openModal={openImportModal}

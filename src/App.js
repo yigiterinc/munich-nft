@@ -19,6 +19,7 @@ import Profile from "./views/Profile";
 import { createOrFetchUser } from "./api/strapi";
 
 import "./App.css";
+import CreateGallery from "./views/CreateGallery";
 
 let web3;
 
@@ -83,6 +84,9 @@ function App() {
 					}
 				>
 					<Profile account={walletAddress} user={loggedInUser} />
+				</Route>
+				<Route path="/create-gallery">
+					<CreateGallery/>
 				</Route>
 			</Switch>
 		</Router>

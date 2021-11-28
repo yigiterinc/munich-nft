@@ -85,6 +85,7 @@ function UploadArt({ addedFileHash, nextButton, setAddedFileHash }) {
 				<IpfsUploader
 					onUploadStart={() => setUploading(true)}
 					onUploaded={onUploaded}
+					dropzoneStyles={{minHeight: 200, maxHeight: 250, maxWidth: "60vw", textAlign: "center"}}
 				/>
 			</Container>
 		);
