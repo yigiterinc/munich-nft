@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 
 import MetamaskButton from "./MetamaskButton";
 
@@ -31,32 +31,36 @@ const Menu = ({ user, onWalletConnection }) => {
 	const menu = [
 		{
 			label: "Marketplace",
-			getRoute: () => "/market"
+			getRoute: () => "/market",
 		},
 		{
 			label: "Create",
-			getRoute: () => "/mint-nft"
+			getRoute: () => "/mint-nft",
 		},
 		{
 			label: "Profile",
 			getRoute: () => {
-				return `/profile/${user ? user.id : ''}`
-			}
-		}
-	]
+				return `/profile/${user ? user.id : ""}`;
+			},
+		},
+	];
 
 	return (
 		<div className={classes.navMenu}>
 			{menu
-				.filter(item => item.label !== "Profile" || user)
-				.map(((menuItem, i) => {
-				return (
-					<Link key={i} className={classes.menuLink} to={menuItem.getRoute()}>
-						{menuItem.label}
-					</Link>
-				);
-			}))}
-			<MetamaskButton onWalletConnection={onWalletConnection} className={classes.connectBtn} />
+				.filter((item) => item.label !== "Profile" || user)
+				.map((menuItem, i) => {
+					return (
+						<Link key={i} className={classes.menuLink} to={menuItem.getRoute()}>
+							{menuItem.label}
+						</Link>
+					);
+				})}
+			<MetamaskButton
+				onWalletConnection={onWalletConnection}
+				user={user}
+				className={classes.connectBtn}
+			/>
 		</div>
 	);
 };
