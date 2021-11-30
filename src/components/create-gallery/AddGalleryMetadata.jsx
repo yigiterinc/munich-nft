@@ -22,9 +22,10 @@ const useStyles = makeStyles((theme) => ({
 		padding: "13px 25px",
 	},
 	image: {
-		width: 120,
-		height: 120,
-		borderRadius: "50%",
+		width: 500,
+		height: 400,
+		objectFit: "cover",
+		borderRadius: "5px",
 		marginTop: 20,
 	},
 	uploadButton: {
@@ -56,8 +57,6 @@ const useStyles = makeStyles((theme) => ({
 const AddGalleryMetadata = (props) => {
 	const classes = useStyles();
 
-	const defaultSrc = "./images/add-photo.png";
-
 	return (
 		<Grid
 			container
@@ -74,7 +73,7 @@ const AddGalleryMetadata = (props) => {
 				{
 					props.coverImage ?
 						<img
-							src={props.coverImage?.source || defaultSrc}
+							src={props.coverImage.preview}
 							alt="preview"
 							className={classes.image}
 						/>

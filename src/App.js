@@ -85,8 +85,10 @@ function App() {
 				>
 					<Profile account={walletAddress} user={loggedInUser} />
 				</Route>
-				<Route path="/create-gallery">
-					<CreateGallery/>
+				<Route path="/create-gallery" render={(props) => {
+					return !loggedInUser ? <Redirect to="/" /> : <CreateGallery {...props}/>
+				}}>
+					<CreateGallery user={loggedInUser} account={walletAddress}/>
 				</Route>
 			</Switch>
 		</Router>
