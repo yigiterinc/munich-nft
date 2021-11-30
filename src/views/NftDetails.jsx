@@ -14,11 +14,6 @@ const useStyles = makeStyles({
 		display: "flex",
 		paddingTop: "2vw",
 	},
-	spinner: {
-		position: "absolute",
-		left: "50%",
-		top: "50%",
-	},
 });
 
 const NftDetails = () => {

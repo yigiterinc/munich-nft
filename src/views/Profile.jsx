@@ -130,7 +130,7 @@ const Profile = ({ user }) => {
 	};
 
 	const NoGalleryFoundView = () => {
-		if (viewingOwnProfile) {
+		if (userIdParam === user?.id) {
 			return NoGalleryFoundCreateGallery();
 		} else {
 			return NoGalleryFound();
@@ -146,7 +146,7 @@ const Profile = ({ user }) => {
 			{
 				user &&
 				(<>
-					<ProfileHeader ownProfile={viewingOwnProfile} profile={profileOwner} />
+					<ProfileHeader ownProfile={userIdParam === user?.id} profile={profileOwner} />
 					<div className={classes.galleriesContainer}>
 						{
 							GallerySection()

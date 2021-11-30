@@ -15,6 +15,7 @@ import MintNft from "./views/MintNft";
 import Collection from "./views/Collection";
 import Profile from "./views/Profile";
 import ProfileSettings from "./views/ProfileSettings";
+import Gallery from "./views/Gallery";
 import { createOrFetchUser } from "./api/strapi";
 
 import "./App.css";
@@ -74,12 +75,21 @@ function App() {
 				<Route path="/mint-nft">
 					<MintNft account={walletAddress} user={loggedInUser} />
 				</Route>
+				<Route
+					// path="/gallery/:userId/:galleryId"
+					path="/gallery/"
+				>
+					<Gallery />
+				</Route>
 				<Route path="/collection/:slug">
 					<Collection account={walletAddress} user={loggedInUser} />
 				</Route>
 
 				<Route path="/profile-settings">
 					<ProfileSettings user={loggedInUser} />
+				</Route>
+				<Route path="/token/:contractAddressId/:tokenId">
+					<NftDetails />
 				</Route>
 				<Route
 					path="/profile/:userId"
