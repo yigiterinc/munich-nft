@@ -17,7 +17,7 @@ export const mintNftAfterDeployingNewContract = async (
 	// TODO
 };
 
-export const mintNft = async (uploadedMetadata, gas, contractAddress) => {
+export const mintNft = async (uploadedMetadata, gas, contractAddress = getMunichNftContractAddress()) => {
 	if (!window.web3) {
 		console.error("window.web3 not present");
 		return;
@@ -26,11 +26,12 @@ export const mintNft = async (uploadedMetadata, gas, contractAddress) => {
 	const accounts = await window.web3.eth.requestAccounts();
 	const account = accounts[0];
 
+	console.log(contractAddress);
+
 	const contract = new window.web3.eth.Contract(ABI, contractAddress, {
 		from: account, // default from address
 		gasPrice: "200000", // default gas price in wei, 20 gwei in this case
 	});
-	console.log(contractAddress);
 
 	const txResult = await contract.methods
 		.mint(account, `https://ipfs.io/ipfs/${uploadedMetadata}`)

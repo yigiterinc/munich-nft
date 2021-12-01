@@ -1,12 +1,6 @@
 import React from "react";
 
-import {
-	Container,
-	Grid,
-	Typography,
-	Button,
-	TextField,
-} from "@material-ui/core";
+import { Button, Container, Grid, TextField, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import ipfsHelper from "../../api/ipfsHelper";

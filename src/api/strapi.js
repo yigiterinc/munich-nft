@@ -1,9 +1,5 @@
 import axios from "axios";
-import {
-	GET_USER_UPDATE_URL,
-	IMAGE_UPLOAD_URL,
-	MUNICH_NFT_USERS_URL,
-} from "../constants/strapiConstants";
+import { GET_USER_UPDATE_URL, IMAGE_UPLOAD_URL, MUNICH_NFT_USERS_URL } from "../constants/strapiConstants";
 
 // TODO: should fetch user's collections and their names
 export const fetchUserCollections = (address) => {

@@ -90,8 +90,6 @@ const SelectGalleryNfts = (props) => {
   return (
       <div className={classes.baseContainer}>
         <Import collections={collections}
-                onImportCollections={props.setGalleryCollections}
-                onImportNfts={props.setGalleryNfts}
                 prevButton={props.prevButton}
                 handleSubmit={props.handleSubmit}
         />

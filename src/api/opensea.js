@@ -1,7 +1,5 @@
 import axios from "axios";
 
-import axiosRetry from "axios-retry";
-
 import {
 	FETCH_ACCOUNT_COLLECTIONS_ENDPOINT,
 	FETCH_ASSETS_IN_COLLECTION_ENDPOINT,

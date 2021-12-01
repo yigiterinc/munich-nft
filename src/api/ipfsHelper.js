@@ -1,4 +1,4 @@
-import { create, add } from "ipfs-http-client";
+import { create } from "ipfs-http-client";
 
 const projectId = process.env.REACT_APP_INFURA_IPFS_PROJECT_ID;
 const projectSecret = process.env.REACT_APP_INFURA_IPFS_PROJECT_SECRET;

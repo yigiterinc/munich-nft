@@ -12,14 +12,11 @@ function IpfsUploader({ onUploadStart, onUploaded, dropzoneStyles }) {
 		console.log(status, meta, file);
 	};
 
-	const handleSubmit = async (files) => {
+	const handleSubmit = async (file) => {
 		onUploadStart();
-
-		for (const file of files) {
-			const uploadResult = await ipfsHelper.addFile(file.file);
-			file.remove();
-			onUploaded(uploadResult.path);
-		}
+		console.log(file);
+		const uploadResult = await ipfsHelper.addFile(file);
+		onUploaded(uploadResult.path);
 	};
 
 	return (

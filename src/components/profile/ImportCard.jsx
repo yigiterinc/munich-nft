@@ -6,13 +6,12 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import clsx from "clsx";
+import { truncateString, withDefault } from "../../utils";
 
 const useStyles = makeStyles((theme) => ({
 	card: {
 		height: "300",
 		cursor: "pointer",
-		marginRight: "50px",
-		marginLeft: "50px",
 	},
 	cardSelected: {
 		borderColor: "rgb(120, 105, 199)",
@@ -46,13 +45,6 @@ const ImportCard = ({ collection, nft, addToSelected, removeFromSelected }) => {
 	const [selected, setSelected] = useState(false);
 	const classes = useStyles();
 
-	const truncateString = (str, num) => {
-		if (!str || str.length <= num) {
-			return str;
-		}
-		return str.slice(0, num) + "...";
-	};
-
 	const handleOnClick = () => {
 		if (!collection && !nft) return;
 
@@ -67,6 +59,9 @@ const ImportCard = ({ collection, nft, addToSelected, removeFromSelected }) => {
 		setSelected(!selected);
 	};
 
+	const defaultNftName = "Nameless", defaultCollectionName = "Nameless";
+	const defaultImagePath = "/images/no-image.png";
+
 	return (
 		<Card
 			className={clsx(classes.card, { [classes.cardSelected]: selected })}
@@ -78,11 +73,11 @@ const ImportCard = ({ collection, nft, addToSelected, removeFromSelected }) => {
 				<CardContent className={classes.cardContent}>
 					<Avatar
 						alt={collection.name}
-						src={collection.image_url ? collection.image_url : "/images/no-image.png"}
+						src={withDefault(collection.image_url, defaultImagePath)}
 						className={classes.avatar}
 					/>
 					<Typography className={classes.collectionName} variant="body1">
-						{truncateString(collection.name, 30)}
+						{truncateString(withDefault(collection.name, "Nameless"), 20)}
 					</Typography>
 				</CardContent>
 			)}
@@ -91,14 +86,14 @@ const ImportCard = ({ collection, nft, addToSelected, removeFromSelected }) => {
 					<CardMedia
 						component="img"
 						className={classes.image}
-						image={nft.image_url ? nft.image_url : "/images/no-image.png"}
+						image={withDefault(nft.image_url, defaultImagePath)}
 						title={nft.name}
 					/>
 					<Typography className={classes.collectionName} variant="body2" color="textSecondary" gutterBottom>
-						{truncateString(nft.collection.name, 20)}
+						{truncateString(withDefault(nft.collection.name, defaultCollectionName), 20)}
 					</Typography>
 					<Typography variant="body2" className={classes.nftName}>
-						{truncateString(nft.name, 20)}
+						{truncateString(withDefault(nft.name, defaultNftName), 20)}
 					</Typography>
 				</CardContent>
 			)}

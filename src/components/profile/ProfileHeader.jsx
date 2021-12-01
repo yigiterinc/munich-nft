@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import PersonIcon from "@material-ui/icons/Person";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import Compressor from "compressorjs";
 import { darken, lighten, makeStyles } from "@material-ui/core/styles";
-import { truncateAddress } from "../../utils";
+import { truncateWalletAddress } from "../../utils";
 import { useFileUpload } from "use-file-upload";
 import { changeUserProfilePicture, uploadImageToMediaGallery } from "../../api/strapi";
 import { STRAPI_BASE_URL } from "../../constants/strapiConstants";
@@ -157,7 +156,7 @@ const ProfileHeader = ({ profile }) => {
 					component="h2"
 					color="textSecondary"
 				>
-					{truncateAddress(`${profile?.walletAddress}`, 13)}
+					{truncateWalletAddress(`${profile?.walletAddress}`, 13)}
 				</Typography>
 			</div>
 		);

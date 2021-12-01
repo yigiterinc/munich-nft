@@ -23,21 +23,12 @@ const CreateGallery = (props) => {
 	const [collectionName, setCollectionName] = useState();
 	const [collectionDescription, setCollectionDescription] = useState();
 	const [coverImage, setCoverImage] = useState();
-	const [galleryNfts, setGalleryNfts] = useState();
-	const [galleryCollections, setGalleryCollections] = useState();
-
 	const [activeStep, setActiveStep] = useState(0);
 
 	const classes = useStyles();
 
 	const handleSubmit = (selectedCollections, selectedNfts) => {
-		setGalleryCollections(selectedCollections)
-		setGalleryNfts(selectedNfts)
-		console.log(collectionName);
-		console.log(collectionDescription);
-		console.log(coverImage);
-		console.log(galleryNfts);
-		console.log(galleryCollections);
+		console.log(selectedNfts, selectedCollections);
 	};
 
 	const nextButton = (
@@ -60,18 +51,6 @@ const CreateGallery = (props) => {
 			onClick={() => setActiveStep((prevActiveStep) => prevActiveStep - 1)}
 		>
 			Previous
-		</Button>
-	);
-
-	const submitButton = (
-		<Button
-			className={classes.navigationButton}
-			color="primary"
-			size="large"
-			onClick={(selectedCollections, selectedNfts) => handleSubmit(selectedCollections, selectedNfts)}
-			variant="outlined"
-		>
-			Create Collection with Selected Items
 		</Button>
 	);
 
@@ -100,13 +79,8 @@ const CreateGallery = (props) => {
 		/>,
 		<SelectGalleryNfts nextButton={nextButton}
 											 prevButton={prevButton}
-											 submitButton={submitButton}
 											 user={props.user}
 											 account={props.account}
-											 galleryCollections={galleryCollections}
-											 galleryNfts={galleryNfts}
-											 setGalleryNfts={setGalleryNfts}
-											 setGalleryCollections={setGalleryCollections}
 											 handleSubmit={handleSubmit}/>,
 	];
 

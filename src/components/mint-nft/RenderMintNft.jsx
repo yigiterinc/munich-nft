@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 
-import {
-	Stepper,
-	Step,
-	StepLabel,
-	Button,
-	Typography,
-} from "@material-ui/core";
+import { Button, Step, StepLabel, Stepper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import AddMetadata from "./AddMetadata";

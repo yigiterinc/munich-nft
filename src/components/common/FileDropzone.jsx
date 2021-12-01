@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import BackupIcon from "@material-ui/icons/Backup";
 import { Typography } from "@material-ui/core";
 import Dropzone from "react-dropzone-uploader";

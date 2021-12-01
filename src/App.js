@@ -1,14 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Web3 from "web3";
-import NftDetails from "./views/NftDetails";
 
-import {
-	BrowserRouter as Router,
-	Switch,
-	Route,
-	NavLink,
-	Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 
 import Home from "./views/Home";
 import Navbar from "./components/common/Navbar";
