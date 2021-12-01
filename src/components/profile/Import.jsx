@@ -44,21 +44,24 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
 	root: {
 		backgroundColor: theme.palette.background.paper,
-		width: 500,
+		width: "100vw",
 	},
 	importButton: {
 		display: "flex",
 		justifyContent: "center",
+		marginBottom: "10vh",
+		marginTop: "2vh",
 	},
 	tabPanel: {
 		overflow: "scroll",
-		height: "50vh",
+		height: "auto",
 	},
 }));
 
-export default function Import({ collections,
+export default function Import({
+																 collections,
 																 onImportCollections,
-																 onImportNfts,
+																 onImportNfts, prevButton,
 															 }) {
 	const classes = useStyles();
 	const theme = useTheme();
@@ -96,7 +99,7 @@ export default function Import({ collections,
 
 	return (
 		<div className={classes.root}>
-			<AppBar position="static" color="default">
+			<AppBar position="static" color="inherit" elevation={0}>
 				<Tabs
 					value={value}
 					onChange={handleChange}
@@ -123,21 +126,21 @@ export default function Import({ collections,
 					dir={theme.direction}
 					className={classes.tabPanel}
 				>
-					<Grid container spacing={2}>
+					<Grid container spacing={3}>
 						{collections?.map((item) => {
-								return (
-									<Grid key={item.slug} item xs={4}>
-										<ImportCard
-											collection={item}
-											addToSelected={(collection) =>
-												addToSelectedCollections(collection)
-											}
-											removeFromSelected={(collection) =>
-												removeFromSelectedCollections(collection)
-											}
-										/>
-									</Grid>
-								);
+							return (
+								<Grid key={item.slug} item lg={3} md={4} sm={6} xs={12}>
+									<ImportCard
+										collection={item}
+										addToSelected={(collection) =>
+											addToSelectedCollections(collection)
+										}
+										removeFromSelected={(collection) =>
+											removeFromSelectedCollections(collection)
+										}
+									/>
+								</Grid>
+							);
 						})}
 					</Grid>
 				</TabPanel>
@@ -147,11 +150,14 @@ export default function Import({ collections,
 					dir={theme.direction}
 					className={classes.tabPanel}
 				>
-					<Grid container spacing={2}>
+					<Grid container
+								spacing={3}
+								direction="row"
+								alignItems="center">
 						{collections?.map((collection) =>
 							collection?.assets.map((item) => {
 								return (
-									<Grid key={item?.id} item xs={4}>
+									<Grid key={item?.id} item lg={3} md={4} sm={6} xs={12}>
 										<ImportCard
 											nft={item}
 											addToSelected={(nft) => addToSelectedNfts({ collection, nft })}
@@ -165,8 +171,18 @@ export default function Import({ collections,
 				</TabPanel>
 			</SwipeableViews>
 			<div className={classes.importButton}>
+				{
+					prevButton
+				}
+
 				<Button
 					variant="contained"
+					style={{
+						background: "#FF6700",
+						color: "#FFFFFF",
+						margin: "10px 20px",
+						padding: "10px 20px",
+					}}
 					size="large"
 					onClick={() => {
 						if (selectedCollections.length !== 0) {
@@ -176,7 +192,7 @@ export default function Import({ collections,
 						}
 					}}
 				>
-					IMPORT
+					Create collection with Selected Items
 				</Button>
 			</div>
 		</div>

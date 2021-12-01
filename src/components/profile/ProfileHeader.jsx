@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const ProfileHeader = ({ profile, openImportModal }) => {
+const ProfileHeader = ({ profile }) => {
 	const classes = useStyles();
 	const [uploadedProfileImage, setUploadedProfileImage] = useFileUpload();
 	const [compressedImage, setCompressedImage] = useState();
@@ -115,6 +115,7 @@ const ProfileHeader = ({ profile, openImportModal }) => {
 	};
 
 	const ImageWithUploadOnClick = (source) => {
+		console.log(source);
 		return (
 			<img
 				src={source}
@@ -126,19 +127,22 @@ const ProfileHeader = ({ profile, openImportModal }) => {
 	};
 
 	const ProfileImage = () => {
+		let component;
 		if (uploadedProfileImage) {
-			return ImageWithUploadOnClick(uploadedProfileImage?.source);
+			component = ImageWithUploadOnClick(uploadedProfileImage?.source);
 		} else if (profile?.profilePicture?.url) {
-			return ImageWithUploadOnClick(
+			component = ImageWithUploadOnClick(
 				STRAPI_BASE_URL + profile.profilePicture.url,
 			);
 		} else {
-			return (
+			component = (
 				<Avatar className={classes.avatar}>
 					<PersonIcon onClick={() => handleProfileImageUpload()} />
 				</Avatar>
 			);
 		}
+
+		return component;
 	};
 
 	const ProfileSummary = () => {
@@ -156,19 +160,6 @@ const ProfileHeader = ({ profile, openImportModal }) => {
 					{truncateAddress(`${profile?.walletAddress}`, 13)}
 				</Typography>
 			</div>
-		);
-	};
-
-	const importButton = () => {
-		return (
-			<Button
-				variant="contained"
-				size="large"
-				className={classes.importButton}
-				onClick={() => openImportModal()}
-			>
-				IMPORT
-			</Button>
 		);
 	};
 
