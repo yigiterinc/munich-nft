@@ -9,6 +9,7 @@ import Navbar from "./components/common/Navbar";
 import MintNft from "./views/MintNft";
 import Collection from "./views/Collection";
 import Profile from "./views/Profile";
+import ProfileSettings from "./views/ProfileSettings";
 import { createOrFetchUser } from "./api/strapi";
 
 import "./App.css";
@@ -33,7 +34,8 @@ function App() {
 		await loadAccount();
 		setLoggedInUser(
 			await createOrFetchUser({
-				walletAddress
+				username: "Alien",
+				walletAddress: walletAddress,
 			})
 		);
 	};
@@ -56,6 +58,7 @@ function App() {
 		const accounts = await web3.eth.getAccounts();
 		setWalletAddress(accounts[0].toLowerCase());
 	};
+
 	return (
 		<Router>
 			<Navbar user={loggedInUser} onWalletConnection={setWalletAddress} />
@@ -68,6 +71,10 @@ function App() {
 				</Route>
 				<Route path="/collection/:slug">
 					<Collection account={walletAddress} user={loggedInUser} />
+				</Route>
+
+				<Route path="/profile-settings">
+					<ProfileSettings user={loggedInUser} />
 				</Route>
 				<Route
 					path="/profile/:userId"

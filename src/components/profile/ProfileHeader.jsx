@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import PersonIcon from "@material-ui/icons/Person";
@@ -80,7 +80,7 @@ const ProfileHeader = ({ profile }) => {
 	useEffect(async () => {
 		if (compressedImage) {
 			let response;
-			let image = await uploadImageToMediaGallery(compressedImage, profile).then(
+			let image = await uploadImageToMediaGallery(compressedImage).then(
 				(resp) => (response = resp),
 			);
 			let profileImageUploadResult = await changeUserProfilePicture(
@@ -96,7 +96,7 @@ const ProfileHeader = ({ profile }) => {
 			quality: 0.6,
 			success: (compressedResult) => {
 				setCompressedImage(
-					new File([compressedResult], profile.address, {
+					new File([compressedResult], profile.id, {
 						type: compressedResult.type,
 					}),
 				);
@@ -114,7 +114,6 @@ const ProfileHeader = ({ profile }) => {
 	};
 
 	const ImageWithUploadOnClick = (source) => {
-		console.log(source);
 		return (
 			<img
 				src={source}
