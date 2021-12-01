@@ -80,6 +80,7 @@ function App() {
 				<Route
 					path="/profile/:userId"
 					render={(props) =>
+						// TODO even if the user is not logged in they should be able to see other people's profiles, not currently possible
 						!loggedInUser ? <Redirect to="/" /> : <Profile {...props} />
 					}
 				>

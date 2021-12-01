@@ -61,8 +61,11 @@ const useStyles = makeStyles((theme) => ({
 export default function Import({
 																 collections,
 																 onImportCollections,
-																 onImportNfts, prevButton,
+																 onImportNfts,
+																 prevButton,
+																 handleSubmit
 															 }) {
+
 	const classes = useStyles();
 	const theme = useTheme();
 	const [value, setValue] = useState(0);
@@ -126,7 +129,7 @@ export default function Import({
 					dir={theme.direction}
 					className={classes.tabPanel}
 				>
-					<Grid container spacing={3}>
+					<Grid container spacing={1}>
 						{collections?.map((item) => {
 							return (
 								<Grid key={item.slug} item lg={3} md={4} sm={6} xs={12}>
@@ -186,9 +189,13 @@ export default function Import({
 					size="large"
 					onClick={() => {
 						if (selectedCollections.length !== 0) {
+							console.log(selectedCollections);
 							onImportCollections(selectedCollections);
+							handleSubmit(selectedCollections, null);
 						} else if (selectedNfts.length !== 0) {
-							onImportNfts(selectedNfts);
+							console.log(selectedNfts);
+							onImportNfts(selectedNfts)
+							handleSubmit(null, selectedNfts)
 						}
 					}}
 				>

@@ -4,21 +4,45 @@ import FileDropzone from "../components/common/FileDropzone";
 import AddGalleryMetadata from "../components/create-gallery/AddGalleryMetadata";
 import SelectGalleryNfts from "../components/create-gallery/SelectGalleryNfts";
 
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+	navigationButton: {
+		background: "#FF6700",
+		color: "#FFFFFF",
+		margin: "13px 25px",
+		padding: "13px 25px",
+
+		"&:disabled": {
+			opacity: "80%"
+		}
+	},
+}));
+
 const CreateGallery = (props) => {
 	const [collectionName, setCollectionName] = useState();
 	const [collectionDescription, setCollectionDescription] = useState();
 	const [coverImage, setCoverImage] = useState();
+	const [galleryNfts, setGalleryNfts] = useState();
+	const [galleryCollections, setGalleryCollections] = useState();
 
 	const [activeStep, setActiveStep] = useState(0);
 
+	const classes = useStyles();
+
+	const handleSubmit = (selectedCollections, selectedNfts) => {
+		setGalleryCollections(selectedCollections)
+		setGalleryNfts(selectedNfts)
+		console.log(collectionName);
+		console.log(collectionDescription);
+		console.log(coverImage);
+		console.log(galleryNfts);
+		console.log(galleryCollections);
+	};
+
 	const nextButton = (
 		<Button
-			style={{
-				background: "#FF6700",
-				color: "#FFFFFF",
-				margin: "13px 25px",
-				padding: "13px 25px",
-			}}
+			className={classes.navigationButton}
 			size="large"
 			onClick={() => setActiveStep((prevActiveStep) => prevActiveStep + 1)}
 			variant="contained"
@@ -30,12 +54,7 @@ const CreateGallery = (props) => {
 
 	const prevButton = (
 		<Button
-			style={{
-				background: "#FF6700",
-				color: "#FFFFFF",
-				margin: "10px 20px",
-				padding: "10px 20px",
-			}}
+			className={classes.navigationButton}
 			variant="contained"
 			size="large"
 			onClick={() => setActiveStep((prevActiveStep) => prevActiveStep - 1)}
@@ -46,18 +65,13 @@ const CreateGallery = (props) => {
 
 	const submitButton = (
 		<Button
-			style={{
-				background: "#FF6700",
-				color: "#FFFFFF",
-				margin: "10px 20px",
-				padding: "10px 20px",
-			}}
+			className={classes.navigationButton}
 			color="primary"
 			size="large"
-			onClick={() => handleSubmit()}
+			onClick={(selectedCollections, selectedNfts) => handleSubmit(selectedCollections, selectedNfts)}
 			variant="outlined"
 		>
-			Previous
+			Create Collection with Selected Items
 		</Button>
 	);
 
@@ -88,12 +102,14 @@ const CreateGallery = (props) => {
 											 prevButton={prevButton}
 											 submitButton={submitButton}
 											 user={props.user}
-											 account={props.account} />,
+											 account={props.account}
+											 galleryCollections={galleryCollections}
+											 galleryNfts={galleryNfts}
+											 setGalleryNfts={setGalleryNfts}
+											 setGalleryCollections={setGalleryCollections}
+											 handleSubmit={handleSubmit}/>,
 	];
 
-	const handleSubmit = () => {
-		// TODO
-	};
 
 	return (
 		stepComponents[activeStep]

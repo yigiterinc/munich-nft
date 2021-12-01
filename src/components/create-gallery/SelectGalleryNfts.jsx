@@ -10,8 +10,6 @@ const useStyles = makeStyles((theme) => ({
 
 const SelectGalleryNfts = (props) => {
   const [collections, setCollections] = useState(null);
-  const [importedCollections, setImportedCollections] = useState(null);
-  const [importedNfts, setImportedNfts] = useState(null);
 
   const classes = useStyles()
 
@@ -92,9 +90,11 @@ const SelectGalleryNfts = (props) => {
   return (
       <div className={classes.baseContainer}>
         <Import collections={collections}
-                onImportCollections={setImportedCollections}
-                onImportNfts={setImportedNfts}
-                prevButton={props.prevButton}/>
+                onImportCollections={props.setGalleryCollections}
+                onImportNfts={props.setGalleryNfts}
+                prevButton={props.prevButton}
+                handleSubmit={props.handleSubmit}
+        />
       </div>
   );
 };

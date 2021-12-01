@@ -22,7 +22,7 @@ const FileDropzone = ({ dropzoneStyles, handleChangeStatus, handleSubmit, text }
 			onSubmit={(files) => handleSubmit(Object.assign(files[0].file, {
 				preview: URL.createObjectURL(files[0].file)
 			}))}
-			accept="image/*,audio/*,video/*"
+			accept="image/*"
 			maxFiles={1}
 			multiple={false}
 			styles={{
