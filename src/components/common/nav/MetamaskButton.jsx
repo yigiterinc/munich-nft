@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 const useStyles = makeStyles({
 	buttonContainer: {
 		width: 139.55,
-		heigth: 48,
+		height: 48,
 	},
 	walletPanel: {
 		display: "flex",

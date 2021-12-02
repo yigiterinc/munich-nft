@@ -75,7 +75,7 @@ const ProfileSettings = ({ user }) => {
 		}
 	}, [user]);
 
-	const updateUser = async () => {
+	const updateUserSettings = async () => {
 		let profileImage, bannerImage;
 		if (isProfileImageUpdated) {
 			let response;
@@ -151,7 +151,7 @@ const ProfileSettings = ({ user }) => {
 						<Button
 							variant="contained"
 							size="large"
-							onClick={() => updateUser()}
+							onClick={() => updateUserSettings()}
 							className={classes.saveButton}
 						>
 							Save

@@ -52,8 +52,8 @@ export const updateUserProfile = async (
 	if (bannerImage) {
 		user.bannerImage = bannerImage.data[0];
 	}
-	const response = await axios.put(GET_USER_UPDATE_URL(user.id), user);
-	return response.data;
+
+	return await updateUser(user);
 };
 
 // Fetches if user is already present in DB, otherwise saves to db
@@ -96,9 +96,10 @@ export const fetchExistingUser = async (walletAddress) => {
 	return resp.data[0];
 };
 
-const updateUser = async (user) => {
+export const updateUser = async (user) => {
 	console.log(GET_USER_UPDATE_URL(user.id));
 	const response = await axios.put(GET_USER_UPDATE_URL(user.id), user);
+	console.log(response);
 	return response.data;
 };
 
