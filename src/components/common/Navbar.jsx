@@ -12,7 +12,7 @@ const useStyles = makeStyles({
 	root: {
 		flexGrow: 1,
 	},
-	navBar: {
+	navbar: {
 		background: "white",
 	},
 });
@@ -22,7 +22,7 @@ const Navbar = (props) => {
 
 	return (
 		<div className={classes.root}>
-			<AppBar position="static" className={classes.navBar}>
+			<AppBar position="static" className={classes.navbar}>
 				<Toolbar>
 					<BrandLogo />
 					<Search />

@@ -2,8 +2,20 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import axiosRetry from "axios-retry";
+import axios from "axios";
 
 require("dotenv").config();
+
+axiosRetry(axios, {
+	retries: 5,
+	retryDelay: (retryCount) => {
+		return retryCount * 500; // time interval between retries
+	},
+	retryCondition: (error) => {
+		return error.response.status === 429;
+	},
+});
 
 ReactDOM.render(
 	<React.StrictMode>

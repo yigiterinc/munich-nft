@@ -1,13 +1,9 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-	Container,
-	Box,
-	Typography,
-	CircularProgress,
-} from "@material-ui/core";
+import { Container, Typography } from "@material-ui/core";
 
 import IpfsUploader from "./IpfsUploader";
+import withSpinner from "../common/WithSpinner";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -36,11 +32,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	addedFileHash: {
 		marginTop: "2vh",
-	},
-	progress: {
-		display: "flex",
-		justifyContent: "center",
-		marginTop: "6vh",
 	},
 }));
 
@@ -85,26 +76,19 @@ function UploadArt({ addedFileHash, nextButton, setAddedFileHash }) {
 				<IpfsUploader
 					onUploadStart={() => setUploading(true)}
 					onUploaded={onUploaded}
+					dropzoneStyles={{minHeight: 200, maxHeight: 250, maxWidth: "60vw", textAlign: "center"}}
 				/>
 			</Container>
-		);
-	};
-
-	const renderSpinner = () => {
-		return (
-			<Box className={classes.progress}>
-				<CircularProgress />
-			</Box>
 		);
 	};
 
 	const getRenderContent = () => {
 		if (addedFileHash) {
 			return renderUploadResult();
-		} else if (uploading) {
-			return renderSpinner();
 		} else {
-			return renderUploadPrompt();
+			return withSpinner(renderUploadPrompt(), uploading, {
+				justifyContent: "center",
+				marginTop: "6vh"})
 		}
 	};
 

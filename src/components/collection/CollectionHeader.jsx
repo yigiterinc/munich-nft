@@ -2,7 +2,7 @@ import React from "react";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import { truncateAddress } from "../../utils";
+import { truncateWalletAddress } from "../../utils";
 
 const useStyles = makeStyles((theme) => ({
 	collectionHeaderContainer: {
@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: "center",
 	},
 	banner: {
-		height: theme.spacing(30),
+		minHeight: theme.spacing(40),
 		width: "80vw",
 		display: "flex",
 		flexDirection: "column",
@@ -57,7 +57,7 @@ const CollectionHeader = ({ collection, assets }) => {
 				<Typography className={classes.name} variant="h6" component="h2">
 					{assets[0]?.creator?.user?.username
 						? assets[0]?.creator?.user?.username
-						: truncateAddress(assets[0]?.creator?.address, 13)}
+						: truncateWalletAddress(assets[0]?.creator?.address, 13)}
 				</Typography>
 			)}
 			<Typography

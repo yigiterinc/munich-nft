@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,6 +7,7 @@ import { fetchSingleAsset } from "../api/opensea";
 
 import NftImage from "../components/nft-details/NftImage";
 import NftDetailsPanel from "../components/nft-details/NftDetailsPanel";
+import withSpinner from "../components/common/WithSpinner";
 
 const useStyles = makeStyles({
 	nftDetailsContainer: {
@@ -56,16 +56,14 @@ const NftDetails = () => {
 
 	return (
 		<>
-			{nftJson ? (
-				renderEntirePage(classes, nftJson)
-			) : (
-				<CircularProgress className={classes.spinner} />
-			)}
+			{
+				withSpinner(renderPage(classes, nftJson), nftJson)
+			}
 		</>
 	);
 };
 
-const renderEntirePage = (classes, nftJson) => {
+const renderPage = (classes, nftJson) => {
 	return (
 		<Container className={classes.nftDetailsContainer}>
 			<Grid item={true} xs={1} />

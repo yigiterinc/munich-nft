@@ -3,7 +3,7 @@ import Instruction from "./Instruction";
 import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { IoMdWallet } from "react-icons/io";
-import { BsDownload, BsCoin } from "react-icons/bs";
+import { BsCoin, BsDownload } from "react-icons/bs";
 import { BiPencil } from "react-icons/bi";
 
 const iconSize = 50;

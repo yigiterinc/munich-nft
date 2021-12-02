@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Typography, Select, MenuItem } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { makeStyles, MenuItem, Select, Typography } from "@material-ui/core";
 import { getMunichNftContractAddress } from "../../config/config";
 
 import { fetchUserCollections } from "../../api/strapi";
-
-import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
 	mainContainer: {

@@ -1,31 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import PersonIcon from "@material-ui/icons/Person";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import Compressor from "compressorjs";
-import { makeStyles } from "@material-ui/core/styles";
-import { truncateAddress } from "../../utils";
+import { darken, lighten, makeStyles } from "@material-ui/core/styles";
+import { truncateWalletAddress } from "../../utils";
 import { useFileUpload } from "use-file-upload";
-import { changeUserProfilePicture, uploadProfileImage } from "../../api/strapi";
+import { changeUserProfilePicture, uploadImageToMediaGallery } from "../../api/strapi";
 import { STRAPI_BASE_URL } from "../../constants/strapiConstants";
 
 const useStyles = makeStyles((theme) => ({
-	title: {
-		height: "auto",
+	mainContainer: {
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "center",
 		alignItems: "center",
-		background:
-			"linear-gradient(90deg, rgba(93,78,156,1) 0%, rgba(184,202,250,1) 100%)",
+	},
+	headerContainer: {
+		height: "auto",
+		minWidth: "80vw",
+		minHeight: "30vh",
+		background: lighten("rgb(236,239,241)", 0.6),
+		"&:hover": {
+			background: "rgb(236,239,241)",
+			cursor: "pointer",
+		},
 	},
 	avatar: {
-		marginTop: "2vh",
-		width: theme.spacing(12),
-		height: theme.spacing(12),
+		width: theme.spacing(14),
+		height: theme.spacing(14),
+		marginTop: theme.spacing(-11),
+		boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.20) 0px 0px 0px 1px",
 		cursor: "pointer",
+		marginBottom: "1vh",
+		background: "rgb(224,227,225)",
+		"&:hover": {
+			background: darken("rgb(224,227,225)", 0.05),
+		},
 	},
 	image: {
 		objectFit: "cover",
@@ -35,15 +47,18 @@ const useStyles = makeStyles((theme) => ({
 		width: theme.spacing(12),
 		cursor: "pointer",
 	},
+	profileSummary: {
+		marginBottom: "6vh",
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
+	},
 	name: {
 		marginTop: theme.spacing(1),
 		fontSize: "25px",
 		fontWeight: "lighter",
 		letterSpacing: "1px",
-	},
-	importButton: {
-		marginTop: "2vh",
-		marginBottom: "2vh",
 	},
 	address: {
 		marginTop: "10px",
@@ -51,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const ProfileHeader = ({ profile, openImportModal }) => {
+const ProfileHeader = ({ profile }) => {
 	const classes = useStyles();
 	const [uploadedProfileImage, setUploadedProfileImage] = useFileUpload();
 	const [compressedImage, setCompressedImage] = useState();
@@ -65,12 +80,12 @@ const ProfileHeader = ({ profile, openImportModal }) => {
 	useEffect(async () => {
 		if (compressedImage) {
 			let response;
-			let image = await uploadProfileImage(compressedImage, profile).then(
-				(resp) => (response = resp)
+			let image = await uploadImageToMediaGallery(compressedImage, profile).then(
+				(resp) => (response = resp),
 			);
 			let profileImageUploadResult = await changeUserProfilePicture(
 				image,
-				profile
+				profile,
 			);
 			console.log(profileImageUploadResult);
 		}
@@ -83,7 +98,7 @@ const ProfileHeader = ({ profile, openImportModal }) => {
 				setCompressedImage(
 					new File([compressedResult], profile.address, {
 						type: compressedResult.type,
-					})
+					}),
 				);
 			},
 		});
@@ -94,11 +109,12 @@ const ProfileHeader = ({ profile, openImportModal }) => {
 			{ accept: "image/*", multiple: false },
 			({ name, size, source, file }) => {
 				console.log("File Selected", { name, size, source, file });
-			}
+			},
 		);
 	};
 
 	const ImageWithUploadOnClick = (source) => {
+		console.log(source);
 		return (
 			<img
 				src={source}
@@ -110,26 +126,29 @@ const ProfileHeader = ({ profile, openImportModal }) => {
 	};
 
 	const ProfileImage = () => {
+		let component;
 		if (uploadedProfileImage) {
-			return ImageWithUploadOnClick(uploadedProfileImage?.source);
+			component = ImageWithUploadOnClick(uploadedProfileImage?.source);
 		} else if (profile?.profilePicture?.url) {
-			return ImageWithUploadOnClick(
-				STRAPI_BASE_URL + profile.profilePicture.url
+			component = ImageWithUploadOnClick(
+				STRAPI_BASE_URL + profile.profilePicture.url,
 			);
 		} else {
-			return (
+			component = (
 				<Avatar className={classes.avatar}>
 					<PersonIcon onClick={() => handleProfileImageUpload()} />
 				</Avatar>
 			);
 		}
+
+		return component;
 	};
 
 	const ProfileSummary = () => {
 		return (
-			<>
+			<div className={classes.profileSummary}>
 				<Typography className={classes.name} variant="h5" component="h2">
-					{profile?.username}
+					{profile?.username !== "null" ? profile.username : "Alien"}
 				</Typography>
 				<Typography
 					className={classes.address}
@@ -137,22 +156,9 @@ const ProfileHeader = ({ profile, openImportModal }) => {
 					component="h2"
 					color="textSecondary"
 				>
-					{truncateAddress(`${profile?.walletAddress}`, 13)}
+					{truncateWalletAddress(`${profile?.walletAddress}`, 13)}
 				</Typography>
-			</>
-		);
-	};
-
-	const importButton = () => {
-		return (
-			<Button
-				variant="contained"
-				size="large"
-				className={classes.importButton}
-				onClick={() => openImportModal()}
-			>
-				IMPORT
-			</Button>
+			</div>
 		);
 	};
 
@@ -160,12 +166,16 @@ const ProfileHeader = ({ profile, openImportModal }) => {
 		const elements = [];
 		elements.push(ProfileImage());
 		elements.push(ProfileSummary());
-		elements.push(importButton());
 
 		return elements;
 	};
 
-	return <Paper className={classes.title}>{profile && renderProfile()}</Paper>;
+	return (
+		<div className={classes.mainContainer}>
+			<Paper elevation={1} className={classes.headerContainer} />
+			{profile && renderProfile()}
+		</div>
+	);
 };
 
 export default ProfileHeader;

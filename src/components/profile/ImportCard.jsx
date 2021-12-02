@@ -6,16 +6,14 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import clsx from "clsx";
+import { truncateString, withDefault } from "../../utils";
 
 const useStyles = makeStyles((theme) => ({
 	card: {
-		width: 130,
-		height: 200,
+		height: "300",
 		cursor: "pointer",
 	},
 	cardSelected: {
-		width: 130,
-		height: 200,
 		borderColor: "rgb(120, 105, 199)",
 		boxShadow:
 			"rgba(120, 105, 199, 0.4) 0px 0px 0px 2px, rgba(120, 105, 199, 0.65) 0px 4px 6px -1px, rgba(120, 105, 199, 0.08) 0px 1px 0px inset",
@@ -27,26 +25,25 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: "center",
 	},
 	avatar: {
-		width: theme.spacing(7),
-		height: theme.spacing(7),
-		marginBottom: "2vh",
+		width: theme.spacing(15),
+		height: theme.spacing(15),
+		marginBottom: "5vh",
+	},
+	collectionName: {
+		marginTop: "10px",
+		fontSize: "17px",
 	},
 	image: {
-		height: 90,
 		objectFit: "contain",
+	},
+	nftName: {
+		fontSize: "18px",
 	},
 }));
 
 const ImportCard = ({ collection, nft, addToSelected, removeFromSelected }) => {
 	const [selected, setSelected] = useState(false);
 	const classes = useStyles();
-
-	const truncateString = (str, num) => {
-		if (!str || str.length <= num) {
-			return str;
-		}
-		return str.slice(0, num) + "...";
-	};
 
 	const handleOnClick = () => {
 		if (!collection && !nft) return;
@@ -62,6 +59,9 @@ const ImportCard = ({ collection, nft, addToSelected, removeFromSelected }) => {
 		setSelected(!selected);
 	};
 
+	const defaultNftName = "Nameless", defaultCollectionName = "Nameless";
+	const defaultImagePath = "/images/no-image.png";
+
 	return (
 		<Card
 			className={clsx(classes.card, { [classes.cardSelected]: selected })}
@@ -73,11 +73,11 @@ const ImportCard = ({ collection, nft, addToSelected, removeFromSelected }) => {
 				<CardContent className={classes.cardContent}>
 					<Avatar
 						alt={collection.name}
-						src={collection.image_url}
+						src={withDefault(collection.image_url, defaultImagePath)}
 						className={classes.avatar}
 					/>
-					<Typography variant="body1">
-						{truncateString(collection.name, 30)}
+					<Typography className={classes.collectionName} variant="body1">
+						{truncateString(withDefault(collection.name, "Nameless"), 20)}
 					</Typography>
 				</CardContent>
 			)}
@@ -86,14 +86,14 @@ const ImportCard = ({ collection, nft, addToSelected, removeFromSelected }) => {
 					<CardMedia
 						component="img"
 						className={classes.image}
-						image={nft.image_url}
+						image={withDefault(nft.image_url, defaultImagePath)}
 						title={nft.name}
 					/>
-					<Typography variant="body2" color="textSecondary" gutterBottom>
-						{truncateString(nft.collection.name, 20)}
+					<Typography className={classes.collectionName} variant="body2" color="textSecondary" gutterBottom>
+						{truncateString(withDefault(nft.collection.name, defaultCollectionName), 20)}
 					</Typography>
-					<Typography variant="body2">
-						{truncateString(nft.name, 20)}
+					<Typography variant="body2" className={classes.nftName}>
+						{truncateString(withDefault(nft.name, defaultNftName), 20)}
 					</Typography>
 				</CardContent>
 			)}

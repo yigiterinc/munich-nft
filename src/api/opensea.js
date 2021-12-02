@@ -1,15 +1,11 @@
 import axios from "axios";
 
-import axiosRetry from "axios-retry";
-
 import {
 	FETCH_ACCOUNT_COLLECTIONS_ENDPOINT,
 	FETCH_ASSETS_IN_COLLECTION_ENDPOINT,
 	FETCH_SINGLE_ASSET_ENDPOINT,
 	FETCH_SINGLE_COLLECTION_ENDPOINT,
 } from "../constants/openseaApiConstants";
-
-//axiosRetry(axios, { retries: 3, retryDelay: 1000 });
 
 export const fetchCollectionsOfUser = async (accountAddress) => {
 	if (!accountAddress) return;

@@ -1,14 +1,9 @@
 import React, { useState } from "react";
-import {
-	Container,
-	Button,
-	Typography,
-	CircularProgress,
-	Box,
-} from "@material-ui/core";
+import { Button, Container, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { mintNft } from "../../api/chainHelper";
+import withSpinner from "../common/WithSpinner";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -28,11 +23,6 @@ const useStyles = makeStyles((theme) => ({
 	textContainer: {
 		maxWidth: "40vw",
 		margin: "0 auto",
-	},
-	progress: {
-		display: "flex",
-		justifyContent: "center",
-		marginTop: "6vh",
 	},
 }));
 
@@ -58,7 +48,7 @@ function Mint({
 		setMintInProgress(false);
 	};
 
-	const mintButton = () => {
+	const MintButton = () => {
 		return (
 			<Button
 				className={classes.mintButton}
@@ -72,7 +62,7 @@ function Mint({
 		);
 	};
 
-	const renderMintingResult = () => {
+	const MintingResult = () => {
 		return (
 			<Container>
 				<Typography className={classes.title} variant="body2">
@@ -84,7 +74,7 @@ function Mint({
 		);
 	};
 
-	const renderMintPrompt = () => {
+	const MintPrompt = () => {
 		return (
 			<Container>
 				<Typography className={classes.title} variant="h5">
@@ -96,28 +86,21 @@ function Mint({
 						blockchain. This might take some time to be completed.
 					</Typography>
 				</div>
-				{mintButton()}
+				{MintButton()}
 			</Container>
-		);
-	};
-
-	const renderSpinner = () => {
-		return (
-			<Box className={classes.progress}>
-				<CircularProgress />
-			</Box>
 		);
 	};
 
 	const getRenderContent = () => {
 		if (mintedNft) {
-			return renderMintingResult();
-		} else if (mintInProgress) {
-			return renderSpinner();
+			return MintingResult();
 		} else {
-			return renderMintPrompt();
+			return withSpinner(MintPrompt(), mintInProgress, {
+				justifyContent: "center",
+				marginTop: "6vh",
+			})
 		}
-	};
+	}
 
 	return <div className={classes.root}>{getRenderContent()}</div>;
 }

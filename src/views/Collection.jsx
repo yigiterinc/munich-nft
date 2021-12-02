@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import CollectionHeader from "../components/collection/CollectionHeader";
 import CollectionMenu from "../components/collection/CollectionMenu";
 import CollectionAssets from "../components/collection/CollectionAssets";
-import {
-	fetchSingleCollectionMetadata,
-	fetchAssetsInCollection,
-} from "../api/opensea";
+import { fetchAssetsInCollection, fetchSingleCollectionMetadata } from "../api/opensea";
 
 const useStyles = makeStyles((theme) => ({
 	gridContainer: {

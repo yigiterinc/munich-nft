@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { Paper, Typography, Grid, Item } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-
-import { MdOutlineFavoriteBorder } from "react-icons/md";
 
 import EthereumLogo from "../../assets/images/ethereum.png";
 

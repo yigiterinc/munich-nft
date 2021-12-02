@@ -1,14 +1,8 @@
 import React, { useState } from "react";
-import {
-	Typography,
-	Container,
-	TextField,
-	Button,
-	Box,
-	CircularProgress,
-} from "@material-ui/core";
+import { Button, Container, TextField, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { listNft } from "../../api/chainHelper";
+import withSpinner from "../common/WithSpinner";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -31,21 +25,16 @@ const useStyles = makeStyles((theme) => ({
 		display: "block",
 		marginBottom: "2vh",
 	},
-	progress: {
-		display: "flex",
-		justifyContent: "center",
-		marginTop: "6vh",
-	},
 }));
 
 function ListNft({
-	resetButton,
-	listedNft,
-	setListedNft,
-	listingPrice,
-	setListingPrice,
-	resultingTokenId,
-}) {
+									 resetButton,
+									 listedNft,
+									 setListedNft,
+									 listingPrice,
+									 setListingPrice,
+									 resultingTokenId,
+								 }) {
 	const classes = useStyles();
 
 	const [listingInProgress, setListingInProgress] = useState(false);
@@ -58,13 +47,13 @@ function ListNft({
 		const listing = await listNft(
 			expirationTime,
 			resultingTokenId,
-			listingPrice
+			listingPrice,
 		);
 		setListedNft(listing.hash);
 		setListingInProgress(false);
 	};
 
-	const renderListingResult = () => {
+	const ListingResult = () => {
 		return (
 			<Container style={{ textAlign: "center" }}>
 				<Typography className={classes.info} variant="body2">
@@ -75,7 +64,7 @@ function ListNft({
 		);
 	};
 
-	const renderListingPrompt = () => {
+	const ListingPrompt = () => {
 		return (
 			<Container>
 				<Typography className={classes.title} variant="h5">
@@ -104,21 +93,14 @@ function ListNft({
 		);
 	};
 
-	const renderSpinner = () => {
-		return (
-			<Box className={classes.progress}>
-				<CircularProgress />
-			</Box>
-		);
-	};
-
 	const getRenderContent = () => {
 		if (listedNft) {
-			return renderListingResult();
-		} else if (listingInProgress) {
-			return renderSpinner();
+			return ListingResult();
 		} else {
-			return renderListingPrompt();
+			return withSpinner(ListingPrompt(), listingInProgress, {
+				justifyContent: "center",
+				marginTop: "6vh",
+			});
 		}
 	};
 
