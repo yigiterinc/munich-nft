@@ -18,10 +18,22 @@ const useStyles = makeStyles({
 });
 
 const AssetCard = ({ asset }) => {
+	const contractAddressId = asset.asset_contract.address;
+	const tokenId = asset.token_id;
+	const path = `/token/${contractAddressId}/${tokenId}`;
+
 	const classes = useStyles();
 
+	const redirectToNftDetailsPage = () => {
+		window.location.href = path;
+	};
+
 	return (
-		<Card className={classes.root} variant="outlined" onClick={() => {}}>
+		<Card
+			className={classes.root}
+			variant="outlined"
+			onClick={redirectToNftDetailsPage}
+		>
 			<CardMedia
 				component="img"
 				className={classes.image}

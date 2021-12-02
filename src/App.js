@@ -75,10 +75,7 @@ function App() {
 				<Route path="/mint-nft">
 					<MintNft account={walletAddress} user={loggedInUser} />
 				</Route>
-				<Route
-					// path="/gallery/:userId/:galleryId"
-					path="/gallery/"
-				>
+				<Route path="/galleries/:slug">
 					<Gallery />
 				</Route>
 				<Route path="/collection/:slug">

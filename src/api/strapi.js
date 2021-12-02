@@ -4,6 +4,8 @@ import {
 	GET_USER_UPDATE_URL,
 	IMAGE_UPLOAD_URL,
 	MUNICH_NFT_USERS_URL, USER_GALLERIES_URL,
+	MUNICH_NFT_USERS_URL,
+	GALLERY_URL,
 } from "../constants/strapiConstants";
 
 // TODO: should fetch user's collections and their names
@@ -36,34 +38,13 @@ export const changeUserProfilePicture = async (image, user) => {
 	return await updateUser(user);
 };
 
-export const updateUserProfile = async (
-	username,
-	bio,
-	email,
-	profileImage,
-	bannerImage,
-	user,
-) => {
-	user.username = username;
-	user.bio = bio;
-	user.email = email;
-	if (profileImage) {
-		user.profilePicture = profileImage.data[0];
-	}
-	if (bannerImage) {
-		user.bannerImage = bannerImage.data[0];
-	}
-
-	return await axios.put(GET_USER_UPDATE_URL(user.id), user);
-};
-
 // Fetches if user is already present in DB, otherwise saves to db
 export const createOrFetchUser = async ({
-																					username,
-																					importedCollections,
-																					walletAddress,
-																					profilePicture,
-																				}) => {
+	username,
+	importedCollections,
+	walletAddress,
+	profilePicture,
+}) => {
 	let data = {
 		username,
 		importedCollections,
@@ -145,7 +126,6 @@ export const saveImportedNfts = async (user, selectedCollectionNftPairs) => {
 
 	return await updateUser(user);
 };
-
 export const convertSelectedNftsToGalleryAssets = (selectedNftCollectionPairs) => {
 	if (!selectedNftCollectionPairs) return;
 	let galleryAssets = [];
