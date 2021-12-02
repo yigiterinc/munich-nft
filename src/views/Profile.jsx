@@ -15,7 +15,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	galleriesContainer: {
 		width: "85vw",
-		boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(63, 174, 223) 0px 0px 0px 5px",
+		boxShadow:
+			"rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(63, 174, 223) 0px 0px 0px 5px",
 		paddingTop: "2vw",
 		paddingLeft: "5vw",
 		paddingRight: "5vw",
@@ -36,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
 		minHeight: "30vh",
 		paddingBottom: "1vh",
 		paddingTop: "2vh",
-		boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(63, 174, 223) 0px 0px 0px 5px",
+		boxShadow:
+			"rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(63, 174, 223) 0px 0px 0px 5px",
 	},
 	noGalleryFoundDescription: {
 		fontSize: "20px",
@@ -54,9 +56,11 @@ const Profile = ({ user }) => {
 	const classes = useStyles();
 
 	const galleries = () => {
-		return (<Grid container spacing={4} className={classes.galleriesContainer}>
-			<p>Hello</p>
-		</Grid>);
+		return (
+			<Grid container spacing={4} className={classes.galleriesContainer}>
+				<p>Hello</p>
+			</Grid>
+		);
 	};
 
 	const noGalleryFound = () => {
@@ -66,16 +70,21 @@ const Profile = ({ user }) => {
 					Galleries are a great way to present your NFT portfolio to people!
 					Create one by clicking the button below.
 				</p>
-				<Button component={Link} to="/create-gallery" variant={"outlined"} className={classes.createGalleryButton}>Create Gallery</Button>
+				<Button
+					component={Link}
+					to="/create-gallery"
+					variant={"outlined"}
+					className={classes.createGalleryButton}
+				>
+					Create Gallery
+				</Button>
 			</div>
 		);
 	};
 
 	return (
 		<div className={classes.mainContainer}>
-			<ProfileHeader
-				profile={user}
-			/>
+			<ProfileHeader profile={user} />
 			{user?.galleries ? galleries() : noGalleryFound()}
 		</div>
 	);

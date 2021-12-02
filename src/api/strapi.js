@@ -53,7 +53,7 @@ export const updateUserProfile = async (
 		user.bannerImage = bannerImage.data[0];
 	}
 
-	return await updateUser(user);
+	return await axios.put(GET_USER_UPDATE_URL(user.id), user);
 };
 
 // Fetches if user is already present in DB, otherwise saves to db
