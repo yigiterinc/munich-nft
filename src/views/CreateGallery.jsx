@@ -4,8 +4,14 @@ import FileDropzone from "../components/common/FileDropzone";
 import AddGalleryMetadata from "../components/create-gallery/AddGalleryMetadata";
 import SelectGalleryNfts from "../components/create-gallery/SelectGalleryNfts";
 
-import { makeStyles } from "@material-ui/core/styles";
-import { saveImportedNfts, updateUser, uploadImageToMediaGallery } from "../api/strapi";
+import { darken, makeStyles } from "@material-ui/core/styles";
+import {
+	createGallery,
+	convertSelectedNftsToGalleryAssets,
+	saveImportedNfts,
+	updateUser,
+	uploadImageToMediaGallery,
+} from "../api/strapi";
 
 const useStyles = makeStyles((theme) => ({
 	navigationButton: {
@@ -13,9 +19,11 @@ const useStyles = makeStyles((theme) => ({
 		color: "#FFFFFF",
 		margin: "13px 25px",
 		padding: "13px 25px",
-
 		"&:disabled": {
 			opacity: "80%"
+		},
+		"&:hover": {
+			background: darken("#FF6700", 0.1)
 		}
 	},
 }));
@@ -25,19 +33,25 @@ const CreateGallery = (props) => {
 	const [galleryDescription, setGalleryDescription] = useState();
 	const [coverImage, setCoverImage] = useState();
 	const [activeStep, setActiveStep] = useState(0);
+	const [error, setError] = useState(false)
 
 	const classes = useStyles();
 
 	const handleSubmit = async (selectedCollections, selectedNfts) => {
 		let user = props?.user
-		if (!user) {
-			console.log("user undefined");
+		const allRequiredParamsEntered = galleryName &&
+			galleryDescription &&
+			coverImage &&
+			(selectedCollections || selectedNfts)
+
+		if (!user || !allRequiredParamsEntered) {
+			setError(true)
 			return;
 		}
 
 		let assets;
 		if (selectedNfts) {
-			assets = await saveImportedNfts(user, selectedNfts)
+			assets = convertSelectedNftsToGalleryAssets(selectedNfts)
 		} else if (selectedCollections) {
 			assets = selectedCollections;
 		} else {
@@ -48,20 +62,22 @@ const CreateGallery = (props) => {
 		const imageIdentifier = uploadResult.data[0]
 		const gallery = {
 			galleryName,
-			galleryDescription,
+			description: galleryDescription,
+			slug: convertToSlug(galleryName),
 			coverImage: imageIdentifier,
-			assets: assets
+			assets: assets,
+			userId: user.id
 		};
 
-		if (user.galleries) {
-			props.user.galleries.push(gallery)
-		} else {
-			user.galleries = [gallery]
-		}
+		console.log(gallery);
 
-		const updateResult = await updateUser(props.user)
+		const updateResult = await createGallery(gallery)
 		console.log(updateResult);
 	};
+
+	const convertToSlug = (galleryName) => {
+		return galleryName.toLowerCase().replaceAll(" ", "_");
+	}
 
 	const nextButton = (
 		<Button
@@ -105,9 +121,9 @@ const CreateGallery = (props) => {
 												coverImage={coverImage}
 												setCoverImage={setCoverImage}
 												collectionName={galleryName}
-												setCollectionName={setGalleryName}
-												collectionDescription={galleryDescription}
-												setCollectionDescription={setGalleryDescription}
+												setGalleryName={setGalleryName}
+												galleryDescription={galleryDescription}
+												setGalleryDescription={setGalleryDescription}
 		/>,
 		<SelectGalleryNfts nextButton={nextButton}
 											 prevButton={prevButton}

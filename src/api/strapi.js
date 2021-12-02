@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+	GALLERIES_URL,
 	GET_USER_UPDATE_URL,
 	IMAGE_UPLOAD_URL,
 	MUNICH_NFT_USERS_URL,
@@ -90,7 +91,6 @@ export const createOrFetchUser = async ({
 
 export const fetchExistingUser = async (walletAddress) => {
 	const url = `${MUNICH_NFT_USERS_URL}?walletAddress=${walletAddress}`;
-
 	const resp = await axios.get(url);
 
 	return resp.data[0];
@@ -102,6 +102,10 @@ export const updateUser = async (user) => {
 	console.log(response);
 	return response.data;
 };
+
+export const createGallery = async (gallery) => {
+	return await axios.post(GALLERIES_URL, gallery);
+}
 
 export const saveImportedCollections = async (user, collectionsToSave) => {
 	user.importedCollections = collectionsToSave;
@@ -135,6 +139,28 @@ export const saveImportedNfts = async (user, selectedCollectionNftPairs) => {
 
 	return await updateUser(user);
 };
+
+export const convertSelectedNftsToGalleryAssets = (selectedNftCollectionPairs) => {
+	if (!selectedNftCollectionPairs)	return;
+	let galleryAssets = []
+	selectedNftCollectionPairs.forEach(pair => {
+
+		let collection = {
+			name: pair.collection.name,
+			slug: pair.collection.slug,
+		};
+		const galleryAsset = {
+			collection,
+			...pair.nft,
+		};
+
+		delete galleryAsset.collection
+
+		galleryAssets.push(galleryAsset)
+	});
+
+	return galleryAssets
+}
 
 const anySelectedCollectionNftPairContainsThisAsset = (
 	asset,

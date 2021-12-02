@@ -89,8 +89,8 @@ const AddGalleryMetadata = (props) => {
 					variant="outlined"
 					placeholder="Example: Kitty Cats"
 					fullWidth
-					value={props.collectionName}
-					onChange={(event) => props.setCollectionName(event.target.value)}
+					value={props.galleryName}
+					onChange={(event) => props.setGalleryName(event.target.value)}
 				/>
 			</Grid>
 			<Grid item xs={12} className={classes.gridItem}>
@@ -104,8 +104,8 @@ const AddGalleryMetadata = (props) => {
 					fullWidth
 					multiline
 					rows={7}
-					value={props.collectionDescription}
-					onChange={(event) => props.setCollectionDescription(event.target.value)}
+					value={props.galleryDescription}
+					onChange={(event) => props.setGalleryDescription(event.target.value)}
 				/>
 			</Grid>
 			<Grid item xs={12} className={classes.gridItem}>
