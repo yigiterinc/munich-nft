@@ -5,6 +5,7 @@ import AddGalleryMetadata from "../components/create-gallery/AddGalleryMetadata"
 import SelectGalleryNfts from "../components/create-gallery/SelectGalleryNfts";
 
 import { makeStyles } from "@material-ui/core/styles";
+import { saveImportedNfts, updateUser, uploadImageToMediaGallery } from "../api/strapi";
 
 const useStyles = makeStyles((theme) => ({
 	navigationButton: {
@@ -20,15 +21,46 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CreateGallery = (props) => {
-	const [collectionName, setCollectionName] = useState();
-	const [collectionDescription, setCollectionDescription] = useState();
+	const [galleryName, setGalleryName] = useState();
+	const [galleryDescription, setGalleryDescription] = useState();
 	const [coverImage, setCoverImage] = useState();
 	const [activeStep, setActiveStep] = useState(0);
 
 	const classes = useStyles();
 
-	const handleSubmit = (selectedCollections, selectedNfts) => {
-		console.log(selectedNfts, selectedCollections);
+	const handleSubmit = async (selectedCollections, selectedNfts) => {
+		let user = props?.user
+		if (!user) {
+			console.log("user undefined");
+			return;
+		}
+
+		let assets;
+		if (selectedNfts) {
+			assets = await saveImportedNfts(user, selectedNfts)
+		} else if (selectedCollections) {
+			assets = selectedCollections;
+		} else {
+			return;
+		}
+
+		const uploadResult = await uploadImageToMediaGallery(coverImage);
+		const imageIdentifier = uploadResult.data[0]
+		const gallery = {
+			galleryName,
+			galleryDescription,
+			coverImage: imageIdentifier,
+			assets: assets
+		};
+
+		if (user.galleries) {
+			props.user.galleries.push(gallery)
+		} else {
+			user.galleries = [gallery]
+		}
+
+		const updateResult = await updateUser(props.user)
+		console.log(updateResult);
 	};
 
 	const nextButton = (
@@ -37,7 +69,7 @@ const CreateGallery = (props) => {
 			size="large"
 			onClick={() => setActiveStep((prevActiveStep) => prevActiveStep + 1)}
 			variant="contained"
-			disabled={!(coverImage && collectionName && collectionDescription)}
+			disabled={!(coverImage && galleryName && galleryDescription)}
 		>
 			Next
 		</Button>
@@ -72,10 +104,10 @@ const CreateGallery = (props) => {
 												fileUploader={dropzone}
 												coverImage={coverImage}
 												setCoverImage={setCoverImage}
-												collectionName={collectionName}
-												setCollectionName={setCollectionName}
-												collectionDescription={collectionDescription}
-												setCollectionDescription={setCollectionDescription}
+												collectionName={galleryName}
+												setCollectionName={setGalleryName}
+												collectionDescription={galleryDescription}
+												setCollectionDescription={setGalleryDescription}
 		/>,
 		<SelectGalleryNfts nextButton={nextButton}
 											 prevButton={prevButton}

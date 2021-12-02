@@ -76,6 +76,7 @@ export const saveImportedCollections = async (user, collectionsToSave) => {
 };
 
 export const saveImportedNfts = async (user, selectedCollectionNftPairs) => {
+	let importedCollections = []
 	selectedCollectionNftPairs.map((collectionNftPair) => {
 		let existingCollectionInStrapi = user.importedCollections
 			.find(collection => collection.slug === collectionNftPair.collection.slug);
@@ -91,14 +92,14 @@ export const saveImportedNfts = async (user, selectedCollectionNftPairs) => {
 					.filter(asset => anySelectedCollectionNftPairContainsThisAsset(asset, selectedCollectionNftPairs));
 
 			collectionNftPair.collection.assets = selectedAssetsOnly;
-			user.importedCollections.push(collectionNftPair.collection);
+			importedCollections.push(collectionNftPair.collection);
 		}
 	});
 
-	return await updateUser(user);
+	return importedCollections;
 };
 
-const updateUser = async (user) => {
+export const updateUser = async (user) => {
 	console.log(GET_USER_UPDATE_URL(user.id));
 	const response = await axios.put(GET_USER_UPDATE_URL(user.id), user);
 	return response.data;
