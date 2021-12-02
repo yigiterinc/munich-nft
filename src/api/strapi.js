@@ -1,5 +1,9 @@
 import axios from "axios";
-import { GET_USER_UPDATE_URL, IMAGE_UPLOAD_URL, MUNICH_NFT_USERS_URL } from "../constants/strapiConstants";
+import {
+	GET_USER_UPDATE_URL,
+	IMAGE_UPLOAD_URL,
+	MUNICH_NFT_USERS_URL,
+} from "../constants/strapiConstants";
 
 // TODO: should fetch user's collections and their names
 export const fetchUserCollections = (address) => {
@@ -31,11 +35,36 @@ export const changeUserProfilePicture = async (image, user) => {
 	return await updateUser(user);
 };
 
-// Fetches if user is already present in DB, otherwise saves to db
-export const createOrFetchUser = async (
-	{ importedCollections, walletAddress, profilePicture }) => {
+export const updateUserProfile = async (
+	username,
+	bio,
+	email,
+	profileImage,
+	bannerImage,
+	user
+) => {
+	user.username = username;
+	user.bio = bio;
+	user.email = email;
+	if (profileImage) {
+		user.profilePicture = profileImage.data[0];
+	}
+	if (bannerImage) {
+		user.bannerImage = bannerImage.data[0];
+	}
+	const response = await axios.put(GET_USER_UPDATE_URL(user.id), user);
+	return response.data;
+};
 
+// Fetches if user is already present in DB, otherwise saves to db
+export const createOrFetchUser = async ({
+	username,
+	importedCollections,
+	walletAddress,
+	profilePicture,
+}) => {
 	let data = {
+		username,
 		importedCollections,
 		walletAddress,
 		profilePicture,
@@ -43,9 +72,7 @@ export const createOrFetchUser = async (
 
 	let resp, user;
 	try {
-		resp = await axios
-			.post(MUNICH_NFT_USERS_URL, data);
-		console.log(resp);
+		resp = await axios.post(MUNICH_NFT_USERS_URL, data);
 		user = resp.data;
 
 		console.log("user successfully created", user);
@@ -62,12 +89,17 @@ export const createOrFetchUser = async (
 };
 
 export const fetchExistingUser = async (walletAddress) => {
-	const url =
-		`${MUNICH_NFT_USERS_URL}?walletAddress=${walletAddress}`;
+	const url = `${MUNICH_NFT_USERS_URL}?walletAddress=${walletAddress}`;
 
 	const resp = await axios.get(url);
 
 	return resp.data[0];
+};
+
+const updateUser = async (user) => {
+	console.log(GET_USER_UPDATE_URL(user.id));
+	const response = await axios.put(GET_USER_UPDATE_URL(user.id), user);
+	return response.data;
 };
 
 export const saveImportedCollections = async (user, collectionsToSave) => {
@@ -76,10 +108,10 @@ export const saveImportedCollections = async (user, collectionsToSave) => {
 };
 
 export const saveImportedNfts = async (user, selectedCollectionNftPairs) => {
-	let importedCollections = []
 	selectedCollectionNftPairs.map((collectionNftPair) => {
-		let existingCollectionInStrapi = user.importedCollections
-			.find(collection => collection.slug === collectionNftPair.collection.slug);
+		let existingCollectionInStrapi = user.importedCollections.find(
+			(collection) => collection.slug === collectionNftPair.collection.slug
+		);
 
 		if (existingCollectionInStrapi) {
 			existingCollectionInStrapi.assets.push(collectionNftPair.nft);
@@ -87,27 +119,27 @@ export const saveImportedNfts = async (user, selectedCollectionNftPairs) => {
 			const allAssetsFromOpenseaInThisCollection =
 				collectionNftPair.collection.assets;
 
-			const selectedAssetsOnly =
-				allAssetsFromOpenseaInThisCollection
-					.filter(asset => anySelectedCollectionNftPairContainsThisAsset(asset, selectedCollectionNftPairs));
+			const selectedAssetsOnly = allAssetsFromOpenseaInThisCollection.filter(
+				(asset) =>
+					anySelectedCollectionNftPairContainsThisAsset(
+						asset,
+						selectedCollectionNftPairs
+					)
+			);
 
 			collectionNftPair.collection.assets = selectedAssetsOnly;
-			importedCollections.push(collectionNftPair.collection);
+			user.importedCollections.push(collectionNftPair.collection);
 		}
 	});
 
-	return importedCollections;
+	return await updateUser(user);
 };
 
-export const updateUser = async (user) => {
-	console.log(GET_USER_UPDATE_URL(user.id));
-	const response = await axios.put(GET_USER_UPDATE_URL(user.id), user);
-	return response.data;
+const anySelectedCollectionNftPairContainsThisAsset = (
+	asset,
+	selectedCollectionNftPairs
+) => {
+	return selectedCollectionNftPairs.some(
+		(nftCollection) => nftCollection.nft === asset
+	);
 };
-
-const anySelectedCollectionNftPairContainsThisAsset =
-	(asset, selectedCollectionNftPairs) => {
-
-		return selectedCollectionNftPairs
-			.some(nftCollection => nftCollection.nft === asset);
-	};
