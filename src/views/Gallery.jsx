@@ -65,7 +65,7 @@ const Gallery = () => {
 const nftHelper = (assets) => {
 	let tmp = [];
 	for (let i = 0; i < assets.length; i++) {
-		tmp.push(assets[i].nft);
+		tmp.push(assets[i]);
 	}
 	return tmp;
 };
