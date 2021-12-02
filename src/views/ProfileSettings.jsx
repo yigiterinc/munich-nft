@@ -4,8 +4,8 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { Typography } from "@material-ui/core";
-import ProfileImageUpload from "../components/profile/ProfileImageUpload";
-import { changeUserProfilePicture, uploadProfileImage } from "../api/strapi";
+import ImageUploadWithPreview from "../components/common/ImageUploadWithPreview";
+import { uploadImageToMediaGallery, updateUserProfile } from "../api/strapi";
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -58,6 +58,8 @@ const ProfileSettings = ({ user }) => {
 		profileImage: null,
 		bannerImage: null,
 	});
+	const [isProfileImageUpdated, setIsProfileImageUpdated] = useState(false);
+	const [isBannerImageUpdated, setIsBannerImageUpdated] = useState(false);
 	const classes = useStyles();
 
 	useEffect(() => {
@@ -74,17 +76,27 @@ const ProfileSettings = ({ user }) => {
 	}, [user]);
 
 	const updateUser = async () => {
-		// 	if (userData.profileImage) {
-		// 		let response;
-		// 		let image = await uploadProfileImage(userData.profileImage).then(
-		// 			(resp) => (response = resp)
-		// 		);
-		// 		let profileImageUploadResult = await changeUserProfilePicture(
-		// 			image,
-		// 			user
-		// 		);
-		// 		console.log(profileImageUploadResult);
-		// 	}
+		let profileImage, bannerImage;
+		if (isProfileImageUpdated) {
+			let response;
+			profileImage = await uploadImageToMediaGallery(userData.profileImage).then(
+				(resp) => (response = resp)
+			);
+		}
+		if (isBannerImageUpdated) {
+			let response;
+			bannerImage = await uploadImageToMediaGallery(userData.bannerImage).then(
+				(resp) => (response = resp)
+			);
+		}
+		await updateUserProfile(
+			userData.username,
+			userData.bio,
+			userData.email,
+			profileImage,
+			bannerImage,
+			user
+		);
 	};
 
 	return (
@@ -149,23 +161,31 @@ const ProfileSettings = ({ user }) => {
 				<Grid container item xs={5} spacing={6}>
 					<Grid item xs={12} style={{ height: "auto" }}>
 						<Typography variant="h6">Profile Image</Typography>
-						<ProfileImageUpload
+						<ImageUploadWithPreview
+							isCircle
+							height={100}
+							width={100}
 							userId={user?.id}
-							profileImage={userData.profileImage}
-							setNewProfileImage={(uploadedImage) =>
-								setUserData({ ...userData, profileImage: uploadedImage })
-							}
+							image={userData.profileImage}
+							setNewImage={(uploadedImage) => {
+								setUserData({ ...userData, profileImage: uploadedImage });
+								setIsProfileImageUpdated(true);
+							}}
 						/>
 					</Grid>
-					{/* <Grid item xs={12}>
+					<Grid item xs={12}>
 						<Typography variant="h6">Banner Image</Typography>
-						<BannerImageUpload
-						bannerImage={userData.bannerImage}
-						setNewBannerImage={(uploadedImage) =>
-							setUserData({ ...userData, bannerImage: uploadedImage })
-						}
-					/>
-					</Grid> */}
+						<ImageUploadWithPreview
+							height={200}
+							width={300}
+							userId={user?.id}
+							image={userData.bannerImage}
+							setNewImage={(uploadedImage) => {
+								setUserData({ ...userData, bannerImage: uploadedImage });
+								setIsBannerImageUpdated(true);
+							}}
+						/>
+					</Grid>
 				</Grid>
 			</Grid>
 		</div>

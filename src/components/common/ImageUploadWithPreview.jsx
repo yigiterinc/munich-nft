@@ -1,47 +1,55 @@
 import React, { useState, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
-import PersonIcon from "@material-ui/icons/Person";
+import ImageIcon from "@material-ui/icons/Image";
 import Compressor from "compressorjs";
 import { makeStyles } from "@material-ui/core/styles";
 import { useFileUpload } from "use-file-upload";
 import { STRAPI_BASE_URL } from "../../constants/strapiConstants";
 
 const useStyles = makeStyles((theme) => ({
-	avatar: {
+	avatar: ({ isCircle, height, width }) => ({
 		marginTop: "2vh",
-		width: theme.spacing(12),
-		height: theme.spacing(12),
+		borderRadius: isCircle ? "50%" : 10,
+		width: width,
+		height: height,
 		cursor: "pointer",
-	},
-	image: {
+	}),
+	image: ({ height, width, isCircle }) => ({
 		objectFit: "cover",
 		marginTop: "2vh",
-		borderRadius: "50%",
-		height: theme.spacing(12),
-		width: theme.spacing(12),
+		borderRadius: isCircle ? "50%" : 10,
+		height: height,
+		width: width,
 		cursor: "pointer",
-	},
+	}),
 }));
 
-const ProfileImageUpload = ({ userId, profileImage, setNewProfileImage }) => {
-	const classes = useStyles();
-	const [uploadedProfileImage, setUploadedProfileImage] = useFileUpload();
+const ImageUploadWithPreview = ({
+	userId,
+	image,
+	setNewImage,
+	isCircle = false,
+	height,
+	width,
+}) => {
+	const [uploadedImage, setUploadedImage] = useFileUpload();
 	const [compressedImage, setCompressedImage] = useState();
+	const classes = useStyles({ isCircle, height, width });
 
 	useEffect(async () => {
-		if (uploadedProfileImage) {
+		if (uploadedImage) {
 			compressImage();
 		}
-	}, [uploadedProfileImage]);
+	}, [uploadedImage]);
 
 	useEffect(async () => {
 		if (compressedImage) {
-			setNewProfileImage(compressedImage);
+			setNewImage(compressedImage);
 		}
 	}, [compressedImage]);
 
 	const compressImage = () => {
-		return new Compressor(uploadedProfileImage.file, {
+		return new Compressor(uploadedImage.file, {
 			quality: 0.6,
 			success: (compressedResult) => {
 				setCompressedImage(
@@ -53,8 +61,8 @@ const ProfileImageUpload = ({ userId, profileImage, setNewProfileImage }) => {
 		});
 	};
 
-	const handleProfileImageUpload = () => {
-		setUploadedProfileImage(
+	const handleImageUpload = () => {
+		setUploadedImage(
 			{ accept: "image/*", multiple: false },
 			({ name, size, source, file }) => {
 				console.log("File Selected", { name, size, source, file });
@@ -68,26 +76,26 @@ const ProfileImageUpload = ({ userId, profileImage, setNewProfileImage }) => {
 				src={source}
 				alt="preview"
 				className={classes.image}
-				onClick={() => handleProfileImageUpload()}
+				onClick={() => handleImageUpload()}
 			/>
 		);
 	};
 
-	const ProfileImage = () => {
-		if (uploadedProfileImage) {
-			return ImageWithUploadOnClick(uploadedProfileImage?.source);
-		} else if (profileImage?.url) {
-			return ImageWithUploadOnClick(STRAPI_BASE_URL + profileImage.url);
+	const ImageUploadWithPreview = () => {
+		if (uploadedImage) {
+			return ImageWithUploadOnClick(uploadedImage?.source);
+		} else if (image?.url) {
+			return ImageWithUploadOnClick(STRAPI_BASE_URL + image.url);
 		} else {
 			return (
-				<Avatar className={classes.avatar}>
-					<PersonIcon onClick={() => handleProfileImageUpload()} />
+				<Avatar className={classes.avatar} onClick={() => handleImageUpload()}>
+					<ImageIcon />
 				</Avatar>
 			);
 		}
 	};
 
-	return ProfileImage();
+	return ImageUploadWithPreview();
 };
 
-export default ProfileImageUpload;
+export default ImageUploadWithPreview;
