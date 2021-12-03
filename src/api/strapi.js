@@ -175,7 +175,8 @@ const anySelectedCollectionNftPairContainsThisAsset = (
 };
 
 export const fetchUserGalleries = async (userId) => {
-	const resp = await axios.get(USER_GALLERIES_URL(userId));
+	if (!userId) return;
+	const resp = await axios.get(USER_GALLERIES_URL(userId.substring(0, 25)));
 	console.log(resp);
 	return resp.data;
 }

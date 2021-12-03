@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link, useParams } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import { fetchExistingUserWithId, fetchUserGalleries } from "../api/strapi";
+import GalleryCard from "../components/common/GalleryCard";
 
 const useStyles = makeStyles((theme) => ({
 	mainContainer: {
@@ -63,7 +64,7 @@ const Profile = ({ user }) => {
 	useEffect(async () => {
 		if (userIdParam === user?.id) {
 			setProfileOwner(user);
-			setViewingOwnProfile(true)
+			setViewingOwnProfile(true);
 		} else {
 			let response = await fetchExistingUserWithId(userIdParam);
 			if (response.status === 200) {
@@ -73,13 +74,19 @@ const Profile = ({ user }) => {
 			}
 		}
 
-		setProfileOwnerGalleries(await fetchUserGalleries());
+		setProfileOwnerGalleries(await fetchUserGalleries(userIdParam));
 	}, [userIdParam]);
 
 	const Galleries = () => {
-		console.log("galleries");
 		return (
-			<p>Hello</p>
+			<Grid container spacing={4}>
+				{
+					profileOwnerGalleries.map(gallery =>
+						<Grid item>
+							<GalleryCard gallery={gallery} lg={3} md={4} sm={6} xs={12} />
+						</Grid>)
+				}
+			</Grid>
 		);
 	};
 
@@ -119,7 +126,7 @@ const Profile = ({ user }) => {
 	};
 
 	const userHasGallery = () => {
-		return profileOwnerGalleries && profileOwnerGalleries?.length > 0
+		return profileOwnerGalleries && profileOwnerGalleries?.length > 0;
 	};
 
 	const NoGalleryFoundView = () => {
@@ -128,7 +135,7 @@ const Profile = ({ user }) => {
 		} else {
 			return NoGalleryFound();
 		}
-	}
+	};
 
 	const GallerySection = () => {
 		return userHasGallery() ? Galleries() : NoGalleryFoundView();
@@ -139,12 +146,12 @@ const Profile = ({ user }) => {
 			{
 				user &&
 				(<>
-						<ProfileHeader ownProfile={viewingOwnProfile} profile={profileOwner} />
-						<div className={classes.galleriesContainer}>
-							{
-								GallerySection()
-							}
-						</div>
+					<ProfileHeader ownProfile={viewingOwnProfile} profile={profileOwner} />
+					<div className={classes.galleriesContainer}>
+						{
+							GallerySection()
+						}
+					</div>
 				</>)
 			}
 		</div>
