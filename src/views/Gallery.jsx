@@ -31,27 +31,19 @@ const useStyles = makeStyles({
 // fetchExistingUser
 const Gallery = () => {
 	const [gallery, setGallery] = useState(null);
-	const [nfts, setNfts] = useState(null);
 	let { slug } = useParams();
-	// let dummyGallery = {
-	// 	imageSrc:
-	// 		"https://www.onyilhediyelik.com/wp-content/uploads/2017/03/portfolio_09-400x400.png",
-	// 	name: "Crypto Kitties Gallery",
-	// 	creator: "Cemal",
-	// 	description:
-	// 		"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pretium neque eget eros elementum tempus. Cras in mattis tortor. Praesent dignissim sem vel placerat vulputate. Aenean ac nibh purus. Nulla efficitur ante ut ligula pharetra dictum. Nunc dictum neque quam, vel fermentum enim tincidunt eleifend. Sed tristique suscipit neque, sit amet pharetra nisl venenatis sed. Donec mauris dui, lobortis vitae nulla sed, suscipit euismod nisi. Integer ornare mollis mollis.",
-	// };
 	const classes = useStyles();
 
 	useEffect(async () => {
 		const json = await fetchGallery(slug);
-		console.log(json.coverImage.url);
 		let nfts = nftHelper(json.assets);
 		const gallery = {
 			name: json.galleryName,
 			description: json.description,
 			imageSrc: json.coverImage.url,
-			creator: json.userId,
+			userId: json.userId,
+			creator: json.assets[0].creator.user.username,
+			walletAddress: json.assets[0].creator.address,
 			nfts: nfts,
 		};
 		setGallery(gallery);

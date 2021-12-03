@@ -19,13 +19,22 @@ const useStyles = makeStyles({
 
 const GalleryHeaderPanel = (galleryJson) => {
 	const classes = useStyles();
+	const path = `/profile/${galleryJson.userId}`;
+
+	const redirectToProfilePage = () => {
+		window.location.href = path;
+	};
 
 	return (
 		<div className={classes.galleryHeaderpanel}>
 			<Typography className={classes.title} variant="h4">
 				{galleryJson.name}
 			</Typography>
-			<Link href="#" className={classes.creator} variant="h5">
+			<Link
+				onClick={redirectToProfilePage}
+				className={classes.creator}
+				variant="h5"
+			>
 				{galleryJson.creator}
 			</Link>
 			<Typography className={classes.description} variant="h5">
