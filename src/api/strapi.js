@@ -3,7 +3,7 @@ import {
 	GALLERIES_URL,
 	GET_USER_UPDATE_URL,
 	IMAGE_UPLOAD_URL,
-	MUNICH_NFT_USERS_URL,
+	MUNICH_NFT_USERS_URL, USER_GALLERIES_URL,
 } from "../constants/strapiConstants";
 
 // TODO: should fetch user's collections and their names
@@ -173,3 +173,9 @@ const anySelectedCollectionNftPairContainsThisAsset = (
 		(nftCollection) => nftCollection.nft === asset,
 	);
 };
+
+export const fetchUserGalleries = async (userId) => {
+	const resp = await axios.get(USER_GALLERIES_URL(userId));
+	console.log(resp);
+	return resp.data;
+}
