@@ -4,8 +4,20 @@ import FileDropzone from "../components/common/FileDropzone";
 import AddGalleryMetadata from "../components/create-gallery/AddGalleryMetadata";
 import SelectGalleryNfts from "../components/create-gallery/SelectGalleryNfts";
 
-import { makeStyles } from "@material-ui/core/styles";
-import { saveImportedNfts, updateUser, uploadImageToMediaGallery } from "../api/strapi";
+import { darken, makeStyles } from "@material-ui/core/styles";
+import {
+	createGallery,
+	convertSelectedNftsToGalleryAssets,
+	saveImportedNfts,
+	updateUser,
+	uploadImageToMediaGallery,
+} from "../api/strapi";
+import { Snackbar } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
+
+const Alert = (props) => {
+	return <MuiAlert elevation={6} variant="filled" {...props}/>
+}
 
 const useStyles = makeStyles((theme) => ({
 	navigationButton: {
@@ -13,10 +25,12 @@ const useStyles = makeStyles((theme) => ({
 		color: "#FFFFFF",
 		margin: "13px 25px",
 		padding: "13px 25px",
-
 		"&:disabled": {
-			opacity: "80%"
-		}
+			opacity: "80%",
+		},
+		"&:hover": {
+			background: darken("#FF6700", 0.1),
+		},
 	},
 }));
 
@@ -25,19 +39,26 @@ const CreateGallery = (props) => {
 	const [galleryDescription, setGalleryDescription] = useState();
 	const [coverImage, setCoverImage] = useState();
 	const [activeStep, setActiveStep] = useState(0);
+	const [error, setError] = useState(false);
+	const [success, setSuccess] = useState(false);
 
 	const classes = useStyles();
 
 	const handleSubmit = async (selectedCollections, selectedNfts) => {
-		let user = props?.user
-		if (!user) {
-			console.log("user undefined");
+		let user = props?.user;
+		const allRequiredParamsEntered = galleryName &&
+			galleryDescription &&
+			coverImage &&
+			(selectedCollections || selectedNfts);
+
+		if (!user || !allRequiredParamsEntered) {
+			setError(true);
 			return;
 		}
 
 		let assets;
 		if (selectedNfts) {
-			assets = await saveImportedNfts(user, selectedNfts)
+			assets = convertSelectedNftsToGalleryAssets(selectedNfts);
 		} else if (selectedCollections) {
 			assets = selectedCollections;
 		} else {
@@ -45,22 +66,28 @@ const CreateGallery = (props) => {
 		}
 
 		const uploadResult = await uploadImageToMediaGallery(coverImage);
-		const imageIdentifier = uploadResult.data[0]
+		const imageIdentifier = uploadResult.data[0];
 		const gallery = {
 			galleryName,
-			galleryDescription,
+			description: galleryDescription,
+			slug: convertToSlug(galleryName),
 			coverImage: imageIdentifier,
-			assets: assets
+			assets: assets,
+			userId: user.id,
 		};
 
-		if (user.galleries) {
-			props.user.galleries.push(gallery)
+		const updateResult = await createGallery(gallery);
+		if (updateResult.status === 200) {
+			setSuccess(true);
 		} else {
-			user.galleries = [gallery]
+			setError(true)
 		}
 
-		const updateResult = await updateUser(props.user)
 		console.log(updateResult);
+	};
+
+	const convertToSlug = (galleryName) => {
+		return galleryName.toLowerCase().replaceAll(" ", "_");
 	};
 
 	const nextButton = (
@@ -105,20 +132,35 @@ const CreateGallery = (props) => {
 												coverImage={coverImage}
 												setCoverImage={setCoverImage}
 												collectionName={galleryName}
-												setCollectionName={setGalleryName}
-												collectionDescription={galleryDescription}
-												setCollectionDescription={setGalleryDescription}
+												setGalleryName={setGalleryName}
+												galleryDescription={galleryDescription}
+												setGalleryDescription={setGalleryDescription}
 		/>,
 		<SelectGalleryNfts nextButton={nextButton}
 											 prevButton={prevButton}
 											 user={props.user}
 											 account={props.account}
-											 handleSubmit={handleSubmit}/>,
+											 handleSubmit={handleSubmit} />,
 	];
 
 
 	return (
-		stepComponents[activeStep]
+		<>
+			{
+				stepComponents[activeStep]
+			}
+			<Snackbar open={success} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} autoHideDuration={3000}
+								onClose={() => setSuccess(false)}>
+				<Alert severity="success" onClose={() => setSuccess(false)}>
+					Your gallery is successfully created
+				</Alert>
+			</Snackbar>
+			<Snackbar open={error} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} onClose={() => setError(false)}>
+				<Alert severity="error" onClose={() => setError(false)}>
+					An error occurred :(
+				</Alert>
+			</Snackbar>
+		</>
 	);
 };
 

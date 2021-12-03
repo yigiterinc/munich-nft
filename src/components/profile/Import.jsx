@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { darken, makeStyles, useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -217,7 +217,11 @@ export default function Import({
 							color: "#FFFFFF",
 							margin: "10px 20px",
 							padding: "10px 20px",
-						}}
+							"&:hover": {
+								background: darken("#FF6700", 0.1)
+							}
+						}
+						}
 						size="large"
 						onClick={() => {
 							if (selectedCollections.length !== 0) {
