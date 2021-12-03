@@ -7,7 +7,6 @@ import Container from "@material-ui/core/Container";
 import GalleryCoverImage from "../components/gallery/GalleryCoverImage";
 import GalleryHeaderPanel from "../components/gallery/GalleryHeaderPanel";
 import CircularSpinner from "../components/common/CircularSpinner";
-import dummyNFTs from "../dummy/dummyAssets.json";
 import { fetchGallery } from "../api/strapi";
 
 const useStyles = makeStyles({
@@ -36,16 +35,19 @@ const Gallery = () => {
 
 	useEffect(async () => {
 		const json = await fetchGallery(slug);
+		console.log(json.coverImage.url);
 		let nfts = nftHelper(json.assets);
+		let coverImageUrl = `http://localhost:1337${json.coverImage.url}`;
 		const gallery = {
 			name: json.galleryName,
 			description: json.description,
-			imageSrc: json.coverImage.url,
+			imageSrc: coverImageUrl,
 			userId: json.userId,
 			creator: json.assets[0].creator.user.username,
 			walletAddress: json.assets[0].creator.address,
 			nfts: nfts,
 		};
+		console.log(coverImageUrl);
 		setGallery(gallery);
 	}, []);
 
