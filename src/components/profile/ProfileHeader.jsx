@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const ProfileHeader = ({ profile }) => {
+const ProfileHeader = ({ ownProfile, profile }) => {
 	const classes = useStyles();
 	const [uploadedProfileImage, setUploadedProfileImage] = useFileUpload();
 	const [compressedImage, setCompressedImage] = useState();
@@ -196,13 +196,15 @@ const ProfileHeader = ({ profile }) => {
 	return (
 		<div className={classes.mainContainer}>
 			<Paper elevation={1} className={classes.headerContainer}>
-				<IconButton
-					component={Link}
-					to="/profile-settings"
-					className={classes.profileSettingsButton}
-				>
-					<SettingsIcon fontSize="large" />
-				</IconButton>
+				{ownProfile && (
+					<IconButton
+						component={Link}
+						to="/profile-settings"
+						className={classes.profileSettingsButton}
+					>
+						<SettingsIcon fontSize="large" />
+					</IconButton>
+				)}
 			</Paper>
 			{profile && renderProfile()}
 		</div>

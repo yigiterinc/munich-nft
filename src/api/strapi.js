@@ -96,6 +96,12 @@ export const fetchExistingUser = async (walletAddress) => {
 	return resp.data[0];
 };
 
+export const fetchExistingUserWithId = async (userId) => {
+	const url = `${MUNICH_NFT_USERS_URL}?id=${userId}`;
+
+	return await axios.get(url);
+};
+
 export const updateUser = async (user) => {
 	console.log(GET_USER_UPDATE_URL(user.id));
 	const response = await axios.put(GET_USER_UPDATE_URL(user.id), user);
