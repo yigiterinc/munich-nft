@@ -35,7 +35,7 @@ const NftImage = (nftJson) => {
 
 	return (
 		<div className={classes.nftImageContainer}>
-			{renderHeader(classes, nftJson, isLiked, toggleLikeButton)}
+			{/* {renderHeader(classes, nftJson, isLiked, toggleLikeButton)} */}
 			{renderNftImage(classes, nftJson)}
 		</div>
 	);

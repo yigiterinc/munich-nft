@@ -45,6 +45,7 @@ const Gallery = () => {
 
 	useEffect(async () => {
 		const json = await fetchGallery(slug);
+		console.log(json.coverImage.url);
 		let nfts = nftHelper(json.assets);
 		const gallery = {
 			name: json.galleryName,
@@ -53,9 +54,8 @@ const Gallery = () => {
 			creator: json.userId,
 			nfts: nfts,
 		};
-		console.log(gallery);
 		setGallery(gallery);
-	}, [gallery]);
+	}, []);
 
 	return (
 		<>{gallery ? renderEntirePage(classes, gallery) : <CircularSpinner />}</>
