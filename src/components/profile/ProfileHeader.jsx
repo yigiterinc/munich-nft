@@ -2,12 +2,18 @@ import React, { useState, useEffect } from "react";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import PersonIcon from "@material-ui/icons/Person";
+import SettingsIcon from "@material-ui/icons/Settings";
+import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Compressor from "compressorjs";
+import { Link } from "react-router-dom";
 import { darken, lighten, makeStyles } from "@material-ui/core/styles";
 import { truncateWalletAddress } from "../../utils";
 import { useFileUpload } from "use-file-upload";
-import { changeUserProfilePicture, uploadImageToMediaGallery } from "../../api/strapi";
+import {
+	changeUserProfilePicture,
+	uploadImageToMediaGallery,
+} from "../../api/strapi";
 import { STRAPI_BASE_URL } from "../../constants/strapiConstants";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,12 +32,14 @@ const useStyles = makeStyles((theme) => ({
 			background: "rgb(236,239,241)",
 			cursor: "pointer",
 		},
+		overflow: "auto",
 	},
 	avatar: {
 		width: theme.spacing(14),
 		height: theme.spacing(14),
 		marginTop: theme.spacing(-11),
-		boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.20) 0px 0px 0px 1px",
+		boxShadow:
+			"rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.20) 0px 0px 0px 1px",
 		cursor: "pointer",
 		marginBottom: "1vh",
 		background: "rgb(224,227,225)",
@@ -43,8 +51,9 @@ const useStyles = makeStyles((theme) => ({
 		objectFit: "cover",
 		marginTop: "2vh",
 		borderRadius: "50%",
-		height: theme.spacing(12),
-		width: theme.spacing(12),
+		height: theme.spacing(14),
+		width: theme.spacing(14),
+		marginTop: theme.spacing(-11),
 		cursor: "pointer",
 	},
 	profileSummary: {
@@ -64,9 +73,18 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: "10px",
 		letterSpacing: "1.5px",
 	},
+	bio: {
+		marginTop: theme.spacing(1),
+		fontSize: "18px",
+		fontWeight: "lighter",
+		letterSpacing: "1px",
+	},
+	profileSettingsButton: {
+		float: "right",
+	},
 }));
 
-const ProfileHeader = ({ profile }) => {
+const ProfileHeader = ({ ownProfile, profile }) => {
 	const classes = useStyles();
 	const [uploadedProfileImage, setUploadedProfileImage] = useFileUpload();
 	const [compressedImage, setCompressedImage] = useState();
@@ -81,11 +99,11 @@ const ProfileHeader = ({ profile }) => {
 		if (compressedImage) {
 			let response;
 			let image = await uploadImageToMediaGallery(compressedImage).then(
-				(resp) => (response = resp),
+				(resp) => (response = resp)
 			);
 			let profileImageUploadResult = await changeUserProfilePicture(
 				image,
-				profile,
+				profile
 			);
 			console.log(profileImageUploadResult);
 		}
@@ -98,7 +116,7 @@ const ProfileHeader = ({ profile }) => {
 				setCompressedImage(
 					new File([compressedResult], profile.id, {
 						type: compressedResult.type,
-					}),
+					})
 				);
 			},
 		});
@@ -109,7 +127,7 @@ const ProfileHeader = ({ profile }) => {
 			{ accept: "image/*", multiple: false },
 			({ name, size, source, file }) => {
 				console.log("File Selected", { name, size, source, file });
-			},
+			}
 		);
 	};
 
@@ -130,12 +148,15 @@ const ProfileHeader = ({ profile }) => {
 			component = ImageWithUploadOnClick(uploadedProfileImage?.source);
 		} else if (profile?.profilePicture?.url) {
 			component = ImageWithUploadOnClick(
-				STRAPI_BASE_URL + profile.profilePicture.url,
+				STRAPI_BASE_URL + profile.profilePicture.url
 			);
 		} else {
 			component = (
-				<Avatar className={classes.avatar}>
-					<PersonIcon onClick={() => handleProfileImageUpload()} />
+				<Avatar
+					className={classes.avatar}
+					onClick={() => handleProfileImageUpload()}
+				>
+					<PersonIcon />
 				</Avatar>
 			);
 		}
@@ -157,6 +178,9 @@ const ProfileHeader = ({ profile }) => {
 				>
 					{truncateWalletAddress(`${profile?.walletAddress}`, 13)}
 				</Typography>
+				<Typography className={classes.bio} variant="h6" component="h2">
+					{profile.bio}
+				</Typography>
 			</div>
 		);
 	};
@@ -171,7 +195,17 @@ const ProfileHeader = ({ profile }) => {
 
 	return (
 		<div className={classes.mainContainer}>
-			<Paper elevation={1} className={classes.headerContainer} />
+			<Paper elevation={1} className={classes.headerContainer}>
+				{ownProfile && (
+					<IconButton
+						component={Link}
+						to="/profile-settings"
+						className={classes.profileSettingsButton}
+					>
+						<SettingsIcon fontSize="large" />
+					</IconButton>
+				)}
+			</Paper>
 			{profile && renderProfile()}
 		</div>
 	);
