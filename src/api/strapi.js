@@ -42,7 +42,7 @@ export const updateUserProfile = async (
 	email,
 	profileImage,
 	bannerImage,
-	user
+	user,
 ) => {
 	user.username = username;
 	user.bio = bio;
@@ -59,11 +59,11 @@ export const updateUserProfile = async (
 
 // Fetches if user is already present in DB, otherwise saves to db
 export const createOrFetchUser = async ({
-	username,
-	importedCollections,
-	walletAddress,
-	profilePicture,
-}) => {
+																					username,
+																					importedCollections,
+																					walletAddress,
+																					profilePicture,
+																				}) => {
 	let data = {
 		username,
 		importedCollections,
@@ -105,7 +105,7 @@ export const updateUser = async (user) => {
 
 export const createGallery = async (gallery) => {
 	return await axios.post(GALLERIES_URL, gallery);
-}
+};
 
 export const saveImportedCollections = async (user, collectionsToSave) => {
 	user.importedCollections = collectionsToSave;
@@ -115,7 +115,7 @@ export const saveImportedCollections = async (user, collectionsToSave) => {
 export const saveImportedNfts = async (user, selectedCollectionNftPairs) => {
 	selectedCollectionNftPairs.map((collectionNftPair) => {
 		let existingCollectionInStrapi = user.importedCollections.find(
-			(collection) => collection.slug === collectionNftPair.collection.slug
+			(collection) => collection.slug === collectionNftPair.collection.slug,
 		);
 
 		if (existingCollectionInStrapi) {
@@ -128,8 +128,8 @@ export const saveImportedNfts = async (user, selectedCollectionNftPairs) => {
 				(asset) =>
 					anySelectedCollectionNftPairContainsThisAsset(
 						asset,
-						selectedCollectionNftPairs
-					)
+						selectedCollectionNftPairs,
+					),
 			);
 
 			collectionNftPair.collection.assets = selectedAssetsOnly;
@@ -141,32 +141,29 @@ export const saveImportedNfts = async (user, selectedCollectionNftPairs) => {
 };
 
 export const convertSelectedNftsToGalleryAssets = (selectedNftCollectionPairs) => {
-	if (!selectedNftCollectionPairs)	return;
-	let galleryAssets = []
+	if (!selectedNftCollectionPairs) return;
+	let galleryAssets = [];
 	selectedNftCollectionPairs.forEach(pair => {
-
-		let collectionDetails = {
-			name: pair.collection.name,
-			slug: pair.collection.slug,
-		};
 		const galleryAsset = {
-			collectionDetails,
 			...pair.nft,
 		};
 
-		delete galleryAsset.collection
+		galleryAsset.collection = {
+			name: pair.collection.name,
+			slug: pair.collection.slug,
+		};
 
-		galleryAssets.push(galleryAsset)
+		galleryAssets.push(galleryAsset);
 	});
 
-	return galleryAssets
-}
+	return galleryAssets;
+};
 
 const anySelectedCollectionNftPairContainsThisAsset = (
 	asset,
-	selectedCollectionNftPairs
+	selectedCollectionNftPairs,
 ) => {
 	return selectedCollectionNftPairs.some(
-		(nftCollection) => nftCollection.nft === asset
+		(nftCollection) => nftCollection.nft === asset,
 	);
 };
