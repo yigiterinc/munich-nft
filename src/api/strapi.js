@@ -145,12 +145,12 @@ export const convertSelectedNftsToGalleryAssets = (selectedNftCollectionPairs) =
 	let galleryAssets = []
 	selectedNftCollectionPairs.forEach(pair => {
 
-		let collection = {
+		let collectionDetails = {
 			name: pair.collection.name,
 			slug: pair.collection.slug,
 		};
 		const galleryAsset = {
-			collection,
+			collectionDetails,
 			...pair.nft,
 		};
 

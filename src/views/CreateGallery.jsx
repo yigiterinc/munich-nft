@@ -12,6 +12,12 @@ import {
 	updateUser,
 	uploadImageToMediaGallery,
 } from "../api/strapi";
+import { Snackbar } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
+
+const Alert = (props) => {
+	return <MuiAlert elevation={6} variant="filled" {...props}/>
+}
 
 const useStyles = makeStyles((theme) => ({
 	navigationButton: {
@@ -20,11 +26,11 @@ const useStyles = makeStyles((theme) => ({
 		margin: "13px 25px",
 		padding: "13px 25px",
 		"&:disabled": {
-			opacity: "80%"
+			opacity: "80%",
 		},
 		"&:hover": {
-			background: darken("#FF6700", 0.1)
-		}
+			background: darken("#FF6700", 0.1),
+		},
 	},
 }));
 
@@ -33,25 +39,26 @@ const CreateGallery = (props) => {
 	const [galleryDescription, setGalleryDescription] = useState();
 	const [coverImage, setCoverImage] = useState();
 	const [activeStep, setActiveStep] = useState(0);
-	const [error, setError] = useState(false)
+	const [error, setError] = useState(false);
+	const [success, setSuccess] = useState(false);
 
 	const classes = useStyles();
 
 	const handleSubmit = async (selectedCollections, selectedNfts) => {
-		let user = props?.user
+		let user = props?.user;
 		const allRequiredParamsEntered = galleryName &&
 			galleryDescription &&
 			coverImage &&
-			(selectedCollections || selectedNfts)
+			(selectedCollections || selectedNfts);
 
 		if (!user || !allRequiredParamsEntered) {
-			setError(true)
+			setError(true);
 			return;
 		}
 
 		let assets;
 		if (selectedNfts) {
-			assets = convertSelectedNftsToGalleryAssets(selectedNfts)
+			assets = convertSelectedNftsToGalleryAssets(selectedNfts);
 		} else if (selectedCollections) {
 			assets = selectedCollections;
 		} else {
@@ -59,25 +66,29 @@ const CreateGallery = (props) => {
 		}
 
 		const uploadResult = await uploadImageToMediaGallery(coverImage);
-		const imageIdentifier = uploadResult.data[0]
+		const imageIdentifier = uploadResult.data[0];
 		const gallery = {
 			galleryName,
 			description: galleryDescription,
 			slug: convertToSlug(galleryName),
 			coverImage: imageIdentifier,
 			assets: assets,
-			userId: user.id
+			userId: user.id,
 		};
 
-		console.log(gallery);
+		const updateResult = await createGallery(gallery);
+		if (updateResult.status === 200) {
+			setSuccess(true);
+		} else {
+			setError(true)
+		}
 
-		const updateResult = await createGallery(gallery)
 		console.log(updateResult);
 	};
 
 	const convertToSlug = (galleryName) => {
 		return galleryName.toLowerCase().replaceAll(" ", "_");
-	}
+	};
 
 	const nextButton = (
 		<Button
@@ -129,12 +140,27 @@ const CreateGallery = (props) => {
 											 prevButton={prevButton}
 											 user={props.user}
 											 account={props.account}
-											 handleSubmit={handleSubmit}/>,
+											 handleSubmit={handleSubmit} />,
 	];
 
 
 	return (
-		stepComponents[activeStep]
+		<>
+			{
+				stepComponents[activeStep]
+			}
+			<Snackbar open={success} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} autoHideDuration={3000}
+								onClose={() => setSuccess(false)}>
+				<Alert severity="success" onClose={() => setSuccess(false)}>
+					Your gallery is successfully created
+				</Alert>
+			</Snackbar>
+			<Snackbar open={error} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} onClose={() => setError(false)}>
+				<Alert severity="error" onClose={() => setError(false)}>
+					An error occurred :(
+				</Alert>
+			</Snackbar>
+		</>
 	);
 };
 
