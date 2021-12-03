@@ -16,31 +16,23 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: "center",
 	},
 	galleriesContainer: {
-		width: "85vw",
-		boxShadow:
-			"rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(63, 174, 223) 0px 0px 0px 5px",
-		paddingTop: "2vw",
 		paddingLeft: "5vw",
 		paddingRight: "5vw",
 		borderRadius: "2px",
-		minHeight: "30vh",
 		marginBottom: "5vh",
+		width: "85vw",
+		minHeight: "30vh",
+		paddingBottom: "1vh",
+		boxShadow:
+			"rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(63, 174, 223) 0px 0px 0px 5px",
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		flexDirection: "column",
 	},
 	importButton: {
 		display: "block",
 		margin: "0 auto",
-	},
-	noGalleryFoundContainer: {
-		display: "flex",
-		flexDirection: "column",
-		justifyContent: "center",
-		alignItems: "center",
-		width: "85vw",
-		minHeight: "30vh",
-		paddingBottom: "1vh",
-		paddingTop: "2vh",
-		boxShadow:
-			"rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(63, 174, 223) 0px 0px 0px 5px",
 	},
 	createGalleryDescription: {
 		fontSize: "20px",
@@ -84,15 +76,13 @@ const Profile = ({ user }) => {
 
 	const galleries = () => {
 		return (
-			<Grid container spacing={4} className={classes.galleriesContainer}>
-				<p>Hello</p>
-			</Grid>
+			<p>Hello</p>
 		);
 	};
 
 	const noGalleryFoundCreateGallery = () => {
 		return (
-			<div className={classes.noGalleryFoundContainer}>
+			<>
 				<Typography
 					className={classes.createGalleryDescription}
 					variant="h6"
@@ -109,34 +99,35 @@ const Profile = ({ user }) => {
 				>
 					Create Gallery
 				</Button>
-			</div>
+			</>
 		);
 	};
 
 	const noGalleryFound = () => {
 		return (
-			<div className={classes.noGalleryFoundContainer}>
-				<Typography
-					className={classes.noGalleryFoundText}
-					variant="h6"
-					component="h2"
-				>
-					The user hasn't got any galleries yet
-				</Typography>
-			</div>
+			<Typography
+				className={classes.noGalleryFoundText}
+				variant="h6"
+				component="h2"
+			>
+				The user hasn't got any galleries yet
+			</Typography>
 		);
 	};
 
 	return (
 		<div className={classes.mainContainer}>
 			<ProfileHeader ownProfile={userId === user?.id} profile={profileOwner} />
-			{userId === user?.id
-				? profileOwner?.galleries // TODO: fetch this from galleries
-					? galleries()
-					: noGalleryFoundCreateGallery()
-				: profileOwner?.galleries
-				? galleries()
-				: noGalleryFound()}
+			<div className={classes.galleriesContainer}>
+				{userId === user?.id
+					? profileOwner?.galleries // TODO: fetch this from galleries
+						? galleries()
+						: noGalleryFoundCreateGallery()
+					: profileOwner?.galleries
+						? galleries()
+						: noGalleryFound()}
+			</div>
+
 		</div>
 	);
 };
