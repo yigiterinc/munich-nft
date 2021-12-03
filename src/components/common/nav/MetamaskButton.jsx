@@ -3,6 +3,7 @@ import React from "react";
 import { MetaMaskButton } from "rimble-ui";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import { truncateWalletAddress } from "../../../utils";
 
 const useStyles = makeStyles({
 	buttonContainer: {
@@ -47,7 +48,7 @@ const renderWalletAddress = (classes, user) => {
 	return (
 		<div className={classes.walletPanel}>
 			<Typography className={classes.walletAddress} variant="h5">
-				{walletAddressShorter(user.walletAddress)}
+				{truncateWalletAddress(user.walletAddress)}
 			</Typography>
 		</div>
 	);
@@ -58,14 +59,6 @@ const renderMetaMaskButton = (loginWithMetamask) => {
 		<MetaMaskButton onClick={() => loginWithMetamask()} variant="contained">
 			Login
 		</MetaMaskButton>
-	);
-};
-
-const walletAddressShorter = (walletAddr) => {
-	return (
-		walletAddr.substring(0, 6) +
-		".." +
-		walletAddr.substring(walletAddr.length - 4, walletAddr.length)
 	);
 };
 

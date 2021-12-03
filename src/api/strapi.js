@@ -53,7 +53,7 @@ export const updateUserProfile = async (
 		user.bannerImage = bannerImage.data[0];
 	}
 
-	return await updateUser(user);
+	return await axios.put(GET_USER_UPDATE_URL(user.id), user);
 };
 
 // Fetches if user is already present in DB, otherwise saves to db
@@ -94,6 +94,12 @@ export const fetchExistingUser = async (walletAddress) => {
 	const resp = await axios.get(url);
 
 	return resp.data[0];
+};
+
+export const fetchExistingUserWithId = async (userId) => {
+	const url = `${MUNICH_NFT_USERS_URL}?id=${userId}`;
+
+	return await axios.get(url);
 };
 
 export const updateUser = async (user) => {

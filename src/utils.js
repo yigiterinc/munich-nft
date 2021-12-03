@@ -1,13 +1,9 @@
-export function truncateWalletAddress(address, limit) {
+export function truncateWalletAddress(address) {
 	if (!address) return;
 
-	if (address.length <= limit) return address;
-
 	const separator = "...";
-
-	const shownCharCount = limit - separator.length;
-	const firstHalf = address.substr(0, Math.ceil(shownCharCount / 2));
-	const secondHalf = address.substr(address.length, Math.floor(shownCharCount / 2));
+	const firstHalf = address.substr(0, 6);
+	const secondHalf = address.substr(address.length - 4);
 
 	return firstHalf + separator + secondHalf;
 }
@@ -21,5 +17,4 @@ export const truncateString = (str, num) => {
 
 export const withDefault = (value, defaultValue) => {
 	return value ? value : defaultValue;
-}
-
+};

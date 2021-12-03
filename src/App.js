@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Web3 from "web3";
 
-import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
+import {
+	BrowserRouter as Router,
+	Redirect,
+	Route,
+	Switch,
+} from "react-router-dom";
 
 import Home from "./views/Home";
 import Navbar from "./components/common/Navbar";
@@ -78,17 +83,24 @@ function App() {
 				</Route>
 				<Route
 					path="/profile/:userId"
-					render={(props) =>
+					render={(props) => (
 						// TODO even if the user is not logged in they should be able to see other people's profiles, not currently possible
-						!loggedInUser ? <Redirect to="/" /> : <Profile {...props} />
-					}
+						<Profile {...props} />
+					)}
 				>
 					<Profile account={walletAddress} user={loggedInUser} />
 				</Route>
-				<Route path="/create-gallery" render={(props) => {
-					return !loggedInUser ? <Redirect to="/" /> : <CreateGallery {...props}/>
-				}}>
-					<CreateGallery user={loggedInUser} account={walletAddress}/>
+				<Route
+					path="/create-gallery"
+					render={(props) => {
+						return !loggedInUser ? (
+							<Redirect to="/" />
+						) : (
+							<CreateGallery {...props} />
+						);
+					}}
+				>
+					<CreateGallery user={loggedInUser} account={walletAddress} />
 				</Route>
 			</Switch>
 		</Router>

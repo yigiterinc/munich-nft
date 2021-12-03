@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 import { Typography } from "@material-ui/core";
 import ImageUploadWithPreview from "../components/common/ImageUploadWithPreview";
 import { uploadImageToMediaGallery, updateUserProfile } from "../api/strapi";
@@ -60,6 +62,7 @@ const ProfileSettings = ({ user }) => {
 	});
 	const [isProfileImageUpdated, setIsProfileImageUpdated] = useState(false);
 	const [isBannerImageUpdated, setIsBannerImageUpdated] = useState(false);
+	const [openSnackbar, setOpenSnackbar] = useState(false);
 	const classes = useStyles();
 
 	useEffect(() => {
@@ -75,21 +78,26 @@ const ProfileSettings = ({ user }) => {
 		}
 	}, [user]);
 
+	const Alert = (props) => {
+		return <MuiAlert elevation={6} variant="filled" {...props} />;
+	};
+
+	const handleCloseSnackbar = (event, reason) => {
+		if (reason === "clickaway") {
+			return;
+		}
+		setOpenSnackbar(false);
+	};
+
 	const updateUserSettings = async () => {
 		let profileImage, bannerImage;
 		if (isProfileImageUpdated) {
-			let response;
-			profileImage = await uploadImageToMediaGallery(userData.profileImage).then(
-				(resp) => (response = resp)
-			);
+			profileImage = await uploadImageToMediaGallery(userData.profileImage);
 		}
 		if (isBannerImageUpdated) {
-			let response;
-			bannerImage = await uploadImageToMediaGallery(userData.bannerImage).then(
-				(resp) => (response = resp)
-			);
+			bannerImage = await uploadImageToMediaGallery(userData.bannerImage);
 		}
-		await updateUserProfile(
+		let response = await updateUserProfile(
 			userData.username,
 			userData.bio,
 			userData.email,
@@ -97,6 +105,8 @@ const ProfileSettings = ({ user }) => {
 			bannerImage,
 			user
 		);
+
+		response.status === 200 && setOpenSnackbar(true);
 	};
 
 	return (
@@ -188,6 +198,16 @@ const ProfileSettings = ({ user }) => {
 					</Grid>
 				</Grid>
 			</Grid>
+			<Snackbar
+				open={openSnackbar}
+				autoHideDuration={3000}
+				onClose={handleCloseSnackbar}
+				anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+			>
+				<Alert onClose={handleCloseSnackbar} severity="success">
+					Saved successfully!
+				</Alert>
+			</Snackbar>
 		</div>
 	);
 };
