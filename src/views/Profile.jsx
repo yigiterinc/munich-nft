@@ -5,7 +5,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link, useParams } from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import { fetchExistingUserWithId } from "../api/strapi";
+import { fetchExistingUserWithId, fetchUserGalleries } from "../api/strapi";
+import GalleryCard from "../components/common/GalleryCard";
 
 const useStyles = makeStyles((theme) => ({
 	mainContainer: {
@@ -55,32 +56,41 @@ const useStyles = makeStyles((theme) => ({
 const Profile = ({ user }) => {
 	const classes = useStyles();
 	const [profileOwner, setProfileOwner] = useState();
+	const [profileOwnerGalleries, setProfileOwnerGalleries] = useState(null);
+	const [viewingOwnProfile, setViewingOwnProfile] = useState(false);
 
-	let { userId } = useParams();
+	let { userId: userIdParam } = useParams();
 
-	// fetch profile with id from strapi
-	// set to profileOwner if success
-	// if failure ???
 	useEffect(async () => {
-		if (userId === user?.id) {
+		if (userIdParam === user?.id) {
 			setProfileOwner(user);
+			setViewingOwnProfile(true);
 		} else {
-			let response = await fetchExistingUserWithId(userId);
+			let response = await fetchExistingUserWithId(userIdParam);
 			if (response.status === 200) {
 				setProfileOwner(response.data[0]);
 			} else {
-				console.log("FAIL");
+				console.log("Failed to fetch user data");
 			}
 		}
-	}, [userId]);
 
-	const galleries = () => {
+		setProfileOwnerGalleries(await fetchUserGalleries(userIdParam));
+	}, [userIdParam]);
+
+	const Galleries = () => {
 		return (
-			<p>Hello</p>
+			<Grid container spacing={4}>
+				{
+					profileOwnerGalleries.map(gallery =>
+						<Grid item>
+							<GalleryCard gallery={gallery} lg={3} md={4} sm={6} xs={12} />
+						</Grid>)
+				}
+			</Grid>
 		);
 	};
 
-	const noGalleryFoundCreateGallery = () => {
+	const NoGalleryFoundCreateGallery = () => {
 		return (
 			<>
 				<Typography
@@ -103,7 +113,7 @@ const Profile = ({ user }) => {
 		);
 	};
 
-	const noGalleryFound = () => {
+	const NoGalleryFound = () => {
 		return (
 			<Typography
 				className={classes.noGalleryFoundText}
@@ -115,19 +125,35 @@ const Profile = ({ user }) => {
 		);
 	};
 
+	const userHasGallery = () => {
+		return profileOwnerGalleries && profileOwnerGalleries?.length > 0;
+	};
+
+	const NoGalleryFoundView = () => {
+		if (viewingOwnProfile) {
+			return NoGalleryFoundCreateGallery();
+		} else {
+			return NoGalleryFound();
+		}
+	};
+
+	const GallerySection = () => {
+		return userHasGallery() ? Galleries() : NoGalleryFoundView();
+	};
+
 	return (
 		<div className={classes.mainContainer}>
-			<ProfileHeader ownProfile={userId === user?.id} profile={profileOwner} />
-			<div className={classes.galleriesContainer}>
-				{userId === user?.id
-					? profileOwner?.galleries // TODO: fetch this from galleries
-						? galleries()
-						: noGalleryFoundCreateGallery()
-					: profileOwner?.galleries
-						? galleries()
-						: noGalleryFound()}
-			</div>
-
+			{
+				user &&
+				(<>
+					<ProfileHeader ownProfile={viewingOwnProfile} profile={profileOwner} />
+					<div className={classes.galleriesContainer}>
+						{
+							GallerySection()
+						}
+					</div>
+				</>)
+			}
 		</div>
 	);
 };
