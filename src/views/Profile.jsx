@@ -57,14 +57,12 @@ const Profile = ({ user }) => {
 	const classes = useStyles();
 	const [profileOwner, setProfileOwner] = useState();
 	const [profileOwnerGalleries, setProfileOwnerGalleries] = useState(null);
-	const [viewingOwnProfile, setViewingOwnProfile] = useState(false);
 
 	let { userId: userIdParam } = useParams();
 
 	useEffect(async () => {
 		if (userIdParam === user?.id) {
 			setProfileOwner(user);
-			setViewingOwnProfile(true);
 		} else {
 			let response = await fetchExistingUserWithId(userIdParam);
 			if (response.status === 200) {
@@ -130,7 +128,7 @@ const Profile = ({ user }) => {
 	};
 
 	const NoGalleryFoundView = () => {
-		if (viewingOwnProfile) {
+		if (userIdParam === user?.id) {
 			return NoGalleryFoundCreateGallery();
 		} else {
 			return NoGalleryFound();
@@ -146,7 +144,7 @@ const Profile = ({ user }) => {
 			{
 				user &&
 				(<>
-					<ProfileHeader ownProfile={viewingOwnProfile} profile={profileOwner} />
+					<ProfileHeader ownProfile={userIdParam === user?.id} profile={profileOwner} />
 					<div className={classes.galleriesContainer}>
 						{
 							GallerySection()
