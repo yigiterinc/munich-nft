@@ -76,13 +76,13 @@ const renderEntirePage = (classes, galleryJson) => {
 const renderGalleryHeader = (classes, dummyGallery) => {
 	return (
 		<Container className={classes.galleryHeaderContainer}>
-			<Grid item={true} xs={4}>
+			<Grid item xs={4}>
 				<GalleryCoverImage {...dummyGallery} />
 			</Grid>
-			<Grid item={true} xs={7}>
+			<Grid item xs={7}>
 				<GalleryHeaderPanel {...dummyGallery} />
 			</Grid>
-			<Grid item={true} xs={1} />
+			<Grid item xs={1} />
 		</Container>
 	);
 };
@@ -90,9 +90,9 @@ const renderGalleryHeader = (classes, dummyGallery) => {
 const renderNftContainer = (classes, nfts) => {
 	return (
 		<Container className={classes.nftContainer}>
-			<Grid item={true} xs={1} />
+			<Grid item xs={1} />
 			{renderNfts(classes, nfts)}
-			<Grid item={true} xs={1} />
+			<Grid item xs={1} />
 		</Container>
 	);
 };

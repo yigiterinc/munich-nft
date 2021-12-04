@@ -20,6 +20,7 @@ import { createOrFetchUser } from "./api/strapi";
 
 import "./App.css";
 import CreateGallery from "./views/CreateGallery";
+import NftDetails from "./views/NftDetails";
 
 let web3;
 
@@ -75,7 +76,7 @@ function App() {
 				<Route path="/mint-nft">
 					<MintNft account={walletAddress} user={loggedInUser} />
 				</Route>
-				<Route path="/galleries/:slug">
+				<Route path="/gallery/:slug">
 					<Gallery />
 				</Route>
 				<Route path="/collection/:slug">

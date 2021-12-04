@@ -3,9 +3,8 @@ import {
 	GALLERIES_URL,
 	GET_USER_UPDATE_URL,
 	IMAGE_UPLOAD_URL,
-	MUNICH_NFT_USERS_URL, USER_GALLERIES_URL,
+	USER_GALLERIES_URL,
 	MUNICH_NFT_USERS_URL,
-	GALLERY_URL,
 } from "../constants/strapiConstants";
 
 // TODO: should fetch user's collections and their names
@@ -160,3 +159,31 @@ export const fetchUserGalleries = async (userId) => {
 	console.log(resp);
 	return resp.data;
 }
+
+export const fetchGallery = async (slug) => {
+	const url = `${GALLERIES_URL}?slug=${slug}`;
+	const resp = await axios.get(url);
+
+	return resp.data[0];
+};
+
+export const updateUserProfile = async (
+	username,
+	bio,
+	email,
+	profileImage,
+	bannerImage,
+	user,
+) => {
+	user.username = username;
+	user.bio = bio;
+	user.email = email;
+	if (profileImage) {
+		user.profilePicture = profileImage.data[0];
+	}
+	if (bannerImage) {
+		user.bannerImage = bannerImage.data[0];
+	}
+
+	return await axios.put(GET_USER_UPDATE_URL(user.id), user);
+};
