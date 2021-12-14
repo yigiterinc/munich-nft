@@ -1,4 +1,4 @@
-import { ABI } from "../res/contract";
+import { ABI } from "../abis/munich-nft";
 import { getMunichNftContractAddress } from "../config/config";
 import { Network, OpenSeaPort } from "opensea-js";
 

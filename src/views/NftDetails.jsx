@@ -8,6 +8,7 @@ import { fetchSingleAsset } from "../api/opensea";
 import NftImage from "../components/nft-details/NftImage";
 import NftDetailsPanel from "../components/nft-details/NftDetailsPanel";
 import withSpinner from "../components/common/WithSpinner";
+import { getErc1155TokenDetails } from "../api/chain";
 
 const useStyles = makeStyles({
 	nftDetailsContainer: {
@@ -21,7 +22,8 @@ const NftDetails = () => {
 	const [nftJson, setNftJson] = useState(null);
 	const { contractAddressId, tokenId } = useParams();
 
-	useEffect(() => {
+	useEffect(async () => {
+		await getErc1155TokenDetails(tokenId, contractAddressId);
 		const fetchData = async () => {
 			const tokenData = await fetchSingleAsset(contractAddressId, tokenId);
 			let currentPrice = null;

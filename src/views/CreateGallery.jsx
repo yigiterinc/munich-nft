@@ -148,7 +148,6 @@ const CreateGallery = (props) => {
 		<SelectGalleryNfts nextButton={nextButton}
 											 prevButton={prevButton}
 											 user={props.user}
-											 account={props.account}
 											 handleSubmit={handleSubmit} />,
 	];
 

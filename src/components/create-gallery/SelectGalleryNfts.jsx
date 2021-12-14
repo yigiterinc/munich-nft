@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Import from "../profile/Import";
 import { fetchCollectionsOfUser, getAssetsAddedCollections } from "../../api/opensea";
 import { makeStyles } from "@material-ui/core/styles";
+import { getLoggedInUser, isUserLoggedIn } from "../../utils/auth-utils";
 
 const useStyles = makeStyles((theme) => ({
   baseContainer: {
@@ -10,12 +11,12 @@ const useStyles = makeStyles((theme) => ({
 
 const SelectGalleryNfts = (props) => {
   const [collections, setCollections] = useState(null);
-
   const classes = useStyles()
 
   useEffect(async () => {
-    if (props.account) {
-      let collectionsData = await fetchCollectionsOfUser(props.account);
+    if (isUserLoggedIn()) {
+      console.log(getLoggedInUser().walletAddress);
+      let collectionsData = await fetchCollectionsOfUser(getLoggedInUser().walletAddress);
       let collectionsWithAssets = [];
       collectionsWithAssets.push(
         await getAssetsAddedCollections(collectionsData),
@@ -28,14 +29,14 @@ const SelectGalleryNfts = (props) => {
       console.log(filtered);
       setCollections(filtered);
     }
-  }, [props.account]);
+  }, []);
 
-  const userSoldTheAsset = (asset, tx) => {
+  const userSoldTheAsset = (asset, tx, walletAddress) => {
     if (!asset.last_sale.event_type === "successful") return false;
 
-    if (tx.from !== props.account && tx.logs[0]?.data.indexOf(props.account) >= 0) {
+    if (tx.from !== walletAddress && tx.logs[0]?.data.indexOf(walletAddress) >= 0) {
       return true;
-    } else if (tx.from === props.account && tx.logs[0]?.data.indexOf(props.account) < 0) {
+    } else if (tx.from === walletAddress && tx.logs[0]?.data.indexOf(walletAddress) < 0) {
       return tx.logs.length > 2;
     } else if (tx.from === tx.logs[0]?.data.substring(0, 42)) {
       return true;
@@ -44,13 +45,13 @@ const SelectGalleryNfts = (props) => {
     return false;
   };
 
-  const assetBelongsToCurrentUser = async (asset) => {
-    if (asset.owner.address === props.account) {
+  const assetBelongsToCurrentUser = async (asset, walletAddress) => {
+    if (asset.owner.address === walletAddress) {
       return true;
     }
 
     if (!asset.last_sale) {
-      return asset.creator.address === props.account;
+      return asset.creator.address === walletAddress;
     }
 
     window.web3.defaultChain = "rinkeby";
@@ -58,11 +59,11 @@ const SelectGalleryNfts = (props) => {
     console.log(txHash);
     const tx = await window.web3.eth.getTransactionReceipt(txHash);
 
-    if (!tx || userSoldTheAsset(asset, tx)) {
+    if (!tx || userSoldTheAsset(asset, tx, walletAddress)) {
       return false;
     }
 
-    return tx.logs[0].topics.join().indexOf(props.account.substring(3)) >= 0;
+    return tx.logs[0].topics.join().indexOf(walletAddress.substring(3)) >= 0;
   };
 
   const filterAssetsInCollectionByOwner = async (collectionWithAssets) => {
@@ -76,7 +77,7 @@ const SelectGalleryNfts = (props) => {
       for (let i = 0; i < currCollection.assets.length; i++) {
         asset = currCollection.assets[i];
 
-        if (await assetBelongsToCurrentUser(asset)) {
+        if (await assetBelongsToCurrentUser(asset, getLoggedInUser().walletAddress)) {
           assetsOfUserInCurrCollection.push(asset);
         }
       }
