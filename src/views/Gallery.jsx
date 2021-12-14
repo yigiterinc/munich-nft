@@ -27,7 +27,6 @@ const useStyles = makeStyles({
 	},
 });
 
-// fetchExistingUser
 const Gallery = () => {
 	const [gallery, setGallery] = useState(null);
 	let { slug } = useParams();
@@ -47,13 +46,10 @@ const Gallery = () => {
 			walletAddress: json.assets[0].creator.address,
 			nfts: nfts,
 		};
-		console.log(coverImageUrl);
 		setGallery(gallery);
 	}, []);
 
-	return (
-		<>{gallery ? renderEntirePage(classes, gallery) : <CircularSpinner />}</>
-	);
+	return <>{gallery ? renderPage(classes, gallery) : <CircularSpinner />}</>;
 };
 
 const nftHelper = (assets) => {
@@ -64,7 +60,7 @@ const nftHelper = (assets) => {
 	return tmp;
 };
 
-const renderEntirePage = (classes, galleryJson) => {
+const renderPage = (classes, galleryJson) => {
 	return (
 		<div className={classes.galleryContainer}>
 			{renderGalleryHeader(classes, galleryJson)}
