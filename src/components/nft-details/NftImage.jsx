@@ -1,12 +1,11 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import Card from "@material-ui/core/Card";
-import CardMedia from "@material-ui/core/CardMedia";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles({
 	nftImageContainer: {
-		width: "512px",
+		height: "512px",
 		borderRadius: "10px",
 		border: "1px solid rgb(229, 232, 235)",
 	},
@@ -21,25 +20,28 @@ const useStyles = makeStyles({
 			backgroundColor: "transparent",
 		},
 	},
+	nftImage: {
+		margin: "auto",
+	},
 });
 
 const NftImage = (nftJson) => {
 	const classes = useStyles();
 
-	return (
-		<div className={classes.nftImageContainer}>
-			{renderNftImage(classes, nftJson)}
-		</div>
-	);
+	return <>{renderNftImage(classes, nftJson)}</>;
 };
 
 const renderNftImage = (classes, nftJson) => {
 	const backgroundColor = "#" + nftJson.backgroundColor;
 	return (
-		<Grid container justifyContent="center">
-			<Card style={{ backgroundColor }} className={classes.nftImage}>
-				<CardMedia component="img" src={nftJson.imageSrc} />
-			</Card>
+		<Grid
+			className={classes.nftImageContainer}
+			container
+			justifyContent="center"
+		>
+			<Box style={{ backgroundColor }} className={classes.nftImage}>
+				<img src={nftJson.imageSrc} />
+			</Box>
 		</Grid>
 	);
 };
