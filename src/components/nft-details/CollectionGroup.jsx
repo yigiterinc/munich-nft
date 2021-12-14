@@ -14,18 +14,31 @@ const useStyles = makeStyles({
 		whiteSpace: "nowrap",
 		overflow: "hidden",
 	},
+	collectionLink: {
+		cursor: "pointer",
+	},
 	icon: {
 		paddingRight: "0.5vw",
 	},
 });
 
 const CollectionGroup = (nftJson) => {
+	const path = `/collection/${nftJson.slug}`;
 	const classes = useStyles();
+
+	const redirectToCollectionPage = () => {
+		window.location.href = path;
+	};
 
 	return (
 		<div className={classes.collectionGroupContainer}>
 			<div className={classes.collectionSection}>
-				<Link href="">{nftJson.collection}</Link>
+				<Link
+					className={classes.collectionLink}
+					onClick={redirectToCollectionPage}
+				>
+					{nftJson.collection}
+				</Link>
 			</div>
 		</div>
 	);

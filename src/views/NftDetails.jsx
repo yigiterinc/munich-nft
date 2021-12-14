@@ -43,6 +43,7 @@ const NftDetails = () => {
 				description: tokenData.description,
 				owner: tokenData.owner.address,
 				collection: tokenData.collection.name,
+				slug: tokenData.collection.slug,
 				tokenStandard: tokenData.asset_contract.schema_name,
 				contractAddressId,
 				tokenId,
