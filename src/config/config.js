@@ -7,4 +7,5 @@ const NETWORK_CONTRACT_ADDRESS = {
 	rinkeby: CONTRACT_ADDRESS_RINKEBY,
 };
 
-export const getMunichNftContractAddress = () => NETWORK_CONTRACT_ADDRESS[NETWORK];
+export const getMunichNftContractAddress = () =>
+	NETWORK_CONTRACT_ADDRESS[NETWORK];

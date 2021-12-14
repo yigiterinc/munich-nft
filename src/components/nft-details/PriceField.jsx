@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { Icon } from "@iconify/react";
+import { countDecimals } from "../../api/currencyHelper";
 
 const useStyles = makeStyles({
 	priceFieldBorder: {
@@ -47,14 +48,20 @@ const useStyles = makeStyles({
 
 const PriceField = (nftJson) => {
 	const classes = useStyles();
+
+	let price = nftJson.price;
+	let decimal = countDecimals(price);
+	if (decimal > 4) {
+		price = price.toFixed(3);
+	}
 	return (
 		<div className={classes.priceFieldBorder}>
-			{nftJson.price !== null ? (
+			{price !== null ? (
 				<div className={classes.priceFieldContainer}>
 					<div className={classes.pricePanel}>
 						<div className={classes.priceBox}>
 							<Icon icon="mdi:ethereum" width="36" height="36" />
-							<Typography className={classes.price}>{nftJson.price}</Typography>
+							<Typography className={classes.price}>{price}</Typography>
 						</div>
 						<Typography className={classes.usdPrice}>
 							{`(~ $${nftJson.priceUsd.toFixed(2)})`}

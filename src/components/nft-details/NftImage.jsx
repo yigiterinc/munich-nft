@@ -5,6 +5,7 @@ import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles({
 	nftImageContainer: {
+		width: "512px",
 		height: "512px",
 		borderRadius: "10px",
 		border: "1px solid rgb(229, 232, 235)",
