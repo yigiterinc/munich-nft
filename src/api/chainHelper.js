@@ -17,7 +17,11 @@ export const mintNftAfterDeployingNewContract = async (
 	// TODO
 };
 
-export const mintNft = async (uploadedMetadata, gas, contractAddress = getMunichNftContractAddress()) => {
+export const mintNft = async (
+	uploadedMetadata,
+	gas,
+	contractAddress = getMunichNftContractAddress()
+) => {
 	if (!window.web3) {
 		console.error("window.web3 not present");
 		return;
