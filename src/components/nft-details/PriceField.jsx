@@ -50,10 +50,13 @@ const PriceField = (nftJson) => {
 	const classes = useStyles();
 
 	let price = nftJson.price;
-	let decimal = countDecimals(price);
-	if (decimal > 4) {
-		price = price.toFixed(3);
+	if (price !== null) {
+		let decimal = countDecimals(price);
+		if (decimal > 4) {
+			price = price.toFixed(3);
+		}
 	}
+
 	return (
 		<div className={classes.priceFieldBorder}>
 			{price !== null ? (

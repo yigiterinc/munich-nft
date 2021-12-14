@@ -16,6 +16,9 @@ const useStyles = makeStyles({
 	},
 	collectionLink: {
 		cursor: "pointer",
+		"&:focus, &:hover, &:visited, &:link, &:active": {
+			textDecoration: "none",
+		},
 	},
 	icon: {
 		paddingRight: "0.5vw",
