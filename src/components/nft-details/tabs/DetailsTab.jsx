@@ -40,6 +40,10 @@ const DetailsTab = (nftJson) => {
 	const network = NETWORK === "main" ? "ethereum" : NETWORK;
 	const blockchain = useMemo(() => computeBlockchain(network), [network]);
 	const tokenStandard = useMemo(() => computeTokenStandard(), [nftJson]);
+	const etherscanPath =
+		network === "ethereum"
+			? "https://etherscan.io/address/"
+			: "https://rinkeby.etherscan.io/address/";
 
 	return (
 		<div className={classes.detailsTabContainer}>
@@ -47,7 +51,7 @@ const DetailsTab = (nftJson) => {
 				<Button
 					className={classes.ethScanButton}
 					variant="contained"
-					href={"https://etherscan.io/address/" + nftJson.contractAddressId}
+					href={etherscanPath + nftJson.contractAddressId}
 					target="_blank"
 					rel="noopener noreferrer"
 				>
