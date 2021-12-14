@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { MetaMaskButton } from "rimble-ui";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { truncateWalletAddress } from "../../../utils/commons";
+import { getLoggedInUser, isUserLoggedIn, saveLoggedInUserToLocalStorage } from "../../../utils/auth-utils";
+import { createOrFetchUser } from "../../../api/strapi";
 
 const useStyles = makeStyles({
 	buttonContainer: {
@@ -25,41 +27,64 @@ const useStyles = makeStyles({
 		fontSize: "1.2rem",
 	},
 });
-function MetamaskButton({ user, onWalletConnection }) {
+
+function MetamaskButton({ user }) {
 	const classes = useStyles();
+	const [userLoggedIn, setUserLoggedIn] = useState(false);
+
+	useEffect(() => {
+		setUserLoggedIn(isUserLoggedIn())
+		window.addEventListener('user-storage', () =>	setUserLoggedIn(isUserLoggedIn())
+		);
+
+		return () => {
+			window.removeEventListener('user-storage', () =>	setUserLoggedIn(isUserLoggedIn()))
+		}
+	}, [])
 
 	const loginWithMetamask = async () => {
 		const accounts = await window.web3.eth.getAccounts();
-		onWalletConnection(accounts[0].toLowerCase());
+
+		if (accounts[0]) {
+			console.log(accounts[0]);
+			const user = await createOrFetchUser({
+				username: "Alien",
+				walletAddress: accounts[0].toLowerCase()
+			})
+
+			saveLoggedInUserToLocalStorage(user);
+		} else {
+			console.log("no account found, show error");
+		}
+
 	};
 
-	const isLoggedIn = user !== null && user !== undefined;
+
+	const walletAddress = (classes, user) => {
+		return (
+			<div className={classes.walletPanel}>
+				<Typography className={classes.walletAddress} variant="h5">
+					{truncateWalletAddress(getLoggedInUser().walletAddress)}
+				</Typography>
+			</div>
+		);
+	};
+
+	const metamaskButton = () => {
+		return (
+			<MetaMaskButton onClick={() => loginWithMetamask()} variant="contained">
+				Login
+			</MetaMaskButton>
+		);
+	};
 
 	return (
 		<div className={classes.buttonContainer}>
-			{isLoggedIn
-				? renderWalletAddress(classes, user)
-				: renderMetaMaskButton(loginWithMetamask)}
+			{userLoggedIn
+				? walletAddress(classes, user)
+				: metamaskButton()}
 		</div>
 	);
 }
-
-const renderWalletAddress = (classes, user) => {
-	return (
-		<div className={classes.walletPanel}>
-			<Typography className={classes.walletAddress} variant="h5">
-				{truncateWalletAddress(user.walletAddress)}
-			</Typography>
-		</div>
-	);
-};
-
-const renderMetaMaskButton = (loginWithMetamask) => {
-	return (
-		<MetaMaskButton onClick={() => loginWithMetamask()} variant="contained">
-			Login
-		</MetaMaskButton>
-	);
-};
 
 export default MetamaskButton;

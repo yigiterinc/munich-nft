@@ -1,25 +1,44 @@
 const USER_LOCAL_STORAGE_KEY = "user"
 
-export const saveLoggedInUserFromLocalStorage = (userData) => {
-  saveToLocalStorage(USER_LOCAL_STORAGE_KEY, userData)
+export const saveLoggedInUserToLocalStorage = (userData) => {
+  saveToLocalStorage(USER_LOCAL_STORAGE_KEY, JSON.stringify(userData))
+  window.dispatchEvent( new Event('user-storage') ) // <-----
+  console.log(JSON.parse(localStorage.getItem("user")));
 }
 
 export const removeLoggedInUserFromLocalStorage = () => {
   localStorage.removeItem(USER_LOCAL_STORAGE_KEY);
+  window.dispatchEvent(new Event('user-storage'))
+  console.log(JSON.parse(localStorage.getItem("user")));
 }
 
-export const getUserLoggedInStatus = () => {
+export const getLoggedInUser = () => {
+  if (!isUserLoggedIn()) {
+    console.log("user was not logged in while attempting to read user");
+    return;
+  }
+
+  return readFromLocalStorage(USER_LOCAL_STORAGE_KEY);
+}
+
+export const isUserLoggedIn = () => {
+  return getUserLoggedInStatus() === "Logged in";
+}
+
+const getUserLoggedInStatus = () => {
   if (readFromLocalStorage(USER_LOCAL_STORAGE_KEY) === null) {
     return "Not logged in"
-  } else {
-    return "Logged in";
   }
+
+  return "Logged in";
 }
 
 const saveToLocalStorage = (key, data) => {
+  window.dispatchEvent(new Event('storage'))
   localStorage.setItem(key, data);
 };
 
 const readFromLocalStorage = (key) => {
-  return localStorage.getItem(key);
+  window.dispatchEvent(new Event('storage'))
+  return JSON.parse(localStorage.getItem(key));
 }

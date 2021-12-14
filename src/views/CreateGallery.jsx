@@ -14,6 +14,8 @@ import {
 } from "../api/strapi";
 import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
+import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
+import { useHistory } from "react-router-dom";
 
 const Alert = (props) => {
 	return <MuiAlert elevation={6} variant="filled" {...props}/>
@@ -42,10 +44,17 @@ const CreateGallery = (props) => {
 	const [error, setError] = useState(false);
 	const [success, setSuccess] = useState(false);
 
+	const history = useHistory();
+
 	const classes = useStyles();
 
 	const handleSubmit = async (selectedCollections, selectedNfts) => {
-		let user = props?.user;
+		if (!isUserLoggedIn()) {
+			history.push("/");
+			return;
+		}
+
+		let user = getLoggedInUser()
 		const allRequiredParamsEntered = galleryName &&
 			galleryDescription &&
 			coverImage &&

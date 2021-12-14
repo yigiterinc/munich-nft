@@ -17,26 +17,21 @@ export const mintNftAfterDeployingNewContract = async (
 	// TODO
 };
 
-export const mintNft = async (uploadedMetadata, gas, contractAddress = getMunichNftContractAddress()) => {
+export const mintNft = async (uploadedMetadata, gas, contractAddress = getMunichNftContractAddress(), ownerWalletAddress) => {
 	if (!window.web3) {
 		console.error("window.web3 not present");
 		return;
 	}
 
-	const accounts = await window.web3.eth.requestAccounts();
-	const account = accounts[0];
-
-	console.log(contractAddress);
-
 	const contract = new window.web3.eth.Contract(ABI, contractAddress, {
-		from: account, // default from address
+		from: ownerWalletAddress, // default from address
 		gasPrice: "200000", // default gas price in wei, 20 gwei in this case
 	});
 
 	const txResult = await contract.methods
-		.mint(account, `https://ipfs.io/ipfs/${uploadedMetadata}`)
+		.mint(ownerWalletAddress, `https://ipfs.io/ipfs/${uploadedMetadata}`)
 		.send({
-			from: account,
+			from: ownerWalletAddress,
 			gas,
 			gasPrice: "200000",
 		});
@@ -52,18 +47,17 @@ export const mintNft = async (uploadedMetadata, gas, contractAddress = getMunich
 export const listNft = async (
 	expirationTime,
 	resultingTokenId,
-	listingPrice
+	listingPrice,
+	ownerWalletAddress
 ) => {
 	const contractAddress = getMunichNftContractAddress();
-	const accounts = await window.web3.eth.requestAccounts();
-	const account = accounts[0];
 
 	const listing = await seaport.createSellOrder({
 		asset: {
 			tokenId: resultingTokenId,
 			tokenAddress: contractAddress,
 		},
-		accountAddress: account,
+		accountAddress: ownerWalletAddress,
 		startAmount: listingPrice,
 		expirationTime,
 	});

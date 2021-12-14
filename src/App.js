@@ -16,36 +16,19 @@ import Collection from "./views/Collection";
 import Profile from "./views/Profile";
 import ProfileSettings from "./views/ProfileSettings";
 import Gallery from "./views/Gallery";
-import { createOrFetchUser } from "./api/strapi";
 
 import "./App.css";
 import CreateGallery from "./views/CreateGallery";
 import NftDetails from "./views/NftDetails";
+import { isUserLoggedIn } from "./utils/auth-utils";
 
 let web3;
 
 function App() {
-	const [walletAddress, setWalletAddress] = useState("");
-	const [loggedInUser, setLoggedInUser] = useState(null); // Wallet Address
-
-	useEffect(async () => {
-		await updateUserData();
-	}, [walletAddress]);
 
 	useEffect(async () => {
 		if (!web3) await loadWeb3();
-	}, [loggedInUser]);
-
-	const updateUserData = async () => {
-		await loadWeb3();
-		await loadAccount();
-		setLoggedInUser(
-			await createOrFetchUser({
-				username: "Alien",
-				walletAddress: walletAddress,
-			})
-		);
-	};
+	}, []);
 
 	const loadWeb3 = async () => {
 		if (window.ethereum) {
@@ -60,56 +43,31 @@ function App() {
 		web3 = window.web3;
 	};
 
-	const loadAccount = async () => {
-		// Returns the list of accounts that metamask is aware of
-		const accounts = await web3.eth.getAccounts();
-		setWalletAddress(accounts[0].toLowerCase());
-	};
+	function ProtectedRoute({ component: Component, ...restOfProps }) {
+		return (
+			<Route
+				{...restOfProps}
+				render={(props) =>
+					isUserLoggedIn() ? <Component {...props} /> : <Redirect to="/" />
+				}
+			/>
+		);
+	}
 
 	return (
 		<Router>
-			<Navbar user={loggedInUser} onWalletConnection={setWalletAddress} />
+			<Navbar/>
 			<Switch>
 				<Route exact path="/">
-					<Home exact path="/" account={walletAddress} />
+					<Home exact path="/"/>
 				</Route>
-				<Route path="/mint-nft">
-					<MintNft account={walletAddress} user={loggedInUser} />
-				</Route>
-				<Route path="/gallery/:slug">
-					<Gallery />
-				</Route>
-				<Route path="/collection/:slug">
-					<Collection account={walletAddress} user={loggedInUser} />
-				</Route>
-
-				<Route path="/profile-settings">
-					<ProfileSettings user={loggedInUser} />
-				</Route>
-				<Route path="/token/:contractAddressId/:tokenId">
-					<NftDetails />
-				</Route>
-				<Route
-					path="/profile/:userId"
-					render={(props) => (
-						// TODO even if the user is not logged in they should be able to see other people's profiles, not currently possible
-						<Profile {...props} />
-					)}
-				>
-					<Profile account={walletAddress} user={loggedInUser} />
-				</Route>
-				<Route
-					path="/create-gallery"
-					render={(props) => {
-						return !loggedInUser ? (
-							<Redirect to="/" />
-						) : (
-							<CreateGallery {...props} />
-						);
-					}}
-				>
-					<CreateGallery user={loggedInUser} account={walletAddress} />
-				</Route>
+				<ProtectedRoute path="/mint-nft" component={MintNft}/>
+				<ProtectedRoute path="/gallery/:slug" component={Gallery}/>
+				<ProtectedRoute path="/collection/:slug" component={Collection}/>
+				<ProtectedRoute path="/profile-settings" component={ProfileSettings}/>
+				<Route path="/token/:contractAddressId/:tokenId" component={NftDetails}/>
+				<ProtectedRoute path="/profile/:userId" component={Profile}/>
+				<ProtectedRoute path="/create-gallery" component={CreateGallery}/>
 			</Switch>
 		</Router>
 	);

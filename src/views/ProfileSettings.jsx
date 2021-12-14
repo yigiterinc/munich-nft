@@ -8,6 +8,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import { Typography } from "@material-ui/core";
 import ImageUploadWithPreview from "../components/common/ImageUploadWithPreview";
 import { uploadImageToMediaGallery, updateUserProfile } from "../api/strapi";
+import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -52,7 +53,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const ProfileSettings = ({ user }) => {
+const ProfileSettings = () => {
+	const [user, setUser] = useState(null)
 	const [userData, setUserData] = useState({
 		username: null,
 		bio: null,
@@ -66,7 +68,9 @@ const ProfileSettings = ({ user }) => {
 	const classes = useStyles();
 
 	useEffect(() => {
-		if (user) {
+		if (isUserLoggedIn()) {
+			let user = getLoggedInUser();
+			setUser(user);
 			setUserData({
 				...userData,
 				username: user.username,
@@ -76,7 +80,7 @@ const ProfileSettings = ({ user }) => {
 				bannerImage: user.bannerImage,
 			});
 		}
-	}, [user]);
+	}, []);
 
 	const Alert = (props) => {
 		return <MuiAlert elevation={6} variant="filled" {...props} />;
