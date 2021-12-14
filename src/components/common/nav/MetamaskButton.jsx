@@ -3,7 +3,7 @@ import React from "react";
 import { MetaMaskButton } from "rimble-ui";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import { truncateWalletAddress } from "../../../utils";
+import { truncateWalletAddress } from "../../../utils/commons";
 
 const useStyles = makeStyles({
 	buttonContainer: {

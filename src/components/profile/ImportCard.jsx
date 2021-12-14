@@ -6,7 +6,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import clsx from "clsx";
-import { truncateString, withDefault } from "../../utils";
+import { truncateString, withDefault } from "../../utils/commons";
 
 const useStyles = makeStyles((theme) => ({
 	card: {

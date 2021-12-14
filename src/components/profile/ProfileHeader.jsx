@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import Compressor from "compressorjs";
 import { Link } from "react-router-dom";
 import { darken, lighten, makeStyles } from "@material-ui/core/styles";
-import { truncateWalletAddress } from "../../utils";
+import { truncateWalletAddress } from "../../utils/commons";
 import { useFileUpload } from "use-file-upload";
 import {
 	changeUserProfilePicture,
