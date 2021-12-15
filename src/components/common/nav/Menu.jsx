@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 
 import MetamaskButton from "./MetamaskButton";
+import { getLoggedInUser, isUserLoggedIn, removeLoggedInUserFromLocalStorage } from "../../../utils/auth-utils";
 
 const useStyles = makeStyles({
 	navMenu: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles({
 		marginRight: 0,
 	},
 	menuLink: {
-		marginRight: "25px",
+		marginLeft: "20px",
 		cursor: "pointer",
 		textAlign: "center",
 		color: "#000",
@@ -28,34 +29,42 @@ const useStyles = makeStyles({
 	},
 });
 
-const Menu = ({ user, onWalletConnection }) => {
+const Menu = ({ user }) => {
 	const classes = useStyles();
+	const [userLoggedIn, setUserLoggedIn] = useState(false);
+
+	useEffect(() => {
+		setUserLoggedIn(isUserLoggedIn());
+		window.addEventListener("user-storage", () => setUserLoggedIn(isUserLoggedIn()));
+
+		return () => {
+			window.removeEventListener("user-storage", () => setUserLoggedIn(isUserLoggedIn()));
+		};
+	}, [userLoggedIn]);
+
 	const menu = [
 		{
-			label: "Mint NFT",
-			getRoute: () => "/mint-nft"
+			requiresLogin: true,
+			component: <Link className={classes.menuLink} to={"/mint-nft"}>Mint NFT</Link>,
 		},
 		{
-			label: "Profile",
-			getRoute: () => {
-				return `/profile/${user ? user.id : ''}`
-			}
+			requiresLogin: true,
+			component: <Link className={classes.menuLink} to={`/profile/${getLoggedInUser()?.id}`}>Profile</Link>,
 		},
-	]
+		{
+			requiresLogin: true,
+			component: <p className={classes.menuLink} onClick={() => removeLoggedInUserFromLocalStorage()}>Log out</p>,
+		},
+	];
 
 	return (
 		<div className={classes.navMenu}>
 			{menu
-				.filter(item => item.label !== "Profile" || user)
-				.map(((menuItem, i) => {
-				return (
-					<Link key={i} className={classes.menuLink} to={menuItem.getRoute()}>
-						{menuItem.label}
-					</Link>
-				);
+				.filter(item => item.requiresLogin ? userLoggedIn : true)
+				.map(((menuItem, i) => menuItem.component))
+			};
 			}))}
 			<MetamaskButton
-				onWalletConnection={onWalletConnection}
 				user={user}
 				className={classes.connectBtn}
 			/>

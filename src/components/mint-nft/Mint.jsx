@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { mintNft } from "../../api/chainHelper";
 import withSpinner from "../common/WithSpinner";
+import { getLoggedInUser } from "../../utils/auth-utils";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -41,7 +42,8 @@ function Mint({
 	const mint = async () => {
 		setMintInProgress(true);
 
-		const mintingResult = await mintNft(uploadedMetadata, 300000);
+		const user = getLoggedInUser()
+		const mintingResult = await mintNft(uploadedMetadata, 300000, user.walletAddress);
 
 		setMintedNft(mintingResult.blockhash);
 		setResultingTokenId(mintingResult.id);
