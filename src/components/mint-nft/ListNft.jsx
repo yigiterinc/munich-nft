@@ -3,6 +3,7 @@ import { Button, Container, TextField, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { listNft } from "../../api/chainHelper";
 import withSpinner from "../common/WithSpinner";
+import { getLoggedInUser } from "../../utils/auth-utils";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -44,10 +45,12 @@ function ListNft({
 		// ! We will ask user to set that, that is why code is left ugly
 		setListingInProgress(true);
 		const expirationTime = Math.round(Date.now() / 1000 + 60 * 60 * 24 * 365);
+		const user = getLoggedInUser()
 		const listing = await listNft(
 			expirationTime,
 			resultingTokenId,
 			listingPrice,
+			user.walletAddress
 		);
 		setListedNft(listing.hash);
 		setListingInProgress(false);
