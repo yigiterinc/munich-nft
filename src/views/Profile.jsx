@@ -7,6 +7,7 @@ import { Link, useParams } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import { fetchExistingUserWithId, fetchUserGalleries } from "../api/strapi";
 import GalleryCard from "../components/common/GalleryCard";
+import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
 
 const useStyles = makeStyles((theme) => ({
 	mainContainer: {
@@ -53,16 +54,19 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Profile = ({ user }) => {
+const Profile = () => {
 	const classes = useStyles();
 	const [profileOwner, setProfileOwner] = useState();
 	const [profileOwnerGalleries, setProfileOwnerGalleries] = useState(null);
+	const [user, setUser] = useState(null);
 
 	let { userId: userIdParam } = useParams();
 
 	useEffect(async () => {
-		if (userIdParam === user?.id) {
-			setProfileOwner(user);
+		if (isUserLoggedIn() && userIdParam === getLoggedInUser()?.id) {
+			let loggedInUser = getLoggedInUser();
+			setUser(loggedInUser)
+			setProfileOwner(loggedInUser);
 		} else {
 			let response = await fetchExistingUserWithId(userIdParam);
 			if (response.status === 200) {
