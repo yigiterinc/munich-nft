@@ -10,7 +10,17 @@ export const getCurrentEthPrice = async () => {
 };
 
 export const priceHelperForOpensea = (price) => {
-	return price.slice(0, price.lastIndexOf(".")) * 10 ** -18;
+	let weiPrice = removeDigitsAfterDot(price);
+	let ethPrice = convertWeiToEth(weiPrice);
+	return ethPrice;
+};
+
+const removeDigitsAfterDot = (price) => {
+	return price.slice(0, price.lastIndexOf("."));
+};
+
+const convertWeiToEth = (wei) => {
+	return wei * 10 ** -18;
 };
 
 export const countDecimals = (value) => {

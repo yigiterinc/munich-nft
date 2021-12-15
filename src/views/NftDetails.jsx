@@ -38,7 +38,9 @@ const NftDetails = () => {
 			const ethPrice = await getCurrentEthPrice();
 			let listedPrice = null;
 			if (tokenData.orders.length !== 0) {
+				console.log(listedPrice);
 				listedPrice = priceHelperForOpensea(tokenData.orders[0].current_price);
+				console.log(listedPrice);
 			}
 			let json = {
 				name: tokenData.name,
