@@ -12,9 +12,11 @@ import { truncateWalletAddress } from "../../utils";
 import { useFileUpload } from "use-file-upload";
 import {
 	changeUserProfilePicture,
+	changeUserBannerImage,
 	uploadImageToMediaGallery,
 } from "../../api/strapi";
 import { STRAPI_BASE_URL } from "../../constants/strapiConstants";
+import ImageUploadWithPreview from "../common/ImageUploadWithPreview";
 
 const useStyles = makeStyles((theme) => ({
 	mainContainer: {
@@ -54,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
 		width: theme.spacing(14),
 		marginTop: theme.spacing(-11),
 		cursor: "pointer",
+		zIndex: 1,
 	},
 	profileSummary: {
 		marginBottom: "6vh",
@@ -79,7 +82,9 @@ const useStyles = makeStyles((theme) => ({
 		letterSpacing: "1px",
 	},
 	profileSettingsButton: {
-		float: "right",
+		position: "absolute",
+		right: "10vw",
+		top: "45vh",
 	},
 }));
 
@@ -87,6 +92,7 @@ const ProfileHeader = ({ ownProfile, profile }) => {
 	const classes = useStyles();
 	const [uploadedProfileImage, setUploadedProfileImage] = useFileUpload();
 	const [compressedImage, setCompressedImage] = useState();
+	const [updatedBannerImage, setUpdatedBannerImage] = useState();
 
 	useEffect(async () => {
 		if (uploadedProfileImage) {
@@ -107,6 +113,17 @@ const ProfileHeader = ({ ownProfile, profile }) => {
 			console.log(profileImageUploadResult);
 		}
 	}, [compressedImage]);
+
+	useEffect(async () => {
+		if (updatedBannerImage) {
+			let bannerImage = await uploadImageToMediaGallery(updatedBannerImage);
+			let bannerImageUploadResult = await changeUserBannerImage(
+				bannerImage,
+				profile
+			);
+			console.log(bannerImageUploadResult);
+		}
+	}, [updatedBannerImage]);
 
 	const compressImage = () => {
 		return new Compressor(uploadedProfileImage.file, {
@@ -194,17 +211,24 @@ const ProfileHeader = ({ ownProfile, profile }) => {
 
 	return (
 		<div className={classes.mainContainer}>
-			<Paper elevation={1} className={classes.headerContainer}>
-				{ownProfile && (
-					<IconButton
-						component={Link}
-						to="/profile-settings"
-						className={classes.profileSettingsButton}
-					>
-						<SettingsIcon fontSize="large" />
-					</IconButton>
-				)}
-			</Paper>
+			<ImageUploadWithPreview
+				height={"30vh"}
+				width={"80vw"}
+				userId={profile?.id}
+				image={profile?.bannerImage}
+				setNewImage={(uploadedImage) => {
+					setUpdatedBannerImage(uploadedImage);
+				}}
+			/>
+			{ownProfile && (
+				<IconButton
+					component={Link}
+					to="/profile-settings"
+					className={classes.profileSettingsButton}
+				>
+					<SettingsIcon fontSize="large" />
+				</IconButton>
+			)}
 			{profile && renderProfile()}
 		</div>
 	);
