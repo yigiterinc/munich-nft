@@ -1,10 +1,13 @@
 import React, { useMemo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+import {
+	Button,
+	Divider,
+	List,
+	ListItem,
+	ListItemText,
+} from "@material-ui/core";
+import { Link } from "react-router-dom";
 import { NETWORK } from "../../../config/config";
 
 const useStyles = makeStyles({
@@ -49,12 +52,13 @@ const DetailsTab = (nftJson) => {
 		<div className={classes.detailsTabContainer}>
 			<div className={classes.ethScanButtonPanel}>
 				<Button
+					href={etherscanPath + nftJson.contractAddressId}
 					className={classes.ethScanButton}
 					variant="contained"
-					href={etherscanPath + nftJson.contractAddressId}
 					target="_blank"
 					rel="noopener noreferrer"
 				>
+					{" "}
 					View on ETHScan
 				</Button>
 			</div>

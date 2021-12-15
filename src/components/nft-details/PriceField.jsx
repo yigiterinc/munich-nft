@@ -1,9 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+import { Button, Typography } from "@material-ui/core";
 import { Icon } from "@iconify/react";
-import { countDecimals } from "../../api/currencyHelper";
+import { countDecimals } from "../../utils/currency-utils";
+import { MAX_BOUNDARY_FOR_NUMBER_OF_DECIMALS_NFT_PRICE } from "../../constants/priceFieldConstants";
 
 const useStyles = makeStyles({
 	priceFieldBorder: {
@@ -50,9 +50,9 @@ const PriceField = (nftJson) => {
 	const classes = useStyles();
 
 	let price = nftJson.price;
-	if (price !== null) {
+	if (price) {
 		let decimal = countDecimals(price);
-		if (decimal > 4) {
+		if (decimal > MAX_BOUNDARY_FOR_NUMBER_OF_DECIMALS_NFT_PRICE) {
 			price = price.toFixed(3);
 		}
 	}

@@ -26,19 +26,14 @@ const useStyles = makeStyles({
 });
 
 const CollectionGroup = (nftJson) => {
-	const path = `/collection/${nftJson.slug}`;
 	const classes = useStyles();
-
-	const redirectToCollectionPage = () => {
-		window.location.href = path;
-	};
 
 	return (
 		<div className={classes.collectionGroupContainer}>
 			<div className={classes.collectionSection}>
 				<Link
 					className={classes.collectionLink}
-					onClick={redirectToCollectionPage}
+					to={`/collection/${nftJson.slug}`}
 				>
 					{nftJson.collection}
 				</Link>
