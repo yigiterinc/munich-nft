@@ -72,13 +72,12 @@ const Profile = () => {
 			let loggedInUser = getLoggedInUser();
 			setUser(loggedInUser);
 			setProfileOwner(loggedInUser);
+		}
+		let response = await fetchExistingUserWithId(userIdParam);
+		if (response.status === 200) {
+			setProfileOwner(response.data[0]);
 		} else {
-			let response = await fetchExistingUserWithId(userIdParam);
-			if (response.status === 200) {
-				setProfileOwner(response.data[0]);
-			} else {
-				console.log("Failed to fetch user data");
-			}
+			console.log("Failed to fetch user data");
 		}
 		setProfileOwnerGalleries(await fetchUserGalleries(userIdParam));
 	}, [userIdParam]);

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import ImageIcon from "@material-ui/icons/Image";
+import PersonIcon from "@material-ui/icons/Person";
 import Compressor from "compressorjs";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, darken } from "@material-ui/core/styles";
 import { useFileUpload } from "use-file-upload";
 import { STRAPI_BASE_URL } from "../../constants/strapiConstants";
 
@@ -13,6 +14,10 @@ const useStyles = makeStyles((theme) => ({
 		width: width,
 		height: height,
 		cursor: "pointer",
+		background: "rgb(224,227,225)",
+		"&:hover": {
+			background: darken("rgb(224,227,225)", 0.05),
+		},
 	}),
 	image: ({ height, width, isCircle }) => ({
 		objectFit: "cover",
@@ -21,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
 		height: height,
 		width: width,
 		cursor: "pointer",
+		"&:hover": {
+			filter: "brightness(80%)",
+		},
 	}),
 }));
 
@@ -89,7 +97,7 @@ const ImageUploadWithPreview = ({
 		} else {
 			return (
 				<Avatar className={classes.avatar} onClick={() => handleImageUpload()}>
-					<ImageIcon />
+					{isCircle ? <PersonIcon /> : <ImageIcon />}
 				</Avatar>
 			);
 		}

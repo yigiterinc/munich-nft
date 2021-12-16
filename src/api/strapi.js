@@ -37,6 +37,12 @@ export const changeUserProfilePicture = async (image, user) => {
 	return await updateUser(user);
 };
 
+export const changeUserBannerImage = async (image, user) => {
+	user.bannerImage = image.data[0];
+	console.log(user, GET_USER_UPDATE_URL(user.id));
+	return await updateUser(user);
+};
+
 // Fetches if user is already present in DB, otherwise saves to db
 export const createOrFetchUser = async ({
 	username,
@@ -101,7 +107,7 @@ export const saveImportedCollections = async (user, collectionsToSave) => {
 export const saveImportedNfts = async (user, selectedCollectionNftPairs) => {
 	selectedCollectionNftPairs.map((collectionNftPair) => {
 		let existingCollectionInStrapi = user.importedCollections.find(
-			(collection) => collection.slug === collectionNftPair.collection.slug,
+			(collection) => collection.slug === collectionNftPair.collection.slug
 		);
 
 		if (existingCollectionInStrapi) {
@@ -114,8 +120,8 @@ export const saveImportedNfts = async (user, selectedCollectionNftPairs) => {
 				(asset) =>
 					anySelectedCollectionNftPairContainsThisAsset(
 						asset,
-						selectedCollectionNftPairs,
-					),
+						selectedCollectionNftPairs
+					)
 			);
 
 			collectionNftPair.collection.assets = selectedAssetsOnly;
@@ -125,10 +131,12 @@ export const saveImportedNfts = async (user, selectedCollectionNftPairs) => {
 
 	return await updateUser(user);
 };
-export const convertSelectedNftsToGalleryAssets = (selectedNftCollectionPairs) => {
+export const convertSelectedNftsToGalleryAssets = (
+	selectedNftCollectionPairs
+) => {
 	if (!selectedNftCollectionPairs) return;
 	let galleryAssets = [];
-	selectedNftCollectionPairs.forEach(pair => {
+	selectedNftCollectionPairs.forEach((pair) => {
 		const galleryAsset = {
 			...pair.nft,
 		};
@@ -146,10 +154,10 @@ export const convertSelectedNftsToGalleryAssets = (selectedNftCollectionPairs) =
 
 const anySelectedCollectionNftPairContainsThisAsset = (
 	asset,
-	selectedCollectionNftPairs,
+	selectedCollectionNftPairs
 ) => {
 	return selectedCollectionNftPairs.some(
-		(nftCollection) => nftCollection.nft === asset,
+		(nftCollection) => nftCollection.nft === asset
 	);
 };
 
@@ -158,7 +166,7 @@ export const fetchUserGalleries = async (userId) => {
 	const resp = await axios.get(USER_GALLERIES_URL(userId.substring(0, 25)));
 	console.log(resp);
 	return resp.data;
-}
+};
 
 export const fetchGallery = async (slug) => {
 	const url = `${GALLERIES_URL}?slug=${slug}`;
@@ -173,7 +181,7 @@ export const updateUserProfile = async (
 	email,
 	profileImage,
 	bannerImage,
-	user,
+	user
 ) => {
 	user.username = username;
 	user.bio = bio;
