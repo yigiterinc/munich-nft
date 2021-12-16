@@ -4,6 +4,8 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import axiosRetry from "axios-retry";
 import axios from "axios";
+import { COLORS, FONTS } from "./theme/variables";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 
 require("dotenv").config();
 
@@ -17,9 +19,18 @@ axiosRetry(axios, {
 	},
 });
 
+const theme = createTheme({
+	typography: {
+		htmlFontSize: FONTS.default,
+		fontFamily: ["Readex Pro", "sans-serif"].join(","),
+	},
+});
+
 ReactDOM.render(
 	<React.StrictMode>
-		<App />
+		<ThemeProvider theme={theme}>
+			<App />
+		</ThemeProvider>
 	</React.StrictMode>,
 	document.getElementById("root")
 );
