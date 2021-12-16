@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Link from "@material-ui/core/Link";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
 	collectionGroupContainer: {
@@ -14,6 +14,12 @@ const useStyles = makeStyles({
 		whiteSpace: "nowrap",
 		overflow: "hidden",
 	},
+	collectionLink: {
+		cursor: "pointer",
+		"&:focus, &:hover, &:visited, &:link, &:active": {
+			textDecoration: "none",
+		},
+	},
 	icon: {
 		paddingRight: "0.5vw",
 	},
@@ -25,7 +31,12 @@ const CollectionGroup = (nftJson) => {
 	return (
 		<div className={classes.collectionGroupContainer}>
 			<div className={classes.collectionSection}>
-				<Link href="">{nftJson.collection}</Link>
+				<Link
+					className={classes.collectionLink}
+					to={`/collection/${nftJson.slug}`}
+				>
+					{nftJson.collection}
+				</Link>
 			</div>
 		</div>
 	);
