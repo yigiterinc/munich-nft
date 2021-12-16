@@ -50,9 +50,8 @@ const PriceField = (nftJson) => {
 	const classes = useStyles();
 
 	let price = nftJson.price;
-	if (price !== null) {
+	if (price) {
 		let decimal = countDecimals(price);
-		console.log(decimal);
 		if (decimal > MAX_BOUNDARY_FOR_NUMBER_OF_DECIMALS_NFT_PRICE) {
 			price = price.toFixed(3);
 		}
