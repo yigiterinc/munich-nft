@@ -18,20 +18,20 @@ import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
 import { useHistory } from "react-router-dom";
 
 const Alert = (props) => {
-	return <MuiAlert elevation={6} variant="filled" {...props}/>
-}
+	return <MuiAlert elevation={6} variant="filled" {...props} />;
+};
 
 const useStyles = makeStyles((theme) => ({
 	navigationButton: {
-		background: "#FF6700",
 		color: "#FFFFFF",
 		margin: "13px 25px",
 		padding: "13px 25px",
 		"&:disabled": {
 			opacity: "80%",
 		},
+		background: "#b35bff",
 		"&:hover": {
-			background: darken("#FF6700", 0.1),
+			background: darken("#b35bff", 0.1),
 		},
 	},
 }));
@@ -54,8 +54,9 @@ const CreateGallery = (props) => {
 			return;
 		}
 
-		let user = getLoggedInUser()
-		const allRequiredParamsEntered = galleryName &&
+		let user = getLoggedInUser();
+		const allRequiredParamsEntered =
+			galleryName &&
 			galleryDescription &&
 			coverImage &&
 			(selectedCollections || selectedNfts);
@@ -89,7 +90,7 @@ const CreateGallery = (props) => {
 		if (updateResult.status === 200) {
 			setSuccess(true);
 		} else {
-			setError(true)
+			setError(true);
 		}
 
 		console.log(updateResult);
@@ -128,43 +129,56 @@ const CreateGallery = (props) => {
 	};
 
 	const dropzone = (
-		<FileDropzone dropzoneStyles={{ minWidth: "40vw", minHeight: "30vh", textAlign: "center" }}
-									text="Click or drag to upload a cover image"
-									handleSubmit={handleDropzoneSubmit} // TODO
-									handleChangeStatus={() => console.log("status changed")} />
+		<FileDropzone
+			dropzoneStyles={{
+				minWidth: "40vw",
+				minHeight: "30vh",
+				textAlign: "center",
+			}}
+			text="Click or drag to upload a cover image"
+			handleSubmit={handleDropzoneSubmit} // TODO
+			handleChangeStatus={() => console.log("status changed")}
+		/>
 	);
 
-
 	let stepComponents = [
-		<AddGalleryMetadata nextButton={nextButton}
-												fileUploader={dropzone}
-												coverImage={coverImage}
-												setCoverImage={setCoverImage}
-												collectionName={galleryName}
-												setGalleryName={setGalleryName}
-												galleryDescription={galleryDescription}
-												setGalleryDescription={setGalleryDescription}
+		<AddGalleryMetadata
+			nextButton={nextButton}
+			fileUploader={dropzone}
+			coverImage={coverImage}
+			setCoverImage={setCoverImage}
+			collectionName={galleryName}
+			setGalleryName={setGalleryName}
+			galleryDescription={galleryDescription}
+			setGalleryDescription={setGalleryDescription}
 		/>,
-		<SelectGalleryNfts nextButton={nextButton}
-											 prevButton={prevButton}
-											 user={props.user}
-											 account={props.account}
-											 handleSubmit={handleSubmit} />,
+		<SelectGalleryNfts
+			nextButton={nextButton}
+			prevButton={prevButton}
+			user={props.user}
+			account={props.account}
+			handleSubmit={handleSubmit}
+		/>,
 	];
-
 
 	return (
 		<>
-			{
-				stepComponents[activeStep]
-			}
-			<Snackbar open={success} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} autoHideDuration={3000}
-								onClose={() => setSuccess(false)}>
+			{stepComponents[activeStep]}
+			<Snackbar
+				open={success}
+				anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+				autoHideDuration={3000}
+				onClose={() => setSuccess(false)}
+			>
 				<Alert severity="success" onClose={() => setSuccess(false)}>
 					Your gallery is successfully created
 				</Alert>
 			</Snackbar>
-			<Snackbar open={error} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} onClose={() => setError(false)}>
+			<Snackbar
+				open={error}
+				anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+				onClose={() => setError(false)}
+			>
 				<Alert severity="error" onClose={() => setError(false)}>
 					An error occurred :(
 				</Alert>

@@ -26,8 +26,8 @@ const BrandLogo = () => {
 	const classes = useStyles();
 	return (
 		<div className={classes.logoContainer}>
-			<Link className={classes.logo} to='/'>
-				<img src={logoImage} alt="logo" />
+			<Link className={classes.logo} to="/">
+				<img src={logoImage} alt="logo" height="50px" />
 				<Typography className={classes.title}>Munich NFT</Typography>
 			</Link>
 		</div>

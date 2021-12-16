@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, darken } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -50,11 +50,16 @@ const useStyles = makeStyles((theme) => ({
 	},
 	saveButton: {
 		marginTop: "3vh",
+		background: "#b35bff",
+		color: "white",
+		"&:hover": {
+			background: darken("#b35bff", 0.1),
+		},
 	},
 }));
 
 const ProfileSettings = () => {
-	const [user, setUser] = useState(null)
+	const [user, setUser] = useState(null);
 	const [userData, setUserData] = useState({
 		username: null,
 		bio: null,
