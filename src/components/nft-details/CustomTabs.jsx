@@ -101,7 +101,7 @@ const CustomTabs = (nftJson) => {
 			<>
 				{tabLabelComponents.map((Component, index) => {
 					return (
-						<TabPanel value={value} index={index}>
+						<TabPanel value={value} key={index} index={index}>
 							{Component}
 						</TabPanel>
 					);

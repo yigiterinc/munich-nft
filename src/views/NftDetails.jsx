@@ -4,6 +4,8 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import { fetchSingleAsset } from "../api/opensea";
+import { getCurrentCryptoPriceInCurrency } from "../api/currencyHelper";
+import { formatOpenseaPrice } from "../utils/currency-utils";
 
 import NftImage from "../components/nft-details/NftImage";
 import NftDetailsPanel from "../components/nft-details/NftDetailsPanel";
@@ -31,10 +33,10 @@ const NftDetails = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			const tokenData = await fetchSingleAsset(contractAddressId, tokenId);
-			let currentPrice = null;
+			const ethPrice = await getCurrentCryptoPriceInCurrency("ETH", "USD");
+			let listedPrice = null;
 			if (tokenData.orders.length !== 0) {
-				currentPrice =
-					tokenData.orders[tokenData.orders.length - 1].current_price;
+				listedPrice = formatOpenseaPrice(tokenData.orders[0].current_price);
 			}
 			let json = {
 				name: tokenData.name,
@@ -43,12 +45,14 @@ const NftDetails = () => {
 				description: tokenData.description,
 				owner: tokenData.owner.address,
 				collection: tokenData.collection.name,
+				slug: tokenData.collection.slug,
 				tokenStandard: tokenData.asset_contract.schema_name,
 				contractAddressId,
 				tokenId,
 				properties: tokenData.traits,
 				collectionSize: tokenData.collection.stats.count,
-				price: currentPrice,
+				price: listedPrice,
+				priceUsd: listedPrice * ethPrice,
 			};
 
 			setNftJson(json);
