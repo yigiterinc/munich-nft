@@ -9,9 +9,17 @@ const useStyles = makeStyles({
 		minHeight: 200,
 		height: "auto",
 		cursor: "pointer",
+		transition: "all 0.2s ease-out",
+		"&:hover": {
+			transform: "scale(1.05)",
+			boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+		},
 	},
 	image: {
 		height: "30vh",
+	},
+	link: {
+		textDecoration: "none",
 	},
 });
 
@@ -22,7 +30,10 @@ const AssetCard = ({ asset }) => {
 	const classes = useStyles();
 
 	return (
-		<Link to={`/token/${contractAddressId}/${tokenId}`}>
+		<Link
+			className={classes.link}
+			to={`/token/${contractAddressId}/${tokenId}`}
+		>
 			<Card className={classes.root} variant="outlined">
 				<CardMedia
 					component="img"
@@ -35,7 +46,7 @@ const AssetCard = ({ asset }) => {
 						{asset.collection.name}
 					</Typography>
 					<Typography variant="h6" component="h2">
-						{asset.name}
+						{asset.name ? asset.name : "-"}
 					</Typography>
 				</CardContent>
 			</Card>
