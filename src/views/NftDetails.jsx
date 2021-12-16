@@ -21,6 +21,13 @@ const NftDetails = () => {
 	const classes = useStyles();
 	const [nftJson, setNftJson] = useState(null);
 	const { contractAddressId, tokenId } = useParams();
+	const [dataIsLoading, setDataIsLoading] = useState(true);
+
+	useEffect(() => {
+		if (nftJson) {
+			setDataIsLoading(false);
+		}
+	}, [nftJson]);
 
 	useEffect(async () => {
 		await getErc1155TokenDetails(tokenId, contractAddressId);
@@ -53,9 +60,11 @@ const NftDetails = () => {
 
 	return (
 		<>
-			{
-				withSpinner(renderPage(classes, nftJson), nftJson)
-			}
+			{withSpinner(renderPage(classes, nftJson), dataIsLoading, {
+				position: "absolute",
+				left: "50%",
+				top: "50%",
+			})}
 		</>
 	);
 };

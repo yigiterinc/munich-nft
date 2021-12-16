@@ -58,12 +58,10 @@ function App() {
 		<Router>
 			<Navbar/>
 			<Switch>
-				<Route exact path="/">
-					<Home exact path="/"/>
-				</Route>
+				<Route exact path="/" component={Home}/>
 				<ProtectedRoute path="/mint-nft" component={MintNft}/>
 				<ProtectedRoute path="/gallery/:slug" component={Gallery}/>
-				<ProtectedRoute path="/collection/:slug" component={Collection}/>
+				<Route path="/collection/:slug" component={Collection}/>
 				<ProtectedRoute path="/profile-settings" component={ProfileSettings}/>
 				<Route path="/token/:contractAddressId/:tokenId" component={NftDetails}/>
 				<ProtectedRoute path="/profile/:userId" component={Profile}/>
