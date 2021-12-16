@@ -10,8 +10,15 @@ import { truncateString, withDefault } from "../../utils/commons";
 
 const useStyles = makeStyles((theme) => ({
 	card: {
-		height: "300",
+		minWidth: 200,
+		minHeight: 200,
+		height: "auto",
 		cursor: "pointer",
+		transition: "all 0.2s ease-out",
+		"&:hover": {
+			transform: "scale(1.05)",
+			boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+		},
 	},
 	cardSelected: {
 		borderColor: "rgb(120, 105, 199)",
@@ -34,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: "17px",
 	},
 	image: {
-		objectFit: "contain",
+		height: "30vh",
 	},
 	nftName: {
 		fontSize: "18px",
@@ -59,7 +66,8 @@ const ImportCard = ({ collection, nft, addToSelected, removeFromSelected }) => {
 		setSelected(!selected);
 	};
 
-	const defaultNftName = "Nameless", defaultCollectionName = "Nameless";
+	const defaultNftName = "Nameless",
+		defaultCollectionName = "Nameless";
 	const defaultImagePath = "/images/no-image.png";
 
 	return (
@@ -89,8 +97,16 @@ const ImportCard = ({ collection, nft, addToSelected, removeFromSelected }) => {
 						image={withDefault(nft.image_url, defaultImagePath)}
 						title={nft.name}
 					/>
-					<Typography className={classes.collectionName} variant="body2" color="textSecondary" gutterBottom>
-						{truncateString(withDefault(nft.collection.name, defaultCollectionName), 20)}
+					<Typography
+						className={classes.collectionName}
+						variant="body2"
+						color="textSecondary"
+						gutterBottom
+					>
+						{truncateString(
+							withDefault(nft.collection.name, defaultCollectionName),
+							20
+						)}
 					</Typography>
 					<Typography variant="body2" className={classes.nftName}>
 						{truncateString(withDefault(nft.name, defaultNftName), 20)}

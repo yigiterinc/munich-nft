@@ -93,13 +93,15 @@ const Profile = () => {
 	const Galleries = () => {
 		return (
 			<>
-				<IconButton
-					component={Link}
-					to="/create-gallery"
-					className={classes.addGalleryButton}
-				>
-					<AddIcon />
-				</IconButton>
+				{userIdParam === user?.id && (
+					<IconButton
+						component={Link}
+						to="/create-gallery"
+						className={classes.addGalleryButton}
+					>
+						<AddIcon />
+					</IconButton>
+				)}
 				<Grid container spacing={4}>
 					{profileOwnerGalleries.map((gallery) => (
 						<Grid item lg={3} md={4} sm={6} xs={12}>

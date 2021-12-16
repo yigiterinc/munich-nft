@@ -3,7 +3,6 @@ import Button from "@material-ui/core/Button";
 import FileDropzone from "../components/common/FileDropzone";
 import AddGalleryMetadata from "../components/create-gallery/AddGalleryMetadata";
 import SelectGalleryNfts from "../components/create-gallery/SelectGalleryNfts";
-
 import { darken, makeStyles } from "@material-ui/core/styles";
 import {
 	createGallery,
@@ -36,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const CreateGallery = (props) => {
+const CreateGallery = () => {
 	const [galleryName, setGalleryName] = useState();
 	const [galleryDescription, setGalleryDescription] = useState();
 	const [coverImage, setCoverImage] = useState();
@@ -44,8 +43,9 @@ const CreateGallery = (props) => {
 	const [error, setError] = useState(false);
 	const [success, setSuccess] = useState(false);
 
-	const history = useHistory();
+	const user = getLoggedInUser();
 
+	const history = useHistory();
 	const classes = useStyles();
 
 	const handleSubmit = async (selectedCollections, selectedNfts) => {
@@ -155,8 +155,8 @@ const CreateGallery = (props) => {
 		<SelectGalleryNfts
 			nextButton={nextButton}
 			prevButton={prevButton}
-			user={props.user}
-			account={props.account}
+			user={user}
+			account={user.walletAddress}
 			handleSubmit={handleSubmit}
 		/>,
 	];
