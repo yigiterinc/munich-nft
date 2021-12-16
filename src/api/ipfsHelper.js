@@ -1,7 +1,7 @@
 import { create } from "ipfs-http-client";
 
-const projectId = process.env.REACT_APP_INFURA_IPFS_PROJECT_ID;
-const projectSecret = process.env.REACT_APP_INFURA_IPFS_PROJECT_SECRET;
+const projectId = "1zT0xCj5T5RHmnXNqquZpj9w9SD";
+const projectSecret = "f935b030029e0fa41d8c66c9cf46f869";
 
 const auth =
 	"Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
@@ -17,6 +17,7 @@ const client = create({
 
 const ipfsHelper = {
 	addFile: async (file) => {
+		console.log(auth);
 		const address = await client.add(file);
 		return address;
 	},

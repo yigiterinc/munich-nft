@@ -21,6 +21,7 @@ import "./App.css";
 import CreateGallery from "./views/CreateGallery";
 import NftDetails from "./views/NftDetails";
 import { isUserLoggedIn } from "./utils/auth-utils";
+import { findOwnedTokensOnERC721Contract } from "./api/chainHelper";
 
 let web3;
 
@@ -28,6 +29,7 @@ function App() {
 
 	useEffect(async () => {
 		if (!web3) await loadWeb3();
+		await findOwnedTokensOnERC721Contract()
 	}, []);
 
 	const loadWeb3 = async () => {
