@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import ImageIcon from "@material-ui/icons/Image";
+import PersonIcon from "@material-ui/icons/Person";
 import Compressor from "compressorjs";
 import { makeStyles, darken } from "@material-ui/core/styles";
 import { useFileUpload } from "use-file-upload";
@@ -96,7 +97,7 @@ const ImageUploadWithPreview = ({
 		} else {
 			return (
 				<Avatar className={classes.avatar} onClick={() => handleImageUpload()}>
-					<ImageIcon />
+					{isCircle ? <PersonIcon /> : <ImageIcon />}
 				</Avatar>
 			);
 		}
