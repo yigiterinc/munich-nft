@@ -102,8 +102,8 @@ const Profile = () => {
 				</IconButton>
 				<Grid container spacing={4}>
 					{profileOwnerGalleries.map((gallery) => (
-						<Grid item>
-							<GalleryCard gallery={gallery} lg={3} md={4} sm={6} xs={12} />
+						<Grid item lg={3} md={4} sm={6} xs={12}>
+							<GalleryCard gallery={gallery} />
 						</Grid>
 					))}
 				</Grid>

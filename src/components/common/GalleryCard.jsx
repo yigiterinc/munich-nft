@@ -23,11 +23,10 @@ const useStyles = makeStyles({
 	},
 	image: {
 		height: "25vh",
-		width: "22vw",
 	},
 });
 
-const GalleryCard = ({ gallery }) => {
+const GalleryCard = ({ gallery, add }) => {
 	const classes = useStyles();
 	const history = useHistory();
 
