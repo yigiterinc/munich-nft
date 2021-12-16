@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, darken } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 
@@ -8,7 +8,22 @@ const useStyles = makeStyles({
 		marginBottom: "2vh",
 	},
 	creator: {
+		textDecoration: "none",
+		border: "solid 8px #e5e5ea",
+		borderRadius: 10,
+		background: "#e5e5ea",
 		cursor: "pointer",
+		"&:hover": {
+			color: "#65657d",
+			background: darken("#e5e5ea", 0.05),
+			border: `solid 8px ${darken("#e5e5ea", 0.05)}`,
+		},
+		"&:visited": {
+			color: "#65657d",
+		},
+		"&:active": {
+			color: "#65657d",
+		},
 	},
 	description: {
 		marginTop: "2vh",
