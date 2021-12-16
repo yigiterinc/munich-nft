@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProfileSettings = () => {
-	const [user, setUser] = useState(null)
+	const [user, setUser] = useState(null);
 	const [userData, setUserData] = useState({
 		username: null,
 		bio: null,

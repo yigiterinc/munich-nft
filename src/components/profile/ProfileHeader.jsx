@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from "react";
-import Paper from "@material-ui/core/Paper";
-import Avatar from "@material-ui/core/Avatar";
-import PersonIcon from "@material-ui/icons/Person";
 import SettingsIcon from "@material-ui/icons/Settings";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import Compressor from "compressorjs";
 import { Link } from "react-router-dom";
 import { darken, lighten, makeStyles } from "@material-ui/core/styles";
 import { truncateWalletAddress } from "../../utils/commons";
-import { useFileUpload } from "use-file-upload";
 import {
 	changeUserProfilePicture,
 	changeUserBannerImage,
 	uploadImageToMediaGallery,
 } from "../../api/strapi";
-import { STRAPI_BASE_URL } from "../../constants/strapiConstants";
 import ImageUploadWithPreview from "../common/ImageUploadWithPreview";
 
 const useStyles = makeStyles((theme) => ({
@@ -25,37 +19,8 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "center",
 		alignItems: "center",
 	},
-	headerContainer: {
-		height: "auto",
-		minWidth: "80vw",
-		minHeight: "30vh",
-		background: lighten("rgb(236,239,241)", 0.6),
-		"&:hover": {
-			background: "rgb(236,239,241)",
-			cursor: "pointer",
-		},
-		overflow: "auto",
-	},
-	avatar: {
-		width: theme.spacing(14),
-		height: theme.spacing(14),
+	profileImage: {
 		marginTop: theme.spacing(-11),
-		boxShadow:
-			"rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.20) 0px 0px 0px 1px",
-		cursor: "pointer",
-		marginBottom: "1vh",
-		background: "rgb(224,227,225)",
-		"&:hover": {
-			background: darken("rgb(224,227,225)", 0.05),
-		},
-	},
-	image: {
-		objectFit: "cover",
-		borderRadius: "50%",
-		height: theme.spacing(14),
-		width: theme.spacing(14),
-		marginTop: theme.spacing(-11),
-		cursor: "pointer",
 		zIndex: 1,
 	},
 	profileSummary: {
@@ -90,29 +55,19 @@ const useStyles = makeStyles((theme) => ({
 
 const ProfileHeader = ({ ownProfile, profile }) => {
 	const classes = useStyles();
-	const [uploadedProfileImage, setUploadedProfileImage] = useFileUpload();
-	const [compressedImage, setCompressedImage] = useState();
+	const [updatedProfileImage, setUpdatedProfileImage] = useState();
 	const [updatedBannerImage, setUpdatedBannerImage] = useState();
 
 	useEffect(async () => {
-		if (uploadedProfileImage) {
-			compressImage();
-		}
-	}, [uploadedProfileImage]);
-
-	useEffect(async () => {
-		if (compressedImage) {
-			let response;
-			let image = await uploadImageToMediaGallery(compressedImage).then(
-				(resp) => (response = resp)
-			);
+		if (updatedProfileImage) {
+			let profileImage = await uploadImageToMediaGallery(updatedProfileImage);
 			let profileImageUploadResult = await changeUserProfilePicture(
-				image,
+				profileImage,
 				profile
 			);
 			console.log(profileImageUploadResult);
 		}
-	}, [compressedImage]);
+	}, [updatedProfileImage]);
 
 	useEffect(async () => {
 		if (updatedBannerImage) {
@@ -125,59 +80,21 @@ const ProfileHeader = ({ ownProfile, profile }) => {
 		}
 	}, [updatedBannerImage]);
 
-	const compressImage = () => {
-		return new Compressor(uploadedProfileImage.file, {
-			quality: 0.6,
-			success: (compressedResult) => {
-				setCompressedImage(
-					new File([compressedResult], profile.id, {
-						type: compressedResult.type,
-					})
-				);
-			},
-		});
-	};
-
-	const handleProfileImageUpload = () => {
-		setUploadedProfileImage(
-			{ accept: "image/*", multiple: false },
-			({ name, size, source, file }) => {
-				console.log("File Selected", { name, size, source, file });
-			}
-		);
-	};
-
-	const ImageWithUploadOnClick = (source) => {
-		return (
-			<img
-				src={source}
-				alt="preview"
-				className={classes.image}
-				onClick={() => handleProfileImageUpload()}
-			/>
-		);
-	};
-
 	const ProfileImage = () => {
-		let component;
-		if (uploadedProfileImage) {
-			component = ImageWithUploadOnClick(uploadedProfileImage?.source);
-		} else if (profile?.profilePicture?.url) {
-			component = ImageWithUploadOnClick(
-				STRAPI_BASE_URL + profile.profilePicture.url
-			);
-		} else {
-			component = (
-				<Avatar
-					className={classes.avatar}
-					onClick={() => handleProfileImageUpload()}
-				>
-					<PersonIcon />
-				</Avatar>
-			);
-		}
-
-		return component;
+		return (
+			<div className={classes.profileImage}>
+				<ImageUploadWithPreview
+					isCircle
+					height={100}
+					width={100}
+					userId={profile?.id}
+					image={profile?.profilePicture}
+					setNewImage={(uploadedImage) => {
+						setUpdatedProfileImage(uploadedImage);
+					}}
+				/>
+			</div>
+		);
 	};
 
 	const ProfileSummary = () => {
