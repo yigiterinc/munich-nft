@@ -1,42 +1,51 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, darken } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
-	galleryHeaderpanel: {
-		marginLeft: "20px",
-		"& .MuiTypography-root": {
-			marginBottom: "2vh",
-			marginTop: "2vh",
+	title: {
+		marginBottom: "2vh",
+	},
+	creator: {
+		textDecoration: "none",
+		border: "solid 8px #e5e5ea",
+		borderRadius: 10,
+		background: "#e5e5ea",
+		cursor: "pointer",
+		"&:hover": {
+			color: "#65657d",
+			background: darken("#e5e5ea", 0.05),
+			border: `solid 8px ${darken("#e5e5ea", 0.05)}`,
 		},
-		"& .MuiLink-root": {
-			marginBottom: "2vh",
-			marginTop: "2vh",
+		"&:visited": {
+			color: "#65657d",
 		},
+		"&:active": {
+			color: "#65657d",
+		},
+	},
+	description: {
+		marginTop: "2vh",
 	},
 });
 
 const GalleryHeaderPanel = (galleryJson) => {
 	const classes = useStyles();
-	const path = `/profile/${galleryJson.userId}`;
-
-	const redirectToProfilePage = () => {
-		window.location.href = path;
-	};
 
 	return (
 		<div className={classes.galleryHeaderpanel}>
 			<Typography className={classes.title} variant="h4">
 				{galleryJson.name}
 			</Typography>
-			<Link
-				onClick={redirectToProfilePage}
+			<Typography
+				to={`/profile/${galleryJson?.userId}`}
+				component={Link}
 				className={classes.creator}
 				variant="h5"
 			>
 				{galleryJson.creator}
-			</Link>
+			</Typography>
 			<Typography className={classes.description} variant="h5">
 				{galleryJson.description}
 			</Typography>
