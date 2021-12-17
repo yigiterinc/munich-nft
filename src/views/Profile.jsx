@@ -65,15 +65,14 @@ const Profile = () => {
 	useEffect(async () => {
 		if (isUserLoggedIn() && userIdParam === getLoggedInUser()?.id) {
 			let loggedInUser = getLoggedInUser();
-			setUser(loggedInUser)
+			setUser(loggedInUser);
 			setProfileOwner(loggedInUser);
+		}
+		let response = await fetchExistingUserWithId(userIdParam);
+		if (response.status === 200) {
+			setProfileOwner(response.data[0]);
 		} else {
-			let response = await fetchExistingUserWithId(userIdParam);
-			if (response.status === 200) {
-				setProfileOwner(response.data[0]);
-			} else {
-				console.log("Failed to fetch user data");
-			}
+			console.log("Failed to fetch user data");
 		}
 
 		setProfileOwnerGalleries(await fetchUserGalleries(userIdParam));
@@ -82,12 +81,11 @@ const Profile = () => {
 	const Galleries = () => {
 		return (
 			<Grid container spacing={4}>
-				{
-					profileOwnerGalleries.map(gallery =>
-						<Grid item>
-							<GalleryCard gallery={gallery} lg={3} md={4} sm={6} xs={12} />
-						</Grid>)
-				}
+				{profileOwnerGalleries.map((gallery) => (
+					<Grid item>
+						<GalleryCard gallery={gallery} lg={3} md={4} sm={6} xs={12} />
+					</Grid>
+				))}
 			</Grid>
 		);
 	};
@@ -145,17 +143,15 @@ const Profile = () => {
 
 	return (
 		<div className={classes.mainContainer}>
-			{
-				user &&
-				(<>
-					<ProfileHeader ownProfile={userIdParam === user?.id} profile={profileOwner} />
-					<div className={classes.galleriesContainer}>
-						{
-							GallerySection()
-						}
-					</div>
-				</>)
-			}
+			{user && (
+				<>
+					<ProfileHeader
+						ownProfile={userIdParam === user?.id}
+						profile={profileOwner}
+					/>
+					<div className={classes.galleriesContainer}>{GallerySection()}</div>
+				</>
+			)}
 		</div>
 	);
 };
