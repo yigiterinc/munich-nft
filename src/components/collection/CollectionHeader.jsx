@@ -25,13 +25,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 	image: {
 		objectFit: "cover",
-		marginTop: theme.spacing(-7),
+		marginTop: theme.spacing(-11),
 		borderRadius: "50%",
 		height: theme.spacing(14),
 		width: theme.spacing(14),
 	},
 	avatar: {
-		marginTop: theme.spacing(-7),
+		marginTop: theme.spacing(-11),
 		borderRadius: "50%",
 		height: theme.spacing(14),
 		width: theme.spacing(14),
