@@ -15,7 +15,6 @@ const SelectGalleryNfts = (props) => {
 
   useEffect(async () => {
     if (isUserLoggedIn()) {
-      console.log(getLoggedInUser().walletAddress);
       let collectionsData = await fetchCollectionsOfUser(getLoggedInUser().walletAddress);
       let collectionsWithAssets = [];
       collectionsWithAssets.push(

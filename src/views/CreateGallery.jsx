@@ -16,10 +16,11 @@ import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
 import { useHistory } from "react-router-dom";
+import SelectFromContract from "../components/create-gallery/SelectFromContract";
 
 const Alert = (props) => {
-	return <MuiAlert elevation={6} variant="filled" {...props}/>
-}
+	return <MuiAlert elevation={6} variant="filled" {...props} />;
+};
 
 const useStyles = makeStyles((theme) => ({
 	navigationButton: {
@@ -38,8 +39,8 @@ const useStyles = makeStyles((theme) => ({
 
 const IMPORT_METHODS = {
 	OPENSEA: "OPENSEA",
-	CUSTOM_CONTRACT: "CUSTOM_CONTRACT"
-}
+	CUSTOM_CONTRACT: "CUSTOM_CONTRACT",
+};
 
 const CreateGallery = (props) => {
 	const [galleryName, setGalleryName] = useState();
@@ -49,6 +50,7 @@ const CreateGallery = (props) => {
 	const [error, setError] = useState(false);
 	const [success, setSuccess] = useState(false);
 	const [importMethod, setImportMethod] = useState(IMPORT_METHODS.CUSTOM_CONTRACT);
+	const [contractAddress, setContractAddress] = useState();
 
 	const history = useHistory();
 
@@ -60,7 +62,7 @@ const CreateGallery = (props) => {
 			return;
 		}
 
-		let user = getLoggedInUser()
+		let user = getLoggedInUser();
 		const allRequiredParamsEntered = galleryName &&
 			galleryDescription &&
 			coverImage &&
@@ -95,7 +97,7 @@ const CreateGallery = (props) => {
 		if (updateResult.status === 200) {
 			setSuccess(true);
 		} else {
-			setError(true)
+			setError(true);
 		}
 
 		console.log(updateResult);
@@ -140,6 +142,33 @@ const CreateGallery = (props) => {
 									handleChangeStatus={() => console.log("status changed")} />
 	);
 
+	const ActiveStep = () => {
+		const steps = [<AddGalleryMetadata nextButton={nextButton}
+																			 fileUploader={dropzone}
+																			 coverImage={coverImage}
+																			 setCoverImage={setCoverImage}
+																			 collectionName={galleryName}
+																			 setGalleryName={setGalleryName}
+																			 galleryDescription={galleryDescription}
+																			 setGalleryDescription={setGalleryDescription}
+																			 importMethod={importMethod}
+																			 setImportMethod={setImportMethod}
+																			 contractAddress={contractAddress}
+																			 setContractAddress={setContractAddress}
+		/>];
+
+		steps.push(importMethod === IMPORT_METHODS.OPENSEA ?
+			<SelectGalleryNfts nextButton={nextButton}
+												 prevButton={prevButton}
+												 handleSubmit={handleSubmit} />
+			:
+			<SelectFromContract nextButton={nextButton}
+													prevButton={prevButton}
+													contractAddress={contractAddress}
+													handleSubmit={handleSubmit} />);
+
+		return steps[activeStep];
+	};
 
 	let stepComponents = [
 		<AddGalleryMetadata nextButton={nextButton}
@@ -163,7 +192,7 @@ const CreateGallery = (props) => {
 	return (
 		<>
 			{
-				stepComponents[activeStep]
+				ActiveStep()
 			}
 			<Snackbar open={success} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} autoHideDuration={3000}
 								onClose={() => setSuccess(false)}>
