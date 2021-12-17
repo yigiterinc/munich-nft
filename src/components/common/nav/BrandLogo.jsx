@@ -18,7 +18,10 @@ const useStyles = makeStyles({
 		},
 	},
 	title: {
-		paddingLeft: "20px",
+		paddingLeft: "1vw",
+		fontSize: "18px",
+		letterSpacing: "1.2px",
+		fontWeight: "500",
 	},
 });
 
