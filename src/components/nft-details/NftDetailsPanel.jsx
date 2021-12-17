@@ -7,7 +7,7 @@ import PriceField from "./PriceField";
 
 const useStyles = makeStyles({
 	nftDetailsPanel: {
-		marginLeft: "20px",
+		marginLeft: "1.2vw",
 	},
 });
 

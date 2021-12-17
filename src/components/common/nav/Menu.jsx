@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
+import Typography from "@material-ui/core/Typography";
 
 import MetamaskButton from "./MetamaskButton";
-import { getLoggedInUser, isUserLoggedIn, removeLoggedInUserFromLocalStorage } from "../../../utils/auth-utils";
+import {
+	getLoggedInUser,
+	isUserLoggedIn,
+	removeLoggedInUserFromLocalStorage,
+} from "../../../utils/auth-utils";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	navMenu: {
 		display: "flex",
 		justifyContent: "space-between",
@@ -15,19 +20,28 @@ const useStyles = makeStyles({
 		marginRight: 0,
 	},
 	menuLink: {
-		marginLeft: "20px",
+		marginLeft: "3vw",
 		cursor: "pointer",
 		textAlign: "center",
-		color: "#000",
+		color: theme.palette.text.primary,
 		"&:focus, &:hover, &:visited, &:link, &:active": {
 			textDecoration: "none",
 		},
-		fontSize: "18px",
-		letterSpacing: "1.3px",
-		fontWeight: "500",
+		letterSpacing: "1.5px",
 		connectBtn: {},
 	},
-});
+	logOutLink: {
+		marginLeft: "3vw",
+		cursor: "pointer",
+		textAlign: "center",
+		color: theme.palette.text.primary,
+		"&:focus, &:hover, &:visited, &:link, &:active": {
+			textDecoration: "none",
+		},
+		letterSpacing: "1.3px",
+		marginRight: "3vw",
+	},
+}));
 
 const Menu = ({ user }) => {
 	const classes = useStyles();
@@ -35,39 +49,57 @@ const Menu = ({ user }) => {
 
 	useEffect(() => {
 		setUserLoggedIn(isUserLoggedIn());
-		window.addEventListener("user-storage", () => setUserLoggedIn(isUserLoggedIn()));
+		window.addEventListener("user-storage", () =>
+			setUserLoggedIn(isUserLoggedIn())
+		);
 
 		return () => {
-			window.removeEventListener("user-storage", () => setUserLoggedIn(isUserLoggedIn()));
+			window.removeEventListener("user-storage", () =>
+				setUserLoggedIn(isUserLoggedIn())
+			);
 		};
 	}, [userLoggedIn]);
 
 	const menu = [
 		{
 			requiresLogin: true,
-			component: <Link className={classes.menuLink} to={"/mint-nft"}>Mint NFT</Link>,
+			component: (
+				<Link className={classes.menuLink} to={"/mint-nft"}>
+					<Typography variant="h4">Mint NFT</Typography>
+				</Link>
+			),
 		},
 		{
 			requiresLogin: true,
-			component: <Link className={classes.menuLink} to={`/profile/${getLoggedInUser()?.id}`}>Profile</Link>,
+			component: (
+				<Link
+					className={classes.menuLink}
+					to={`/profile/${getLoggedInUser()?.id}`}
+				>
+					<Typography variant="h4">Profile</Typography>
+				</Link>
+			),
 		},
 		{
 			requiresLogin: true,
-			component: <p className={classes.menuLink} onClick={() => removeLoggedInUserFromLocalStorage()}>Log out</p>,
+			component: (
+				<p
+					className={classes.logOutLink}
+					onClick={() => removeLoggedInUserFromLocalStorage()}
+				>
+					<Typography variant="h4"> Log out</Typography>
+				</p>
+			),
 		},
 	];
 
 	return (
 		<div className={classes.navMenu}>
 			{menu
-				.filter(item => item.requiresLogin ? userLoggedIn : true)
-				.map(((menuItem, i) => menuItem.component))
-			};
-			}))}
-			<MetamaskButton
-				user={user}
-				className={classes.connectBtn}
-			/>
+				.filter((item) => (item.requiresLogin ? userLoggedIn : true))
+				.map((menuItem, i) => menuItem.component)}
+
+			<MetamaskButton user={user} className={classes.connectBtn} />
 		</div>
 	);
 };

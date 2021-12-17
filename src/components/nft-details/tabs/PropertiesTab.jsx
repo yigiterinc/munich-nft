@@ -3,17 +3,17 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	propertyBox: {
 		width: "150px",
-		backgroundColor: "rgba(220, 94, 132, 0.06)",
+		background: "rgba(122, 199, 132, 0.45)",
+		borderColor: theme.palette.secondary.main,
 		borderRadius: "6px",
-		border: "1px solid rgb(230,46,132)",
 		padding: "10px",
 		textAlign: "center",
 	},
 	propertyType: {
-		color: "rgb(255, 0, 117)",
+		color: theme.palette.secondary.main,
 		textTransform: "uppercase",
 	},
 	typeText: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 		textOverflow: "ellipsis",
 	},
 	propertyValue: {
-		color: "rgb(53, 56, 64)",
+		color: theme.palette.secondary.light,
 		fontSize: "13px",
 		fontWeight: "500",
 		lineHeight: "28px",
@@ -34,12 +34,12 @@ const useStyles = makeStyles({
 		textTransform: "capitalize",
 	},
 	propertyRarity: {
-		color: "rgb(112, 122, 131)",
+		color: theme.palette.common.white,
 		fontSize: "12px",
 		lineHeight: "16px",
 		minHeight: "16px",
 	},
-});
+}));
 
 const PropertiesTab = (nftJson) => {
 	const classes = useStyles();
@@ -63,7 +63,7 @@ export const renderGrids = (classes, properties) => {
 	const row = [];
 	for (let i = 0; i < properties.length; i += 3) {
 		row.push(
-			<Grid container item xs={12} spacing={3} key={i}>
+			<Grid container item xs={12} spacing={1} key={i}>
 				{renderRows(classes, properties.slice(i, i + 3))}
 			</Grid>
 		);
@@ -79,13 +79,19 @@ export const renderRows = (classes, properties) => {
 					<Grid item xs={4} key={key}>
 						<div className={classes.propertyBox}>
 							<div className={classes.propertyType}>
-								<Typography className={classes.typeText}>
+								<Typography className={classes.typeText} variant="h6">
 									{property.type}
 								</Typography>
 							</div>
-							<div className={classes.propertyValue}>{property.value}</div>
+							<div className={classes.propertyValue}>
+								<Typography className={classes.typeText} variant="h6">
+									{property.value}
+								</Typography>
+							</div>
 							<div className={classes.propertyRarity}>
-								{"Rarity: " + property.rarity}
+								<Typography className={classes.typeText} variant="h6">
+									{"Rarity: " + property.rarity}
+								</Typography>
 							</div>
 						</div>
 					</Grid>

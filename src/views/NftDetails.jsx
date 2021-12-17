@@ -11,12 +11,12 @@ import NftImage from "../components/nft-details/NftImage";
 import NftDetailsPanel from "../components/nft-details/NftDetailsPanel";
 import withSpinner from "../components/common/WithSpinner";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	nftDetailsContainer: {
 		display: "flex",
 		paddingTop: "2vw",
 	},
-});
+}));
 
 const NftDetails = () => {
 	const classes = useStyles();

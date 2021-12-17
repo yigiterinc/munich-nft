@@ -4,12 +4,14 @@ import { Button, Typography } from "@material-ui/core";
 import { Icon } from "@iconify/react";
 import { countDecimals } from "../../utils/currency-utils";
 import { MAX_BOUNDARY_FOR_NUMBER_OF_DECIMALS_NFT_PRICE } from "../../constants/priceFieldConstants";
+import { COLORS } from "../../theme/variables";
 
 const useStyles = makeStyles({
 	priceFieldBorder: {
 		marginTop: "3vw",
 		borderRadius: "10px",
-		border: "1px solid rgb(229, 232, 235)",
+		border: "1px solid",
+		borderColor: COLORS.assetCardBackground,
 		overflow: "hidden",
 	},
 	priceFieldContainer: {
@@ -17,6 +19,7 @@ const useStyles = makeStyles({
 		display: "flex",
 		justifyContent: "flex-end",
 		alignItems: "center",
+		background: COLORS.assetCardBackground,
 	},
 	makeOfferContainer: {
 		padding: "20px",
@@ -73,7 +76,7 @@ const PriceField = (nftJson) => {
 					<Button
 						className={classes.buyButton}
 						variant="outlined"
-						color="primary"
+						color="secondary"
 					>
 						buy now
 					</Button>
@@ -84,7 +87,7 @@ const PriceField = (nftJson) => {
 						<Button
 							className={classes.makeOfferButton}
 							variant="outlined"
-							color="primary"
+							color="secondary"
 						>
 							make offer
 						</Button>

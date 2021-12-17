@@ -10,10 +10,10 @@ const useStyles = makeStyles((theme) => ({
 		height: "auto",
 		display: "flex",
 		alignItems: "center",
-		borderRadius: "4px",
+		borderRadius: theme.shape.borderRadius,
 		borderStyle: "solid",
 		borderWidth: "2px",
-		borderColor: "#d0d0d0",
+		borderColor: theme.palette.primary.dark,
 	},
 	input: {
 		marginLeft: theme.spacing(1),
@@ -27,13 +27,12 @@ const SearchBar = ({ placeholder }) => {
 		<div className={classes.searchBar}>
 			<InputBase
 				placeholder={placeholder}
-				color="primary"
 				inputProps={{ "aria-label": "search" }}
 				className={classes.input}
 			/>
 			<IconButton
 				type="submit"
-				className={classes.iconButton}
+				classes={{ input: classes.input }}
 				aria-label="search"
 			>
 				<SearchIcon />

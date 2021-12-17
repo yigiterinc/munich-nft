@@ -4,6 +4,7 @@ import { Typography } from "@material-ui/core";
 import "react-multi-carousel/lib/styles.css";
 import { makeStyles } from "@material-ui/core/styles";
 import GallerySummary from "./GallerySummary";
+import { COLORS } from "../../theme/variables";
 
 const useStyles = makeStyles({
 	title: {
@@ -13,6 +14,9 @@ const useStyles = makeStyles({
 		letterSpacing: "2px",
 		textTransform: "uppercase",
 		marginBottom: "5vh",
+	},
+	carouselContainer: {
+		background: COLORS.sectionPrimary,
 	},
 	carouselItem: {
 		padding: "20px 0 20px 20px",
@@ -114,7 +118,7 @@ const TopGalleries = ({ deviceType }) => {
 	const classes = useStyles();
 
 	return (
-		<div>
+		<div className={classes.carouselContainer}>
 			<Typography className={classes.title}>Top Galleries</Typography>
 			<Carousel
 				ssr

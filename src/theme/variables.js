@@ -1,4 +1,5 @@
 export const COLORS = {
+	navBar: "#000",
 	backgroundColor: "#240352",
 	sectionPrimary: "#3B1C65",
 	sectionSecondary: "#1D0342",
@@ -6,16 +7,19 @@ export const COLORS = {
 	walletBtn: "#841BF1",
 	walletBtnHover: "#7018CD",
 	secondary: "#4CAF50",
-	secondaryHover: "rgba(76, 175, 80, 0.5)",
-	third: "#26224F",
+	secondaryHover: "#5cb860",
+	secondaryDark: "#4CAF50",
+	btn: "#29C7D9",
+	assetCardBackground: "#202332",
 };
 
 export const FONTS = {
 	xxl: "40px",
 	xl: "32px",
 	l: "24px",
+	m: "18px",
 	default: "16px",
-	s: "14.5px",
+	s: "14px",
 	xs: "12px",
 	xxs: "",
 };

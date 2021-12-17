@@ -6,18 +6,19 @@ import Toolbar from "@material-ui/core/Toolbar";
 import BrandLogo from "./nav/BrandLogo";
 import SearchBar from "./SearchBar";
 import Menu from "./nav/Menu";
+import { COLORS } from "../../theme/variables";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	root: {
 		flexGrow: 1,
 	},
 	navbar: {
-		background: "white",
+		background: COLORS.navBar,
 	},
 	searchBarContainer: {
 		width: "400px",
 	},
-});
+}));
 
 const Navbar = (props) => {
 	const classes = useStyles();

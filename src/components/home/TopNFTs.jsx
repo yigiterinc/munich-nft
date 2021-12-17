@@ -4,6 +4,7 @@ import "react-multi-carousel/lib/styles.css";
 import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import NFTSummary from "./NFTSummary";
+import { COLORS } from "../../theme/variables";
 
 const useStyles = makeStyles({
 	title: {
@@ -14,6 +15,7 @@ const useStyles = makeStyles({
 		textTransform: "uppercase",
 	},
 	carouselContainer: {
+		background: COLORS.sectionSecondary,
 		marginTop: "2vh",
 	},
 	carouselItem: {

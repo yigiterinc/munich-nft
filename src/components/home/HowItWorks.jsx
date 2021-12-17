@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { IoMdWallet } from "react-icons/io";
 import { BsCoin, BsDownload } from "react-icons/bs";
 import { BiPencil } from "react-icons/bi";
+import { COLORS } from "../../theme/variables";
 
 const iconSize = 50;
 
@@ -35,6 +36,9 @@ const instructions = [
 ];
 
 const useStyles = makeStyles((theme) => ({
+	howItWorksContainer: {
+		background: COLORS.sectionSecondary,
+	},
 	title: {
 		textAlign: "center",
 		fontSize: "30px",
@@ -54,7 +58,7 @@ function HowItWorks() {
 	const classes = useStyles();
 
 	return (
-		<div>
+		<div className={classes.howItWorksContainer}>
 			<Typography className={classes.title}>How It Works</Typography>
 			<div className={classes.instructionsContainer}>
 				{instructions.map((instruction, i) => (
