@@ -1,7 +1,7 @@
 import { create } from "ipfs-http-client";
 
-const projectId = "1zT0xCj5T5RHmnXNqquZpj9w9SD";
-const projectSecret = "f935b030029e0fa41d8c66c9cf46f869";
+const projectId = process.env.REACT_APP_INFURA_IPFS_PROJECT_ID;
+const projectSecret = process.env.REACT_APP_INFURA_IPFS_PROJECT_SECRET;
 
 const auth =
 	"Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
@@ -16,10 +16,11 @@ const client = create({
 });
 
 const ipfsHelper = {
+	// Warning: Requires that INFURA_PROJECT_ID and INFURA_PROJECT_SECRET to be set in .env file
+	// Updating the .env file requires a restart for changes to be reflected
 	addFile: async (file) => {
-		console.log(auth);
-		const address = await client.add(file);
-		return address;
+		console.log(projectId, projectSecret, auth);
+		return await client.add(file);
 	},
 	addNftMetadata: async (path, nftMetadata) => {
 		const accounts = await window.web3.eth.requestAccounts();

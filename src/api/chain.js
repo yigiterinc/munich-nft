@@ -1,8 +1,8 @@
 import axios from "axios";
 import Web3 from "web3";
 
-import { ERC1155_ABI } from "../abis/erc1155-abi.js"
-import { ERC_721_ABI } from  "../abis/erc721-abi.js"
+import { ERC1155_ABI } from "../abis/erc1155-common.js"
+import { ERC_721_ABI } from "../abis/erc721-common.js"
 
 const web3 = window.web3
 

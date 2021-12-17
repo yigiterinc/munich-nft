@@ -1,13 +1,15 @@
-import { MunichNftContractAddress } from "../config/config";
-import { ABI } from "../abis/munich-nft";
-import { getMunichNftContractAddress } from "../config/config";
-import { Network, OpenSeaPort } from "opensea-js";
+import { MunichNftContractAddress, NETWORK } from "../config/config";
+import { MUNICH_NFT_ABI } from "../abis/munich-nft";
+import { ERC721_ABI } from "../abis/erc721-common";
+import { ERC1155_ABI } from "../abis/erc1155-common";
+
+import { OpenSeaPort } from "opensea-js";
 
 let seaport;
 
 if (window.web3) {
 	seaport = new OpenSeaPort(window.web3.currentProvider, {
-		networkName: Network.Rinkeby, // TODO read from config
+		networkName: NETWORK,
 	});
 }
 
@@ -37,18 +39,18 @@ export const findOwnedTokensOnERC721Contract = async (contractAddress, walletAdd
 		return;
 	}
 
-	const contract = new window.web3.eth.Contract(ABI, "0xE0622Ca84fe2aCD5a997579A1573c83F38a330C6", {
-		from: walletAddress, // default from address
-		gasPrice: "20000000", // default gas price in wei, 20 gwei in this case
+	const contract = getWeb3Contract(contractAddress, ERC721_ABI,{
+		from: walletAddress,
+		gasPrice: "20000000",
 	});
 
 	const numberOfTokens = await contract.methods.totalSupply().call()
 	const tokensOfUser = []
-	for (let i = 0; i < numberOfTokens; i++ ) {
-		const owner = await contract.methods.ownerOf(i).call();
-		const ownedByUser = owner === walletAddress
+	for (let i = 0; i < numberOfTokens; i++) {
+		const owner = await checkOwnershipOfTokenOnERC721Contract(contract, i)
+		const ownedByUser = owner.toLowerCase() === walletAddress
 		if (ownedByUser) {
-			const tokenURI = await contract.methods.tokenURI(i).call();
+			const tokenURI = await requestTokenURIFromContract(contract, i);
 			tokensOfUser.push(tokenURI);
 		}
 	}
@@ -57,11 +59,14 @@ export const findOwnedTokensOnERC721Contract = async (contractAddress, walletAdd
 	return tokensOfUser;
 }
 
+const checkOwnershipOfTokenOnERC721Contract = async (contract, tokenId) => {
+	return await contract.methods.ownerOf(tokenId).call();
+}
+
 /* !!! not tested, potential issues
 	Currently assumes that the contract implements the ERC1155Supply interface
 */
 export const findOwnedTokensOnERC1155Contract = async (contractAddress, walletAddress) => {
-
 	if (!walletAddress) {
 		console.log("wallet addr undefined" , walletAddress);
 		return;
@@ -72,18 +77,18 @@ export const findOwnedTokensOnERC1155Contract = async (contractAddress, walletAd
 		return;
 	}
 
-	const contract = new window.web3.eth.Contract(ABI, contractAddress, {
-		from: walletAddress, // default from address
-		gasPrice: "20000000", // default gas price in wei, 20 gwei in this case
+	const contract = getWeb3Contract(contractAddress, ERC1155_ABI,{
+		from: walletAddress,
+		gasPrice: "20000000",
 	});
 
 	const numberOfTokens = await contract.methods.totalSupply().call()
 	const tokensOfUser = []
 	for (let i = 0; i < numberOfTokens; i++ ) {
-		const owner = await contract.methods.balanceOf(i).call();
-		const ownedByUser = owner === address
+		const owner = await checkOwnershipOfTokenOnERC1155Contract(contract, walletAddress, i);
+		const ownedByUser = owner === walletAddress
 		if (ownedByUser) {
-			const tokenURI = await contract.methods.tokenURI(i).call();
+			const tokenURI = await requestTokenURIFromContract(contract, i)
 			tokensOfUser.push(tokenURI);
 		}
 	}
@@ -91,24 +96,35 @@ export const findOwnedTokensOnERC1155Contract = async (contractAddress, walletAd
 	console.log(tokensOfUser);
 }
 
+const checkOwnershipOfTokenOnERC1155Contract = async (contract, walletAddress, tokenId) => {
+	return await contract.methods.balanceOf(walletAddress, tokenId).call();
+}
 
-export const mintNft = async (uploadedMetadata, gas, contractAddress = MunichNftContractAddress, ownerWalletAddress) => {
+const requestTokenURIFromContract = async (contract, tokenId) => {
+	return await contract.methods.tokenURI(tokenId).call();
+}
+
+export const mintNft = async (uploadedMetadata, gas, ownerWalletAddress, contractAddress = MunichNftContractAddress) => {
 	if (!window.web3) {
 		console.error("window.web3 not present");
 		return;
 	}
 
-	const contract = new window.web3.eth.Contract(ABI, "0xE0622Ca84fe2aCD5a997579A1573c83F38a330C6", {
-		from: "0xdB6340c38C7562b5Ed82258289fb4c36025D431E", // default from address
-		gasPrice: "20000000", // default gas price in wei, 20 gwei in this case
+	if (!ownerWalletAddress) {
+		console.log("no owner wall addr");
+		return ;
+	}
+
+	const contract = new window.web3.eth.Contract(MUNICH_NFT_ABI, contractAddress, {
+		from: ownerWalletAddress, // default from address
+		gasPrice: "2000000000", // default gas price in wei, 20 gwei in this case
 	});
-	// 2 to 5 thousand for rinkeby
+
 	const txResult = await contract.methods
-		.mint("0xdB6340c38C7562b5Ed82258289fb4c36025D431E", `https://ipfs.io/ipfs/${uploadedMetadata}`)
+		.mint(ownerWalletAddress, `https://ipfs.io/ipfs/${uploadedMetadata}`)
 		.send({
 			from: ownerWalletAddress,
-			gas,
-			gasPrice: "20000000",
+			gasPrice: "40000000",
 		});
 
 	const lastTokenId = txResult.events.Transfer.returnValues.tokenId;
@@ -125,12 +141,10 @@ export const listNft = async (
 	listingPrice,
 	ownerWalletAddress
 ) => {
-	const contractAddress = MunichNftContractAddress;
-
 	const listing = await seaport.createSellOrder({
 		asset: {
 			tokenId: resultingTokenId,
-			tokenAddress: contractAddress,
+			tokenAddress: MunichNftContractAddress,
 		},
 		accountAddress: ownerWalletAddress,
 		startAmount: listingPrice,
@@ -139,3 +153,9 @@ export const listNft = async (
 
 	return listing;
 };
+
+const getWeb3Contract = (contractAddress, abi, options) => {
+	const contract = new window.web3.eth.Contract(abi, contractAddress, options);
+
+	return contract;
+}

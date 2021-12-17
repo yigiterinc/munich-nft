@@ -1,5 +1,5 @@
 module.exports = {
-	ABI: [
+	MUNICH_NFT_ABI:  [
 		{
 			"inputs": [],
 			"stateMutability": "nonpayable",
@@ -461,5 +461,5 @@ module.exports = {
 			"stateMutability": "view",
 			"type": "function"
 		}
-	],
-};
+	]
+}
