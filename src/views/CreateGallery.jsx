@@ -5,18 +5,13 @@ import AddGalleryMetadata from "../components/create-gallery/AddGalleryMetadata"
 import SelectGalleryNfts from "../components/create-gallery/SelectGalleryNfts";
 
 import { darken, makeStyles } from "@material-ui/core/styles";
-import {
-	createGallery,
-	convertSelectedNftsToGalleryAssets,
-	saveImportedNfts,
-	updateUser,
-	uploadImageToMediaGallery,
-} from "../api/strapi";
+import { convertSelectedNftsToGalleryAssets, createGallery, uploadImageToMediaGallery } from "../api/strapi";
 import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
 import { useHistory } from "react-router-dom";
 import SelectFromContract from "../components/create-gallery/SelectFromContract.jsx";
+import { MunichNftContractAddress } from "../config/config";
 
 const Alert = (props) => {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -98,8 +93,8 @@ const CreateGallery = (props) => {
 			setSuccess(true);
 
 			window.setTimeout(() => {
-				history.push(`/gallery/${convertToSlug(galleryName)}`)
-			}, 2000)
+				history.push(`/gallery/${convertToSlug(galleryName)}`);
+			}, 2000);
 
 		} else {
 			setError(true);
@@ -197,7 +192,7 @@ const CreateGallery = (props) => {
 	return (
 		<>
 			{
-				ActiveStep()
+				<SelectFromContract contractAddress={MunichNftContractAddress} />
 			}
 			<Snackbar open={success} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} autoHideDuration={3000}
 								onClose={() => setSuccess(false)}>
