@@ -62,12 +62,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Import({
-																 collections,
-																 prevButton,
-																 handleSubmit,
-															 }) {
-
+export default function Import({ collections, prevButton, handleSubmit }) {
 	const classes = useStyles();
 	const theme = useTheme();
 	const [value, setValue] = useState(0);
@@ -80,7 +75,6 @@ export default function Import({
 			setDataIsLoading(false);
 		}
 	}, [collections]);
-
 
 	const addToSelectedNfts = (nft) => {
 		setSelectedNfts([...selectedNfts, nft]);
@@ -96,7 +90,7 @@ export default function Import({
 
 	const removeFromSelectedCollections = (collection) => {
 		setSelectedCollections(
-			selectedCollections.filter((item) => item !== collection),
+			selectedCollections.filter((item) => item !== collection)
 		);
 	};
 
@@ -111,43 +105,44 @@ export default function Import({
 	};
 
 	const collectionsTabContent = () => {
-		return (<Grid container spacing={3}>
-			{collections?.map((item) => {
-				return (
-					<Grid key={item.slug} item lg={3} md={4} sm={6} xs={12}>
-						<ImportCard
-							collection={item}
-							addToSelected={(collection) =>
-								addToSelectedCollections(collection)
-							}
-							removeFromSelected={(collection) =>
-								removeFromSelectedCollections(collection)
-							}
-						/>
-					</Grid>
-				);
-			})}
-		</Grid>);
+		return (
+			<Grid container spacing={3}>
+				{collections?.map((item) => {
+					return (
+						<Grid key={item.slug} item lg={3} md={4} sm={6} xs={12}>
+							<ImportCard
+								collection={item}
+								addToSelected={(collection) =>
+									addToSelectedCollections(collection)
+								}
+								removeFromSelected={(collection) =>
+									removeFromSelectedCollections(collection)
+								}
+							/>
+						</Grid>
+					);
+				})}
+			</Grid>
+		);
 	};
 
 	const nftsTabContent = () => {
 		return (
-			<Grid container
-						spacing={3}
-						direction="row"
-						alignItems="center">
+			<Grid container spacing={3} direction="row" alignItems="center">
 				{collections?.map((collection) =>
 					collection?.assets.map((item) => {
 						return (
 							<Grid key={item?.id} item lg={3} md={4} sm={6} xs={12}>
 								<ImportCard
 									nft={item}
-									addToSelected={(nft) => addToSelectedNfts({ collection, nft })}
+									addToSelected={(nft) =>
+										addToSelectedNfts({ collection, nft })
+									}
 									removeFromSelected={(nft) => removeFromSelectedNfts(nft)}
 								/>
 							</Grid>
 						);
-					}),
+					})
 				)}
 			</Grid>
 		);
@@ -176,52 +171,47 @@ export default function Import({
 				index={value}
 				onChangeIndex={handleChangeIndex}
 			>
-				{
-					withSpinner(<TabPanel
-							value={value}
-							index={0}
-							dir={theme.direction}
-							className={classes.tabPanel}
-						>
-							{collectionsTabContent}
-						</TabPanel>, dataIsLoading,
-						{ marginTop: "10vh", marginBottom: "4vh", marginLeft: "48vw" },
-					)
-				}
-				{
-					withSpinner(<TabPanel
-							value={value}
-							index={1}
-							dir={theme.direction}
-							className={classes.tabPanel}
-						>
-							{nftsTabContent}
-						</TabPanel>, dataIsLoading,
-						{ marginTop: "10vh", marginBottom: "4vh", marginLeft: "48vw" }
-						,
-					)
-				}
-
+				{withSpinner(
+					<TabPanel
+						value={value}
+						index={0}
+						dir={theme.direction}
+						className={classes.tabPanel}
+					>
+						{collectionsTabContent}
+					</TabPanel>,
+					dataIsLoading,
+					{ marginTop: "10vh", marginBottom: "4vh", marginLeft: "48vw" }
+				)}
+				{withSpinner(
+					<TabPanel
+						value={value}
+						index={1}
+						dir={theme.direction}
+						className={classes.tabPanel}
+					>
+						{nftsTabContent}
+					</TabPanel>,
+					dataIsLoading,
+					{ marginTop: "10vh", marginBottom: "4vh", marginLeft: "48vw" }
+				)}
 			</SwipeableViews>
-			{
-				!dataIsLoading &&
+			{!dataIsLoading && (
 				<div className={classes.buttonsContainer}>
-					{
-						prevButton
-					}
+					{prevButton}
 
 					<Button
 						variant="contained"
 						style={{
-							background: "#FF6700",
 							color: "#FFFFFF",
 							margin: "10px 20px",
 							padding: "10px 20px",
+							background: "#b35bff",
+							color: "white",
 							"&:hover": {
-								background: darken("#FF6700", 0.1)
-							}
-						}
-						}
+								background: darken("#b35bff", 0.1),
+							},
+						}}
 						size="large"
 						onClick={() => {
 							if (selectedCollections.length !== 0) {
@@ -236,8 +226,7 @@ export default function Import({
 						Create collection with Selected Items
 					</Button>
 				</div>
-			}
-
+			)}
 		</div>
 	);
 }
