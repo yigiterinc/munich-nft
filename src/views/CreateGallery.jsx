@@ -12,7 +12,6 @@ import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
 import { useHistory } from "react-router-dom";
 import SelectFromContract from "../components/create-gallery/SelectFromContract.jsx";
 import { MunichNftContractAddress } from "../config/config";
-import { redirectAfterDelay } from "../utils/commons";
 
 const Alert = (props) => {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -89,13 +88,19 @@ const CreateGallery = (props) => {
 		const updateResult = await createGallery(gallery);
 		if (updateResult.status === 200) {
 			setSuccess(true);
-			const twoSecondsInMs = 2000;
-			redirectAfterDelay(history, `/gallery/${convertToSlug(galleryName)}`, twoSecondsInMs);
+			const twoSecondsInMS = 2000;
+			redirectAfterDelay(`/gallery/${convertToSlug(galleryName)}`, twoSecondsInMS);
 		} else {
 			setError(true);
 		}
 
 		console.log(updateResult);
+	};
+
+	const redirectAfterDelay = (url, delay) => {
+		window.setTimeout(() => {
+			history.push(url);
+		}, delay);
 	};
 
 	const convertToSlug = (galleryName) => {
@@ -186,7 +191,7 @@ const CreateGallery = (props) => {
 	return (
 		<>
 			{
-				ActiveStep()
+				stepComponents[1]
 			}
 			<Snackbar open={success} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} autoHideDuration={3000}
 								onClose={() => setSuccess(false)}>
