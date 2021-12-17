@@ -36,6 +36,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+const IMPORT_METHODS = {
+	OPENSEA: "OPENSEA",
+	CUSTOM_CONTRACT: "CUSTOM_CONTRACT"
+}
+
 const CreateGallery = (props) => {
 	const [galleryName, setGalleryName] = useState();
 	const [galleryDescription, setGalleryDescription] = useState();
@@ -43,6 +48,7 @@ const CreateGallery = (props) => {
 	const [activeStep, setActiveStep] = useState(0);
 	const [error, setError] = useState(false);
 	const [success, setSuccess] = useState(false);
+	const [importMethod, setImportMethod] = useState(IMPORT_METHODS.CUSTOM_CONTRACT);
 
 	const history = useHistory();
 
@@ -144,6 +150,8 @@ const CreateGallery = (props) => {
 												setGalleryName={setGalleryName}
 												galleryDescription={galleryDescription}
 												setGalleryDescription={setGalleryDescription}
+												importMethod={importMethod}
+												setImportMethod={setImportMethod}
 		/>,
 		<SelectGalleryNfts nextButton={nextButton}
 											 prevButton={prevButton}
