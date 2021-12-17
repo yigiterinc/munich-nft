@@ -20,8 +20,9 @@ import Gallery from "./views/Gallery";
 import "./App.css";
 import CreateGallery from "./views/CreateGallery";
 import NftDetails from "./views/NftDetails";
-import { isUserLoggedIn } from "./utils/auth-utils";
+import { getLoggedInUser, isUserLoggedIn } from "./utils/auth-utils";
 import { findOwnedTokensOnERC721Contract } from "./api/chainHelper";
+import { MunichNftContractAddress } from "./config/config";
 
 let web3;
 
@@ -29,7 +30,7 @@ function App() {
 
 	useEffect(async () => {
 		if (!web3) await loadWeb3();
-		await findOwnedTokensOnERC721Contract()
+		await findOwnedTokensOnERC721Contract(MunichNftContractAddress, getLoggedInUser().walletAddress)
 	}, []);
 
 	const loadWeb3 = async () => {

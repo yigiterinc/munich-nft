@@ -4,6 +4,7 @@ import { ERC721_ABI } from "../abis/erc721-common";
 import { ERC1155_ABI } from "../abis/erc1155-common";
 
 import { OpenSeaPort } from "opensea-js";
+import Web3 from "web3";
 
 let seaport;
 
@@ -155,6 +156,10 @@ export const listNft = async (
 };
 
 const getWeb3Contract = (contractAddress, abi, options) => {
+	if (window.web3) {
+		window.web3 = new Web3(window.ethereum);
+	}
+
 	const contract = new window.web3.eth.Contract(abi, contractAddress, options);
 
 	return contract;

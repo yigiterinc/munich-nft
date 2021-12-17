@@ -66,6 +66,7 @@ export default function Import({
 																 collections,
 																 prevButton,
 																 handleSubmit,
+																 fromContract,
 															 }) {
 
 	const classes = useStyles();
@@ -117,6 +118,7 @@ export default function Import({
 					<Grid key={item.slug} item lg={3} md={4} sm={6} xs={12}>
 						<ImportCard
 							collection={item}
+							ipfsImage={fromContract}
 							addToSelected={(collection) =>
 								addToSelectedCollections(collection)
 							}
@@ -142,6 +144,7 @@ export default function Import({
 							<Grid key={item?.id} item lg={3} md={4} sm={6} xs={12}>
 								<ImportCard
 									nft={item}
+									ipfsImage={fromContract}
 									addToSelected={(nft) => addToSelectedNfts({ collection, nft })}
 									removeFromSelected={(nft) => removeFromSelectedNfts(nft)}
 								/>
@@ -151,6 +154,22 @@ export default function Import({
 				)}
 			</Grid>
 		);
+	};
+
+	const Tabs = () => {
+		if (fromContract) {
+			return <Tab icon={<ImageIcon />} label="NFTs" {...a11yProps(1)} />;
+		} else {
+			return (
+				<>
+					<Tab
+						icon={<CollectionsIcon />}
+						label="Collections"
+						{...a11yProps(0)}
+					/>
+					<Tab icon={<ImageIcon />} label="NFTs" {...a11yProps(1)} />)
+				</>);
+		}
 	};
 
 	return (
@@ -163,13 +182,9 @@ export default function Import({
 					textColor="primary"
 					variant="fullWidth"
 				>
-					<Tab
-						icon={<CollectionsIcon />}
-						label="Collections"
-						{...a11yProps(0)}
-					/>
-					<Tab icon={<ImageIcon />} label="NFTs" {...a11yProps(1)} />
+					{Tabs()}
 				</Tabs>
+
 			</AppBar>
 			<SwipeableViews
 				axis={theme.direction === "rtl" ? "x-reverse" : "x"}
@@ -177,7 +192,7 @@ export default function Import({
 				onChangeIndex={handleChangeIndex}
 			>
 				{
-					withSpinner(<TabPanel
+						(withSpinner(<TabPanel
 							value={value}
 							index={0}
 							dir={theme.direction}
@@ -186,7 +201,7 @@ export default function Import({
 							{collectionsTabContent}
 						</TabPanel>, dataIsLoading,
 						{ marginTop: "10vh", marginBottom: "4vh", marginLeft: "48vw" },
-					)
+					))
 				}
 				{
 					withSpinner(<TabPanel
@@ -218,8 +233,8 @@ export default function Import({
 							margin: "10px 20px",
 							padding: "10px 20px",
 							"&:hover": {
-								background: darken("#FF6700", 0.1)
-							}
+								background: darken("#FF6700", 0.1),
+							},
 						}
 						}
 						size="large"
@@ -233,7 +248,7 @@ export default function Import({
 							}
 						}}
 					>
-						Create collection with Selected Items
+						Create gallery with Selected Items
 					</Button>
 				</div>
 			}

@@ -16,7 +16,7 @@ import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
 import { useHistory } from "react-router-dom";
-import SelectFromContract from "../components/create-gallery/SelectFromContract";
+import SelectFromContract from "../components/create-gallery/SelectFromContract.jsx";
 
 const Alert = (props) => {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -96,6 +96,11 @@ const CreateGallery = (props) => {
 		const updateResult = await createGallery(gallery);
 		if (updateResult.status === 200) {
 			setSuccess(true);
+
+			window.setTimeout(() => {
+				history.push(`/gallery/${convertToSlug(galleryName)}`)
+			}, 2000)
+
 		} else {
 			setError(true);
 		}

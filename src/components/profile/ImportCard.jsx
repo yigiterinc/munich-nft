@@ -41,12 +41,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const ImportCard = ({ collection, nft, addToSelected, removeFromSelected }) => {
+const ImportCard = ({ collection, nft, addToSelected, removeFromSelected, ipfsImage }) => {
 	const [selected, setSelected] = useState(false);
 	const classes = useStyles();
 
 	const handleOnClick = () => {
 		if (!collection && !nft) return;
+		console.log(ipfsImage);
 
 		const item = collection ? collection : nft;
 
@@ -73,7 +74,7 @@ const ImportCard = ({ collection, nft, addToSelected, removeFromSelected }) => {
 				<CardContent className={classes.cardContent}>
 					<Avatar
 						alt={collection.name}
-						src={withDefault(collection.image_url, defaultImagePath)}
+						src={ipfsImage ? collection.image : withDefault(collection.image_url, defaultImagePath)}
 						className={classes.avatar}
 					/>
 					<Typography className={classes.collectionName} variant="body1">
@@ -86,7 +87,7 @@ const ImportCard = ({ collection, nft, addToSelected, removeFromSelected }) => {
 					<CardMedia
 						component="img"
 						className={classes.image}
-						image={withDefault(nft.image_url, defaultImagePath)}
+						image={ipfsImage ? nft.image : withDefault(nft.image_url, defaultImagePath)}
 						title={nft.name}
 					/>
 					<Typography className={classes.collectionName} variant="body2" color="textSecondary" gutterBottom>
