@@ -12,6 +12,7 @@ import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
 import { useHistory } from "react-router-dom";
 import SelectFromContract from "../components/create-gallery/SelectFromContract.jsx";
 import { MunichNftContractAddress } from "../config/config";
+import { redirectAfterDelay } from "../utils/commons";
 
 const Alert = (props) => {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -51,7 +52,8 @@ const CreateGallery = (props) => {
 
 	const classes = useStyles();
 
-	const handleSubmit = async (selectedCollections, selectedNfts) => {
+	const handleSubmit = async (selectedItems) => {
+		let itemsAreNft = selectedItems.hasOwnProperty("nft");	// and not collection
 		if (!isUserLoggedIn()) {
 			history.push("/");
 			return;
@@ -61,20 +63,16 @@ const CreateGallery = (props) => {
 		const allRequiredParamsEntered = galleryName &&
 			galleryDescription &&
 			coverImage &&
-			(selectedCollections || selectedNfts);
+			selectedItems;
 
 		if (!user || !allRequiredParamsEntered) {
 			setError(true);
 			return;
 		}
 
-		let assets;
-		if (selectedNfts) {
-			assets = convertSelectedNftsToGalleryAssets(selectedNfts);
-		} else if (selectedCollections) {
-			assets = selectedCollections;
-		} else {
-			return;
+		let assets = selectedItems;
+		if (itemsAreNft) {
+			assets = convertSelectedNftsToGalleryAssets(selectedItems);
 		}
 
 		const uploadResult = await uploadImageToMediaGallery(coverImage);
@@ -91,11 +89,8 @@ const CreateGallery = (props) => {
 		const updateResult = await createGallery(gallery);
 		if (updateResult.status === 200) {
 			setSuccess(true);
-
-			window.setTimeout(() => {
-				history.push(`/gallery/${convertToSlug(galleryName)}`);
-			}, 2000);
-
+			const twoSecondsInMs = 2000;
+			redirectAfterDelay(history, `/gallery/${convertToSlug(galleryName)}`, twoSecondsInMs);
 		} else {
 			setError(true);
 		}
@@ -184,7 +179,6 @@ const CreateGallery = (props) => {
 		/>,
 		<SelectGalleryNfts nextButton={nextButton}
 											 prevButton={prevButton}
-											 user={props.user}
 											 handleSubmit={handleSubmit} />,
 	];
 
@@ -192,7 +186,7 @@ const CreateGallery = (props) => {
 	return (
 		<>
 			{
-				<SelectFromContract contractAddress={MunichNftContractAddress} />
+				ActiveStep()
 			}
 			<Snackbar open={success} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} autoHideDuration={3000}
 								onClose={() => setSuccess(false)}>

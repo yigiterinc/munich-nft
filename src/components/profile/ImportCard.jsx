@@ -47,7 +47,6 @@ const ImportCard = ({ collection, nft, addToSelected, removeFromSelected, ipfsIm
 
 	const handleOnClick = () => {
 		if (!collection && !nft) return;
-		console.log(ipfsImage);
 
 		const item = collection ? collection : nft;
 

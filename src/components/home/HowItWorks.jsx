@@ -13,13 +13,13 @@ const instructions = [
 		label: "Connect your wallet",
 		icon: <IoMdWallet size={iconSize} />,
 		description:
-			'Connect your MetaMask wallet by clicking "Connect Wallet" button on top right corner',
+			"Connect your MetaMask wallet by clicking \"Connect Wallet\" button on top right corner",
 	},
 	{
-		label: "Import/Create NFTs",
+		label: "ImportFromOpensea/Create NFTs",
 		icon: <BsDownload size={iconSize} />,
 		description:
-			"Import your NFTs from multiple marketplaces or create new ones",
+			"ImportFromOpensea your NFTs from multiple marketplaces or create new ones",
 	},
 	{
 		label: "Customize your gallery",

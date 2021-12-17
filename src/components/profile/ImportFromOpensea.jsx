@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import SwipeableViews from "react-swipeable-views";
 import { darken, makeStyles, useTheme } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
+import ImportCard from "./ImportCard";
 import CollectionsIcon from "@material-ui/icons/Collections";
 import ImageIcon from "@material-ui/icons/Image";
-import ImportCard from "./ImportCard";
 import withSpinner from "../common/WithSpinner";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import SwipeableViews from "react-swipeable-views";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -28,12 +27,6 @@ function TabPanel(props) {
 		</div>
 	);
 }
-
-TabPanel.propTypes = {
-	children: PropTypes.node,
-	index: PropTypes.any.isRequired,
-	value: PropTypes.any.isRequired,
-};
 
 function a11yProps(index) {
 	return {
@@ -62,18 +55,19 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function Import({
-																 collections,
-																 prevButton,
-																 handleSubmit,
-																 fromContract,
-															 }) {
+export default function ImportFromOpensea({
+																						collections,
+																						prevButton,
+																						handleSubmit,
+																					}) {
 
 	const classes = useStyles();
 	const theme = useTheme();
 	const [activeTab, setActiveTab] = useState(0);
-	const [selectedNfts, setSelectedNfts] = useState([]);
-	const [selectedCollections, setSelectedCollections] = useState([]);
+
+	// can be either nfts or collections but not a mix of both
+	const [selectedItems, setSelectedItems] = useState([]);
+
 	const [dataIsLoading, setDataIsLoading] = useState(true);
 
 	useEffect(() => {
@@ -82,48 +76,36 @@ export default function Import({
 		}
 	}, [collections]);
 
-
-	const addToSelectedNfts = (nft) => {
-		setSelectedNfts([...selectedNfts, nft]);
+	const addToSelectedItems = (item) => {
+		setSelectedItems([...selectedItems, item]);
 	};
 
-	const addToSelectedCollections = (collection) => {
-		setSelectedCollections([...selectedCollections, collection]);
+	const removeCollectionFromSelectedItems = (itemToBeRemoved) => {
+		const itemsWithoutTheSubject = selectedItems.filter((item) => item !== itemToBeRemoved);
+		setSelectedItems(itemsWithoutTheSubject);
 	};
 
-	const removeFromSelectedNfts = (nft) => {
-		setSelectedNfts(selectedNfts.filter((item) => item.nft !== nft));
-	};
-
-	const removeFromSelectedCollections = (collection) => {
-		setSelectedCollections(
-			selectedCollections.filter((item) => item !== collection),
-		);
-	};
-
-	const handleChange = (event, newValue) => {
-		setSelectedNfts([]);
-		setSelectedCollections([]);
-		setActiveTab(newValue);
+	const removeNftFromSelectedItems = (itemToBeRemoved) => {
+		const itemsWithoutTheSubject = selectedItems.filter((item) => item.nft !== itemToBeRemoved);
+		setSelectedItems(itemsWithoutTheSubject);
 	};
 
 	const handleChangeIndex = (index) => {
 		setActiveTab(index);
 	};
 
-	const collectionsTabContent = () => {
+	const collectionsData = () => {
 		return (<Grid container spacing={3}>
 			{collections?.map((item) => {
 				return (
 					<Grid key={item.slug} item lg={3} md={4} sm={6} xs={12}>
 						<ImportCard
 							collection={item}
-							ipfsImage={fromContract}
 							addToSelected={(collection) =>
-								addToSelectedCollections(collection)
+								addToSelectedItems(collection)
 							}
 							removeFromSelected={(collection) =>
-								removeFromSelectedCollections(collection)
+								removeCollectionFromSelectedItems(collection)
 							}
 						/>
 					</Grid>
@@ -132,7 +114,13 @@ export default function Import({
 		</Grid>);
 	};
 
-	const nftsTabContent = () => {
+	const handleTabSwitch = (event, newValue) => {
+		console.log();
+		setSelectedItems([]);
+		setActiveTab(newValue);
+	};
+
+	const nftData = () => {
 		return (
 			<Grid container
 						spacing={3}
@@ -144,9 +132,8 @@ export default function Import({
 							<Grid key={item?.id} item lg={3} md={4} sm={6} xs={12}>
 								<ImportCard
 									nft={item}
-									ipfsImage={fromContract}
-									addToSelected={(nft) => addToSelectedNfts({ collection, nft })}
-									removeFromSelected={(nft) => removeFromSelectedNfts(nft)}
+									addToSelected={(nft) => addToSelectedItems({ collection, nft })}
+									removeFromSelected={(nftCollectionPair) => removeNftFromSelectedItems(nftCollectionPair)}
 								/>
 							</Grid>
 						);
@@ -155,54 +142,6 @@ export default function Import({
 			</Grid>
 		);
 	};
-
-	const Tabs = () => {
-		if (fromContract) {
-			return <Tab icon={<ImageIcon />} label="NFTs" {...a11yProps(1)} />;
-		} else {
-			return (
-				<>
-					<Tab
-						icon={<CollectionsIcon />}
-						label="Collections"
-						{...a11yProps(0)}
-					/>
-					<Tab icon={<ImageIcon />} label="NFTs" {...a11yProps(1)} />)
-				</>);
-		}
-	};
-
-	const ButtonsMenu = (<div className={classes.buttonsContainer}>
-		{
-			prevButton
-		}
-
-		<Button
-			variant="contained"
-			style={{
-				background: "#FF6700",
-				color: "#FFFFFF",
-				margin: "10px 20px",
-				padding: "10px 20px",
-				"&:hover": {
-					background: darken("#FF6700", 0.1),
-				},
-			}
-			}
-			size="large"
-			onClick={() => {
-				if (selectedCollections.length !== 0) {
-					console.log(selectedCollections);
-					handleSubmit(selectedCollections, null);
-				} else if (selectedNfts.length !== 0) {
-					console.log(selectedNfts);
-					handleSubmit(null, selectedNfts);
-				}
-			}}
-		>
-			Create gallery with Selected Items
-		</Button>
-	</div>);
 
 	const TabPanelWithSpinner = (index, data) => {
 		return withSpinner(<TabPanel
@@ -218,33 +157,61 @@ export default function Import({
 		);
 	};
 
+	const ButtonsMenu = (
+		<div className={classes.buttonsContainer}>
+			{
+				prevButton
+			}
+
+			<Button
+				variant="contained"
+				style={{
+					background: "#FF6700",
+					color: "#FFFFFF",
+					margin: "13px 25px",
+					padding: "13px 25px",
+					"&:hover": {
+						background: darken("#FF6700", 0.1),
+					},
+				}}
+				size="large"
+				onClick={() => handleSubmit(selectedItems)}
+			>
+				Create gallery with Selected Items
+			</Button>
+		</div>);
+
 	return (
 		<div className={classes.root}>
 			<AppBar position="static" color="inherit" elevation={0}>
 				<Tabs
 					value={activeTab}
-					onChange={handleChange}
+					onChange={handleTabSwitch}
 					indicatorColor="primary"
 					textColor="primary"
 					variant="fullWidth"
 				>
-					{Tabs()}
+					<Tab
+						icon={<CollectionsIcon />}
+						label="Collections"
+						{...a11yProps(0)}
+					/>
+					<Tab icon={<ImageIcon />} label="NFTs" {...a11yProps(1)} />
 				</Tabs>
-
 			</AppBar>
 			<SwipeableViews
 				axis={theme.direction === "rtl" ? "x-reverse" : "x"}
 				index={activeTab}
 				onChangeIndex={handleChangeIndex}
 			>
-				{TabPanelWithSpinner(0, collectionsTabContent)}
-				{TabPanelWithSpinner(1, nftsTabContent)}
-
-			</SwipeableViews>
+				{TabPanelWithSpinner(0, collectionsData)}
+				{TabPanelWithSpinner(1, nftData)}
+			</SwipeableViews>;
 			{
 				!dataIsLoading &&
 				ButtonsMenu
 			}
 		</div>
-	);
+	)
+		;
 }
