@@ -84,6 +84,7 @@ const CreateGallery = () => {
 			coverImage: imageIdentifier,
 			assets: assets,
 			userId: user.id,
+			username: user.username,
 		};
 
 		const updateResult = await createGallery(gallery);

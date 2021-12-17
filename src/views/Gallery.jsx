@@ -43,8 +43,7 @@ const Gallery = () => {
 			description: json.description,
 			imageSrc: coverImageUrl,
 			userId: json.userId,
-			creator: json.assets[0].creator.user.username,
-			walletAddress: json.assets[0].creator.address,
+			creator: json.username,
 			nfts: nfts,
 		};
 		setGallery(gallery);
