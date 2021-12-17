@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Card, CardMedia, CardContent } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { withDefault } from "../../utils/commons";
 
 const useStyles = makeStyles({
 	root: {
@@ -29,6 +30,8 @@ const AssetCard = ({ asset }) => {
 
 	const classes = useStyles();
 
+	const defaultImagePath = "/images/no-image.png";
+
 	return (
 		<Link
 			className={classes.link}
@@ -38,7 +41,7 @@ const AssetCard = ({ asset }) => {
 				<CardMedia
 					component="img"
 					className={classes.image}
-					image={asset.image_url}
+					image={withDefault(asset.image_url, defaultImagePath)}
 					title={asset.name}
 				/>
 				<CardContent>
