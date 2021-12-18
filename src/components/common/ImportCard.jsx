@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -58,6 +58,13 @@ const ImportCard = ({ collection, nft, addToSelected, removeFromSelected, ipfsIm
 
 		setSelected(!selected);
 	};
+
+	useEffect(() => {
+		if (nft) {
+			console.log(nft);
+		}
+	}, [nft]);
+
 
 	const defaultNftName = "Nameless", defaultCollectionName = "Nameless";
 	const defaultImagePath = "/images/no-image.png";

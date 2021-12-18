@@ -3,7 +3,7 @@ import { darken, makeStyles, useTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import ImportCard from "./ImportCard";
+import ImportCard from "../common/ImportCard";
 import CollectionsIcon from "@material-ui/icons/Collections";
 import ImageIcon from "@material-ui/icons/Image";
 import withSpinner from "../common/WithSpinner";
@@ -11,6 +11,10 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import SwipeableViews from "react-swipeable-views";
+import { getLoggedInUser, isUserLoggedIn } from "../../utils/auth-utils";
+import { fetchCollectionsOfUser, filterAssetsInCollectionByOwner, getAssetsAddedCollections } from "../../api/opensea";
+import { findOwnedTokensOnERC721Contract } from "../../api/chainHelper";
+import axios from "axios";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -55,58 +59,60 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function ImportFromOpensea({
-																						collections,
-																						prevButton,
-																						handleSubmit,
-																					}) {
+export default function ImportFromContract({ contractAddress, prevButton, handleSubmit }) {
 
 	const classes = useStyles();
 	const theme = useTheme();
-	const [activeTab, setActiveTab] = useState(0);
 
-	// can be either nfts or collections but not a mix of both
+	// Structure: [{collectionData, assets: [{asset1}, {asset2}]}, ...]
+	const [ownedAssetsOnContract, setOwnedAssetsOnContract] = useState(null);
+
+	// Each item is either {nft, collection} or {collection}
 	const [selectedItems, setSelectedItems] = useState([]);
-
 	const [dataIsLoading, setDataIsLoading] = useState(true);
 
+	useEffect(async () => {
+		const user = getLoggedInUser();
+		const ipfsMetadataUris = await findOwnedTokensOnERC721Contract(contractAddress, user.walletAddress);
+		const nftDetailPromises = [];
+		let nftDetails = [];
+		ipfsMetadataUris.forEach((uri) => {
+			nftDetailPromises.push(
+				axios.get(uri).then((response) => {
+					nftDetails.push(response.data);
+				}));
+		});
+
+		await Promise.all(nftDetailPromises);
+		setOwnedAssetsOnContract(nftDetails);
+		console.log(nftDetails);
+	}, []);
+
 	useEffect(() => {
-		if (collections) {
+		if (ownedAssetsOnContract) {
 			setDataIsLoading(false);
 		}
-	}, [collections]);
+	}, [ownedAssetsOnContract]);
 
 	const addToSelectedItems = (item) => {
 		setSelectedItems([...selectedItems, item]);
 	};
 
-	const removeCollectionFromSelectedItems = (itemToBeRemoved) => {
+	const removeFromSelectedItems = (itemToBeRemoved) => {
 		const itemsWithoutTheSubject = selectedItems.filter((item) => item !== itemToBeRemoved);
 		setSelectedItems(itemsWithoutTheSubject);
 	};
 
-	const removeNftFromSelectedItems = (itemToBeRemoved) => {
-		const itemsWithoutTheSubject = selectedItems.filter((item) => item.nft !== itemToBeRemoved);
-		setSelectedItems(itemsWithoutTheSubject);
-	};
-
-	const handleChangeIndex = (index) => {
-		setActiveTab(index);
-	};
-
-	const collectionsData = () => {
+	const nftData = () => {
 		return (<Grid container spacing={3}>
-			{collections?.map((item) => {
+			{ownedAssetsOnContract?.map((asset, i) => {
 				return (
-					<Grid key={item.slug} item lg={3} md={4} sm={6} xs={12}>
+					<Grid key={i} item lg={3} md={4} sm={6} xs={12}>
 						<ImportCard
-							collection={item}
-							addToSelected={(collection) =>
-								addToSelectedItems(collection)
-							}
-							removeFromSelected={(collection) =>
-								removeCollectionFromSelectedItems(collection)
-							}
+							ipfsImage
+							collection={asset}  // TODO: this should be nft
+							addToSelected={(asset) => addToSelectedItems(asset)}
+							removeFromSelected={(asset) => removeFromSelectedItems(asset)}
 						/>
 					</Grid>
 				);
@@ -114,38 +120,9 @@ export default function ImportFromOpensea({
 		</Grid>);
 	};
 
-	const handleTabSwitch = (event, newValue) => {
-		console.log();
-		setSelectedItems([]);
-		setActiveTab(newValue);
-	};
-
-	const nftData = () => {
-		return (
-			<Grid container
-						spacing={3}
-						direction="row"
-						alignItems="center">
-				{collections?.map((collection) =>
-					collection?.assets.map((item) => {
-						return (
-							<Grid key={item?.id} item lg={3} md={4} sm={6} xs={12}>
-								<ImportCard
-									nft={item}
-									addToSelected={(nft) => addToSelectedItems({ collection, nft })}
-									removeFromSelected={(nftCollectionPair) => removeNftFromSelectedItems(nftCollectionPair)}
-								/>
-							</Grid>
-						);
-					}),
-				)}
-			</Grid>
-		);
-	};
-
 	const TabPanelWithSpinner = (index, data) => {
 		return withSpinner(<TabPanel
-				value={activeTab}
+				value={0}
 				index={index}
 				dir={theme.direction}
 				className={classes.tabPanel}
@@ -185,27 +162,19 @@ export default function ImportFromOpensea({
 		<div className={classes.root}>
 			<AppBar position="static" color="inherit" elevation={0}>
 				<Tabs
-					value={activeTab}
-					onChange={handleTabSwitch}
+					value={0}
 					indicatorColor="primary"
 					textColor="primary"
 					variant="fullWidth"
 				>
-					<Tab
-						icon={<CollectionsIcon />}
-						label="Collections"
-						{...a11yProps(0)}
-					/>
-					<Tab icon={<ImageIcon />} label="NFTs" {...a11yProps(1)} />
+					<Tab icon={<ImageIcon />} label="Assets" {...a11yProps(0)} />
 				</Tabs>
 			</AppBar>
 			<SwipeableViews
 				axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-				index={activeTab}
-				onChangeIndex={handleChangeIndex}
+				index={0}
 			>
-				{TabPanelWithSpinner(0, collectionsData)}
-				{TabPanelWithSpinner(1, nftData)}
+				{TabPanelWithSpinner(0, nftData)}
 			</SwipeableViews>;
 			{
 				!dataIsLoading &&
@@ -214,4 +183,4 @@ export default function ImportFromOpensea({
 		</div>
 	)
 		;
-}
+};

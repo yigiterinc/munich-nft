@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import FileDropzone from "../components/common/FileDropzone";
 import AddGalleryMetadata from "../components/create-gallery/AddGalleryMetadata";
-import SelectGalleryNfts from "../components/create-gallery/SelectGalleryNfts";
 
 import { darken, makeStyles } from "@material-ui/core/styles";
 import { convertSelectedNftsToGalleryAssets, createGallery, uploadImageToMediaGallery } from "../api/strapi";
@@ -10,8 +9,9 @@ import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
 import { useHistory } from "react-router-dom";
-import SelectFromContract from "../components/create-gallery/SelectFromContract.jsx";
 import { MunichNftContractAddress } from "../config/config";
+import ImportFromOpensea from "../components/create-gallery/ImportFromOpensea";
+import ImportFromContract from "../components/create-gallery/ImportFromContract";
 
 const Alert = (props) => {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -52,6 +52,8 @@ const CreateGallery = (props) => {
 	const classes = useStyles();
 
 	const handleSubmit = async (selectedItems) => {
+		console.log(selectedItems);
+		return;
 		let selectedItemsAreNft = selectedItems.hasOwnProperty("nft");	// and not collection
 		if (!isUserLoggedIn()) {
 			history.push("/");
@@ -157,15 +159,14 @@ const CreateGallery = (props) => {
 																			 setContractAddress={setContractAddress}
 		/>];
 
-		steps.push(importMethod === IMPORT_METHODS.OPENSEA ?
-			<SelectGalleryNfts nextButton={nextButton}
-												 prevButton={prevButton}
-												 handleSubmit={handleSubmit} />
+		let importComponent = importMethod === IMPORT_METHODS.OPENSEA ?
+			<ImportFromOpensea prevButton={props.prevButton}
+												 handleSubmit={props.handleSubmit} />
 			:
-			<SelectFromContract nextButton={nextButton}
-													prevButton={prevButton}
-													contractAddress={contractAddress}
-													handleSubmit={handleSubmit} />);
+			<ImportFromContract prevButton={props.prevButton}
+													handleSubmit={props.handleSubmit} />;
+
+		steps.push(importComponent);
 
 		return steps[activeStep];
 	};
@@ -182,9 +183,9 @@ const CreateGallery = (props) => {
 												importMethod={importMethod}
 												setImportMethod={setImportMethod}
 		/>,
-		<SelectGalleryNfts nextButton={nextButton}
-											 prevButton={prevButton}
-											 handleSubmit={handleSubmit} />,
+		<ImportFromContract prevButton={prevButton}
+												handleSubmit={handleSubmit}
+												contractAddress={MunichNftContractAddress} />,
 	];
 
 
