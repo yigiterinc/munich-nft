@@ -52,7 +52,7 @@ const CreateGallery = (props) => {
 	const classes = useStyles();
 
 	const handleSubmit = async (selectedItems) => {
-		let itemsAreNft = selectedItems.hasOwnProperty("nft");	// and not collection
+		let selectedItemsAreNft = selectedItems.hasOwnProperty("nft");	// and not collection
 		if (!isUserLoggedIn()) {
 			history.push("/");
 			return;
@@ -70,7 +70,7 @@ const CreateGallery = (props) => {
 		}
 
 		let assets = selectedItems;
-		if (itemsAreNft) {
+		if (selectedItemsAreNft) {
 			assets = convertSelectedNftsToGalleryAssets(selectedItems);
 		}
 
