@@ -33,24 +33,25 @@ function MetamaskButton({ user }) {
 	const [userLoggedIn, setUserLoggedIn] = useState(false);
 
 	useEffect(() => {
-		setUserLoggedIn(isUserLoggedIn())
-		window.addEventListener('user-storage', () =>	setUserLoggedIn(isUserLoggedIn())
+		setUserLoggedIn(isUserLoggedIn());
+		window.addEventListener("user-storage", () => setUserLoggedIn(isUserLoggedIn()),
 		);
 
 		return () => {
-			window.removeEventListener('user-storage', () =>	setUserLoggedIn(isUserLoggedIn()))
-		}
-	}, [])
+			window.removeEventListener("user-storage", () => setUserLoggedIn(isUserLoggedIn()));
+		};
+	}, []);
 
 	const loginWithMetamask = async () => {
+		await window.ethereum.enable();
 		const accounts = await window.web3.eth.getAccounts();
 
 		if (accounts[0]) {
 			console.log(accounts[0]);
 			const user = await createOrFetchUser({
 				username: "Alien",
-				walletAddress: accounts[0].toLowerCase()
-			})
+				walletAddress: accounts[0].toLowerCase(),
+			});
 
 			saveLoggedInUserToLocalStorage(user);
 		} else {
