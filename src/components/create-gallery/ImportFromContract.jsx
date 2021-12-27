@@ -151,8 +151,8 @@ export default function ImportFromContract({ contractAddress, prevButton, handle
 			<Button
 				variant="contained"
 				style={{
-					background: "#FF6700",
-					color: "#FFFFFF",
+					background: "#b35bff",
+					color: "white",
 					margin: "13px 25px",
 					padding: "13px 25px",
 					"&:hover": {

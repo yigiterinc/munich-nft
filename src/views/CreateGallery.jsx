@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import FileDropzone from "../components/common/FileDropzone";
 import AddGalleryMetadata from "../components/create-gallery/AddGalleryMetadata";
-import SelectGalleryNfts from "../components/create-gallery/SelectGalleryNfts";
 
 import { darken, makeStyles } from "@material-ui/core/styles";
 import { convertSelectedNftsToGalleryAssets, createGallery, uploadImageToMediaGallery } from "../api/strapi";
@@ -93,7 +92,7 @@ const CreateGallery = (props) => {
 			const twoSecondsInMS = 2000;
 			redirectAfterDelay(`/gallery/${convertToSlug(galleryName)}`, twoSecondsInMS);
 		} else {
-			setError(true)
+			setError(true);
 		}
 
 		console.log(updateResult);
