@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useParams } from "react-router";
 import Grid from "@material-ui/core/Grid";
 import AssetCard from "../components/common/AssetCard";
-import Container from "@material-ui/core/Container";
 import GalleryCoverImage from "../components/gallery/GalleryCoverImage";
 import GalleryHeaderPanel from "../components/gallery/GalleryHeaderPanel";
 import CircularSpinner from "../components/common/CircularSpinner";
@@ -11,19 +10,21 @@ import { fetchGallery } from "../api/strapi";
 
 const useStyles = makeStyles({
 	galleryContainer: {
-		paddingTop: "2vw",
+		paddingTop: "4vh",
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
 	},
 	galleryHeaderContainer: {
 		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		width: "80vw",
 	},
 	nftContainer: {
-		paddingTop: "4vw",
-	},
-	gridContainer: {
-		display: "flex",
-		paddingTop: "3vw",
-		paddingLeft: "10vw",
-		paddingRight: "10vw",
+		paddingTop: "10vh",
+		width: "80vw",
 	},
 });
 
@@ -42,8 +43,7 @@ const Gallery = () => {
 			description: json.description,
 			imageSrc: coverImageUrl,
 			userId: json.userId,
-			creator: json.assets[0].creator.user.username,
-			walletAddress: json.assets[0].creator.address,
+			creator: json.username,
 			nfts: nfts,
 		};
 		setGallery(gallery);
@@ -64,62 +64,35 @@ const renderPage = (classes, galleryJson) => {
 	return (
 		<div className={classes.galleryContainer}>
 			{renderGalleryHeader(classes, galleryJson)}
-			{renderNftContainer(classes, galleryJson.nfts)}
+			{renderNftsInGallery(classes, galleryJson.nfts)}
 		</div>
 	);
 };
 
 const renderGalleryHeader = (classes, dummyGallery) => {
 	return (
-		<Container className={classes.galleryHeaderContainer}>
-			<Grid item xs={4}>
+		<Grid container spacing={6} className={classes.galleryHeaderContainer}>
+			<Grid item lg={5} md={5} sm={6} xs={8}>
 				<GalleryCoverImage {...dummyGallery} />
 			</Grid>
-			<Grid item xs={7}>
+			<Grid item lg={7} md={7} sm={6} xs={4}>
 				<GalleryHeaderPanel {...dummyGallery} />
 			</Grid>
-			<Grid item xs={1} />
-		</Container>
+		</Grid>
 	);
 };
 
-const renderNftContainer = (classes, nfts) => {
+export const renderNftsInGallery = (classes, nfts) => {
 	return (
-		<Container className={classes.nftContainer}>
-			<Grid item xs={1} />
-			{renderNfts(classes, nfts)}
-			<Grid item xs={1} />
-		</Container>
-	);
-};
-
-export const renderNfts = (classes, nfts) => {
-	return <Container>{renderGrids(classes, nfts)}</Container>;
-};
-
-export const renderGrids = (classes, nfts) => {
-	const row = [];
-	for (let i = 0; i < nfts.length; i += 4) {
-		row.push(
-			<Grid container item xs={12} spacing={6} key={i}>
-				{renderRows(classes, nfts.slice(i, i + 4))}
-			</Grid>
-		);
-	}
-	return row;
-};
-
-export const renderRows = (classes, nfts) => {
-	return (
-		<>
+		<Grid container spacing={4} className={classes.nftContainer}>
 			{nfts.map((item) => {
 				return (
-					<Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
+					<Grid key={item.id} item lg={3} md={4} sm={6} xs={12}>
 						<AssetCard asset={item} />
 					</Grid>
 				);
 			})}
-		</>
+		</Grid>
 	);
 };
 

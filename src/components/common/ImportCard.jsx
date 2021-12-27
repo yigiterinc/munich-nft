@@ -10,8 +10,15 @@ import { truncateString, withDefault } from "../../utils/commons";
 
 const useStyles = makeStyles((theme) => ({
 	card: {
-		height: "300",
+		minWidth: 200,
+		minHeight: 200,
+		height: "auto",
 		cursor: "pointer",
+		transition: "all 0.2s ease-out",
+		"&:hover": {
+			transform: "scale(1.05)",
+			boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+		},
 	},
 	cardSelected: {
 		borderColor: "rgb(120, 105, 199)",
@@ -34,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: "17px",
 	},
 	image: {
-		objectFit: "contain",
+		height: "30vh",
 	},
 	nftName: {
 		fontSize: "18px",

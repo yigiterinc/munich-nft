@@ -5,7 +5,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { STRAPI_BASE_URL } from "../../constants/strapiConstants";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
 	root: {
@@ -14,23 +14,30 @@ const useStyles = makeStyles({
 		height: "auto",
 		cursor: "pointer",
 		marginTop: "4vh",
-		marginBottom: "4vh"
+		marginBottom: "4vh",
+		transition: "all 0.2s ease-out",
+		"&:hover": {
+			transform: "scale(1.05)",
+			boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+		},
 	},
 	image: {
-		height: "30vh",
+		height: "25vh",
 	},
 });
 
-const GalleryCard = ({ gallery }) => {
+const GalleryCard = ({ gallery, add }) => {
 	const classes = useStyles();
-	const history = useHistory()
+	const history = useHistory();
 
 	return (
-
 		<div>
-			{
-				gallery &&
-				<Card className={classes.root} variant="outlined" onClick={() => history.push(`/gallery/${gallery.slug}`)}>
+			{gallery && (
+				<Card
+					className={classes.root}
+					variant="outlined"
+					onClick={() => history.push(`/gallery/${gallery.slug}`)}
+				>
 					<CardMedia
 						component="img"
 						className={classes.image}
@@ -42,7 +49,7 @@ const GalleryCard = ({ gallery }) => {
 						</Typography>
 					</CardContent>
 				</Card>
-			}
+			)}
 		</div>
 	);
 };

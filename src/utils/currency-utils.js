@@ -16,5 +16,8 @@ const convertWeiToEth = (wei) => {
 
 export const countDecimals = (value) => {
 	let text = value.toString();
-	return text.split(".")[1].length;
+	if (text.includes(".")) {
+		return text.split(".")[1].length;
+	}
+	return 0;
 };

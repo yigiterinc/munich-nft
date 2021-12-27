@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Card, CardMedia, CardContent } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { withDefault } from "../../utils/commons";
 
 const useStyles = makeStyles({
 	root: {
@@ -9,9 +10,17 @@ const useStyles = makeStyles({
 		minHeight: 200,
 		height: "auto",
 		cursor: "pointer",
+		transition: "all 0.2s ease-out",
+		"&:hover": {
+			transform: "scale(1.05)",
+			boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+		},
 	},
 	image: {
 		height: "30vh",
+	},
+	link: {
+		textDecoration: "none",
 	},
 });
 
@@ -21,13 +30,18 @@ const AssetCard = ({ asset }) => {
 
 	const classes = useStyles();
 
+	const defaultImagePath = "/images/no-image.png";
+
 	return (
-		<Link to={`/token/${contractAddressId}/${tokenId}`}>
+		<Link
+			className={classes.link}
+			to={`/token/${contractAddressId}/${tokenId}`}
+		>
 			<Card className={classes.root} variant="outlined">
 				<CardMedia
 					component="img"
 					className={classes.image}
-					image={asset.image_url}
+					image={withDefault(asset.image_url, defaultImagePath)}
 					title={asset.name}
 				/>
 				<CardContent>
@@ -35,7 +49,7 @@ const AssetCard = ({ asset }) => {
 						{asset.collection.name}
 					</Typography>
 					<Typography variant="h6" component="h2">
-						{asset.name}
+						{asset.name ? asset.name : "-"}
 					</Typography>
 				</CardContent>
 			</Card>

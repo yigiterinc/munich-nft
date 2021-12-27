@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import ProfileHeader from "../components/profile/ProfileHeader";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, darken } from "@material-ui/core/styles";
 import { Link, useParams } from "react-router-dom";
 import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import AddIcon from "@material-ui/icons/Add";
 import { fetchExistingUserWithId, fetchUserGalleries } from "../api/strapi";
 import GalleryCard from "../components/common/GalleryCard";
 import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
@@ -22,11 +24,10 @@ const useStyles = makeStyles((theme) => ({
 		paddingRight: "5vw",
 		borderRadius: "2px",
 		marginBottom: "5vh",
-		width: "85vw",
+		width: "75vw",
 		minHeight: "30vh",
 		paddingBottom: "1vh",
-		boxShadow:
-			"rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(63, 174, 223) 0px 0px 0px 5px",
+		boxShadow: "0px 0px 1px #b35bff, 0 5px 20px #ca8eff",
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",
@@ -42,15 +43,27 @@ const useStyles = makeStyles((theme) => ({
 		letterSpacing: "1px",
 		width: "60vw",
 		marginBottom: "4vh",
+		textAlign: "center",
 	},
 	createGalleryButton: {
 		paddingTop: "2vh",
 		paddingBottom: "2vh",
+		background: "#b35bff",
+		color: "white",
+		"&:hover": {
+			background: darken("#b35bff", 0.1),
+		},
 	},
 	noGalleryFoundText: {
 		fontSize: "20px",
 		fontWeight: "lighter",
 		letterSpacing: "1px",
+	},
+	addGalleryButton: {
+		position: "absolute",
+		right: "8vw",
+		top: "68vh",
+		boxShadow: "0px 0px 1px #b35bff, 0 0px 2px #ca8eff",
 	},
 }));
 
@@ -74,19 +87,29 @@ const Profile = () => {
 		} else {
 			console.log("Failed to fetch user data");
 		}
-
 		setProfileOwnerGalleries(await fetchUserGalleries(userIdParam));
 	}, [userIdParam]);
 
 	const Galleries = () => {
 		return (
-			<Grid container spacing={4}>
-				{profileOwnerGalleries.map((gallery) => (
-					<Grid item>
-						<GalleryCard gallery={gallery} lg={3} md={4} sm={6} xs={12} />
-					</Grid>
-				))}
-			</Grid>
+			<>
+				{userIdParam === user?.id && (
+					<IconButton
+						component={Link}
+						to="/create-gallery"
+						className={classes.addGalleryButton}
+					>
+						<AddIcon />
+					</IconButton>
+				)}
+				<Grid container spacing={4}>
+					{profileOwnerGalleries.map((gallery) => (
+						<Grid item lg={3} md={4} sm={6} xs={12}>
+							<GalleryCard gallery={gallery} />
+						</Grid>
+					))}
+				</Grid>
+			</>
 		);
 	};
 

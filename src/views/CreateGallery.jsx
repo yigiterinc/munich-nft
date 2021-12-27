@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import FileDropzone from "../components/common/FileDropzone";
 import AddGalleryMetadata from "../components/create-gallery/AddGalleryMetadata";
+import SelectGalleryNfts from "../components/create-gallery/SelectGalleryNfts";
 
 import { darken, makeStyles } from "@material-ui/core/styles";
 import { convertSelectedNftsToGalleryAssets, createGallery, uploadImageToMediaGallery } from "../api/strapi";
@@ -19,15 +20,15 @@ const Alert = (props) => {
 
 const useStyles = makeStyles((theme) => ({
 	navigationButton: {
-		background: "#FF6700",
 		color: "#FFFFFF",
 		margin: "13px 25px",
 		padding: "13px 25px",
 		"&:disabled": {
 			opacity: "80%",
 		},
+		background: "#b35bff",
 		"&:hover": {
-			background: darken("#FF6700", 0.1),
+			background: darken("#b35bff", 0.1),
 		},
 	},
 }));
@@ -47,8 +48,9 @@ const CreateGallery = (props) => {
 	const [importMethod, setImportMethod] = useState(IMPORT_METHODS.CUSTOM_CONTRACT);
 	const [contractAddress, setContractAddress] = useState();
 
-	const history = useHistory();
+	const user = getLoggedInUser();
 
+	const history = useHistory();
 	const classes = useStyles();
 
 	const handleSubmit = async (selectedItems) => {
@@ -58,7 +60,6 @@ const CreateGallery = (props) => {
 			return;
 		}
 
-		let user = getLoggedInUser();
 		const allRequiredParamsEntered = galleryName &&
 			galleryDescription &&
 			coverImage &&
@@ -83,6 +84,7 @@ const CreateGallery = (props) => {
 			coverImage: imageIdentifier,
 			assets: assets,
 			userId: user.id,
+			username: user.username,
 		};
 
 		const updateResult = await createGallery(gallery);
@@ -91,7 +93,7 @@ const CreateGallery = (props) => {
 			const twoSecondsInMS = 2000;
 			redirectAfterDelay(`/gallery/${convertToSlug(galleryName)}`, twoSecondsInMS);
 		} else {
-			setError(true);
+			setError(true)
 		}
 
 		console.log(updateResult);
@@ -135,10 +137,16 @@ const CreateGallery = (props) => {
 	};
 
 	const dropzone = (
-		<FileDropzone dropzoneStyles={{ minWidth: "40vw", minHeight: "30vh", textAlign: "center" }}
-									text="Click or drag to upload a cover image"
-									handleSubmit={handleDropzoneSubmit} // TODO
-									handleChangeStatus={() => console.log("status changed")} />
+		<FileDropzone
+			dropzoneStyles={{
+				minWidth: "40vw",
+				minHeight: "30vh",
+				textAlign: "center",
+			}}
+			text="Click or drag to upload a cover image"
+			handleSubmit={handleDropzoneSubmit} // TODO
+			handleChangeStatus={() => console.log("status changed")}
+		/>
 	);
 
 	const ActiveStep = () => {
@@ -171,15 +179,20 @@ const CreateGallery = (props) => {
 
 	return (
 		<>
-			{ActiveStep()}
+			{
+				ActiveStep()
+			}
 			<Snackbar open={success} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} autoHideDuration={3000}
 								onClose={() => setSuccess(false)}>
 				<Alert severity="success" onClose={() => setSuccess(false)}>
 					Your gallery is successfully created
 				</Alert>
 			</Snackbar>
-			<Snackbar open={error} anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-								onClose={() => setError(false)}>
+			<Snackbar
+				open={error}
+				anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+				onClose={() => setError(false)}
+			>
 				<Alert severity="error" onClose={() => setError(false)}>
 					An error occurred :(
 				</Alert>

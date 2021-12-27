@@ -3,7 +3,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 
 import MetamaskButton from "./MetamaskButton";
-import { getLoggedInUser, isUserLoggedIn, removeLoggedInUserFromLocalStorage } from "../../../utils/auth-utils";
+import {
+	getLoggedInUser,
+	isUserLoggedIn,
+	removeLoggedInUserFromLocalStorage,
+} from "../../../utils/auth-utils";
 
 const useStyles = makeStyles({
 	navMenu: {
@@ -15,12 +19,14 @@ const useStyles = makeStyles({
 		marginRight: 0,
 	},
 	menuLink: {
-		marginLeft: "20px",
+		marginLeft: "1.5vw",
+		marginRight: "1.5vw",
 		cursor: "pointer",
 		textAlign: "center",
-		color: "#000",
+		color: "black",
 		"&:focus, &:hover, &:visited, &:link, &:active": {
 			textDecoration: "none",
+			color: "black",
 		},
 		fontSize: "18px",
 		letterSpacing: "1.3px",
@@ -35,39 +41,56 @@ const Menu = ({ user }) => {
 
 	useEffect(() => {
 		setUserLoggedIn(isUserLoggedIn());
-		window.addEventListener("user-storage", () => setUserLoggedIn(isUserLoggedIn()));
+		window.addEventListener("user-storage", () =>
+			setUserLoggedIn(isUserLoggedIn())
+		);
 
 		return () => {
-			window.removeEventListener("user-storage", () => setUserLoggedIn(isUserLoggedIn()));
+			window.removeEventListener("user-storage", () =>
+				setUserLoggedIn(isUserLoggedIn())
+			);
 		};
 	}, [userLoggedIn]);
 
 	const menu = [
 		{
 			requiresLogin: true,
-			component: <Link className={classes.menuLink} to={"/mint-nft"}>Mint NFT</Link>,
+			component: (
+				<Link className={classes.menuLink} to={"/mint-nft"}>
+					Mint NFT
+				</Link>
+			),
 		},
 		{
 			requiresLogin: true,
-			component: <Link className={classes.menuLink} to={`/profile/${getLoggedInUser()?.id}`}>Profile</Link>,
+			component: (
+				<Link
+					className={classes.menuLink}
+					to={`/profile/${getLoggedInUser()?.id}`}
+				>
+					Profile
+				</Link>
+			),
 		},
 		{
 			requiresLogin: true,
-			component: <p className={classes.menuLink} onClick={() => removeLoggedInUserFromLocalStorage()}>Log out</p>,
+			component: (
+				<p
+					className={classes.menuLink}
+					onClick={() => removeLoggedInUserFromLocalStorage()}
+				>
+					Log out
+				</p>
+			),
 		},
 	];
 
 	return (
 		<div className={classes.navMenu}>
 			{menu
-				.filter(item => item.requiresLogin ? userLoggedIn : true)
-				.map(((menuItem, i) => menuItem.component))
-			};
-			}))}
-			<MetamaskButton
-				user={user}
-				className={classes.connectBtn}
-			/>
+				.filter((item) => (item.requiresLogin ? userLoggedIn : true))
+				.map((menuItem, i) => menuItem.component)}
+			<MetamaskButton user={user} className={classes.connectBtn} />
 		</div>
 	);
 };

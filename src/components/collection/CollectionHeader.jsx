@@ -1,6 +1,8 @@
 import React from "react";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import Avatar from "@material-ui/core/Avatar";
+import ImageIcon from "@material-ui/icons/Image";
 import { makeStyles } from "@material-ui/core/styles";
 import { truncateWalletAddress } from "../../utils/commons";
 
@@ -18,11 +20,18 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: "column",
 		justifyContent: "center",
 		alignItems: "center",
+		backgroundColor: "#d6d6d6",
 		backgroundImage: (collection) => `url(${collection?.banner_image_url})`,
 	},
 	image: {
 		objectFit: "cover",
-		marginTop: theme.spacing(-7),
+		marginTop: theme.spacing(-11),
+		borderRadius: "50%",
+		height: theme.spacing(14),
+		width: theme.spacing(14),
+	},
+	avatar: {
+		marginTop: theme.spacing(-11),
 		borderRadius: "50%",
 		height: theme.spacing(14),
 		width: theme.spacing(14),
@@ -45,11 +54,17 @@ const CollectionHeader = ({ collection, assets }) => {
 	return (
 		<div className={classes.collectionHeaderContainer}>
 			<Paper className={classes.banner}></Paper>
-			<img
-				src={collection?.image_url}
-				alt="preview"
-				className={classes.image}
-			/>
+			{collection?.image_url ? (
+				<img
+					src={collection?.image_url}
+					alt="collection-image"
+					className={classes.image}
+				/>
+			) : (
+				<Avatar className={classes.avatar}>
+					<ImageIcon />
+				</Avatar>
+			)}
 			<Typography className={classes.name} variant="h5" component="h2">
 				{collection?.name}
 			</Typography>

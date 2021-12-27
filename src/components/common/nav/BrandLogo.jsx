@@ -18,7 +18,10 @@ const useStyles = makeStyles({
 		},
 	},
 	title: {
-		paddingLeft: "20px",
+		paddingLeft: "1vw",
+		fontSize: "18px",
+		letterSpacing: "1.2px",
+		fontWeight: "500",
 	},
 });
 
@@ -26,8 +29,8 @@ const BrandLogo = () => {
 	const classes = useStyles();
 	return (
 		<div className={classes.logoContainer}>
-			<Link className={classes.logo} to='/'>
-				<img src={logoImage} alt="logo" />
+			<Link className={classes.logo} to="/">
+				<img src={logoImage} alt="logo" height="50px" />
 				<Typography className={classes.title}>Munich NFT</Typography>
 			</Link>
 		</div>
