@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import ImportCard from "../common/ImportCard";
-import CollectionsIcon from "@material-ui/icons/Collections";
 import ImageIcon from "@material-ui/icons/Image";
 import withSpinner from "../common/WithSpinner";
 import AppBar from "@material-ui/core/AppBar";
@@ -15,6 +14,7 @@ import { getLoggedInUser, isUserLoggedIn } from "../../utils/auth-utils";
 import { fetchCollectionsOfUser, filterAssetsInCollectionByOwner, getAssetsAddedCollections } from "../../api/opensea";
 import { findOwnedTokensOnERC721Contract } from "../../api/chainHelper";
 import axios from "axios";
+import { withDefault } from "../../utils/commons";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -70,29 +70,35 @@ export default function ImportFromContract({ contractAddress, prevButton, handle
 	// Each item is either {nft, collection} or {collection}
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [dataIsLoading, setDataIsLoading] = useState(true);
-
-	useEffect(async () => {
-		const user = getLoggedInUser();
-		const ipfsMetadataUris = await findOwnedTokensOnERC721Contract(contractAddress, user.walletAddress);
-		const nftDetailPromises = [];
-		let nftDetails = [];
-		ipfsMetadataUris.forEach((uri) => {
-			nftDetailPromises.push(
-				axios.get(uri).then((response) => {
-					nftDetails.push(response.data);
-				}));
-		});
-
-		await Promise.all(nftDetailPromises);
-		setOwnedAssetsOnContract(nftDetails);
-		console.log(nftDetails);
-	}, []);
+	const [aso, setAso] = useState([]);
 
 	useEffect(() => {
-		if (ownedAssetsOnContract) {
-			setDataIsLoading(false);
+			const user = getLoggedInUser();
+
+			async function fetchDataFromBlockchain() {
+				const ipfsMetadataUris = await findOwnedTokensOnERC721Contract(contractAddress, user.walletAddress);
+				const nftDetailPromises = [];
+				let nftDetails = [];
+				ipfsMetadataUris.forEach((uri) => {
+					nftDetailPromises.push(
+						axios.get(uri).then((response) => {
+							nftDetails.push(response.data);
+						}));
+				});
+
+				await Promise.all(nftDetailPromises);
+				setAso(nftDetails);
+				setDataIsLoading(false);
+			}
+
+			if (user && aso.length === 0) {
+				fetchDataFromBlockchain();
+			}
 		}
-	}, [ownedAssetsOnContract]);
+		,
+		[],
+	)
+	;
 
 	const addToSelectedItems = (item) => {
 		setSelectedItems([...selectedItems, item]);
@@ -103,16 +109,18 @@ export default function ImportFromContract({ contractAddress, prevButton, handle
 		setSelectedItems(itemsWithoutTheSubject);
 	};
 
-	const nftData = () => {
+	const DEFAULT_IMAGE_PATH = "/images/no-image.png";
+
+	const ImportCardsGrid = () => {
 		return (<Grid container spacing={3}>
-			{ownedAssetsOnContract?.map((asset, i) => {
+			{aso.map((asset, i) => {
 				return (
 					<Grid key={i} item lg={3} md={4} sm={6} xs={12}>
 						<ImportCard
-							ipfsImage
-							collection={asset}  // TODO: this should be nft
-							addToSelected={(asset) => addToSelectedItems(asset)}
-							removeFromSelected={(asset) => removeFromSelectedItems(asset)}
+							name={asset.name}
+							image={withDefault(asset.image, DEFAULT_IMAGE_PATH)}
+							addToSelected={() => addToSelectedItems(asset)}
+							removeFromSelected={() => removeFromSelectedItems(asset)}
 						/>
 					</Grid>
 				);
@@ -134,7 +142,7 @@ export default function ImportFromContract({ contractAddress, prevButton, handle
 		);
 	};
 
-	const ButtonsMenu = (
+	const ButtonsMenu = () => (
 		<div className={classes.buttonsContainer}>
 			{
 				prevButton
@@ -174,13 +182,14 @@ export default function ImportFromContract({ contractAddress, prevButton, handle
 				axis={theme.direction === "rtl" ? "x-reverse" : "x"}
 				index={0}
 			>
-				{TabPanelWithSpinner(0, nftData)}
+				{TabPanelWithSpinner(0, ImportCardsGrid())}
 			</SwipeableViews>;
 			{
 				!dataIsLoading &&
-				ButtonsMenu
+				ButtonsMenu()
 			}
 		</div>
 	)
 		;
-};
+}
+;

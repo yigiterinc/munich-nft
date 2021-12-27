@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 		height: theme.spacing(15),
 		marginBottom: "5vh",
 	},
-	collectionName: {
+	name: {
 		marginTop: "10px",
 		fontSize: "17px",
 	},
@@ -41,33 +41,21 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const ImportCard = ({ collection, nft, addToSelected, removeFromSelected, ipfsImage }) => {
+const ImportCard = ({ name, image, addToSelected, removeFromSelected }) => {
 	const [selected, setSelected] = useState(false);
 	const classes = useStyles();
 
 	const handleOnClick = () => {
-		if (!collection && !nft) return;
-
-		const item = collection ? collection : nft;
-
 		if (selected) {
-			removeFromSelected(item);
+			removeFromSelected();
 		} else {
-			addToSelected(item);
+			addToSelected();
 		}
 
 		setSelected(!selected);
 	};
 
-	useEffect(() => {
-		if (nft) {
-			console.log(nft);
-		}
-	}, [nft]);
-
-
-	const defaultNftName = "Nameless", defaultCollectionName = "Nameless";
-	const defaultImagePath = "/images/no-image.png";
+	const DEFAULT_COLLECTION_NAME = "Nameless";
 
 	return (
 		<Card
@@ -76,31 +64,15 @@ const ImportCard = ({ collection, nft, addToSelected, removeFromSelected, ipfsIm
 			selected={selected}
 			onClick={() => handleOnClick()}
 		>
-			{collection && (
+			{(
 				<CardContent className={classes.cardContent}>
 					<Avatar
-						alt={collection.name}
-						src={ipfsImage ? collection.image : withDefault(collection.image_url, defaultImagePath)}
+						alt={name}
+						src={image}  // ipfsImage ? nft.image : withDefault(nft.image_url, DEFAULT_IMAGE_PATH)
 						className={classes.avatar}
 					/>
-					<Typography className={classes.collectionName} variant="body1">
-						{truncateString(withDefault(collection.name, "Nameless"), 20)}
-					</Typography>
-				</CardContent>
-			)}
-			{nft && (
-				<CardContent>
-					<CardMedia
-						component="img"
-						className={classes.image}
-						image={ipfsImage ? nft.image : withDefault(nft.image_url, defaultImagePath)}
-						title={nft.name}
-					/>
-					<Typography className={classes.collectionName} variant="body2" color="textSecondary" gutterBottom>
-						{truncateString(withDefault(nft.collection.name, defaultCollectionName), 20)}
-					</Typography>
-					<Typography variant="body2" className={classes.nftName}>
-						{truncateString(withDefault(nft.name, defaultNftName), 20)}
+					<Typography className={classes.name} variant="body1">
+						{truncateString(withDefault(name, DEFAULT_COLLECTION_NAME), 20)}
 					</Typography>
 				</CardContent>
 			)}

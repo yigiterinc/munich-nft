@@ -13,6 +13,7 @@ import Tab from "@material-ui/core/Tab";
 import SwipeableViews from "react-swipeable-views";
 import { getLoggedInUser, isUserLoggedIn } from "../../utils/auth-utils";
 import { fetchCollectionsOfUser, filterAssetsInCollectionByOwner, getAssetsAddedCollections } from "../../api/opensea";
+import { withDefault } from "../../utils/commons";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -114,15 +115,18 @@ export default function ImportFromOpensea({
 		setActiveTab(index);
 	};
 
-	const collectionsData = () => {
+	const DEFAULT_IMAGE_PATH = "/images/no-image.png";
+
+	const CollectionCardsGrid = () => {
 		return (<Grid container spacing={3}>
-			{userCollections?.map((item) => {
+			{userCollections?.map((collection) => {
 				return (
-					<Grid key={item.slug} item lg={3} md={4} sm={6} xs={12}>
+					<Grid key={collection.slug} item lg={3} md={4} sm={6} xs={12}>
 						<ImportCard
-							collection={item}
-							addToSelected={(collection) => addToSelectedItems(collection)}
-							removeFromSelected={(collection) => removeCollectionFromSelectedItems(collection)}
+							name={collection.name}
+							image={withDefault(collection.image_url, DEFAULT_IMAGE_PATH)}
+							addToSelected={(coll) => addToSelectedItems(coll)}
+							removeFromSelected={(coll) => removeCollectionFromSelectedItems(coll)}
 						/>
 					</Grid>
 				);
@@ -135,7 +139,7 @@ export default function ImportFromOpensea({
 		setActiveTab(newValue);
 	};
 
-	const nftData = () => {
+	const AssetCardsGrid = () => {
 		return (
 			<Grid container
 						spacing={3}
@@ -146,10 +150,10 @@ export default function ImportFromOpensea({
 						return (
 							<Grid key={item?.id} item lg={3} md={4} sm={6} xs={12}>
 								<ImportCard
-									ipfsImage
-									nft={item}
-									addToSelected={(nft) => addToSelectedItems({ collection, nft })}
-									removeFromSelected={(nftCollectionPair) => removeNftFromSelectedItems(nftCollectionPair)}
+									name={item.name}
+									image={item.image_url}
+									addToSelected={() => addToSelectedItems({ collection, item })}
+									removeFromSelected={() => removeNftFromSelectedItems({ collection, item })}
 								/>
 							</Grid>
 						);
@@ -223,8 +227,8 @@ export default function ImportFromOpensea({
 				index={activeTab}
 				onChangeIndex={handleChangeIndex}
 			>
-				{TabPanelWithSpinner(collectionsTabIndex, collectionsData)}
-				{TabPanelWithSpinner(nftsTabIndex, nftData)}
+				{TabPanelWithSpinner(collectionsTabIndex, CollectionCardsGrid)}
+				{TabPanelWithSpinner(nftsTabIndex, AssetCardsGrid)}
 			</SwipeableViews>;
 			{
 				!dataIsLoading &&

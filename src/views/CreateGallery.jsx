@@ -9,7 +9,7 @@ import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
 import { useHistory } from "react-router-dom";
-import { MunichNftContractAddress } from "../config/config";
+import { CONTRACT_ADDRESS_RINKEBY, MunichNftContractAddress } from "../config/config";
 import ImportFromOpensea from "../components/create-gallery/ImportFromOpensea";
 import ImportFromContract from "../components/create-gallery/ImportFromContract";
 
@@ -52,8 +52,6 @@ const CreateGallery = (props) => {
 	const classes = useStyles();
 
 	const handleSubmit = async (selectedItems) => {
-		console.log(selectedItems);
-		return;
 		let selectedItemsAreNft = selectedItems.hasOwnProperty("nft");	// and not collection
 		if (!isUserLoggedIn()) {
 			history.push("/");
@@ -133,7 +131,6 @@ const CreateGallery = (props) => {
 	);
 
 	const handleDropzoneSubmit = async (file) => {
-		console.log(file);
 		setCoverImage(file);
 	};
 
@@ -161,46 +158,28 @@ const CreateGallery = (props) => {
 
 		let importComponent = importMethod === IMPORT_METHODS.OPENSEA ?
 			<ImportFromOpensea prevButton={props.prevButton}
-												 handleSubmit={props.handleSubmit} />
+												 handleSubmit={handleSubmit} />
 			:
 			<ImportFromContract prevButton={props.prevButton}
-													handleSubmit={props.handleSubmit} />;
+													handleSubmit={handleSubmit}
+													contractAddress={contractAddress} />;
 
 		steps.push(importComponent);
 
 		return steps[activeStep];
 	};
 
-	let stepComponents = [
-		<AddGalleryMetadata nextButton={nextButton}
-												fileUploader={dropzone}
-												coverImage={coverImage}
-												setCoverImage={setCoverImage}
-												collectionName={galleryName}
-												setGalleryName={setGalleryName}
-												galleryDescription={galleryDescription}
-												setGalleryDescription={setGalleryDescription}
-												importMethod={importMethod}
-												setImportMethod={setImportMethod}
-		/>,
-		<ImportFromContract prevButton={prevButton}
-												handleSubmit={handleSubmit}
-												contractAddress={MunichNftContractAddress} />,
-	];
-
-
 	return (
 		<>
-			{
-				stepComponents[1]
-			}
+			{ActiveStep()}
 			<Snackbar open={success} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} autoHideDuration={3000}
 								onClose={() => setSuccess(false)}>
 				<Alert severity="success" onClose={() => setSuccess(false)}>
 					Your gallery is successfully created
 				</Alert>
 			</Snackbar>
-			<Snackbar open={error} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} onClose={() => setError(false)}>
+			<Snackbar open={error} anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+								onClose={() => setError(false)}>
 				<Alert severity="error" onClose={() => setError(false)}>
 					An error occurred :(
 				</Alert>
