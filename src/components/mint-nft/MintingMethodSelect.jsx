@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles, MenuItem, Select, Typography } from "@material-ui/core";
-import { getMunichNftContractAddress } from "../../config/config";
+import { MunichNftContractAddress } from "../../config/config";
 
 import { fetchUserCollections } from "../../api/strapi";
 
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const defaultContractAddress = getMunichNftContractAddress();
+const defaultContractAddress = MunichNftContractAddress;
 
 function MintingMethodSelect({
 	mintTargetCollection,

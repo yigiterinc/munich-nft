@@ -16,9 +16,11 @@ const client = create({
 });
 
 const ipfsHelper = {
+	// Warning: Requires that INFURA_PROJECT_ID and INFURA_PROJECT_SECRET to be set in .env file
+	// Updating the .env file requires a restart for changes to be reflected
 	addFile: async (file) => {
-		const address = await client.add(file);
-		return address;
+		console.log(projectId, projectSecret, auth);
+		return await client.add(file);
 	},
 	addNftMetadata: async (path, nftMetadata) => {
 		const accounts = await window.web3.eth.requestAccounts();
