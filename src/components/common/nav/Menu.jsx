@@ -8,6 +8,7 @@ import {
 	isUserLoggedIn,
 	removeLoggedInUserFromLocalStorage,
 } from "../../../utils/auth-utils";
+import PhantomButton from "./PhantomButton";
 
 const useStyles = makeStyles({
 	navMenu: {
@@ -42,12 +43,12 @@ const Menu = ({ user }) => {
 	useEffect(() => {
 		setUserLoggedIn(isUserLoggedIn());
 		window.addEventListener("user-storage", () =>
-			setUserLoggedIn(isUserLoggedIn())
+			setUserLoggedIn(isUserLoggedIn()),
 		);
 
 		return () => {
 			window.removeEventListener("user-storage", () =>
-				setUserLoggedIn(isUserLoggedIn())
+				setUserLoggedIn(isUserLoggedIn()),
 			);
 		};
 	}, [userLoggedIn]);
@@ -91,6 +92,7 @@ const Menu = ({ user }) => {
 				.filter((item) => (item.requiresLogin ? userLoggedIn : true))
 				.map((menuItem, i) => menuItem.component)}
 			<MetamaskButton user={user} className={classes.connectBtn} />
+			<PhantomButton></PhantomButton>
 		</div>
 	);
 };

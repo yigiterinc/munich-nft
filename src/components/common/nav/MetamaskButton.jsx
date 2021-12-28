@@ -57,7 +57,6 @@ function MetamaskButton({ user }) {
 		} else {
 			console.log("no account found, show error");
 		}
-
 	};
 
 
