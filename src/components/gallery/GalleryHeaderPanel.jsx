@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, darken } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
+import IconButton from "@material-ui/core/IconButton";
+import EditIcon from "@material-ui/icons/Edit";
+import { getLoggedInUser } from "../../utils/auth-utils";
 
 const useStyles = makeStyles({
+	galleryOwner: {
+		marginTop: "2vh",
+	},
 	title: {
-		marginBottom: "2vh",
+		display: "flex",
+		alignItems: "center",
 	},
 	creator: {
 		textDecoration: "none",
@@ -30,22 +37,36 @@ const useStyles = makeStyles({
 	},
 });
 
-const GalleryHeaderPanel = (galleryJson) => {
+const GalleryHeaderPanel = (props) => {
+	const currentUser = getLoggedInUser();
+	const galleryJson = props.json;
 	const classes = useStyles();
 
 	return (
 		<div className={classes.galleryHeaderpanel}>
-			<Typography className={classes.title} variant="h4">
-				{galleryJson.name}
-			</Typography>
-			<Typography
-				to={`/profile/${galleryJson?.userId}`}
-				component={Link}
-				className={classes.creator}
-				variant="h5"
-			>
-				{galleryJson.creator}
-			</Typography>
+			<div className={classes.title}>
+				{currentUser.id === galleryJson.userId && (
+					<IconButton
+						aria-label="edit-gallery"
+						onClick={() => props.switchEditableMode()}
+					>
+						<EditIcon />
+					</IconButton>
+				)}
+				<Typography className={classes.title} variant="h4">
+					{galleryJson.name}
+				</Typography>
+			</div>
+			<div className={classes.galleryOwner}>
+				<Typography
+					to={`/profile/${galleryJson?.userId}`}
+					component={Link}
+					className={classes.creator}
+					variant="h5"
+				>
+					{galleryJson.creator}
+				</Typography>
+			</div>
 			<Typography className={classes.description} variant="h5">
 				{galleryJson.description}
 			</Typography>

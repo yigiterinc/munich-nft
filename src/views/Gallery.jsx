@@ -30,12 +30,12 @@ const useStyles = makeStyles({
 
 const Gallery = () => {
 	const [gallery, setGallery] = useState(null);
+	const [isEditable, setIsEditable] = useState(false);
 	let { slug } = useParams();
 	const classes = useStyles();
 
 	useEffect(async () => {
 		const json = await fetchGallery(slug);
-		console.log(json.coverImage.url);
 		let nfts = nftHelper(json.assets);
 		let coverImageUrl = `http://localhost:1337${json.coverImage.url}`;
 		const gallery = {
@@ -49,7 +49,19 @@ const Gallery = () => {
 		setGallery(gallery);
 	}, []);
 
-	return <>{gallery ? renderPage(classes, gallery) : <CircularSpinner />}</>;
+	const switchGalleryEditMode = () => {
+		setIsEditable(!isEditable);
+	};
+
+	return (
+		<>
+			{gallery ? (
+				renderPage(classes, gallery, switchGalleryEditMode)
+			) : (
+				<CircularSpinner />
+			)}
+		</>
+	);
 };
 
 const nftHelper = (assets) => {
@@ -60,23 +72,26 @@ const nftHelper = (assets) => {
 	return tmp;
 };
 
-const renderPage = (classes, galleryJson) => {
+const renderPage = (classes, galleryJson, switchGalleryEditMode) => {
 	return (
 		<div className={classes.galleryContainer}>
-			{renderGalleryHeader(classes, galleryJson)}
+			{renderGalleryHeader(classes, galleryJson, switchGalleryEditMode)}
 			{renderNftsInGallery(classes, galleryJson.nfts)}
 		</div>
 	);
 };
 
-const renderGalleryHeader = (classes, dummyGallery) => {
+const renderGalleryHeader = (classes, dummyGallery, switchGalleryEditMode) => {
 	return (
 		<Grid container spacing={6} className={classes.galleryHeaderContainer}>
 			<Grid item lg={5} md={5} sm={6} xs={8}>
 				<GalleryCoverImage {...dummyGallery} />
 			</Grid>
 			<Grid item lg={7} md={7} sm={6} xs={4}>
-				<GalleryHeaderPanel {...dummyGallery} />
+				<GalleryHeaderPanel
+					json={dummyGallery}
+					switchEditableMode={switchGalleryEditMode}
+				/>
 			</Grid>
 		</Grid>
 	);
