@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useParams } from "react-router";
 import Grid from "@material-ui/core/Grid";
 import AssetCard from "../components/common/AssetCard";
+import GalleryEditManager from "../components/gallery/GalleryEditManager";
 import GalleryCoverImage from "../components/gallery/GalleryCoverImage";
 import GalleryHeaderPanel from "../components/gallery/GalleryHeaderPanel";
 import CircularSpinner from "../components/common/CircularSpinner";
@@ -56,7 +57,7 @@ const Gallery = () => {
 	return (
 		<>
 			{gallery ? (
-				renderPage(classes, gallery, switchGalleryEditMode)
+				renderPage(classes, gallery, switchGalleryEditMode, isEditable)
 			) : (
 				<CircularSpinner />
 			)}
@@ -72,16 +73,35 @@ const nftHelper = (assets) => {
 	return tmp;
 };
 
-const renderPage = (classes, galleryJson, switchGalleryEditMode) => {
+const renderPage = (
+	classes,
+	galleryJson,
+	switchGalleryEditMode,
+	isEditable
+) => {
 	return (
 		<div className={classes.galleryContainer}>
-			{renderGalleryHeader(classes, galleryJson, switchGalleryEditMode)}
+			<GalleryEditManager
+				isEditMode={isEditable}
+				switchEditableMode={switchGalleryEditMode}
+			/>
+			{renderGalleryHeader(
+				classes,
+				galleryJson,
+				switchGalleryEditMode,
+				isEditable
+			)}
 			{renderNftsInGallery(classes, galleryJson.nfts)}
 		</div>
 	);
 };
 
-const renderGalleryHeader = (classes, dummyGallery, switchGalleryEditMode) => {
+const renderGalleryHeader = (
+	classes,
+	dummyGallery,
+	switchGalleryEditMode,
+	isEditable
+) => {
 	return (
 		<Grid container spacing={6} className={classes.galleryHeaderContainer}>
 			<Grid item lg={5} md={5} sm={6} xs={8}>
@@ -91,6 +111,7 @@ const renderGalleryHeader = (classes, dummyGallery, switchGalleryEditMode) => {
 				<GalleryHeaderPanel
 					json={dummyGallery}
 					switchEditableMode={switchGalleryEditMode}
+					isEditable={isEditable}
 				/>
 			</Grid>
 		</Grid>

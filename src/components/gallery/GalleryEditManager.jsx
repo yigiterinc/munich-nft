@@ -1,35 +1,76 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardMedia from "@material-ui/core/CardMedia";
-
+import { darken, makeStyles } from "@material-ui/core/styles";
+import { Button } from "@material-ui/core";
 const useStyles = makeStyles({
 	galleryEditManagerContainer: {
-		margin: "auto",
-		paddişng: "0px 20px",
+		top: "4vh",
+		marginTop: "-4vh",
+		marginBottom: "2vh",
+		height: "80px",
+		width: "100%",
+		borderBottom: "1px solid rgb(229, 232, 235)",
+		background: "rgb(229, 232, 235)",
 	},
-	buttonGroupPanel: {
-		display: "block",
+	buttons: {
+		maxWidth: "100%",
+		margin: "auto",
+		display: "flex",
+		justifyContent: "flex-end",
+	},
+	buttonGroupPanel: {},
+	cancelButton: {
+		width: "92px",
+		color: "#FFFFFF",
+		margin: "13px 15px",
+		padding: "13px 15px",
+		"&:disabled": {
+			opacity: "80%",
+		},
+		background: "#b35bff",
+		"&:hover": {
+			background: darken("#b35bff", 0.1),
+		},
+	},
+	saveButton: {
+		width: "100px",
+		color: "#FFFFFF",
+		margin: "13px 15px",
+		padding: "13px 15px",
+		"&:disabled": {
+			opacity: "80%",
+		},
+		background: "#218838",
+		"&:hover": {
+			background: darken("#218838", 0.1),
+		},
 	},
 });
 
-const GalleryEditManager = (isEditMode) => {
+const GalleryEditManager = (props) => {
 	const classes = useStyles();
 
 	return (
 		<>
-			{isEditMode && (
+			{props.isEditMode && (
 				<div className={classes.galleryEditManagerContainer}>
-					<div className={classes.buttonGroupPanel}>
-						<Button variant="contained" color="primary">
-							Preview
-						</Button>
-						<Button variant="contained" color="primary">
-							Cancel
-						</Button>
-						<Button variant="contained" color="primary">
-							Save
-						</Button>
+					<div className={classes.buttons}>
+						<div className={classes.buttonGroupPanel}>
+							<Button
+								className={classes.cancelButton}
+								size="large"
+								variant="contained"
+								onClick={() => props.switchEditableMode()}
+							>
+								CANCEL
+							</Button>
+							<Button
+								className={classes.saveButton}
+								size="large"
+								variant="contained"
+							>
+								SAVE
+							</Button>
+						</div>
 					</div>
 				</div>
 			)}

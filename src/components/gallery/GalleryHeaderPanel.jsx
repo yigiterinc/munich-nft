@@ -41,14 +41,15 @@ const GalleryHeaderPanel = (props) => {
 	const currentUser = getLoggedInUser();
 	const galleryJson = props.json;
 	const classes = useStyles();
-
 	return (
 		<div className={classes.galleryHeaderpanel}>
 			<div className={classes.title}>
-				{currentUser.id === galleryJson.userId && (
+				{currentUser.id === galleryJson.userId && !props.isEditable && (
 					<IconButton
 						aria-label="edit-gallery"
-						onClick={() => props.switchEditableMode()}
+						onClick={() => {
+							props.switchEditableMode();
+						}}
 					>
 						<EditIcon />
 					</IconButton>
