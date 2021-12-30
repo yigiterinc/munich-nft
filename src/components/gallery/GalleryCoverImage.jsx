@@ -1,21 +1,28 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
+import FileDropzone from "../common/FileDropzone";
 
-const useStyles = makeStyles({
-	galleryCoverImageContainer: {
-		borderRadius: "10px",
-	},
-});
-
-const GalleryCoverImage = (galleryJson) => {
-	const classes = useStyles();
-
+const GalleryCoverImage = (props) => {
+	console.log(props.coverImage);
 	return (
-		<Card className={classes.galleryCoverImageContainer}>
-			<CardMedia component="img" src={galleryJson.imageSrc} />
-		</Card>
+		<div key={props.coverImage}>
+			{props.isOwner && props.isEditable ? (
+				<FileDropzone
+					handleSubmit={props.handleDropzoneSubmit}
+					handleChangeStatus={() => console.log("status changed")}
+					coverImage={
+						<Card>
+							<CardMedia component="img" src={props.coverImage} />
+						</Card>
+					}
+				/>
+			) : (
+				<Card>
+					<CardMedia component="img" src={props.coverImage} />
+				</Card>
+			)}
+		</div>
 	);
 };
 

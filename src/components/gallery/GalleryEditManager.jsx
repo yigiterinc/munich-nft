@@ -17,7 +17,9 @@ const useStyles = makeStyles({
 		display: "flex",
 		justifyContent: "flex-end",
 	},
-	buttonGroupPanel: {},
+	buttonGroupPanel: {
+		marginRight: "8vw",
+	},
 	cancelButton: {
 		width: "92px",
 		color: "#FFFFFF",

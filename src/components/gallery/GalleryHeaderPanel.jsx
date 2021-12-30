@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles, darken } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
-import { getLoggedInUser } from "../../utils/auth-utils";
 
 const useStyles = makeStyles({
 	galleryOwner: {
@@ -38,13 +37,12 @@ const useStyles = makeStyles({
 });
 
 const GalleryHeaderPanel = (props) => {
-	const currentUser = getLoggedInUser();
 	const galleryJson = props.json;
 	const classes = useStyles();
 	return (
 		<div className={classes.galleryHeaderpanel}>
 			<div className={classes.title}>
-				{currentUser.id === galleryJson.userId && !props.isEditable && (
+				{props.isOwner && !props.isEditable && (
 					<IconButton
 						aria-label="edit-gallery"
 						onClick={() => {
