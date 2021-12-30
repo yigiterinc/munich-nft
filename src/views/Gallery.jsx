@@ -35,6 +35,8 @@ const Gallery = () => {
 	const [isEditable, setIsEditable] = useState(false);
 	const [isOwner, setIsOwner] = useState(false);
 	const [coverImage, setCoverImage] = useState(null);
+	const [galleryName, setGalleryName] = useState(null);
+	const [galleryDescription, setGalleryDescription] = useState(null);
 	let { slug } = useParams();
 	const currentUser = getLoggedInUser();
 	const classes = useStyles();
@@ -44,14 +46,14 @@ const Gallery = () => {
 		let nfts = nftHelper(json.assets);
 		let coverImageUrl = `http://localhost:1337${json.coverImage.url}`;
 		const gallery = {
-			name: json.galleryName,
-			description: json.description,
-			imageSrc: coverImageUrl,
 			userId: json.userId,
 			creator: json.username,
 			nfts: nfts,
 		};
+
 		setGallery(gallery);
+		setGalleryName(json.galleryName);
+		setGalleryDescription(json.description);
 		setCoverImage(coverImageUrl);
 		if (currentUser.id === gallery.userId) {
 			setIsOwner(true);
@@ -75,7 +77,11 @@ const Gallery = () => {
 					isEditable,
 					isOwner,
 					coverImage,
-					handleDropzoneSubmit
+					handleDropzoneSubmit,
+					galleryName,
+					galleryDescription,
+					setGalleryName,
+					setGalleryDescription
 				)
 			) : (
 				<CircularSpinner />
@@ -99,7 +105,11 @@ const renderPage = (
 	isEditable,
 	isOwner,
 	coverImage,
-	handleDropzoneSubmit
+	handleDropzoneSubmit,
+	galleryName,
+	galleryDescription,
+	setGalleryName,
+	setGalleryDescription
 ) => {
 	return (
 		<div className={classes.galleryContainer}>
@@ -114,7 +124,11 @@ const renderPage = (
 				isEditable,
 				isOwner,
 				coverImage,
-				handleDropzoneSubmit
+				handleDropzoneSubmit,
+				galleryName,
+				galleryDescription,
+				setGalleryName,
+				setGalleryDescription
 			)}
 			{renderNftsInGallery(classes, galleryJson.nfts)}
 		</div>
@@ -128,7 +142,11 @@ const renderGalleryHeader = (
 	isEditable,
 	isOwner,
 	coverImage,
-	handleDropzoneSubmit
+	handleDropzoneSubmit,
+	galleryName,
+	galleryDescription,
+	setGalleryName,
+	setGalleryDescription
 ) => {
 	return (
 		<Grid container spacing={6} className={classes.galleryHeaderContainer}>
@@ -146,6 +164,10 @@ const renderGalleryHeader = (
 					switchEditableMode={switchGalleryEditMode}
 					isEditable={isEditable}
 					isOwner={isOwner}
+					galleryName={galleryName}
+					setGalleryName={setGalleryName}
+					galleryDescription={galleryDescription}
+					setGalleryDescription={setGalleryDescription}
 				/>
 			</Grid>
 		</Grid>
