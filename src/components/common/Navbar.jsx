@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -6,6 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import BrandLogo from "./nav/BrandLogo";
 import SearchBar from "./SearchBar";
 import Menu from "./nav/Menu";
+import { fetchGalleries } from "../../api/strapi";
 
 const useStyles = makeStyles({
 	root: {
@@ -20,14 +21,21 @@ const useStyles = makeStyles({
 });
 
 const Navbar = (props) => {
+	const [options, setOptions] = useState();
 	const classes = useStyles();
+
+	useEffect(async () => {
+		const galleries = await fetchGalleries();
+		setOptions(galleries.map((gallery) => gallery.galleryName));
+	}, []);
+
 	return (
 		<div className={classes.root}>
 			<AppBar position="static" className={classes.navbar}>
 				<Toolbar>
 					<BrandLogo />
 					<div className={classes.searchBarContainer}>
-						<SearchBar placeholder="Search items, collections and accounts" />
+						<SearchBar placeholder="Search galleries" options={options} />
 					</div>
 					<Menu {...props} />
 				</Toolbar>
