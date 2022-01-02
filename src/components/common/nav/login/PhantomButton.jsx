@@ -13,6 +13,10 @@ const PhantomButton = () => {
 	}, []);
 
 	useEffect(() => {
+		if (!("solana" in window)) {
+			return;
+		}
+
 		window.solana.on("connect", () => {
 			setConnectedWithPhantom(true);
 		});
@@ -42,15 +46,13 @@ const PhantomButton = () => {
 				return provider;
 			}
 		}
-
-		window.open("https://phantom.app/", "_blank");
 	};
 
 	const ShownButton = () => {
 		return connectedWithPhantom ?
-			<Button onClick={() => disconnect()}>Disconnect</Button>
+			<p onClick={() => disconnect()}>Disconnect</p>
 			:
-			<Button onClick={() => connect()}>Login with Phantom</Button>;
+			<p onClick={() => connect()}>Login with Phantom</p>;
 	};
 
 	return (

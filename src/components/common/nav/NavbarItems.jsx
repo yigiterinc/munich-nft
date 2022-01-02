@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
+import AccountCircleTwoToneIcon from "@material-ui/icons/AccountCircleTwoTone";
+import AddCircleOutlineTwoToneIcon from "@material-ui/icons/AddCircleOutlineTwoTone";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 
-import MetamaskButton from "./MetamaskButton";
+import MetamaskButton from "./login/MetamaskButton";
 import {
 	getLoggedInUser,
 	isUserLoggedIn,
 	removeLoggedInUserFromLocalStorage,
 } from "../../../utils/auth-utils";
-import PhantomButton from "./PhantomButton";
+import PhantomButton from "./login/PhantomButton";
+import { MeetingRoomTwoTone } from "@material-ui/icons";
 
 const useStyles = makeStyles({
 	navMenu: {
@@ -20,10 +23,9 @@ const useStyles = makeStyles({
 		marginRight: 0,
 	},
 	menuLink: {
-		marginLeft: "1.5vw",
 		marginRight: "1.5vw",
+		marginLeft: "4px",
 		cursor: "pointer",
-		textAlign: "center",
 		color: "black",
 		"&:focus, &:hover, &:visited, &:link, &:active": {
 			textDecoration: "none",
@@ -32,11 +34,15 @@ const useStyles = makeStyles({
 		fontSize: "18px",
 		letterSpacing: "1.3px",
 		fontWeight: "500",
-		connectBtn: {},
+	},
+	flex: {
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
 	},
 });
 
-const Menu = ({ user }) => {
+const NavbarItems = ({ user }) => {
 	const classes = useStyles();
 	const [userLoggedIn, setUserLoggedIn] = useState(false);
 
@@ -57,31 +63,40 @@ const Menu = ({ user }) => {
 		{
 			requiresLogin: true,
 			component: (
-				<Link className={classes.menuLink} to={"/mint-nft"}>
-					Mint NFT
-				</Link>
+				<div className={classes.flex}>
+					<AddCircleOutlineTwoToneIcon size={30} style={{ fill: "black" }} />
+					<Link className={classes.menuLink} to={"/mint-nft"}>
+						Mint NFT
+					</Link>
+				</div>
 			),
 		},
 		{
 			requiresLogin: true,
 			component: (
-				<Link
-					className={classes.menuLink}
-					to={`/profile/${getLoggedInUser()?.id}`}
-				>
-					Profile
-				</Link>
+				<div className={classes.flex}>
+					<AccountCircleTwoToneIcon size={30} style={{ fill: "black" }} />
+					<Link
+						className={classes.menuLink}
+						to={`/profile/${getLoggedInUser()?.id}`}
+					>
+						Profile
+					</Link>
+				</div>
 			),
 		},
 		{
 			requiresLogin: true,
 			component: (
-				<p
-					className={classes.menuLink}
-					onClick={() => removeLoggedInUserFromLocalStorage()}
-				>
-					Log out
-				</p>
+				<div className={classes.flex}>
+					<MeetingRoomTwoTone size={30} style={{ fill: "black" }} />
+					<p
+						className={classes.menuLink}
+						onClick={() => removeLoggedInUserFromLocalStorage()}
+					>
+						Log out
+					</p>
+				</div>
 			),
 		},
 	];
@@ -91,10 +106,8 @@ const Menu = ({ user }) => {
 			{menu
 				.filter((item) => (item.requiresLogin ? userLoggedIn : true))
 				.map((menuItem, i) => menuItem.component)}
-			<MetamaskButton user={user} className={classes.connectBtn} />
-			<PhantomButton></PhantomButton>
 		</div>
 	);
 };
 
-export default Menu;
+export default NavbarItems;

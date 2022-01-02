@@ -3,9 +3,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 
-import BrandLogo from "./nav/BrandLogo";
+import Logo from "./nav/Logo";
 import SearchBar from "./SearchBar";
-import Menu from "./nav/Menu";
+import NavbarItems from "./nav/NavbarItems";
+import LoginMenu from "./nav/login/LoginMenu";
 
 const useStyles = makeStyles({
 	root: {
@@ -25,11 +26,12 @@ const Navbar = (props) => {
 		<div className={classes.root}>
 			<AppBar position="static" className={classes.navbar}>
 				<Toolbar>
-					<BrandLogo />
+					<Logo />
 					<div className={classes.searchBarContainer}>
 						<SearchBar placeholder="Search items, collections and accounts" />
 					</div>
-					<Menu {...props} />
+					<NavbarItems {...props} />
+					<LoginMenu />
 				</Toolbar>
 			</AppBar>
 		</div>
