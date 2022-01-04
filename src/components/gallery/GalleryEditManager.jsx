@@ -61,7 +61,9 @@ const GalleryEditManager = (props) => {
 								className={classes.cancelButton}
 								size="large"
 								variant="contained"
-								onClick={() => props.switchEditableMode()}
+								onClick={() => {
+									window.location.reload(false);
+								}}
 							>
 								CANCEL
 							</Button>
@@ -69,6 +71,10 @@ const GalleryEditManager = (props) => {
 								className={classes.saveButton}
 								size="large"
 								variant="contained"
+								onClick={() => {
+									props.switchEditableMode();
+									props.handleUpdateGallery();
+								}}
 							>
 								SAVE
 							</Button>

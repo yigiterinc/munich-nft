@@ -41,7 +41,6 @@ const useStyles = makeStyles({
 });
 
 const GalleryHeaderPanel = (props) => {
-	console.log(props.galleryDescription);
 	const galleryJson = props.json;
 	const classes = useStyles();
 	return (
@@ -66,7 +65,7 @@ const GalleryHeaderPanel = (props) => {
 						<TextField
 							value={props.galleryName}
 							inputProps={{ style: { fontSize: "2.125rem" } }}
-							size="large"
+							size="medium"
 							onChange={(event) => props.setGalleryName(event.target.value)}
 						/>
 					</form>
@@ -100,7 +99,7 @@ const GalleryHeaderPanel = (props) => {
 							fullWidth
 							value={props.galleryDescription}
 							inputProps={{ style: { fontSize: "1.5rem" } }}
-							size="large"
+							size="medium"
 							onChange={(event) =>
 								props.setGalleryDescription(event.target.value)
 							}
