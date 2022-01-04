@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { truncateWalletAddress } from "../../../../utils/commons";
 import { getLoggedInUser, isUserLoggedIn, saveLoggedInUserToLocalStorage } from "../../../../utils/auth-utils";
-import { createOrFetchUser } from "../../../../api/strapi";
+import { createOrFetchUserOnLoginWithMetamask } from "../../../../api/strapi";
 import Button from "@material-ui/core/Button";
 
 function MetamaskButton({ user }) {
@@ -25,12 +25,23 @@ function MetamaskButton({ user }) {
 		await window.ethereum.enable();
 		const accounts = await window.web3.eth.getAccounts();
 
+		console.log("hello");
 		if (accounts[0]) {
 			console.log(accounts[0]);
-			const user = await createOrFetchUser({
-				username: "Alien",
-				walletAddress: accounts[0].toLowerCase(),
+			const user = await createOrFetchUserOnLoginWithMetamask({
+				ethAddress: accounts[0].toLowerCase(),
 			});
+
+			if (!user) {
+				console.log("error while creating or fetching user");
+				return;
+			}
+
+			if (user.connectedWallets) {
+				user.connectedWallets = { ...user.connectedWallets, metamask: true };
+			} else {
+				user.connectedWallets = { metamask: true };
+			}
 
 			saveLoggedInUserToLocalStorage(user);
 		} else {
@@ -40,13 +51,13 @@ function MetamaskButton({ user }) {
 
 	const metamaskButton = () => {
 		return (
-			<p onClick={() => loginWithMetamask()}>Login</p>
+			<Button onClick={() => loginWithMetamask()}>Login</Button>
 		);
 	};
 
 	return (
 		userLoggedIn
-			? truncateWalletAddress(getLoggedInUser().walletAddress)
+			? JSON.stringify(getLoggedInUser())
 			: metamaskButton()
 	);
 }

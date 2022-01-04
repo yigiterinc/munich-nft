@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
+import { createOrFetchUserOnLoginWithPhantom } from "../../../../api/strapi";
+import { saveLoggedInUserToLocalStorage } from "../../../../utils/auth-utils";
 
 const PhantomButton = () => {
 	const [phantom, setPhantom] = useState(null);
@@ -17,8 +19,8 @@ const PhantomButton = () => {
 			return;
 		}
 
-		window.solana.on("connect", () => {
-			setConnectedWithPhantom(true);
+		window.solana.on("connect", async () => {
+			await onConnected();
 		});
 
 		window.solana.on("disconnect", () => {
@@ -26,10 +28,31 @@ const PhantomButton = () => {
 		});
 	}, [phantom]);
 
-	const connect = async () => {
+	const onConnected = async () => {
+		setConnectedWithPhantom(true);
+		const user = await createOrFetchUserOnLoginWithPhantom({
+			solAddress: window.solana.publicKey.toString(),
+		});
+
+		if (user.connectedWallets) {
+			user.connectedWallets = { ...user.connectedWallets, metamask: true };
+		} else {
+			user.connectedWallets = { phantom: true };
+		}
+
+		if (!user) {
+			console.log("error while creating or fetching user");
+			return;
+		}
+
+		saveLoggedInUserToLocalStorage(user);
+	};
+
+	const loginWithPhantom = async () => {
 		getProvider();
 		try {
-			const connection = window.solana.connect();
+			const connection = await window.solana.connect();
+			console.log(connection);
 		} catch (err) {
 			// user rejected the login request
 		}
@@ -50,9 +73,9 @@ const PhantomButton = () => {
 
 	const ShownButton = () => {
 		return connectedWithPhantom ?
-			<p onClick={() => disconnect()}>Disconnect</p>
+			<Button onClick={() => disconnect()}>Disconnect</Button>
 			:
-			<p onClick={() => connect()}>Login with Phantom</p>;
+			<Button onClick={() => loginWithPhantom()}>Login with Phantom</Button>;
 	};
 
 	return (
