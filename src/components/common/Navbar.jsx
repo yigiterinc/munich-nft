@@ -26,7 +26,14 @@ const Navbar = (props) => {
 
 	useEffect(async () => {
 		const galleries = await fetchGalleries();
-		setOptions(galleries.map((gallery) => gallery.galleryName));
+		setOptions(
+			galleries.map((gallery) => {
+				return {
+					name: gallery.galleryName,
+					slug: gallery.slug,
+				};
+			})
+		);
 	}, []);
 
 	return (
