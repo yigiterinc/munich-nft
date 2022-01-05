@@ -4,7 +4,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 
 import BrandLogo from "./nav/BrandLogo";
-import SearchBar from "./SearchBar";
+import AutocompleteSearchBar from "./AutocompleteSearchBar";
 import Menu from "./nav/Menu";
 import { fetchGalleries } from "../../api/strapi";
 
@@ -42,7 +42,10 @@ const Navbar = (props) => {
 				<Toolbar>
 					<BrandLogo />
 					<div className={classes.searchBarContainer}>
-						<SearchBar placeholder="Search galleries" options={options} />
+						<AutocompleteSearchBar
+							placeholder="Search galleries"
+							options={options}
+						/>
 					</div>
 					<Menu {...props} />
 				</Toolbar>
