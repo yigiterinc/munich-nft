@@ -9,7 +9,6 @@ import CircularSpinner from "../components/common/CircularSpinner";
 import { fetchGallery } from "../api/strapi";
 import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
 import AssetCard from "../components/common/AssetCard";
-import { CustomizableNftGrids } from "../components/gallery/CustomizableNftGrids";
 import { uploadImageToMediaGallery, updateGallery } from "../api/strapi";
 
 const useStyles = makeStyles({
@@ -85,7 +84,6 @@ const Gallery = () => {
 		};
 
 		const updateResult = await updateGallery(galleryId, changedParams);
-		console.log(updateResult);
 	};
 
 	const convertToSlug = (galleryName) => {
