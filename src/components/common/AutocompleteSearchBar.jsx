@@ -37,7 +37,8 @@ const AutocompleteSearchBar = ({ placeholder, options }) => {
 				getOptionLabel={(option) => option.name}
 				open={inputValue?.length > 1}
 				onChange={(event, value) => {
-					value && history.push(`/gallery/${value.slug}`);
+					value?.slug && history.push(`/gallery/${value.slug}`);
+					setInputValue();
 				}}
 				renderInput={(params) => (
 					<TextField
