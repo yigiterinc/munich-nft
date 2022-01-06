@@ -163,7 +163,7 @@ const renderPage = (
 
 const renderGalleryHeader = (
 	classes,
-	dummyGallery,
+	galleryJson,
 	switchGalleryEditMode,
 	isEditable,
 	isOwner,
@@ -186,7 +186,7 @@ const renderGalleryHeader = (
 			</Grid>
 			<Grid item lg={7} md={7} sm={6} xs={4}>
 				<GalleryHeaderPanel
-					json={dummyGallery}
+					json={galleryJson}
 					switchEditableMode={switchGalleryEditMode}
 					isEditable={isEditable}
 					isOwner={isOwner}
