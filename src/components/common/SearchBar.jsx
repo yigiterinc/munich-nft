@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: "center",
 		borderRadius: "4px",
 		borderStyle: "solid",
-		borderWidth: "2px",
+		borderWidth: "1px",
 		borderColor: "#d0d0d0",
 	},
 	input: {
