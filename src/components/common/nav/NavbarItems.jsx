@@ -4,7 +4,6 @@ import AddCircleOutlineTwoToneIcon from "@material-ui/icons/AddCircleOutlineTwoT
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 
-import MetamaskButton from "./login/MetamaskButton";
 import {
 	getLoggedInUser,
 	isUserLoggedIn,

@@ -21,6 +21,18 @@ export const getLoggedInUser = () => {
 	return readFromLocalStorage(USER_LOCAL_STORAGE_KEY);
 };
 
+export const isLoggedInWithPhantom = () => {
+	if (!isUserLoggedIn()) return false;
+
+	return "phantom" in getLoggedInUser().connectedWallets;
+};
+
+export const isLoggedInWithMetamask = () => {
+	if (!isUserLoggedIn()) return false;
+
+	return "metamask" in getLoggedInUser().connectedWallets;
+};
+
 export const isUserLoggedIn = () => {
 	return getUserLoggedInStatus() === "Logged in";
 };
