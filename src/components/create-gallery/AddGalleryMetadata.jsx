@@ -3,6 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import { MenuItem, Select } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
 	gridContainer: {
@@ -93,6 +94,41 @@ const AddGalleryMetadata = (props) => {
 					onChange={(event) => props.setGalleryName(event.target.value)}
 				/>
 			</Grid>
+
+			<Grid item xs={12} className={classes.gridItem}>
+				<Typography variant="h5" component="h2">
+					Import Method
+				</Typography>
+				<Select
+					value={props.importMethod}
+					onChange={(event) => {
+						props.setImportMethod(event.target.value);
+					}}
+				>
+					<MenuItem value={"OPENSEA"}>Opensea</MenuItem>
+					<MenuItem value={"CONTRACT"}>Contract</MenuItem>
+				</Select>
+			</Grid>
+
+			{
+				props.importMethod === "CONTRACT" ?
+					(<Grid item xs={12} className={classes.gridItem}>
+						<Typography variant="h5" component="h2">
+							Contract address
+						</Typography>
+						<TextField
+							className={classes.textField}
+							variant="outlined"
+							placeholder="0xd26330c38C756215Ed82258283fb4c36025D431E"
+							fullWidth
+							value={props.contractAddress}
+							onChange={(event) => props.setContractAddress(event.target.value)}
+						/>
+					</Grid>)
+					:
+					<></>
+			}
+
 			<Grid item xs={12} className={classes.gridItem}>
 				<Typography variant="h5" component="h2">
 					Description

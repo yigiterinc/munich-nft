@@ -33,7 +33,6 @@ function App() {
 	const loadWeb3 = async () => {
 		if (window.ethereum) {
 			window.web3 = new Web3(window.ethereum);
-			await window.ethereum.enable();
 		} else if (window.web3) {
 			window.web3 = new Web3(window.web3.currentProvider);
 		} else {
@@ -56,16 +55,16 @@ function App() {
 
 	return (
 		<Router>
-			<Navbar/>
+			<Navbar />
 			<Switch>
-				<Route exact path="/" component={Home}/>
-				<ProtectedRoute path="/mint-nft" component={MintNft}/>
-				<ProtectedRoute path="/gallery/:slug" component={Gallery}/>
-				<Route path="/collection/:slug" component={Collection}/>
-				<ProtectedRoute path="/profile-settings" component={ProfileSettings}/>
-				<Route path="/token/:contractAddressId/:tokenId" component={NftDetails}/>
-				<ProtectedRoute path="/profile/:userId" component={Profile}/>
-				<ProtectedRoute path="/create-gallery" component={CreateGallery}/>
+				<Route exact path="/" component={Home} />
+				<ProtectedRoute path="/mint-nft" component={MintNft} />
+				<ProtectedRoute path="/gallery/:slug" component={Gallery} />
+				<Route path="/collection/:slug" component={Collection} />
+				<ProtectedRoute path="/profile-settings" component={ProfileSettings} />
+				<Route path="/token/:contractAddressId/:tokenId" component={NftDetails} />
+				<ProtectedRoute path="/profile/:userId" component={Profile} />
+				<ProtectedRoute path="/create-gallery" component={CreateGallery} />
 			</Switch>
 		</Router>
 	);

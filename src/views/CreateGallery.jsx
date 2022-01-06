@@ -2,19 +2,16 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import FileDropzone from "../components/common/FileDropzone";
 import AddGalleryMetadata from "../components/create-gallery/AddGalleryMetadata";
-import SelectGalleryNfts from "../components/create-gallery/SelectGalleryNfts";
+
 import { darken, makeStyles } from "@material-ui/core/styles";
-import {
-	createGallery,
-	convertSelectedNftsToGalleryAssets,
-	saveImportedNfts,
-	updateUser,
-	uploadImageToMediaGallery,
-} from "../api/strapi";
+import { convertSelectedNftsToGalleryAssets, createGallery, uploadImageToMediaGallery } from "../api/strapi";
 import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
 import { useHistory } from "react-router-dom";
+import { CONTRACT_ADDRESS_RINKEBY, MunichNftContractAddress } from "../config/config";
+import ImportFromOpensea from "../components/create-gallery/ImportFromOpensea";
+import ImportFromContract from "../components/create-gallery/ImportFromContract";
 
 const Alert = (props) => {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -35,44 +32,46 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const CreateGallery = () => {
+const IMPORT_METHODS = {
+	OPENSEA: "OPENSEA",
+	CUSTOM_CONTRACT: "CUSTOM_CONTRACT",
+};
+
+const CreateGallery = (props) => {
 	const [galleryName, setGalleryName] = useState();
 	const [galleryDescription, setGalleryDescription] = useState();
 	const [coverImage, setCoverImage] = useState();
 	const [activeStep, setActiveStep] = useState(0);
 	const [error, setError] = useState(false);
 	const [success, setSuccess] = useState(false);
+	const [importMethod, setImportMethod] = useState(IMPORT_METHODS.CUSTOM_CONTRACT);
+	const [contractAddress, setContractAddress] = useState();
 
 	const user = getLoggedInUser();
 
 	const history = useHistory();
 	const classes = useStyles();
 
-	const handleSubmit = async (selectedCollections, selectedNfts) => {
+	const handleSubmit = async (selectedItems) => {
+		let selectedItemsAreNft = selectedItems.hasOwnProperty("nft");	// and not collection
 		if (!isUserLoggedIn()) {
 			history.push("/");
 			return;
 		}
 
-		let user = getLoggedInUser();
-		const allRequiredParamsEntered =
-			galleryName &&
+		const allRequiredParamsEntered = galleryName &&
 			galleryDescription &&
 			coverImage &&
-			(selectedCollections || selectedNfts);
+			selectedItems;
 
 		if (!user || !allRequiredParamsEntered) {
 			setError(true);
 			return;
 		}
 
-		let assets;
-		if (selectedNfts) {
-			assets = convertSelectedNftsToGalleryAssets(selectedNfts);
-		} else if (selectedCollections) {
-			assets = selectedCollections;
-		} else {
-			return;
+		let assets = selectedItems;
+		if (selectedItemsAreNft) {
+			assets = convertSelectedNftsToGalleryAssets(selectedItems);
 		}
 
 		const uploadResult = await uploadImageToMediaGallery(coverImage);
@@ -90,11 +89,19 @@ const CreateGallery = () => {
 		const updateResult = await createGallery(gallery);
 		if (updateResult.status === 200) {
 			setSuccess(true);
+			const twoSecondsInMS = 2000;
+			redirectAfterDelay(`/gallery/${convertToSlug(galleryName)}`, twoSecondsInMS);
 		} else {
 			setError(true);
 		}
 
 		console.log(updateResult);
+	};
+
+	const redirectAfterDelay = (url, delay) => {
+		window.setTimeout(() => {
+			history.push(url);
+		}, delay);
 	};
 
 	const convertToSlug = (galleryName) => {
@@ -125,7 +132,6 @@ const CreateGallery = () => {
 	);
 
 	const handleDropzoneSubmit = async (file) => {
-		console.log(file);
 		setCoverImage(file);
 	};
 
@@ -142,35 +148,41 @@ const CreateGallery = () => {
 		/>
 	);
 
-	let stepComponents = [
-		<AddGalleryMetadata
-			nextButton={nextButton}
-			fileUploader={dropzone}
-			coverImage={coverImage}
-			setCoverImage={setCoverImage}
-			collectionName={galleryName}
-			setGalleryName={setGalleryName}
-			galleryDescription={galleryDescription}
-			setGalleryDescription={setGalleryDescription}
-		/>,
-		<SelectGalleryNfts
-			nextButton={nextButton}
-			prevButton={prevButton}
-			user={user}
-			account={user.walletAddress}
-			handleSubmit={handleSubmit}
-		/>,
-	];
+	const ActiveStep = () => {
+		const steps = [<AddGalleryMetadata nextButton={nextButton}
+																			 fileUploader={dropzone}
+																			 coverImage={coverImage}
+																			 setCoverImage={setCoverImage}
+																			 collectionName={galleryName}
+																			 setGalleryName={setGalleryName}
+																			 galleryDescription={galleryDescription}
+																			 setGalleryDescription={setGalleryDescription}
+																			 importMethod={importMethod}
+																			 setImportMethod={setImportMethod}
+																			 contractAddress={contractAddress}
+																			 setContractAddress={setContractAddress}
+		/>];
+
+		let importComponent = importMethod === IMPORT_METHODS.OPENSEA ?
+			<ImportFromOpensea prevButton={props.prevButton}
+												 handleSubmit={handleSubmit} />
+			:
+			<ImportFromContract prevButton={props.prevButton}
+													handleSubmit={handleSubmit}
+													contractAddress={contractAddress} />;
+
+		steps.push(importComponent);
+
+		return steps[activeStep];
+	};
 
 	return (
 		<>
-			{stepComponents[activeStep]}
-			<Snackbar
-				open={success}
-				anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-				autoHideDuration={3000}
-				onClose={() => setSuccess(false)}
-			>
+			{
+				ActiveStep()
+			}
+			<Snackbar open={success} anchorOrigin={{ vertical: "bottom", horizontal: "right" }} autoHideDuration={3000}
+								onClose={() => setSuccess(false)}>
 				<Alert severity="success" onClose={() => setSuccess(false)}>
 					Your gallery is successfully created
 				</Alert>
