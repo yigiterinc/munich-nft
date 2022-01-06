@@ -7,9 +7,8 @@ import { Link } from "react-router-dom";
 import {
 	getLoggedInUser,
 	isUserLoggedIn,
-	removeLoggedInUserFromLocalStorage,
+	logout,
 } from "../../../utils/auth-utils";
-import PhantomButton from "./login/PhantomButton";
 import { MeetingRoomTwoTone } from "@material-ui/icons";
 
 const useStyles = makeStyles({
@@ -41,7 +40,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const NavbarItems = ({ user }) => {
+const NavbarItems = () => {
 	const classes = useStyles();
 	const [userLoggedIn, setUserLoggedIn] = useState(false);
 
@@ -91,7 +90,7 @@ const NavbarItems = ({ user }) => {
 					<MeetingRoomTwoTone size={30} style={{ fill: "black" }} />
 					<p
 						className={classes.menuLink}
-						onClick={() => removeLoggedInUserFromLocalStorage()}
+						onClick={() => logout()}
 					>
 						Log out
 					</p>
