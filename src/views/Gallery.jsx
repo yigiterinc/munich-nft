@@ -47,7 +47,7 @@ const Gallery = () => {
 			nfts: nfts,
 		};
 		setGallery(gallery);
-	}, []);
+	}, [slug]);
 
 	return <>{gallery ? renderPage(classes, gallery) : <CircularSpinner />}</>;
 };
