@@ -13,7 +13,6 @@ import { uploadImageToMediaGallery, updateGallery } from "../api/strapi";
 
 const useStyles = makeStyles({
 	galleryContainer: {
-		heigth: "4000px",
 		paddingTop: "4vh",
 		display: "flex",
 		flexDirection: "column",
