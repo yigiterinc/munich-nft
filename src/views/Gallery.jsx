@@ -5,6 +5,7 @@ import { Grid } from "@material-ui/core";
 import GalleryEditManager from "../components/gallery/GalleryEditManager";
 import GalleryCoverImage from "../components/gallery/GalleryCoverImage";
 import GalleryHeaderPanel from "../components/gallery/GalleryHeaderPanel";
+import GallerySettings from "../components/gallery/GallerySettings";
 import CircularSpinner from "../components/common/CircularSpinner";
 import { fetchGallery } from "../api/strapi";
 import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
@@ -39,9 +40,12 @@ const Gallery = () => {
 	const [galleryId, setGalleryId] = useState(null);
 	const [galleryName, setGalleryName] = useState("");
 	const [galleryDescription, setGalleryDescription] = useState("");
+	const [openGallerySettings, setOpenGallerySettings] = useState(false);
+
 	let { slug } = useParams();
 	const currentUser = getLoggedInUser();
 	const history = useHistory();
+
 	const classes = useStyles();
 
 	useEffect(async () => {
@@ -104,7 +108,9 @@ const Gallery = () => {
 					galleryDescription,
 					setGalleryName,
 					setGalleryDescription,
-					handleUpdateGallery
+					handleUpdateGallery,
+					openGallerySettings,
+					setOpenGallerySettings
 				)
 			) : (
 				<CircularSpinner />
@@ -133,7 +139,9 @@ const renderPage = (
 	galleryDescription,
 	setGalleryName,
 	setGalleryDescription,
-	handleUpdateGallery
+	handleUpdateGallery,
+	openGallerySettings,
+	setOpenGallerySettings
 ) => {
 	return (
 		<div className={classes.galleryContainer}>
@@ -141,6 +149,11 @@ const renderPage = (
 				isEditMode={isEditable}
 				switchEditableMode={switchGalleryEditMode}
 				handleUpdateGallery={handleUpdateGallery}
+				setOpenGallerySettings={setOpenGallerySettings}
+			/>
+			<GallerySettings
+				openGallerySettings={openGallerySettings}
+				setOpenGallerySettings={setOpenGallerySettings}
 			/>
 			{renderGalleryHeader(
 				classes,

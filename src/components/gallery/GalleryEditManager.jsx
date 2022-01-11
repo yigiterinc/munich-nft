@@ -1,6 +1,7 @@
 import React from "react";
 import { darken, makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
+
 const useStyles = makeStyles({
 	galleryEditManagerContainer: {
 		top: "4vh",
@@ -21,7 +22,7 @@ const useStyles = makeStyles({
 		marginRight: "8vw",
 	},
 	cancelButton: {
-		width: "92px",
+		width: "100px",
 		color: "#FFFFFF",
 		margin: "13px 15px",
 		padding: "13px 15px",
@@ -31,6 +32,19 @@ const useStyles = makeStyles({
 		background: "#b35bff",
 		"&:hover": {
 			background: darken("#b35bff", 0.1),
+		},
+	},
+	settingsButton: {
+		width: "100px",
+		color: "#FFFFFF",
+		margin: "13px 15px",
+		padding: "13px 15px",
+		"&:disabled": {
+			opacity: "80%",
+		},
+		background: "#0066b2",
+		"&:hover": {
+			background: darken("#0066b2", 0.1),
 		},
 	},
 	saveButton: {
@@ -58,6 +72,16 @@ const GalleryEditManager = (props) => {
 					<div className={classes.buttons}>
 						<div className={classes.buttonGroupPanel}>
 							<Button
+								className={classes.settingsButton}
+								size="large"
+								variant="contained"
+								onClick={() => {
+									props.setOpenGallerySettings(true);
+								}}
+							>
+								Settings
+							</Button>
+							<Button
 								className={classes.cancelButton}
 								size="large"
 								variant="contained"
@@ -65,7 +89,7 @@ const GalleryEditManager = (props) => {
 									window.location.reload(false);
 								}}
 							>
-								CANCEL
+								Cancel
 							</Button>
 							<Button
 								className={classes.saveButton}
