@@ -10,6 +10,7 @@ import { fetchGallery } from "../api/strapi";
 import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
 import AssetCard from "../components/common/AssetCard";
 import { uploadImageToMediaGallery, updateGallery } from "../api/strapi";
+import GalleryMenu from "../components/gallery/GalleryMenu";
 
 const useStyles = makeStyles({
 	galleryContainer: {
@@ -22,7 +23,6 @@ const useStyles = makeStyles({
 	galleryHeaderContainer: {
 		display: "flex",
 		justifyContent: "center",
-		alignItems: "center",
 		width: "80vw",
 	},
 	nftContainer: {
@@ -194,6 +194,9 @@ const renderGalleryHeader = (
 					galleryDescription={galleryDescription}
 					setGalleryDescription={setGalleryDescription}
 				/>
+			</Grid>
+			<Grid item xs={1}>
+				<GalleryMenu />
 			</Grid>
 		</Grid>
 	);

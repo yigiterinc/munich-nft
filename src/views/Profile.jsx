@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 	addGalleryButton: {
 		position: "absolute",
 		right: "8vw",
-		top: "68vh",
+		top: "72vh",
 		boxShadow: "0px 0px 1px #b35bff, 0 0px 2px #ca8eff",
 	},
 }));

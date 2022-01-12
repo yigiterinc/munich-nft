@@ -16,9 +16,6 @@ import {
 	filterAssetsInCollectionByOwner,
 	getAssetsAddedCollections,
 } from "../../api/opensea";
-import { findOwnedTokensOnERC721Contract } from "../../api/chainHelper";
-import axios from "axios";
-import { withDefault } from "../../utils/commons";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -63,78 +60,73 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function ImportFromContract({
-	contractAddress,
-	prevButton,
-	handleSubmit,
-}) {
+export default function AddAssets({ handleSubmit }) {
 	const classes = useStyles();
 	const theme = useTheme();
 
 	// Structure: [{collectionData, assets: [{asset1}, {asset2}]}, ...]
-	const [ownedAssetsOnContract, setOwnedAssetsOnContract] = useState(null);
+	const [userCollections, setUserCollections] = useState(null);
 
 	// Each item is either {nft, collection} or {collection}
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [dataIsLoading, setDataIsLoading] = useState(true);
-	const [aso, setAso] = useState([]);
 
-	useEffect(() => {
-		const user = getLoggedInUser();
-
-		async function fetchDataFromBlockchain() {
-			const ipfsMetadataUris = await findOwnedTokensOnERC721Contract(
-				contractAddress,
-				user.walletAddress
+	useEffect(async () => {
+		if (isUserLoggedIn()) {
+			let collectionsData = await fetchCollectionsOfUser(
+				getLoggedInUser().walletAddress
 			);
-			const nftDetailPromises = [];
-			let nftDetails = [];
-			ipfsMetadataUris.forEach((uri) => {
-				nftDetailPromises.push(
-					axios.get(uri).then((response) => {
-						nftDetails.push(response.data);
-					})
-				);
-			});
+			let collectionsWithAssets = [];
+			collectionsWithAssets.push(
+				await getAssetsAddedCollections(collectionsData)
+			);
 
-			await Promise.all(nftDetailPromises);
-			setAso(nftDetails);
-			setDataIsLoading(false);
-		}
+			let filtered = await filterAssetsInCollectionByOwner(
+				collectionsWithAssets
+			);
 
-		if (user && aso.length === 0) {
-			fetchDataFromBlockchain();
+			setUserCollections(filtered);
 		}
 	}, []);
+
+	useEffect(() => {
+		if (userCollections) {
+			setDataIsLoading(false);
+		}
+	}, [userCollections]);
 
 	const addToSelectedItems = (item) => {
 		setSelectedItems([...selectedItems, item]);
 	};
 
-	const removeFromSelectedItems = (itemToBeRemoved) => {
+	const removeNftFromSelectedItems = (itemToBeRemoved) => {
 		const itemsWithoutTheSubject = selectedItems.filter(
-			(item) => item !== itemToBeRemoved
+			(item) => item.nft !== itemToBeRemoved
 		);
 		setSelectedItems(itemsWithoutTheSubject);
 	};
 
 	const DEFAULT_IMAGE_PATH = "/images/no-image.png";
 
-	const ImportCardsGrid = () => {
+	const AssetCardsGrid = () => {
 		return (
-			<Grid container spacing={3}>
-				{aso.map((asset, i) => {
-					return (
-						<Grid key={i} item lg={3} md={4} sm={6} xs={12}>
-							<ImportCard
-								name={asset.name}
-								image={withDefault(asset.image, DEFAULT_IMAGE_PATH)}
-								addToSelected={() => addToSelectedItems(asset)}
-								removeFromSelected={() => removeFromSelectedItems(asset)}
-							/>
-						</Grid>
-					);
-				})}
+			<Grid container spacing={3} direction="row" alignItems="center">
+				{userCollections?.map((collection) =>
+					collection?.assets.map((item) => {
+						return (
+							<Grid key={item?.id} item lg={3} md={4} sm={6} xs={12}>
+								<ImportCard
+									name={item.name}
+									image={item.image_url}
+									addToSelected={() => addToSelectedItems({ collection, item })}
+									removeFromSelected={() =>
+										removeNftFromSelectedItems({ collection, item })
+									}
+								/>
+							</Grid>
+						);
+					})
+				)}
 			</Grid>
 		);
 	};
@@ -156,8 +148,6 @@ export default function ImportFromContract({
 
 	const ButtonsMenu = () => (
 		<div className={classes.buttonsContainer}>
-			{prevButton}
-
 			<Button
 				variant="contained"
 				style={{
@@ -172,7 +162,7 @@ export default function ImportFromContract({
 				size="large"
 				onClick={() => handleSubmit(selectedItems)}
 			>
-				Create gallery with Selected Items
+				Add Selected Items
 			</Button>
 		</div>
 	);
@@ -193,7 +183,7 @@ export default function ImportFromContract({
 				axis={theme.direction === "rtl" ? "x-reverse" : "x"}
 				index={0}
 			>
-				{TabPanelWithSpinner(0, ImportCardsGrid())}
+				{TabPanelWithSpinner(0, AssetCardsGrid())}
 			</SwipeableViews>
 			;{!dataIsLoading && ButtonsMenu()}
 		</div>
