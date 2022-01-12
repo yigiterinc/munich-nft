@@ -149,8 +149,11 @@ const renderPage = (
 	setBackgroundColor
 ) => {
 	return (
-		<div className={classes.galleryContainer}>
-			{console.log(backgroundColor)};
+		<div
+			className={classes.galleryContainer}
+			style={{ backgroundColor: backgroundColor }}
+		>
+			{console.log(backgroundColor)}
 			<GalleryEditManager
 				isEditMode={isEditable}
 				switchEditableMode={switchGalleryEditMode}

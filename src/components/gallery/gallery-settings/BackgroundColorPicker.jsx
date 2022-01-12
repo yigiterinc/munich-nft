@@ -25,19 +25,20 @@ const useStyles = makeStyles((theme) => ({
 
 const BackgroundColorPicker = (props) => {
 	const palette = {
-		red: "#ff0000",
-		blue: "#0000ff",
-		green: "#00ff00",
-		yellow: "yellow",
-		cyan: "cyan",
+		black: "#080808",
+		darkgrey: "#383838",
+		whitesmoke: "#F5F5F5",
+		purple: "#3B1C65",
+		cyberpunk: "#F9EE00",
 		mor: "purple",
 	};
 
 	const handleChange = (value) => {
 		if (typeof value === "string") {
 			props.setBackgroundColor(palette[value]);
+		} else {
+			props.setBackgroundColor("#" + value.hex);
 		}
-		props.setBackgroundColor(value);
 	};
 
 	const classes = useStyles();
