@@ -15,7 +15,7 @@ import MintNft from "./views/MintNft";
 import Collection from "./views/Collection";
 import Profile from "./views/Profile";
 import ProfileSettings from "./views/ProfileSettings";
-import Gallery from "./views/Gallery";
+import GalleryContainer from "./views/GalleryContainer";
 
 import "./App.css";
 import CreateGallery from "./views/CreateGallery";
@@ -25,7 +25,6 @@ import { isUserLoggedIn } from "./utils/auth-utils";
 let web3;
 
 function App() {
-
 	useEffect(async () => {
 		if (!web3) await loadWeb3();
 	}, []);
@@ -59,10 +58,13 @@ function App() {
 			<Switch>
 				<Route exact path="/" component={Home} />
 				<ProtectedRoute path="/mint-nft" component={MintNft} />
-				<ProtectedRoute path="/gallery/:slug" component={Gallery} />
+				<ProtectedRoute path="/gallery/:slug" component={GalleryContainer} />
 				<Route path="/collection/:slug" component={Collection} />
 				<ProtectedRoute path="/profile-settings" component={ProfileSettings} />
-				<Route path="/token/:contractAddressId/:tokenId" component={NftDetails} />
+				<Route
+					path="/token/:contractAddressId/:tokenId"
+					component={NftDetails}
+				/>
 				<ProtectedRoute path="/profile/:userId" component={Profile} />
 				<ProtectedRoute path="/create-gallery" component={CreateGallery} />
 			</Switch>

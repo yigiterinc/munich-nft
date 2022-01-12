@@ -5,13 +5,7 @@ import FileDropzone from "../common/FileDropzone";
 
 const useStyles = makeStyles({
 	galleryCoverImageContainer: {
-		width: "400px",
-		height: "400px",
 		borderRadius: "10px",
-		border: "1px solid rgb(229, 232, 235)",
-		display: "flex",
-		justifyContent: "center",
-		alignItems: "center",
 	},
 	galleryCoverImage: {
 		// objectFit: "cover",

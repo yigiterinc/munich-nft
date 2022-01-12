@@ -3,7 +3,7 @@ import { darken, makeStyles, useTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import ImportCard from "../common/ImportCard";
+import NFTImportCard from "../common/NFTImportCard";
 import ImageIcon from "@material-ui/icons/Image";
 import withSpinner from "../common/WithSpinner";
 import AppBar from "@material-ui/core/AppBar";
@@ -126,7 +126,7 @@ export default function ImportFromContract({
 				{aso.map((asset, i) => {
 					return (
 						<Grid key={i} item lg={3} md={4} sm={6} xs={12}>
-							<ImportCard
+							<NFTImportCard
 								name={asset.name}
 								image={withDefault(asset.image, DEFAULT_IMAGE_PATH)}
 								addToSelected={() => addToSelectedItems(asset)}

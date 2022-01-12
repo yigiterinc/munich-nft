@@ -8,7 +8,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import purple from "@material-ui/core/colors/purple";
+import AddAssets from "../edit-gallery/AddAssets";
 
 const StyledMenu = withStyles({
 	paper: {
@@ -30,7 +30,7 @@ const StyledMenu = withStyles({
 	/>
 ));
 
-const GalleryMenu = () => {
+const GalleryMenu = ({ setShowAddAssetsView }) => {
 	const [anchorEl, setAnchorEl] = useState(null);
 
 	const handleClick = (event) => {
@@ -58,7 +58,7 @@ const GalleryMenu = () => {
 				open={Boolean(anchorEl)}
 				onClose={handleClose}
 			>
-				<MenuItem>
+				<MenuItem onClick={() => setShowAddAssetsView(true)}>
 					<ListItemIcon>
 						<AddToPhotosIcon fontSize="small" />
 					</ListItemIcon>

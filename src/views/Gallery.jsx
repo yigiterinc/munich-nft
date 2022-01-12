@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { useParams, useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { Grid } from "@material-ui/core";
 import GalleryEditManager from "../components/gallery/GalleryEditManager";
 import GalleryCoverImage from "../components/gallery/GalleryCoverImage";
@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const Gallery = () => {
+const Gallery = ({ setShowAddAssetsView }) => {
 	const [gallery, setGallery] = useState(null);
 	const [isEditable, setIsEditable] = useState(false);
 	const [isOwner, setIsOwner] = useState(false);
@@ -39,12 +39,15 @@ const Gallery = () => {
 	const [galleryId, setGalleryId] = useState(null);
 	const [galleryName, setGalleryName] = useState("");
 	const [galleryDescription, setGalleryDescription] = useState("");
-	let { slug } = useParams();
 	const currentUser = getLoggedInUser();
 	const history = useHistory();
 	const classes = useStyles();
+	let { slug } = useParams();
 
 	useEffect(async () => {
+		if (!slug) {
+			return;
+		}
 		const json = await fetchGallery(slug);
 		let nfts = nftHelper(json.assets);
 		let coverImageUrl = `http://localhost:1337${json.coverImage.url}`;
@@ -61,7 +64,7 @@ const Gallery = () => {
 		if (currentUser.id === gallery.userId) {
 			setIsOwner(true);
 		}
-	}, []);
+	}, [slug]);
 
 	const switchGalleryEditMode = () => {
 		setIsEditable(!isEditable);
@@ -104,7 +107,8 @@ const Gallery = () => {
 					galleryDescription,
 					setGalleryName,
 					setGalleryDescription,
-					handleUpdateGallery
+					handleUpdateGallery,
+					setShowAddAssetsView
 				)
 			) : (
 				<CircularSpinner />
@@ -133,7 +137,8 @@ const renderPage = (
 	galleryDescription,
 	setGalleryName,
 	setGalleryDescription,
-	handleUpdateGallery
+	handleUpdateGallery,
+	setShowAddAssetsView
 ) => {
 	return (
 		<div className={classes.galleryContainer}>
@@ -153,7 +158,8 @@ const renderPage = (
 				galleryName,
 				galleryDescription,
 				setGalleryName,
-				setGalleryDescription
+				setGalleryDescription,
+				setShowAddAssetsView
 			)}
 			{renderNftsInGallery(classes, galleryJson.nfts, isEditable, isOwner)}
 		</div>
@@ -171,7 +177,8 @@ const renderGalleryHeader = (
 	galleryName,
 	galleryDescription,
 	setGalleryName,
-	setGalleryDescription
+	setGalleryDescription,
+	setShowAddAssetsView
 ) => {
 	return (
 		<Grid container spacing={6} className={classes.galleryHeaderContainer}>
@@ -183,7 +190,7 @@ const renderGalleryHeader = (
 					handleDropzoneSubmit={handleDropzoneSubmit}
 				/>
 			</Grid>
-			<Grid item lg={7} md={7} sm={6} xs={4}>
+			<Grid item lg={6} md={6} sm={5} xs={3}>
 				<GalleryHeaderPanel
 					json={galleryJson}
 					switchEditableMode={switchGalleryEditMode}
@@ -195,9 +202,11 @@ const renderGalleryHeader = (
 					setGalleryDescription={setGalleryDescription}
 				/>
 			</Grid>
-			<Grid item xs={1}>
-				<GalleryMenu />
-			</Grid>
+			{isOwner && !isEditable && (
+				<Grid item xs={1}>
+					<GalleryMenu setShowAddAssetsView={setShowAddAssetsView} />
+				</Grid>
+			)}
 		</Grid>
 	);
 };

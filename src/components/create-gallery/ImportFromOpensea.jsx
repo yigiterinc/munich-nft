@@ -3,7 +3,8 @@ import { darken, makeStyles, useTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import ImportCard from "../common/ImportCard";
+import CollectionImportCard from "../common/CollectionImportCard";
+import NFTImportCard from "../common/NFTImportCard";
 import CollectionsIcon from "@material-ui/icons/Collections";
 import ImageIcon from "@material-ui/icons/Image";
 import withSpinner from "../common/WithSpinner";
@@ -132,7 +133,7 @@ export default function ImportFromOpensea({
 				{userCollections?.map((collection) => {
 					return (
 						<Grid key={collection.slug} item lg={3} md={4} sm={6} xs={12}>
-							<ImportCard
+							<CollectionImportCard
 								name={collection.name}
 								image={withDefault(collection.image_url, DEFAULT_IMAGE_PATH)}
 								addToSelected={(coll) => addToSelectedItems(coll)}
@@ -159,7 +160,7 @@ export default function ImportFromOpensea({
 					collection?.assets.map((item) => {
 						return (
 							<Grid key={item?.id} item lg={3} md={4} sm={6} xs={12}>
-								<ImportCard
+								<NFTImportCard
 									name={item.name}
 									image={item.image_url}
 									addToSelected={() => addToSelectedItems({ collection, item })}
