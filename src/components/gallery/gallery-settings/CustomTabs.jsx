@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles, AppBar, Tabs, Tab, Box } from "@material-ui/core";
-import BackgroundColorPicker from "./BackgroundColorPicker";
+import ThemeColorPicker from "./ThemeColorPicker";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 	tabContainer: {
 		flexGrow: 1,
 		boxShadow: "none",
+		color: theme.palette.common.black,
 		borderBottom: "1px solid gray",
 	},
 	tab: {
@@ -74,7 +75,7 @@ const CustomTabs = (props) => {
 				</Tabs>
 			</AppBar>
 			<TabPanel value={value} index={0}>
-				<BackgroundColorPicker
+				<ThemeColorPicker
 					galleryTheme={props.galleryTheme}
 					setGalleryTheme={props.setGalleryTheme}
 				/>

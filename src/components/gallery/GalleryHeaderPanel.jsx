@@ -12,9 +12,6 @@ const useStyles = makeStyles((theme) => ({
 	title: {
 		color: theme.palette.text.primary,
 	},
-	description: {
-		color: theme.palette.text.primary,
-	},
 	galleryOwner: {
 		marginTop: "2vh",
 		color: theme.palette.primary.main,
@@ -26,15 +23,15 @@ const useStyles = makeStyles((theme) => ({
 		background: theme.palette.primary.main,
 		cursor: "pointer",
 		"&:hover": {
-			color: theme.palette.text.secondary,
+			color: theme.palette.primary.contrastText,
 			background: darken(theme.palette.primary.main, 0.05),
 			border: `solid 8px ${darken(theme.palette.primary.main, 0.05)}`,
 		},
 		"&:visited": {
-			color: theme.palette.text.secondary,
+			color: theme.palette.primary.contrastText,
 		},
 		"&:active": {
-			color: theme.palette.text.secondary,
+			color: theme.palette.primary.contrastText,
 		},
 	},
 	descriptionContainer: {
@@ -42,6 +39,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 	description: {
 		marginTop: "2vh",
+		color: theme.palette.text.primary,
+	},
+	editGalleryButton: {
+		color: theme.palette.secondary.light,
 	},
 }));
 
@@ -54,7 +55,7 @@ const GalleryHeaderPanel = (props) => {
 				{props.isOwner && !props.isEditable ? (
 					<>
 						<IconButton
-							color="secondary"
+							className={classes.editGalleryButton}
 							aria-label="edit-gallery"
 							onClick={() => {
 								props.switchEditableMode();

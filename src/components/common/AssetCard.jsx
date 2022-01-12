@@ -4,8 +4,9 @@ import { Typography, Card, CardMedia, CardContent } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { withDefault } from "../../utils/commons";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	root: {
+		background: theme.palette.info.main,
 		minWidth: 200,
 		minHeight: 200,
 		height: "auto",
@@ -22,7 +23,13 @@ const useStyles = makeStyles({
 	link: {
 		textDecoration: "none",
 	},
-});
+	collectionText: {
+		color: theme.palette.secondary.light,
+	},
+	nftText: {
+		color: theme.palette.secondary.main,
+	},
+}));
 
 const AssetCard = ({ asset }) => {
 	const contractAddressId = asset.asset_contract.address;
@@ -45,10 +52,14 @@ const AssetCard = ({ asset }) => {
 					title={asset.name}
 				/>
 				<CardContent>
-					<Typography variant="h6" color="textSecondary" gutterBottom>
+					<Typography
+						variant="h6"
+						className={classes.collectionText}
+						gutterBottom
+					>
 						{asset.collection.name}
 					</Typography>
-					<Typography variant="h6" component="h2">
+					<Typography variant="h6" component="h2" className={classes.nftText}>
 						{asset.name ? asset.name : "-"}
 					</Typography>
 				</CardContent>

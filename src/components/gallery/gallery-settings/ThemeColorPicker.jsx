@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
 	colorPaletteContainer: {
 		alignItems: "center",
 		justifyContent: "center",
+		color: theme.palette.common.black,
 	},
 	pickColorContainer: {
 		marginTop: "4vh",
@@ -18,13 +19,14 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: "2vh",
 		display: "flex",
 		justifyContent: "space-between",
+		alignItems: "center",
 	},
 	label: {
 		marginRight: "2vw",
 	},
 }));
 
-const BackgroundColorPicker = (props) => {
+const ThemeColorPicker = (props) => {
 	const palette = createPalette(RECOMMENDED_THEMES);
 
 	const handleChange = (value) => {
@@ -40,7 +42,6 @@ const BackgroundColorPicker = (props) => {
 			<div className={classes.colorPaletteContainer}>
 				<Typography variant="h6">
 					You can set color theme to your gallery page. Pick a recommended theme
-					or create a new one.
 				</Typography>
 				<div className={classes.pickColorContainer}>
 					<div className={classes.pickColorPanel}>
@@ -49,16 +50,6 @@ const BackgroundColorPicker = (props) => {
 						</Typography>
 						<ColorPalette palette={palette} onSelect={handleChange} />
 					</div>
-					{/* <div className={classes.pickColorPanel}>
-						<Typography variant="h6" className={classes.label}>
-							Color Picker
-						</Typography>
-						<ColorPicker
-							defaultValue="transparent"
-							// value={props.backgroundColor}
-							onChange={handleChange}
-						/>
-					</div> */}
 				</div>
 			</div>
 		</div>
@@ -84,4 +75,4 @@ const themeFinder = (themeName) => {
 	}
 };
 
-export default BackgroundColorPicker;
+export default ThemeColorPicker;

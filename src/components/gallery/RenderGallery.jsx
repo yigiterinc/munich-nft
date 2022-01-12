@@ -57,12 +57,7 @@ const RenderGallery = (props) => {
 				props.setGalleryName,
 				props.setGalleryDescription
 			)}
-			{renderNftsInGallery(
-				classes,
-				props.galleryJson.nfts,
-				props.isEditable,
-				props.isOwner
-			)}
+			{renderNftsInGallery(classes, props.galleryJson.nfts)}
 		</div>
 	);
 };
@@ -106,7 +101,7 @@ const renderGalleryHeader = (
 	);
 };
 
-export const renderNftsInGallery = (classes, nfts, isEditable, isOwner) => {
+export const renderNftsInGallery = (classes, nfts) => {
 	return (
 		<Grid container spacing={4} className={classes.nftContainer}>
 			{nfts.map((item) => {

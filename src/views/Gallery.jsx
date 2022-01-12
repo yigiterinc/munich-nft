@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createTheme, ThemeProvider, makeStyles } from "@material-ui/core";
 import { useParams, useHistory } from "react-router";
-import { Grid } from "@material-ui/core";
 import CircularSpinner from "../components/common/CircularSpinner";
 import { fetchGallery } from "../api/strapi";
 import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
@@ -95,32 +94,36 @@ const Gallery = () => {
 	};
 
 	return (
-		<ThemeProvider theme={galleryTheme}>
-			<>
-				{gallery ? (
-					renderPage(
-						classes,
-						gallery,
-						switchGalleryEditMode,
-						isEditable,
-						isOwner,
-						coverImage,
-						handleDropzoneSubmit,
-						galleryName,
-						galleryDescription,
-						setGalleryName,
-						setGalleryDescription,
-						handleUpdateGallery,
-						openGallerySettings,
-						setOpenGallerySettings,
-						galleryTheme,
-						setGalleryTheme
-					)
-				) : (
-					<CircularSpinner />
-				)}
-			</>
-		</ThemeProvider>
+		<>
+			{galleryTheme && (
+				<ThemeProvider theme={galleryTheme}>
+					<>
+						{gallery ? (
+							renderPage(
+								classes,
+								gallery,
+								switchGalleryEditMode,
+								isEditable,
+								isOwner,
+								coverImage,
+								handleDropzoneSubmit,
+								galleryName,
+								galleryDescription,
+								setGalleryName,
+								setGalleryDescription,
+								handleUpdateGallery,
+								openGallerySettings,
+								setOpenGallerySettings,
+								galleryTheme,
+								setGalleryTheme
+							)
+						) : (
+							<CircularSpinner />
+						)}
+					</>
+				</ThemeProvider>
+			)}
+		</>
 	);
 };
 
