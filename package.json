@@ -17,6 +17,7 @@
 		"dotenv": "^10.0.0",
 		"ipfs-http-client": "^53.0.1",
 		"loadash": "^1.0.0",
+		"material-ui-color": "^1.2.0",
 		"opensea-js": "^1.2.1",
 		"prettier": "^2.4.1",
 		"react": "^17.0.2",

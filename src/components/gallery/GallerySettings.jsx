@@ -3,26 +3,26 @@ import {
 	Dialog,
 	DialogTitle,
 	DialogContent,
-	Typography,
 	IconButton,
 	makeStyles,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
+import CustomTabs from "./gallery-settings/CustomTabs";
 
 const useStyles = makeStyles((theme) => ({
 	dialogWrapper: {
-		padding: theme.spacing(1),
+		minHeight: 1000,
 		position: "absolute",
 		top: theme.spacing(6),
 	},
-	title: {
-		lineHeight: "48px",
+	dialogTitleWrapper: {
+		height: "0px",
 	},
-	titleContainer: {
+	closeDialogPanel: {
 		maxWidth: "100%",
 		margin: "auto",
 		display: "flex",
-		justifyContent: "space-between",
+		justifyContent: "flex-end",
 		alignItems: "center",
 	},
 }));
@@ -33,14 +33,10 @@ const GallerySettings = (props) => {
 	return (
 		<Dialog
 			open={openGallerySettings}
-			maxWidth="md"
 			classes={{ paper: classes.dialogWrapper }}
 		>
-			<DialogTitle>
-				<div className={classes.titleContainer}>
-					<Typography variant="h6" component="div" className={classes.title}>
-						Settings
-					</Typography>
+			<DialogTitle className={classes.dialogTitleWrapper} component="div">
+				<div className={classes.closeDialogPanel}>
 					<IconButton
 						aria-label="close-gallery-settings"
 						onClick={() => {
@@ -51,8 +47,13 @@ const GallerySettings = (props) => {
 					</IconButton>
 				</div>
 			</DialogTitle>
-			<DialogContent dividers>
-				<div>content goes here</div>
+			<DialogContent>
+				<div>
+					<CustomTabs
+						setBackgroundColor={props.setBackgroundColor}
+						backgroundColor={props.backgroundColor}
+					/>
+				</div>
 			</DialogContent>
 		</Dialog>
 	);

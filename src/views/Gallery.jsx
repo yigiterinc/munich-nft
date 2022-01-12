@@ -41,6 +41,7 @@ const Gallery = () => {
 	const [galleryName, setGalleryName] = useState("");
 	const [galleryDescription, setGalleryDescription] = useState("");
 	const [openGallerySettings, setOpenGallerySettings] = useState(false);
+	const [backgroundColor, setBackgroundColor] = useState("#fff");
 
 	let { slug } = useParams();
 	const currentUser = getLoggedInUser();
@@ -110,7 +111,9 @@ const Gallery = () => {
 					setGalleryDescription,
 					handleUpdateGallery,
 					openGallerySettings,
-					setOpenGallerySettings
+					setOpenGallerySettings,
+					backgroundColor,
+					setBackgroundColor
 				)
 			) : (
 				<CircularSpinner />
@@ -141,10 +144,13 @@ const renderPage = (
 	setGalleryDescription,
 	handleUpdateGallery,
 	openGallerySettings,
-	setOpenGallerySettings
+	setOpenGallerySettings,
+	backgroundColor,
+	setBackgroundColor
 ) => {
 	return (
 		<div className={classes.galleryContainer}>
+			{console.log(backgroundColor)};
 			<GalleryEditManager
 				isEditMode={isEditable}
 				switchEditableMode={switchGalleryEditMode}
@@ -154,6 +160,8 @@ const renderPage = (
 			<GallerySettings
 				openGallerySettings={openGallerySettings}
 				setOpenGallerySettings={setOpenGallerySettings}
+				backgroundColor={backgroundColor}
+				setBackgroundColor={setBackgroundColor}
 			/>
 			{renderGalleryHeader(
 				classes,
