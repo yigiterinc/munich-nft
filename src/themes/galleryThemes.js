@@ -119,7 +119,7 @@ const SOLANART_THEME = {
 			main: "#1CC1E9", //nftText
 		},
 		info: {
-			main: "#3B1C65",
+			main: "#3B1C65", // nft asset card background color
 		},
 	},
 };

@@ -63,8 +63,7 @@ const Gallery = () => {
 		if (currentUser.id === gallery.userId) {
 			setIsOwner(true);
 		}
-		let theme = createTheme(RECOMMENDED_THEMES[0].theme);
-		setGalleryTheme(theme);
+		setGalleryTheme(createTheme(json.theme));
 	}, []);
 
 	const switchGalleryEditMode = () => {
@@ -84,6 +83,7 @@ const Gallery = () => {
 			galleryName,
 			description: galleryDescription,
 			slug: convertToSlug(galleryName),
+			theme: galleryTheme,
 		};
 
 		const updateResult = await updateGallery(galleryId, changedParams);
@@ -94,36 +94,32 @@ const Gallery = () => {
 	};
 
 	return (
-		<>
-			{galleryTheme && (
-				<ThemeProvider theme={galleryTheme}>
-					<>
-						{gallery ? (
-							renderPage(
-								classes,
-								gallery,
-								switchGalleryEditMode,
-								isEditable,
-								isOwner,
-								coverImage,
-								handleDropzoneSubmit,
-								galleryName,
-								galleryDescription,
-								setGalleryName,
-								setGalleryDescription,
-								handleUpdateGallery,
-								openGallerySettings,
-								setOpenGallerySettings,
-								galleryTheme,
-								setGalleryTheme
-							)
-						) : (
-							<CircularSpinner />
-						)}
-					</>
-				</ThemeProvider>
-			)}
-		</>
+		<ThemeProvider theme={galleryTheme}>
+			<>
+				{gallery ? (
+					renderPage(
+						classes,
+						gallery,
+						switchGalleryEditMode,
+						isEditable,
+						isOwner,
+						coverImage,
+						handleDropzoneSubmit,
+						galleryName,
+						galleryDescription,
+						setGalleryName,
+						setGalleryDescription,
+						handleUpdateGallery,
+						openGallerySettings,
+						setOpenGallerySettings,
+						galleryTheme,
+						setGalleryTheme
+					)
+				) : (
+					<CircularSpinner />
+				)}
+			</>
+		</ThemeProvider>
 	);
 };
 
