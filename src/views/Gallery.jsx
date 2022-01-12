@@ -1,33 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { createTheme, ThemeProvider, makeStyles } from "@material-ui/core";
+import { createTheme, ThemeProvider } from "@material-ui/core";
 import { useParams, useHistory } from "react-router";
 import CircularSpinner from "../components/common/CircularSpinner";
 import { fetchGallery } from "../api/strapi";
 import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
 import { uploadImageToMediaGallery, updateGallery } from "../api/strapi";
-import { RECOMMENDED_THEMES } from "../themes/galleryThemes";
 import RenderGallery from "../components/gallery/RenderGallery";
-
-const useStyles = makeStyles((theme) => ({
-	galleryContainer: {
-		backgroundColor: theme.palette.background.default,
-		paddingTop: "4vh",
-		display: "flex",
-		flexDirection: "column",
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	galleryHeaderContainer: {
-		display: "flex",
-		justifyContent: "center",
-		alignItems: "center",
-		width: "80vw",
-	},
-	nftContainer: {
-		paddingTop: "10vh",
-		width: "80vw",
-	},
-}));
 
 const Gallery = () => {
 	const [gallery, setGallery] = useState(null);
@@ -44,16 +22,13 @@ const Gallery = () => {
 	const currentUser = getLoggedInUser();
 	const history = useHistory();
 
-	const classes = useStyles();
-
 	useEffect(async () => {
 		const json = await fetchGallery(slug);
-		let nfts = nftHelper(json.assets);
 		let coverImageUrl = `http://localhost:1337${json.coverImage.url}`;
 		const gallery = {
 			userId: json.userId,
 			creator: json.username,
-			nfts: nfts,
+			nfts: json.assets,
 		};
 		setGalleryId(json.id);
 		setGallery(gallery);
@@ -98,7 +73,6 @@ const Gallery = () => {
 			<>
 				{gallery ? (
 					renderPage(
-						classes,
 						gallery,
 						switchGalleryEditMode,
 						isEditable,
@@ -123,16 +97,7 @@ const Gallery = () => {
 	);
 };
 
-const nftHelper = (assets) => {
-	let tmp = [];
-	for (let i = 0; i < assets.length; i++) {
-		tmp.push(assets[i]);
-	}
-	return tmp;
-};
-
 const renderPage = (
-	classes,
 	galleryJson,
 	switchGalleryEditMode,
 	isEditable,
@@ -147,12 +112,10 @@ const renderPage = (
 	openGallerySettings,
 	setOpenGallerySettings,
 	galleryTheme,
-	setGalleryTheme,
-	theme
+	setGalleryTheme
 ) => {
 	return (
 		<RenderGallery
-			classes={classes}
 			galleryJson={galleryJson}
 			switchGalleryEditMode={switchGalleryEditMode}
 			isEditable={isEditable}
