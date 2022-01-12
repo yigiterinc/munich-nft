@@ -43,6 +43,10 @@ const RenderGallery = (props) => {
 				setOpenGallerySettings={props.setOpenGallerySettings}
 				galleryTheme={props.galleryTheme}
 				setGalleryTheme={props.setGalleryTheme}
+				headerLayout={props.headerLayout}
+				setHeaderLayout={props.setHeaderLayout}
+				nftsLayout={props.nftsLayout}
+				setNftsLayout={props.setNftsLayout}
 			/>
 			{renderGalleryHeader(
 				classes,

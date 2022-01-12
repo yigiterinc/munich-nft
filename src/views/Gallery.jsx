@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import { createTheme, ThemeProvider } from "@material-ui/core";
 import { useParams, useHistory } from "react-router";
 import CircularSpinner from "../components/common/CircularSpinner";
-import { fetchGallery } from "../api/strapi";
-import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
-import { uploadImageToMediaGallery, updateGallery } from "../api/strapi";
 import RenderGallery from "../components/gallery/RenderGallery";
+import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
+import {
+	fetchGallery,
+	updateGallery,
+	uploadImageToMediaGallery,
+} from "../api/strapi";
+import { RECOMMENDED_THEMES } from "../themes/galleryThemes";
 
 const Gallery = () => {
 	const [gallery, setGallery] = useState(null);
@@ -17,6 +21,8 @@ const Gallery = () => {
 	const [galleryDescription, setGalleryDescription] = useState("");
 	const [openGallerySettings, setOpenGallerySettings] = useState(false);
 	const [galleryTheme, setGalleryTheme] = useState(null);
+	const [headerLayout, setHeaderLayout] = useState("default");
+	const [nftsLayout, setNftsLayout] = useState("default");
 
 	let { slug } = useParams();
 	const currentUser = getLoggedInUser();
@@ -38,7 +44,11 @@ const Gallery = () => {
 		if (currentUser.id === gallery.userId) {
 			setIsOwner(true);
 		}
-		setGalleryTheme(createTheme(json.theme));
+		if (Object.keys(json.theme).length === 0) {
+			setGalleryTheme(createTheme(RECOMMENDED_THEMES[0].theme));
+		} else {
+			setGalleryTheme(createTheme(json.theme));
+		}
 	}, []);
 
 	const switchGalleryEditMode = () => {
@@ -71,67 +81,36 @@ const Gallery = () => {
 	return (
 		<ThemeProvider theme={galleryTheme}>
 			<>
+				{console.log(headerLayout)}
+				{console.log(nftsLayout)}
+
 				{gallery ? (
-					renderPage(
-						gallery,
-						switchGalleryEditMode,
-						isEditable,
-						isOwner,
-						coverImage,
-						handleDropzoneSubmit,
-						galleryName,
-						galleryDescription,
-						setGalleryName,
-						setGalleryDescription,
-						handleUpdateGallery,
-						openGallerySettings,
-						setOpenGallerySettings,
-						galleryTheme,
-						setGalleryTheme
-					)
+					<RenderGallery
+						galleryJson={gallery}
+						switchGalleryEditMode={switchGalleryEditMode}
+						isEditable={isEditable}
+						isOwner={isOwner}
+						coverImage={coverImage}
+						handleDropzoneSubmit={handleDropzoneSubmit}
+						galleryName={galleryName}
+						galleryDescription={galleryDescription}
+						setGalleryName={setGalleryName}
+						setGalleryDescription={setGalleryDescription}
+						handleUpdateGallery={handleUpdateGallery}
+						openGallerySettings={openGallerySettings}
+						setOpenGallerySettings={setOpenGallerySettings}
+						galleryTheme={galleryTheme}
+						setGalleryTheme={setGalleryTheme}
+						headerLayout={headerLayout}
+						setHeaderLayout={setHeaderLayout}
+						nftsLayout={nftsLayout}
+						setNftsLayout={setNftsLayout}
+					/>
 				) : (
 					<CircularSpinner />
 				)}
 			</>
 		</ThemeProvider>
-	);
-};
-
-const renderPage = (
-	galleryJson,
-	switchGalleryEditMode,
-	isEditable,
-	isOwner,
-	coverImage,
-	handleDropzoneSubmit,
-	galleryName,
-	galleryDescription,
-	setGalleryName,
-	setGalleryDescription,
-	handleUpdateGallery,
-	openGallerySettings,
-	setOpenGallerySettings,
-	galleryTheme,
-	setGalleryTheme
-) => {
-	return (
-		<RenderGallery
-			galleryJson={galleryJson}
-			switchGalleryEditMode={switchGalleryEditMode}
-			isEditable={isEditable}
-			isOwner={isOwner}
-			coverImage={coverImage}
-			handleDropzoneSubmit={handleDropzoneSubmit}
-			galleryName={galleryName}
-			galleryDescription={galleryDescription}
-			setGalleryName={setGalleryName}
-			setGalleryDescription={setGalleryDescription}
-			handleUpdateGallery={handleUpdateGallery}
-			openGallerySettings={openGallerySettings}
-			setOpenGallerySettings={setOpenGallerySettings}
-			galleryTheme={galleryTheme}
-			setGalleryTheme={setGalleryTheme}
-		/>
 	);
 };
 

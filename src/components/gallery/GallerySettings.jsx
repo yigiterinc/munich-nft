@@ -7,11 +7,11 @@ import {
 	makeStyles,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
-import CustomTabs from "./gallery-settings/CustomTabs";
+import ThemeColorPicker from "./gallery-settings/ThemeColorPicker";
+import LayoutPicker from "./gallery-settings/LayoutPicker";
 
 const useStyles = makeStyles((theme) => ({
 	dialogWrapper: {
-		minHeight: 1000,
 		position: "absolute",
 		top: theme.spacing(6),
 	},
@@ -48,9 +48,15 @@ const GallerySettings = (props) => {
 			</DialogTitle>
 			<DialogContent>
 				<div>
-					<CustomTabs
+					<ThemeColorPicker
 						galleryTheme={props.galleryTheme}
 						setGalleryTheme={props.setGalleryTheme}
+					/>
+					<LayoutPicker
+						headerLayout={props.headerLayout}
+						setHeaderLayout={props.setHeaderLayout}
+						nftsLayout={props.nftsLayout}
+						setNftsLayout={props.setNftsLayout}
 					/>
 				</div>
 			</DialogContent>

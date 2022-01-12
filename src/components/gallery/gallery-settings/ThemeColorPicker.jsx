@@ -1,24 +1,31 @@
 import React from "react";
-import { makeStyles, Typography, createTheme } from "@material-ui/core";
-import { ColorPicker, ColorPalette } from "material-ui-color";
+import {
+	makeStyles,
+	Typography,
+	Divider,
+	createTheme,
+} from "@material-ui/core";
+import { ColorPalette } from "material-ui-color";
 import { RECOMMENDED_THEMES } from "../../../themes/galleryThemes";
 
 const useStyles = makeStyles((theme) => ({
 	backgroundColorContainer: {
-		padding: theme.spacing(1),
+		padding: theme.spacing(2),
 	},
 	colorPaletteContainer: {
 		alignItems: "center",
 		justifyContent: "center",
 		color: theme.palette.common.black,
 	},
+	divider: {
+		marginTop: "2vh",
+	},
 	pickColorContainer: {
-		marginTop: "4vh",
+		marginTop: "2vh",
 	},
 	pickColorPanel: {
 		marginTop: "2vh",
 		display: "flex",
-		justifyContent: "space-between",
 		alignItems: "center",
 	},
 	label: {
@@ -40,10 +47,13 @@ const ThemeColorPicker = (props) => {
 	return (
 		<div className={classes.backgroundColorContainer}>
 			<div className={classes.colorPaletteContainer}>
-				<Typography variant="h6">
-					You can set color theme to your gallery page. Pick a recommended theme
-				</Typography>
+				<Typography variant="h5">Theme Settings</Typography>
+				<Divider className={classes.divider} />
 				<div className={classes.pickColorContainer}>
+					<Typography variant="h6">
+						You can set color theme to your gallery page. Pick a recommended
+						theme
+					</Typography>
 					<div className={classes.pickColorPanel}>
 						<Typography variant="h6" className={classes.label}>
 							Recommended Themes
