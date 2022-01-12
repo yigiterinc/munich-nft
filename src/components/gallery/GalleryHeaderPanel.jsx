@@ -1,35 +1,40 @@
 import React from "react";
 import { makeStyles, darken } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
+import { Typography, TextField, Button, IconButton } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
 
-const useStyles = makeStyles({
-	galleryOwner: {
-		marginTop: "2vh",
-	},
-	title: {
+const useStyles = makeStyles((theme) => ({
+	titleContainer: {
 		display: "flex",
 		alignItems: "center",
 	},
+	title: {
+		color: theme.palette.text.primary,
+	},
+	description: {
+		color: theme.palette.text.primary,
+	},
+	galleryOwner: {
+		marginTop: "2vh",
+		color: theme.palette.primary.main,
+	},
 	creator: {
 		textDecoration: "none",
-		border: "solid 8px #e5e5ea",
+		border: `solid 8px ${theme.palette.primary.main}`,
 		borderRadius: 10,
-		background: "#e5e5ea",
+		background: theme.palette.primary.main,
 		cursor: "pointer",
 		"&:hover": {
-			color: "#65657d",
-			background: darken("#e5e5ea", 0.05),
-			border: `solid 8px ${darken("#e5e5ea", 0.05)}`,
+			color: theme.palette.text.secondary,
+			background: darken(theme.palette.primary.main, 0.05),
+			border: `solid 8px ${darken(theme.palette.primary.main, 0.05)}`,
 		},
 		"&:visited": {
-			color: "#65657d",
+			color: theme.palette.text.secondary,
 		},
 		"&:active": {
-			color: "#65657d",
+			color: theme.palette.text.secondary,
 		},
 	},
 	descriptionContainer: {
@@ -38,17 +43,18 @@ const useStyles = makeStyles({
 	description: {
 		marginTop: "2vh",
 	},
-});
+}));
 
 const GalleryHeaderPanel = (props) => {
 	const galleryJson = props.json;
 	const classes = useStyles();
 	return (
 		<div className={classes.galleryHeaderpanel}>
-			<div className={classes.title}>
+			<div className={classes.titleContainer}>
 				{props.isOwner && !props.isEditable ? (
 					<>
 						<IconButton
+							color="secondary"
 							aria-label="edit-gallery"
 							onClick={() => {
 								props.switchEditableMode();

@@ -2,7 +2,7 @@ import React from "react";
 import { darken, makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	galleryEditManagerContainer: {
 		top: "4vh",
 		marginTop: "-4vh",
@@ -60,7 +60,7 @@ const useStyles = makeStyles({
 			background: darken("#218838", 0.1),
 		},
 	},
-});
+}));
 
 const GalleryEditManager = (props) => {
 	const classes = useStyles();

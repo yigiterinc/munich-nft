@@ -75,8 +75,8 @@ const CustomTabs = (props) => {
 			</AppBar>
 			<TabPanel value={value} index={0}>
 				<BackgroundColorPicker
-					setBackgroundColor={props.setBackgroundColor}
-					backgroundColor={props.backgroundColor}
+					galleryTheme={props.galleryTheme}
+					setGalleryTheme={props.setGalleryTheme}
 				/>
 			</TabPanel>
 			<TabPanel value={value} index={1}>

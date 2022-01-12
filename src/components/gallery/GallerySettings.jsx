@@ -27,12 +27,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 const GallerySettings = (props) => {
-	const { children, openGallerySettings, setOpenGallerySettings } = props;
 	const classes = useStyles();
 
 	return (
 		<Dialog
-			open={openGallerySettings}
+			open={props.openGallerySettings}
 			classes={{ paper: classes.dialogWrapper }}
 		>
 			<DialogTitle className={classes.dialogTitleWrapper} component="div">
@@ -40,7 +39,7 @@ const GallerySettings = (props) => {
 					<IconButton
 						aria-label="close-gallery-settings"
 						onClick={() => {
-							setOpenGallerySettings(false);
+							props.setOpenGallerySettings(false);
 						}}
 					>
 						<CloseIcon />
@@ -50,8 +49,8 @@ const GallerySettings = (props) => {
 			<DialogContent>
 				<div>
 					<CustomTabs
-						setBackgroundColor={props.setBackgroundColor}
-						backgroundColor={props.backgroundColor}
+						galleryTheme={props.galleryTheme}
+						setGalleryTheme={props.setGalleryTheme}
 					/>
 				</div>
 			</DialogContent>

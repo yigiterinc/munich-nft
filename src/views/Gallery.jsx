@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider, makeStyles } from "@material-ui/core";
 import { useParams, useHistory } from "react-router";
 import { Grid } from "@material-ui/core";
-import GalleryEditManager from "../components/gallery/GalleryEditManager";
-import GalleryCoverImage from "../components/gallery/GalleryCoverImage";
-import GalleryHeaderPanel from "../components/gallery/GalleryHeaderPanel";
-import GallerySettings from "../components/gallery/GallerySettings";
 import CircularSpinner from "../components/common/CircularSpinner";
 import { fetchGallery } from "../api/strapi";
 import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
-import AssetCard from "../components/common/AssetCard";
 import { uploadImageToMediaGallery, updateGallery } from "../api/strapi";
+import { RECOMMENDED_THEMES } from "../themes/galleryThemes";
+import RenderGallery from "../components/gallery/RenderGallery";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	galleryContainer: {
+		backgroundColor: theme.palette.background.default,
 		paddingTop: "4vh",
 		display: "flex",
 		flexDirection: "column",
@@ -30,7 +28,7 @@ const useStyles = makeStyles({
 		paddingTop: "10vh",
 		width: "80vw",
 	},
-});
+}));
 
 const Gallery = () => {
 	const [gallery, setGallery] = useState(null);
@@ -41,7 +39,7 @@ const Gallery = () => {
 	const [galleryName, setGalleryName] = useState("");
 	const [galleryDescription, setGalleryDescription] = useState("");
 	const [openGallerySettings, setOpenGallerySettings] = useState(false);
-	const [backgroundColor, setBackgroundColor] = useState("#fff");
+	const [galleryTheme, setGalleryTheme] = useState(null);
 
 	let { slug } = useParams();
 	const currentUser = getLoggedInUser();
@@ -66,6 +64,8 @@ const Gallery = () => {
 		if (currentUser.id === gallery.userId) {
 			setIsOwner(true);
 		}
+		let theme = createTheme(RECOMMENDED_THEMES[0].theme);
+		setGalleryTheme(theme);
 	}, []);
 
 	const switchGalleryEditMode = () => {
@@ -95,30 +95,32 @@ const Gallery = () => {
 	};
 
 	return (
-		<>
-			{gallery ? (
-				renderPage(
-					classes,
-					gallery,
-					switchGalleryEditMode,
-					isEditable,
-					isOwner,
-					coverImage,
-					handleDropzoneSubmit,
-					galleryName,
-					galleryDescription,
-					setGalleryName,
-					setGalleryDescription,
-					handleUpdateGallery,
-					openGallerySettings,
-					setOpenGallerySettings,
-					backgroundColor,
-					setBackgroundColor
-				)
-			) : (
-				<CircularSpinner />
-			)}
-		</>
+		<ThemeProvider theme={galleryTheme}>
+			<>
+				{gallery ? (
+					renderPage(
+						classes,
+						gallery,
+						switchGalleryEditMode,
+						isEditable,
+						isOwner,
+						coverImage,
+						handleDropzoneSubmit,
+						galleryName,
+						galleryDescription,
+						setGalleryName,
+						setGalleryDescription,
+						handleUpdateGallery,
+						openGallerySettings,
+						setOpenGallerySettings,
+						galleryTheme,
+						setGalleryTheme
+					)
+				) : (
+					<CircularSpinner />
+				)}
+			</>
+		</ThemeProvider>
 	);
 };
 
@@ -145,95 +147,29 @@ const renderPage = (
 	handleUpdateGallery,
 	openGallerySettings,
 	setOpenGallerySettings,
-	backgroundColor,
-	setBackgroundColor
+	galleryTheme,
+	setGalleryTheme,
+	theme
 ) => {
 	return (
-		<div
-			className={classes.galleryContainer}
-			style={{ backgroundColor: backgroundColor }}
-		>
-			{console.log(backgroundColor)}
-			<GalleryEditManager
-				isEditMode={isEditable}
-				switchEditableMode={switchGalleryEditMode}
-				handleUpdateGallery={handleUpdateGallery}
-				setOpenGallerySettings={setOpenGallerySettings}
-			/>
-			<GallerySettings
-				openGallerySettings={openGallerySettings}
-				setOpenGallerySettings={setOpenGallerySettings}
-				backgroundColor={backgroundColor}
-				setBackgroundColor={setBackgroundColor}
-			/>
-			{renderGalleryHeader(
-				classes,
-				galleryJson,
-				switchGalleryEditMode,
-				isEditable,
-				isOwner,
-				coverImage,
-				handleDropzoneSubmit,
-				galleryName,
-				galleryDescription,
-				setGalleryName,
-				setGalleryDescription
-			)}
-			{renderNftsInGallery(classes, galleryJson.nfts, isEditable, isOwner)}
-		</div>
-	);
-};
-
-const renderGalleryHeader = (
-	classes,
-	galleryJson,
-	switchGalleryEditMode,
-	isEditable,
-	isOwner,
-	coverImage,
-	handleDropzoneSubmit,
-	galleryName,
-	galleryDescription,
-	setGalleryName,
-	setGalleryDescription
-) => {
-	return (
-		<Grid container spacing={6} className={classes.galleryHeaderContainer}>
-			<Grid item lg={5} md={5} sm={6} xs={8}>
-				<GalleryCoverImage
-					coverImage={coverImage}
-					isEditable={isEditable}
-					isOwner={isOwner}
-					handleDropzoneSubmit={handleDropzoneSubmit}
-				/>
-			</Grid>
-			<Grid item lg={7} md={7} sm={6} xs={4}>
-				<GalleryHeaderPanel
-					json={galleryJson}
-					switchEditableMode={switchGalleryEditMode}
-					isEditable={isEditable}
-					isOwner={isOwner}
-					galleryName={galleryName}
-					setGalleryName={setGalleryName}
-					galleryDescription={galleryDescription}
-					setGalleryDescription={setGalleryDescription}
-				/>
-			</Grid>
-		</Grid>
-	);
-};
-
-export const renderNftsInGallery = (classes, nfts, isEditable, isOwner) => {
-	return (
-		<Grid container spacing={4} className={classes.nftContainer}>
-			{nfts.map((item) => {
-				return (
-					<Grid key={item.id} item lg={3} md={4} sm={6} xs={12}>
-						<AssetCard asset={item} />
-					</Grid>
-				);
-			})}
-		</Grid>
+		<RenderGallery
+			classes={classes}
+			galleryJson={galleryJson}
+			switchGalleryEditMode={switchGalleryEditMode}
+			isEditable={isEditable}
+			isOwner={isOwner}
+			coverImage={coverImage}
+			handleDropzoneSubmit={handleDropzoneSubmit}
+			galleryName={galleryName}
+			galleryDescription={galleryDescription}
+			setGalleryName={setGalleryName}
+			setGalleryDescription={setGalleryDescription}
+			handleUpdateGallery={handleUpdateGallery}
+			openGallerySettings={openGallerySettings}
+			setOpenGallerySettings={setOpenGallerySettings}
+			galleryTheme={galleryTheme}
+			setGalleryTheme={setGalleryTheme}
+		/>
 	);
 };
 
