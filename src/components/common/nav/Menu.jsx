@@ -89,7 +89,9 @@ const Menu = ({ user }) => {
 		<div className={classes.navMenu}>
 			{menu
 				.filter((item) => (item.requiresLogin ? userLoggedIn : true))
-				.map((menuItem, i) => menuItem.component)}
+				.map((menuItem, i) => (
+					<div key={i}>{menuItem.component}</div>
+				))}
 			<MetamaskButton user={user} className={classes.connectBtn} />
 		</div>
 	);

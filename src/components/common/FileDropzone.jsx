@@ -5,23 +5,31 @@ import Dropzone from "react-dropzone-uploader";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-
-	},
+	root: {},
 	icon: {
-		marginBottom: "10px"
-	}
-}))
+		marginBottom: "10px",
+	},
+}));
 
-const FileDropzone = ({ dropzoneStyles, handleChangeStatus, handleSubmit, text }) => {
-	const classes = useStyles()
+const FileDropzone = ({
+	dropzoneStyles,
+	handleChangeStatus,
+	handleSubmit,
+	text,
+	coverImage,
+}) => {
+	const classes = useStyles();
 
-  return (
+	return (
 		<Dropzone
 			onChangeStatus={handleChangeStatus}
-			onSubmit={(files) => handleSubmit(Object.assign(files[0].file, {
-				preview: URL.createObjectURL(files[0].file)
-			}))}
+			onSubmit={(files) =>
+				handleSubmit(
+					Object.assign(files[0].file, {
+						preview: URL.createObjectURL(files[0].file),
+					})
+				)
+			}
 			accept="image/*"
 			maxFiles={1}
 			multiple={false}
@@ -29,13 +37,19 @@ const FileDropzone = ({ dropzoneStyles, handleChangeStatus, handleSubmit, text }
 				dropzone: { ...dropzoneStyles },
 			}}
 			inputContent={
-				<div>
-					<BackupIcon className={classes.icon}/>
-					<Typography variant="h6">{text}</Typography>
-				</div>
+				<>
+					{coverImage === undefined ? (
+						<div>
+							<BackupIcon className={classes.icon} />
+							<Typography variant="h6">{text}</Typography>
+						</div>
+					) : (
+						coverImage
+					)}
+				</>
 			}
 		/>
-  );
+	);
 };
 
 export default FileDropzone;

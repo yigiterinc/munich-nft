@@ -99,6 +99,10 @@ export const createGallery = async (gallery) => {
 	return await axios.post(GALLERIES_URL, gallery);
 };
 
+export const updateGallery = async (galleryId, updatedGalleryParams) => {
+	return await axios.put(`${GALLERIES_URL}/${galleryId}`, updatedGalleryParams);
+};
+
 export const saveImportedCollections = async (user, collectionsToSave) => {
 	user.importedCollections = collectionsToSave;
 	return await updateUser(user);
