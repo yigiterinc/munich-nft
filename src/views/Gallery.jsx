@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const Gallery = ({ setShowAddAssetsView }) => {
+const Gallery = ({ setGalleryData, setShowAddAssetsView }) => {
 	const [gallery, setGallery] = useState(null);
 	const [isEditable, setIsEditable] = useState(false);
 	const [isOwner, setIsOwner] = useState(false);
@@ -61,6 +61,7 @@ const Gallery = ({ setShowAddAssetsView }) => {
 		setGalleryName(json.galleryName);
 		setGalleryDescription(json.description);
 		setCoverImage(coverImageUrl);
+		setGalleryData({ galleryId: json.id, nfts: gallery.nfts });
 		if (currentUser.id === gallery.userId) {
 			setIsOwner(true);
 		}

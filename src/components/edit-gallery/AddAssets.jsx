@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const AddAssets = ({ setShowAddAssetsView }) => {
+const AddAssets = ({ handleSubmit, setShowAddAssetsView }) => {
 	const classes = useStyles();
 	const theme = useTheme();
 	let { slug } = useParams();
@@ -171,7 +171,7 @@ const AddAssets = ({ setShowAddAssetsView }) => {
 					},
 				}}
 				size="large"
-				// onClick={() => handleSubmit(selectedItems)}
+				onClick={() => handleSubmit(selectedItems)}
 			>
 				Add Selected Items
 			</Button>
