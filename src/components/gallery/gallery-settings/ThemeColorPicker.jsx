@@ -9,27 +9,17 @@ import { ColorPalette } from "material-ui-color";
 import { RECOMMENDED_THEMES } from "../../../themes/galleryThemes";
 
 const useStyles = makeStyles((theme) => ({
-	backgroundColorContainer: {
-		padding: theme.spacing(2),
-	},
-	colorPaletteContainer: {
-		alignItems: "center",
-		justifyContent: "center",
-		color: theme.palette.common.black,
-	},
-	divider: {
-		marginTop: "2vh",
-	},
 	pickColorContainer: {
-		marginTop: "2vh",
+		height: "80px",
+		display: "flex",
+		alignItems: "center",
 	},
 	pickColorPanel: {
-		marginTop: "2vh",
 		display: "flex",
 		alignItems: "center",
 	},
 	label: {
-		marginRight: "2vw",
+		marginRight: "1vw",
 	},
 }));
 
@@ -45,22 +35,12 @@ const ThemeColorPicker = (props) => {
 	const classes = useStyles();
 
 	return (
-		<div className={classes.backgroundColorContainer}>
-			<div className={classes.colorPaletteContainer}>
-				<Typography variant="h5">Theme Settings</Typography>
-				<Divider className={classes.divider} />
-				<div className={classes.pickColorContainer}>
-					<Typography variant="h6">
-						You can set color theme to your gallery page. Pick a recommended
-						theme
-					</Typography>
-					<div className={classes.pickColorPanel}>
-						<Typography variant="h6" className={classes.label}>
-							Recommended Themes
-						</Typography>
-						<ColorPalette palette={palette} onSelect={handleChange} />
-					</div>
-				</div>
+		<div className={classes.pickColorContainer}>
+			<div className={classes.pickColorPanel}>
+				<Typography variant="h6" className={classes.label}>
+					Themes
+				</Typography>
+				<ColorPalette palette={palette} onSelect={handleChange} />
 			</div>
 		</div>
 	);

@@ -1,25 +1,30 @@
 import React from "react";
 import { darken, makeStyles } from "@material-ui/core/styles";
-import { Button } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
+import ThemeColorPicker from "./gallery-settings/ThemeColorPicker";
+import LayoutPicker from "./gallery-settings/LayoutPicker";
 
 const useStyles = makeStyles((theme) => ({
 	galleryEditManagerContainer: {
 		top: "4vh",
 		marginTop: "-4vh",
 		marginBottom: "2vh",
-		height: "80px",
-		width: "100%",
+		height: "96px",
 		borderBottom: "1px solid rgb(229, 232, 235)",
 		background: "rgb(229, 232, 235)",
+		width: "100%",
+		display: "flex",
+		alignItems: "center",
 	},
-	buttons: {
-		maxWidth: "100%",
-		margin: "auto",
+	gallerySettingsContainer: {
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+	},
+	buttonsContainer: {
 		display: "flex",
 		justifyContent: "flex-end",
-	},
-	buttonGroupPanel: {
-		marginRight: "8vw",
+		alignItems: "center",
 	},
 	cancelButton: {
 		width: "100px",
@@ -32,19 +37,6 @@ const useStyles = makeStyles((theme) => ({
 		background: "#b35bff",
 		"&:hover": {
 			background: darken("#b35bff", 0.1),
-		},
-	},
-	settingsButton: {
-		width: "100px",
-		color: "#FFFFFF",
-		margin: "13px 15px",
-		padding: "13px 15px",
-		"&:disabled": {
-			opacity: "80%",
-		},
-		background: "#0066b2",
-		"&:hover": {
-			background: darken("#0066b2", 0.1),
 		},
 	},
 	saveButton: {
@@ -69,18 +61,23 @@ const GalleryEditManager = (props) => {
 		<>
 			{props.isEditMode && (
 				<div className={classes.galleryEditManagerContainer}>
-					<div className={classes.buttons}>
-						<div className={classes.buttonGroupPanel}>
-							<Button
-								className={classes.settingsButton}
-								size="large"
-								variant="contained"
-								onClick={() => {
-									props.setOpenGallerySettings(true);
-								}}
-							>
-								Settings
-							</Button>
+					<Grid item={true} xs={1} />
+					<Grid item={true} xs={7}>
+						<div className={classes.gallerySettingsContainer}>
+							<ThemeColorPicker
+								galleryTheme={props.galleryTheme}
+								setGalleryTheme={props.setGalleryTheme}
+							/>
+							<LayoutPicker
+								headerLayout={props.headerLayout}
+								setHeaderLayout={props.setHeaderLayout}
+								nftsLayout={props.nftsLayout}
+								setNftsLayout={props.setNftsLayout}
+							/>
+						</div>
+					</Grid>
+					<Grid item={true} xs={3}>
+						<div className={classes.buttonsContainer}>
 							<Button
 								className={classes.cancelButton}
 								size="large"
@@ -103,7 +100,9 @@ const GalleryEditManager = (props) => {
 								SAVE
 							</Button>
 						</div>
-					</div>
+					</Grid>
+
+					<Grid item={true} xs={1} />
 				</div>
 			)}
 		</>

@@ -19,7 +19,6 @@ const Gallery = () => {
 	const [galleryId, setGalleryId] = useState(null);
 	const [galleryName, setGalleryName] = useState("");
 	const [galleryDescription, setGalleryDescription] = useState("");
-	const [openGallerySettings, setOpenGallerySettings] = useState(false);
 	const [galleryTheme, setGalleryTheme] = useState(null);
 	const [headerLayout, setHeaderLayout] = useState("default");
 	const [nftsLayout, setNftsLayout] = useState("default");
@@ -97,8 +96,6 @@ const Gallery = () => {
 						setGalleryName={setGalleryName}
 						setGalleryDescription={setGalleryDescription}
 						handleUpdateGallery={handleUpdateGallery}
-						openGallerySettings={openGallerySettings}
-						setOpenGallerySettings={setOpenGallerySettings}
 						galleryTheme={galleryTheme}
 						setGalleryTheme={setGalleryTheme}
 						headerLayout={headerLayout}

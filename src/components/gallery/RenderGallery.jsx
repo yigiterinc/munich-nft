@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core";
 import GalleryEditManager from "./GalleryEditManager";
 import GalleryCoverImage from "./GalleryCoverImage";
 import GalleryHeaderPanel from "./GalleryHeaderPanel";
-import GallerySettings from "./GallerySettings";
 import AssetCard from "../common/AssetCard";
 import { Grid } from "@material-ui/core";
 
@@ -36,11 +35,6 @@ const RenderGallery = (props) => {
 				isEditMode={props.isEditable}
 				switchEditableMode={props.switchGalleryEditMode}
 				handleUpdateGallery={props.handleUpdateGallery}
-				setOpenGallerySettings={props.setOpenGallerySettings}
-			/>
-			<GallerySettings
-				openGallerySettings={props.openGallerySettings}
-				setOpenGallerySettings={props.setOpenGallerySettings}
 				galleryTheme={props.galleryTheme}
 				setGalleryTheme={props.setGalleryTheme}
 				headerLayout={props.headerLayout}
