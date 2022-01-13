@@ -1,10 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core";
 import GalleryEditManager from "./GalleryEditManager";
-import GalleryCoverImage from "./GalleryCoverImage";
-import GalleryHeaderPanel from "./GalleryHeaderPanel";
-import AssetCard from "../common/AssetCard";
-import { Grid } from "@material-ui/core";
+import GalleryHeader from "./GalleryHeader";
+import GalleryNfts from "./GalleryNfts";
 
 const useStyles = makeStyles((theme) => ({
 	galleryContainer: {
@@ -14,16 +12,6 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: "column",
 		justifyContent: "center",
 		alignItems: "center",
-	},
-	galleryHeaderContainer: {
-		display: "flex",
-		justifyContent: "center",
-		alignItems: "center",
-		width: "80vw",
-	},
-	nftContainer: {
-		paddingTop: "10vh",
-		width: "80vw",
 	},
 }));
 
@@ -42,74 +30,20 @@ const RenderGallery = (props) => {
 				nftsLayout={props.nftsLayout}
 				setNftsLayout={props.setNftsLayout}
 			/>
-			{renderGalleryHeader(
-				classes,
-				props.galleryJson,
-				props.switchGalleryEditMode,
-				props.isEditable,
-				props.isOwner,
-				props.coverImage,
-				props.handleDropzoneSubmit,
-				props.galleryName,
-				props.galleryDescription,
-				props.setGalleryName,
-				props.setGalleryDescription
-			)}
-			{renderNftsInGallery(classes, props.galleryJson.nfts)}
+			<GalleryHeader
+				galleryJson={props.galleryJson}
+				isEditable={props.isEditable}
+				switchEditableMode={props.switchGalleryEditMode}
+				isOwner={props.isOwner}
+				coverImage={props.coverImage}
+				handleDropzoneSubmit={props.handleDropzoneSubmit}
+				galleryName={props.galleryName}
+				setGalleryName={props.setGalleryName}
+				galleryDescription={props.galleryDescription}
+				setGalleryDescription={props.setGalleryDescription}
+			/>
+			<GalleryNfts nfts={props.galleryJson.nfts} />
 		</div>
-	);
-};
-
-const renderGalleryHeader = (
-	classes,
-	galleryJson,
-	switchGalleryEditMode,
-	isEditable,
-	isOwner,
-	coverImage,
-	handleDropzoneSubmit,
-	galleryName,
-	galleryDescription,
-	setGalleryName,
-	setGalleryDescription
-) => {
-	return (
-		<Grid container spacing={6} className={classes.galleryHeaderContainer}>
-			<Grid item lg={5} md={5} sm={6} xs={8}>
-				<GalleryCoverImage
-					coverImage={coverImage}
-					isEditable={isEditable}
-					isOwner={isOwner}
-					handleDropzoneSubmit={handleDropzoneSubmit}
-				/>
-			</Grid>
-			<Grid item lg={7} md={7} sm={6} xs={4}>
-				<GalleryHeaderPanel
-					json={galleryJson}
-					switchEditableMode={switchGalleryEditMode}
-					isEditable={isEditable}
-					isOwner={isOwner}
-					galleryName={galleryName}
-					setGalleryName={setGalleryName}
-					galleryDescription={galleryDescription}
-					setGalleryDescription={setGalleryDescription}
-				/>
-			</Grid>
-		</Grid>
-	);
-};
-
-export const renderNftsInGallery = (classes, nfts) => {
-	return (
-		<Grid container spacing={4} className={classes.nftContainer}>
-			{nfts.map((item) => {
-				return (
-					<Grid key={item.id} item lg={3} md={4} sm={6} xs={12}>
-						<AssetCard asset={item} />
-					</Grid>
-				);
-			})}
-		</Grid>
 	);
 };
 

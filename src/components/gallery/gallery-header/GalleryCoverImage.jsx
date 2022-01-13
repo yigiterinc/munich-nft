@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, CardMedia } from "@material-ui/core";
-import FileDropzone from "../common/FileDropzone";
+import FileDropzone from "../../common/FileDropzone";
 
 const useStyles = makeStyles({
 	galleryCoverImageContainer: {

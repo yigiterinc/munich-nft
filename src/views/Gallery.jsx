@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { createTheme, ThemeProvider } from "@material-ui/core";
 import { useParams, useHistory } from "react-router";
+import { createTheme, ThemeProvider } from "@material-ui/core";
 import CircularSpinner from "../components/common/CircularSpinner";
 import RenderGallery from "../components/gallery/RenderGallery";
 import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
@@ -53,6 +53,7 @@ const Gallery = () => {
 	const switchGalleryEditMode = () => {
 		setIsEditable(!isEditable);
 	};
+
 	const handleDropzoneSubmit = async (file) => {
 		setCoverImage(file.preview);
 	};
@@ -80,9 +81,6 @@ const Gallery = () => {
 	return (
 		<ThemeProvider theme={galleryTheme}>
 			<>
-				{console.log(headerLayout)}
-				{console.log(nftsLayout)}
-
 				{gallery ? (
 					<RenderGallery
 						galleryJson={gallery}

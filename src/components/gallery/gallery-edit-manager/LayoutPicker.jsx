@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(1),
 		minWidth: 120,
 	},
+	inputLabel: {
+		color: theme.palette.common.black,
+	},
 	selector: {
 		color: theme.palette.common.black,
 	},
@@ -46,7 +49,12 @@ const LayoutPicker = (props) => {
 				Layouts
 			</Typography>
 			<FormControl variant="outlined" className={classes.formControl}>
-				<InputLabel id="demo-simple-select-outlined-label">Header</InputLabel>
+				<InputLabel
+					className={classes.inputLabel}
+					id="demo-simple-select-outlined-label"
+				>
+					Header
+				</InputLabel>
 				<Select
 					labelId="header-layout-select"
 					id="header-select"
@@ -67,7 +75,12 @@ const LayoutPicker = (props) => {
 				</Select>
 			</FormControl>
 			<FormControl variant="outlined" className={classes.formControl}>
-				<InputLabel id="demo-simple-select-outlined-label">NFTs</InputLabel>
+				<InputLabel
+					id="demo-simple-select-outlined-label"
+					className={classes.inputLabel}
+				>
+					NFTs
+				</InputLabel>
 				<Select
 					labelId="nft-layout-select"
 					id="nft-select"

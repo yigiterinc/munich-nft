@@ -1,8 +1,8 @@
 import React from "react";
 import { darken, makeStyles } from "@material-ui/core/styles";
 import { Button, Grid } from "@material-ui/core";
-import ThemeColorPicker from "./gallery-settings/ThemeColorPicker";
-import LayoutPicker from "./gallery-settings/LayoutPicker";
+import ThemeColorPicker from "./gallery-edit-manager/ThemeColorPicker";
+import LayoutPicker from "./gallery-edit-manager/LayoutPicker";
 
 const useStyles = makeStyles((theme) => ({
 	galleryEditManagerContainer: {
