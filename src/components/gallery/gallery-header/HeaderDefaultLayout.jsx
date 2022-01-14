@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import GalleryCoverImage from "./GalleryCoverImage";
 import { makeStyles, darken } from "@material-ui/core/styles";
 import { Grid, Typography, TextField, IconButton } from "@material-ui/core";
@@ -63,6 +63,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const HeaderDefaultLayout = (props) => {
+	const history = useHistory();
+
 	const classes = useStyles();
 	return (
 		<Grid container spacing={6} className={classes.galleryHeaderContainer}>

@@ -75,6 +75,8 @@ const Gallery = () => {
 			nftsLayout: nftsLayout,
 		};
 
+		history.push(`${convertToSlug(galleryName)}`);
+
 		if (isCoverImageUpdated) {
 			const uploadResult = await uploadImageToMediaGallery(coverImage);
 			const imageIdentifier = uploadResult.data[0];
