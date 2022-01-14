@@ -61,7 +61,7 @@ const Gallery = ({ setGalleryData, setShowAddAssetsView }) => {
 		setGalleryName(json.galleryName);
 		setGalleryDescription(json.description);
 		setCoverImage(coverImageUrl);
-		setGalleryData({ galleryId: json.id, nfts: gallery.nfts });
+		setGalleryData({ galleryId: json.id, nfts: gallery.nfts, slug: slug });
 		if (currentUser.id === gallery.userId) {
 			setIsOwner(true);
 		}

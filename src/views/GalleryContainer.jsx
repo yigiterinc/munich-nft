@@ -3,10 +3,7 @@ import Gallery from "./Gallery";
 import AddAssets from "../components/edit-gallery/AddAssets";
 import { isUserLoggedIn, getLoggedInUser } from "../utils/auth-utils";
 import { useHistory } from "react-router-dom";
-import {
-	convertSelectedNftsToGalleryAssets,
-	updateGallery,
-} from "../api/strapi";
+import { updateGallery } from "../api/strapi";
 
 const GalleryContainer = () => {
 	const [showAddAssetsView, setShowAddAssetsView] = useState(false);
@@ -44,13 +41,17 @@ const GalleryContainer = () => {
 		const updateResult = await updateGallery(galleryData.galleryId, {
 			assets: updatedAssets,
 		});
-		console.log(updateResult);
+
+		if (updateResult.status === 200) {
+			setShowAddAssetsView(false);
+		}
 	};
 
 	const getActiveComponent = () => {
 		if (showAddAssetsView) {
 			return (
 				<AddAssets
+					galleryAssets={galleryData.nfts}
 					handleSubmit={handleSubmit}
 					setShowAddAssetsView={setShowAddAssetsView}
 				/>

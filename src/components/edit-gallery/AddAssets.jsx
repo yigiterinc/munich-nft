@@ -59,9 +59,24 @@ const useStyles = makeStyles((theme) => ({
 		overflow: "scroll",
 		height: "auto",
 	},
+	button: {
+		background: "#b35bff",
+		color: "white",
+		margin: "13px 25px",
+		padding: "13px 25px",
+		"&:hover": {
+			background: darken("#b35bff", 0.1),
+		},
+	},
+	buttonDisabled: {
+		background: "gray",
+		color: "white",
+		margin: "13px 25px",
+		padding: "13px 25px",
+	},
 }));
 
-const AddAssets = ({ handleSubmit, setShowAddAssetsView }) => {
+const AddAssets = ({ galleryAssets, handleSubmit, setShowAddAssetsView }) => {
 	const classes = useStyles();
 	const theme = useTheme();
 	let { slug } = useParams();
@@ -112,31 +127,37 @@ const AddAssets = ({ handleSubmit, setShowAddAssetsView }) => {
 
 	const removeNftFromSelectedItems = (itemToBeRemoved) => {
 		const itemsWithoutTheSubject = selectedItems.filter(
-			(item) => item.nft !== itemToBeRemoved
+			(selectedItem) => selectedItem.item !== itemToBeRemoved.item
 		);
 		setSelectedItems(itemsWithoutTheSubject);
 	};
 
 	const DEFAULT_IMAGE_PATH = "/images/no-image.png";
 
+	const galleryAssetIds = galleryAssets.map((asset) => asset.id);
+
 	const AssetCardsGrid = () => {
 		return (
 			<Grid container spacing={3} direction="row" alignItems="center">
 				{userCollections?.map((collection) =>
-					collection?.assets.map((item) => {
-						return (
-							<Grid key={item?.id} item lg={3} md={4} sm={6} xs={12}>
-								<NFTImportCard
-									name={item.name}
-									image={item.image_url}
-									addToSelected={() => addToSelectedItems({ collection, item })}
-									removeFromSelected={() =>
-										removeNftFromSelectedItems({ collection, item })
-									}
-								/>
-							</Grid>
-						);
-					})
+					collection?.assets
+						.filter((item) => !galleryAssetIds.includes(item.id))
+						.map((item) => {
+							return (
+								<Grid key={item?.id} item lg={3} md={4} sm={6} xs={12}>
+									<NFTImportCard
+										name={item.name}
+										image={item.image_url}
+										addToSelected={() =>
+											addToSelectedItems({ collection, item })
+										}
+										removeFromSelected={() =>
+											removeNftFromSelectedItems({ collection, item })
+										}
+									/>
+								</Grid>
+							);
+						})
 				)}
 			</Grid>
 		);
@@ -161,17 +182,10 @@ const AddAssets = ({ handleSubmit, setShowAddAssetsView }) => {
 		<div className={classes.buttonsContainer}>
 			<Button
 				variant="contained"
-				style={{
-					background: "#b35bff",
-					color: "white",
-					margin: "13px 25px",
-					padding: "13px 25px",
-					"&:hover": {
-						background: darken("#b35bff", 0.1),
-					},
-				}}
 				size="large"
+				classes={{ root: classes.button, disabled: classes.buttonDisabled }}
 				onClick={() => handleSubmit(selectedItems)}
+				disabled={selectedItems.length === 0}
 			>
 				Add Selected Items
 			</Button>
