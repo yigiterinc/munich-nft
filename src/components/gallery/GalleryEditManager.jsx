@@ -1,7 +1,7 @@
 import React from "react";
 import { darken, makeStyles } from "@material-ui/core/styles";
 import { Button, Grid } from "@material-ui/core";
-import ThemeColorPicker from "./gallery-edit-manager/ThemeColorPicker";
+import ThemePicker from "./gallery-edit-manager/ThemePicker";
 import LayoutPicker from "./gallery-edit-manager/LayoutPicker";
 
 const useStyles = makeStyles((theme) => ({
@@ -64,7 +64,7 @@ const GalleryEditManager = (props) => {
 					<Grid item={true} xs={1} />
 					<Grid item={true} xs={7}>
 						<div className={classes.gallerySettingsContainer}>
-							<ThemeColorPicker
+							<ThemePicker
 								galleryTheme={props.galleryTheme}
 								setGalleryTheme={props.setGalleryTheme}
 							/>

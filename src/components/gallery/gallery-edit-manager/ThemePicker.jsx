@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const ThemeColorPicker = (props) => {
+const ThemePicker = (props) => {
 	const palette = createPalette(RECOMMENDED_THEMES);
 
 	const handleChange = (value) => {
@@ -65,4 +65,4 @@ const themeFinder = (themeName) => {
 	}
 };
 
-export default ThemeColorPicker;
+export default ThemePicker;

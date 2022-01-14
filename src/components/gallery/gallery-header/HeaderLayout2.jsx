@@ -27,9 +27,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 	coverImageContainer: {
 		marginTop: "2vh",
+		marginBottom: "2vh",
 	},
 	galleryOwner: {
 		marginTop: "2vh",
+		marginBottom: "2vh",
 		color: theme.palette.primary.main,
 	},
 	creator: {

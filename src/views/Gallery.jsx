@@ -29,7 +29,6 @@ const Gallery = () => {
 
 	useEffect(async () => {
 		const json = await fetchGallery(slug);
-		console.log(json);
 		let coverImageUrl = `http://localhost:1337${json.coverImage.url}`;
 		const gallery = {
 			userId: json.userId,
@@ -70,6 +69,8 @@ const Gallery = () => {
 			description: galleryDescription,
 			slug: convertToSlug(galleryName),
 			theme: galleryTheme,
+			headerLayout: headerLayout,
+			nftsLayout: nftsLayout,
 		};
 
 		const updateResult = await updateGallery(galleryId, changedParams);

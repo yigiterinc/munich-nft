@@ -1,5 +1,5 @@
-const BACKGROUND_COLORS = {
-	classic: "#FFFFF",
+const THEME_BACKGROUND_COLORS = {
+	classic: "#FFFFFF",
 	dark: "#080808",
 	cyberpunk: "#F9EE00",
 	immutableX: "#191E2B",
@@ -9,7 +9,7 @@ const BACKGROUND_COLORS = {
 const CLASSIC_THEME = {
 	palette: {
 		background: {
-			default: BACKGROUND_COLORS.classic,
+			default: THEME_BACKGROUND_COLORS.classic,
 		},
 		text: {
 			primary: "#000", // gallery-name, description
@@ -26,14 +26,14 @@ const CLASSIC_THEME = {
 			main: "#000", //nftText
 		},
 		info: {
-			main: BACKGROUND_COLORS.classic, // nft asset card background color
+			main: THEME_BACKGROUND_COLORS.classic, // nft asset card background color
 		},
 	},
 };
 const DARK_THEME = {
 	palette: {
 		background: {
-			default: BACKGROUND_COLORS.dark,
+			default: THEME_BACKGROUND_COLORS.dark,
 		},
 		text: {
 			primary: "#fff", // gallery-name, description
@@ -57,7 +57,7 @@ const DARK_THEME = {
 const CYBERPUNK_THEME = {
 	palette: {
 		background: {
-			default: BACKGROUND_COLORS.cyberpunk,
+			default: THEME_BACKGROUND_COLORS.cyberpunk,
 		},
 		text: {
 			primary: "#000", // gallery-name, nft-card-text
@@ -80,7 +80,7 @@ const CYBERPUNK_THEME = {
 const IMMUTABLEX_THEME = {
 	palette: {
 		background: {
-			default: BACKGROUND_COLORS.immutableX,
+			default: THEME_BACKGROUND_COLORS.immutableX,
 		},
 		text: {
 			primary: "#fff", // gallery-name, nft-card-text
@@ -103,7 +103,7 @@ const IMMUTABLEX_THEME = {
 const SOLANART_THEME = {
 	palette: {
 		background: {
-			default: BACKGROUND_COLORS.solanart,
+			default: THEME_BACKGROUND_COLORS.solanart,
 		},
 		text: {
 			primary: "#fff", // gallery-name, nft-card-text
