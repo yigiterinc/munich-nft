@@ -9,12 +9,10 @@ const useStyles = makeStyles((theme) => ({
 	galleryHeaderContainer: {
 		display: "flex",
 		justifyContent: "center",
-		alignItems: "center",
 		width: "80vw",
 	},
 	titleContainer: {
 		display: "flex",
-		alignItems: "center",
 	},
 	title: {
 		color: theme.palette.text.primary,
@@ -59,6 +57,9 @@ const useStyles = makeStyles((theme) => ({
 		width: "400px",
 		height: "400px",
 	},
+	galleryHeader: {
+		marginTop: "1vh",
+	},
 }));
 
 const HeaderDefaultLayout = (props) => {
@@ -83,68 +84,71 @@ const HeaderDefaultLayout = (props) => {
 				</div>
 			</Grid>
 			<Grid item lg={7} md={7} sm={6} xs={4}>
-				<div className={classes.titleContainer}>
-					{props.isOwner && !props.isEditable ? (
-						<>
-							<IconButton
-								className={classes.editGalleryButton}
-								aria-label="edit-gallery"
-								onClick={() => {
-									props.switchEditableMode();
-								}}
-							>
-								<EditIcon />
-							</IconButton>
-							<Typography className={classes.title} variant="h4">
-								{props.galleryName}
-							</Typography>
-						</>
-					) : (
-						<form noValidate autoComplete="off">
-							<TextField
-								value={props.galleryName}
-								inputProps={{ style: { fontSize: "2.125rem" } }}
-								size="medium"
-								onChange={(event) => props.setGalleryName(event.target.value)}
-							/>
-						</form>
-					)}
-				</div>
-				<div className={classes.galleryOwner}>
-					<Typography
-						to={`/profile/${props.galleryJson?.userId}`}
-						component={Link}
-						className={classes.creator}
-						variant="h5"
-					>
-						{props.galleryJson.creator}
-					</Typography>
-				</div>
-				<div className={classes.descriptionPanel}>
-					{props.isOwner && !props.isEditable ? (
-						<>
-							<Typography className={classes.description} variant="h5">
-								{props.galleryDescription}
-							</Typography>
-						</>
-					) : (
-						<form
-							noValidate
-							autoComplete="off"
-							className={classes.descriptionContainer}
+				<div className={classes.galleryHeader}>
+					<div className={classes.titleContainer}>
+						{props.isOwner && !props.isEditable ? (
+							<>
+								<IconButton
+									className={classes.editGalleryButton}
+									aria-label="edit-gallery"
+									onClick={() => {
+										props.switchEditableMode();
+									}}
+								>
+									<EditIcon />
+								</IconButton>
+								<Typography className={classes.title} variant="h4">
+									{props.galleryName}
+								</Typography>
+							</>
+						) : (
+							<form noValidate autoComplete="off">
+								<TextField
+									fullWidth
+									value={props.galleryName}
+									inputProps={{ style: { fontSize: "2.125rem" } }}
+									size="medium"
+									onChange={(event) => props.setGalleryName(event.target.value)}
+								/>
+							</form>
+						)}
+					</div>
+					<div className={classes.galleryOwner}>
+						<Typography
+							to={`/profile/${props.galleryJson?.userId}`}
+							component={Link}
+							className={classes.creator}
+							variant="h5"
 						>
-							<TextField
-								multiline
-								fullWidth
-								value={props.galleryDescription}
-								inputProps={{ style: { fontSize: "1.5rem" } }}
-								size="medium"
-								onChange={(event) =>
-									props.setGalleryDescription(event.target.value)
-								}
-							/>
-						</form>
-					)}
+							{props.galleryJson.creator}
+						</Typography>
+					</div>
+					<div className={classes.descriptionPanel}>
+						{props.isOwner && !props.isEditable ? (
+							<>
+								<Typography className={classes.description} variant="h5">
+									{props.galleryDescription}
+								</Typography>
+							</>
+						) : (
+							<form
+								noValidate
+								autoComplete="off"
+								className={classes.descriptionContainer}
+							>
+								<TextField
+									multiline
+									fullWidth
+									value={props.galleryDescription}
+									inputProps={{ style: { fontSize: "1.5rem" } }}
+									size="medium"
+									onChange={(event) =>
+										props.setGalleryDescription(event.target.value)
+									}
+								/>
+							</form>
+						)}
+					</div>
 				</div>
 			</Grid>
 		</Grid>
