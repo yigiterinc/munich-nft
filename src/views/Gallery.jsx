@@ -48,6 +48,8 @@ const Gallery = () => {
 		} else {
 			setGalleryTheme(createTheme(json.theme));
 		}
+		setHeaderLayout(json.headerLayout);
+		setNftsLayout(json.nftsLayout);
 	}, []);
 
 	const switchGalleryEditMode = () => {
@@ -84,6 +86,8 @@ const Gallery = () => {
 		<ThemeProvider theme={galleryTheme}>
 			<>
 				{console.log(headerLayout)}
+				{console.log(nftsLayout)}
+
 				{gallery ? (
 					<RenderGallery
 						galleryJson={gallery}

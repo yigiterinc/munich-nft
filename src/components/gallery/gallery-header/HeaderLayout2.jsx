@@ -66,7 +66,6 @@ const useStyles = makeStyles((theme) => ({
 
 const HeaderLayout2 = (props) => {
 	const classes = useStyles();
-	console.log(props);
 	return (
 		<>
 			<Grid container spacing={6} className={classes.galleryHeaderContainer}>

@@ -51,20 +51,36 @@ const useStyles = makeStyles((theme) => ({
 	editGalleryButton: {
 		color: theme.palette.secondary.light,
 	},
+	coverImageContainer: {
+		display: "flex",
+		justifyContent: "flex-end",
+	},
+	coverImage: {
+		width: "400px",
+		height: "400px",
+	},
 }));
 
 const HeaderDefaultLayout = (props) => {
 	const classes = useStyles();
-	console.log(props);
 	return (
 		<Grid container spacing={6} className={classes.galleryHeaderContainer}>
-			<Grid item lg={5} md={5} sm={6} xs={8}>
-				<GalleryCoverImage
-					coverImage={props.coverImage}
-					isEditable={props.isEditable}
-					isOwner={props.isOwner}
-					handleDropzoneSubmit={props.handleDropzoneSubmit}
-				/>
+			<Grid
+				className={classes.coverImageContainer}
+				item
+				lg={5}
+				md={5}
+				sm={6}
+				xs={8}
+			>
+				<div className={classes.coverImage}>
+					<GalleryCoverImage
+						coverImage={props.coverImage}
+						isEditable={props.isEditable}
+						isOwner={props.isOwner}
+						handleDropzoneSubmit={props.handleDropzoneSubmit}
+					/>
+				</div>
 			</Grid>
 			<Grid item lg={7} md={7} sm={6} xs={4}>
 				<div className={classes.titleContainer}>

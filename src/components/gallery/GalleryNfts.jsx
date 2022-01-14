@@ -10,10 +10,10 @@ const GalleryNfts = (props) => {
 const renderSelectedNftsLayout = (props) => {
 	if (props.nftsLayout === "default") {
 		return <NftsDefaultLayout {...props} />;
-	} else if (props.headerLayout === "layout-1") {
+	} else if (props.nftsLayout === "layout-1") {
 		return <NftsLayout1 {...props} />;
-	} else if (props.headerLayout === "layout-2") {
-		return <NftsLayout1 {...props} />;
+	} else if (props.nftsLayout === "layout-2") {
+		return <NftsLayout2 {...props} />;
 	}
 };
 

@@ -55,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
 
 const HeaderLayout1 = (props) => {
 	const classes = useStyles();
-	console.log(props);
 	return (
 		<Grid container spacing={6} className={classes.galleryHeaderContainer}>
 			<Grid item lg={7} md={7} sm={6} xs={4}>

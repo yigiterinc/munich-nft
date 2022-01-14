@@ -8,20 +8,37 @@ const useStyles = makeStyles((theme) => ({
 		paddingTop: "10vh",
 		width: "80vw",
 	},
+	firstNftContainer: {
+		marginBottom: "4vh",
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	otherNftsContainer: {
+		justifyContent: "center",
+	},
 }));
 
 const NftsLayout1 = (props) => {
+	let firstNft = props.nfts[0];
+	let otherNfts = props.nfts.slice(1);
 	const classes = useStyles();
 	return (
-		<Grid container spacing={4} className={classes.nftContainer}>
-			{props.nfts.map((item) => {
-				return (
-					<Grid key={item.id} item lg={3} md={4} sm={6} xs={12}>
-						<AssetCard asset={item} />
-					</Grid>
-				);
-			})}
-		</Grid>
+		<div className={classes.nftContainer}>
+			<div className={classes.firstNftContainer}>
+				<AssetCard asset={firstNft} priorNft={true} />
+			</div>
+			<Grid container spacing={4} className={classes.otherNftsContainer}>
+				{otherNfts.map((item) => {
+					return (
+						<Grid key={item.id} item lg={3} md={4} sm={6} xs={12}>
+							<AssetCard asset={item} />
+						</Grid>
+					);
+				})}
+			</Grid>
+		</div>
 	);
 };
 

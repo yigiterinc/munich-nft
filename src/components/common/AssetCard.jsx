@@ -20,6 +20,10 @@ const useStyles = makeStyles((theme) => ({
 	image: {
 		height: "30vh",
 	},
+	priorImage: {
+		width: "400px",
+		height: "400px",
+	},
 	link: {
 		textDecoration: "none",
 	},
@@ -31,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const AssetCard = ({ asset }) => {
+const AssetCard = ({ asset, priorNft }) => {
 	const contractAddressId = asset.asset_contract.address;
 	const tokenId = asset.token_id;
 
@@ -45,12 +49,23 @@ const AssetCard = ({ asset }) => {
 			to={`/token/${contractAddressId}/${tokenId}`}
 		>
 			<Card className={classes.root} variant="outlined">
-				<CardMedia
-					component="img"
-					className={classes.image}
-					image={withDefault(asset.image_url, defaultImagePath)}
-					title={asset.name}
-				/>
+				<>
+					{priorNft ? (
+						<CardMedia
+							component="img"
+							className={classes.priorImage}
+							image={withDefault(asset.image_url, defaultImagePath)}
+							title={asset.name}
+						/>
+					) : (
+						<CardMedia
+							component="img"
+							className={classes.image}
+							image={withDefault(asset.image_url, defaultImagePath)}
+							title={asset.name}
+						/>
+					)}
+				</>
 				<CardContent>
 					<Typography
 						variant="h6"
