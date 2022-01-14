@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	titleContainer: {
 		display: "flex",
+		alignItems: "center",
 	},
 	title: {
 		color: theme.palette.text.primary,
