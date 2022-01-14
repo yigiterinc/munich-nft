@@ -22,6 +22,7 @@ const Gallery = () => {
 	const [galleryTheme, setGalleryTheme] = useState(null);
 	const [headerLayout, setHeaderLayout] = useState("default");
 	const [nftsLayout, setNftsLayout] = useState("default");
+	const [isCoverImageUpdated, setIsCoverImageUpdated] = useState(false);
 
 	let { slug } = useParams();
 	const currentUser = getLoggedInUser();
@@ -65,9 +66,6 @@ const Gallery = () => {
 			return;
 		}
 
-		const uploadResult = await uploadImageToMediaGallery(coverImage);
-		const imageIdentifier = uploadResult.data[0];
-
 		const changedParams = {
 			galleryName,
 			description: galleryDescription,
@@ -75,8 +73,14 @@ const Gallery = () => {
 			theme: galleryTheme,
 			headerLayout: headerLayout,
 			nftsLayout: nftsLayout,
-			coverImage: imageIdentifier,
 		};
+
+		if (isCoverImageUpdated) {
+			const uploadResult = await uploadImageToMediaGallery(coverImage);
+			const imageIdentifier = uploadResult.data[0];
+
+			changedParams.coverImage = imageIdentifier;
+		}
 
 		const updateResult = await updateGallery(galleryId, changedParams);
 	};
@@ -107,6 +111,7 @@ const Gallery = () => {
 						setHeaderLayout={setHeaderLayout}
 						nftsLayout={nftsLayout}
 						setNftsLayout={setNftsLayout}
+						setIsCoverImageUpdated={setIsCoverImageUpdated}
 					/>
 				) : (
 					<CircularSpinner />

@@ -23,7 +23,6 @@ const GalleryCoverImage = (props) => {
 	let imageSrc;
 	if (props.coverImage !== null) {
 		if ("preview" in props.coverImage) {
-			console.log("submit e basınca burda");
 			imageSrc = props.coverImage.preview;
 		} else {
 			imageSrc = STRAPI_BASE_URL + props.coverImage.url;
@@ -39,7 +38,10 @@ const GalleryCoverImage = (props) => {
 								width: "380px",
 								height: "380px",
 							}}
-							handleSubmit={props.handleDropzoneSubmit}
+							handleSubmit={(file) => {
+								props.handleDropzoneSubmit(file);
+								props.setIsCoverImageUpdated(true);
+							}}
 							handleChangeStatus={() => console.log("status changed")}
 							coverImage={
 								<Card className={classes.galleryCoverImageContainer}>
