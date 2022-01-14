@@ -41,8 +41,12 @@ const RenderGallery = (props) => {
 				setGalleryName={props.setGalleryName}
 				galleryDescription={props.galleryDescription}
 				setGalleryDescription={props.setGalleryDescription}
+				headerLayout={props.headerLayout}
 			/>
-			<GalleryNfts nfts={props.galleryJson.nfts} />
+			<GalleryNfts
+				nfts={props.galleryJson.nfts}
+				nftsLayout={props.nftsLayout}
+			/>
 		</div>
 	);
 };

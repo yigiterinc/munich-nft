@@ -1,138 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import GalleryCoverImage from "./gallery-header/GalleryCoverImage";
-import { makeStyles, darken } from "@material-ui/core/styles";
-import { Grid, Typography, TextField, IconButton } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
-
-const useStyles = makeStyles((theme) => ({
-	galleryHeaderContainer: {
-		display: "flex",
-		justifyContent: "center",
-		alignItems: "center",
-		width: "80vw",
-	},
-	titleContainer: {
-		display: "flex",
-		alignItems: "center",
-	},
-	title: {
-		color: theme.palette.text.primary,
-	},
-	galleryOwner: {
-		marginTop: "2vh",
-		color: theme.palette.primary.main,
-	},
-	creator: {
-		textDecoration: "none",
-		border: `solid 8px ${theme.palette.primary.main}`,
-		borderRadius: 10,
-		background: theme.palette.primary.main,
-		cursor: "pointer",
-		"&:hover": {
-			color: theme.palette.primary.contrastText,
-			background: darken(theme.palette.primary.main, 0.05),
-			border: `solid 8px ${darken(theme.palette.primary.main, 0.05)}`,
-		},
-		"&:visited": {
-			color: theme.palette.primary.contrastText,
-		},
-		"&:active": {
-			color: theme.palette.primary.contrastText,
-		},
-	},
-	descriptionContainer: {
-		marginTop: "2vh",
-	},
-	description: {
-		marginTop: "2vh",
-		color: theme.palette.text.primary,
-	},
-	editGalleryButton: {
-		color: theme.palette.secondary.light,
-	},
-}));
+import HeaderDefaultLayout from "./gallery-header/HeaderDefaultLayout";
+import HeaderLayout1 from "./gallery-header/HeaderLayout1";
+import HeaderLayout2 from "./gallery-header/HeaderLayout2";
 
 const GalleryHeader = (props) => {
-	const galleryJson = props.galleryJson;
-	const classes = useStyles();
-	return (
-		<Grid container spacing={6} className={classes.galleryHeaderContainer}>
-			<Grid item lg={5} md={5} sm={6} xs={8}>
-				<GalleryCoverImage
-					coverImage={props.coverImage}
-					isEditable={props.isEditable}
-					isOwner={props.isOwner}
-					handleDropzoneSubmit={props.handleDropzoneSubmit}
-				/>
-			</Grid>
-			<Grid item lg={7} md={7} sm={6} xs={4}>
-				<div className={classes.titleContainer}>
-					{props.isOwner && !props.isEditable ? (
-						<>
-							<IconButton
-								className={classes.editGalleryButton}
-								aria-label="edit-gallery"
-								onClick={() => {
-									props.switchEditableMode();
-								}}
-							>
-								<EditIcon />
-							</IconButton>
-							<Typography className={classes.title} variant="h4">
-								{props.galleryName}
-							</Typography>
-						</>
-					) : (
-						<form noValidate autoComplete="off">
-							<TextField
-								value={props.galleryName}
-								inputProps={{ style: { fontSize: "2.125rem" } }}
-								size="medium"
-								onChange={(event) => props.setGalleryName(event.target.value)}
-							/>
-						</form>
-					)}
-				</div>
-				<div className={classes.galleryOwner}>
-					<Typography
-						to={`/profile/${galleryJson?.userId}`}
-						component={Link}
-						className={classes.creator}
-						variant="h5"
-					>
-						{galleryJson.creator}
-					</Typography>
-				</div>
-				<div className={classes.descriptionPanel}>
-					{props.isOwner && !props.isEditable ? (
-						<>
-							<Typography className={classes.description} variant="h5">
-								{props.galleryDescription}
-							</Typography>
-						</>
-					) : (
-						<form
-							noValidate
-							autoComplete="off"
-							className={classes.descriptionContainer}
-						>
-							<TextField
-								multiline
-								fullWidth
-								value={props.galleryDescription}
-								inputProps={{ style: { fontSize: "1.5rem" } }}
-								size="medium"
-								onChange={(event) =>
-									props.setGalleryDescription(event.target.value)
-								}
-							/>
-						</form>
-					)}
-				</div>
-			</Grid>
-		</Grid>
-	);
+	return <>{renderSelectedHeaderLayout(props)}</>;
+};
+
+const renderSelectedHeaderLayout = (props) => {
+	if (props.headerLayout === "default") {
+		return <HeaderDefaultLayout {...props} />;
+	} else if (props.headerLayout === "layout-1") {
+		return <HeaderLayout1 {...props} />;
+	} else if (props.headerLayout === "layout-2") {
+		return <HeaderLayout2 {...props} />;
+	}
 };
 
 export default GalleryHeader;

@@ -5,8 +5,8 @@ import FileDropzone from "../../common/FileDropzone";
 
 const useStyles = makeStyles({
 	galleryCoverImageContainer: {
-		width: "400px",
-		height: "400px",
+		width: "380px",
+		height: "380px",
 		borderRadius: "10px",
 		border: "1px solid rgb(229, 232, 235)",
 		display: "flex",
@@ -14,7 +14,6 @@ const useStyles = makeStyles({
 		alignItems: "center",
 	},
 	galleryCoverImage: {
-		// objectFit: "cover",
 		maxWidth: "100%",
 	},
 });
@@ -27,8 +26,8 @@ const GalleryCoverImage = (props) => {
 			{props.isOwner && props.isEditable ? (
 				<FileDropzone
 					dropzoneStyles={{
-						width: "400px",
-						height: "400px",
+						width: "380px",
+						height: "380px",
 					}}
 					handleSubmit={props.handleDropzoneSubmit}
 					handleChangeStatus={() => console.log("status changed")}

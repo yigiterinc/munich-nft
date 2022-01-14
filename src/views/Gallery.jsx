@@ -29,6 +29,7 @@ const Gallery = () => {
 
 	useEffect(async () => {
 		const json = await fetchGallery(slug);
+		console.log(json);
 		let coverImageUrl = `http://localhost:1337${json.coverImage.url}`;
 		const gallery = {
 			userId: json.userId,
@@ -81,6 +82,7 @@ const Gallery = () => {
 	return (
 		<ThemeProvider theme={galleryTheme}>
 			<>
+				{console.log(headerLayout)}
 				{gallery ? (
 					<RenderGallery
 						galleryJson={gallery}
