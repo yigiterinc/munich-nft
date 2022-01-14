@@ -84,6 +84,8 @@ const Gallery = () => {
 			changedParams.coverImage = imageIdentifier;
 		}
 
+		setIsCoverImageUpdated(false);
+
 		const updateResult = await updateGallery(galleryId, changedParams);
 	};
 
