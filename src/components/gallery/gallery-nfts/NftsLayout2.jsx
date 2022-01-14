@@ -24,19 +24,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NftsLayout2 = (props) => {
-	let firstNft = props.nfts[0];
-	let secondNft = props.nfts[1];
-	let otherNfts = props.nfts.slice(2);
+	let priorNfts = [];
+	let otherNfts = [];
+	if (props.nfts.length >= 2) {
+		priorNfts.push(props.nfts[0]);
+		priorNfts.push(props.nfts[1]);
+		otherNfts = props.nfts.slice(2);
+	} else {
+		priorNfts.push(props.nfts[0]);
+		otherNfts = props.nfts.slice(1);
+	}
 	const classes = useStyles();
 	return (
 		<div className={classes.nftContainer}>
 			<div className={classes.priorNftsContainer}>
-				<div className={classes.priorNft}>
-					<AssetCard asset={firstNft} priorNft={true} />
-				</div>
-				<div className={classes.priorNft}>
-					<AssetCard asset={secondNft} priorNft={true} />
-				</div>
+				{priorNfts.map((nft) => {
+					return (
+						<div className={classes.priorNft}>
+							<AssetCard asset={nft} priorNft={true} />
+						</div>
+					);
+				})}
 			</div>
 			<Grid container spacing={4} className={classes.otherNftsContainer}>
 				{otherNfts.map((item) => {
