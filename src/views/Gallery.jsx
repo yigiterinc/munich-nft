@@ -57,7 +57,7 @@ const Gallery = () => {
 	};
 
 	const handleDropzoneSubmit = async (file) => {
-		setCoverImage(file.preview);
+		setCoverImage(file);
 	};
 
 	const handleUpdateGallery = async () => {
@@ -66,6 +66,9 @@ const Gallery = () => {
 			return;
 		}
 
+		const uploadResult = await uploadImageToMediaGallery(coverImage);
+		const imageIdentifier = uploadResult.data[0];
+
 		const changedParams = {
 			galleryName,
 			description: galleryDescription,
@@ -73,6 +76,7 @@ const Gallery = () => {
 			theme: galleryTheme,
 			headerLayout: headerLayout,
 			nftsLayout: nftsLayout,
+			coverImage: imageIdentifier,
 		};
 
 		const updateResult = await updateGallery(galleryId, changedParams);
@@ -85,9 +89,6 @@ const Gallery = () => {
 	return (
 		<ThemeProvider theme={galleryTheme}>
 			<>
-				{console.log(headerLayout)}
-				{console.log(nftsLayout)}
-
 				{gallery ? (
 					<RenderGallery
 						galleryJson={gallery}

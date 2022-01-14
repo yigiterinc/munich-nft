@@ -20,7 +20,13 @@ const useStyles = makeStyles({
 
 const GalleryCoverImage = (props) => {
 	const classes = useStyles();
-
+	let imageSrc;
+	if (props.coverImage !== null) {
+		imageSrc =
+			typeof props.coverImage === "string"
+				? props.coverImage
+				: props.coverImage.preview;
+	}
 	return (
 		<div key={props.coverImage}>
 			{props.isOwner && props.isEditable ? (
@@ -33,7 +39,7 @@ const GalleryCoverImage = (props) => {
 					handleChangeStatus={() => console.log("status changed")}
 					coverImage={
 						<Card className={classes.galleryCoverImageContainer}>
-							<CardMedia component="img" src={props.coverImage} />
+							<CardMedia component="img" src={imageSrc} />
 						</Card>
 					}
 				/>
@@ -42,7 +48,7 @@ const GalleryCoverImage = (props) => {
 					<CardMedia
 						className={classes.galleryCoverImage}
 						component="img"
-						src={props.coverImage}
+						src={imageSrc}
 					/>
 				</Card>
 			)}
