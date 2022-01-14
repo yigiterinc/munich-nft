@@ -29,7 +29,6 @@ const Gallery = () => {
 
 	useEffect(async () => {
 		const json = await fetchGallery(slug);
-		let coverImageUrl = `http://localhost:1337${json.coverImage.url}`;
 		const gallery = {
 			userId: json.userId,
 			creator: json.username,
@@ -39,7 +38,7 @@ const Gallery = () => {
 		setGallery(gallery);
 		setGalleryName(json.galleryName);
 		setGalleryDescription(json.description);
-		setCoverImage(coverImageUrl);
+		setCoverImage(json.coverImage);
 		if (currentUser.id === gallery.userId) {
 			setIsOwner(true);
 		}
