@@ -149,6 +149,7 @@ const HeaderLayout1 = (props) => {
 						isEditable={props.isEditable}
 						isOwner={props.isOwner}
 						handleDropzoneSubmit={props.handleDropzoneSubmit}
+						isCoverImageUpdated={props.isCoverImageUpdated}
 						setIsCoverImageUpdated={props.setIsCoverImageUpdated}
 					/>
 				</div>

@@ -113,6 +113,7 @@ const Gallery = () => {
 						setHeaderLayout={setHeaderLayout}
 						nftsLayout={nftsLayout}
 						setNftsLayout={setNftsLayout}
+						isCoverImageUpdated={isCoverImageUpdated}
 						setIsCoverImageUpdated={setIsCoverImageUpdated}
 					/>
 				) : (

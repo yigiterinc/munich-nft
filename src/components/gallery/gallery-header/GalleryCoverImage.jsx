@@ -32,7 +32,7 @@ const GalleryCoverImage = (props) => {
 		<>
 			{props.coverImage && (
 				<div key={props.coverImage}>
-					{props.isOwner && props.isEditable ? (
+					{props.isOwner && props.isEditable && !props.isCoverImageUpdated ? (
 						<FileDropzone
 							dropzoneStyles={{
 								width: "380px",
