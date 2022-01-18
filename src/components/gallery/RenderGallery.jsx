@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Divider } from "@material-ui/core";
 import GalleryEditManager from "./GalleryEditManager";
 import GalleryHeader from "./GalleryHeader";
 import GalleryNfts from "./GalleryNfts";
@@ -13,6 +13,10 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "center",
 		alignItems: "center",
 	},
+	// divider: {
+	// 	width: "100%",
+	// 	boxShadow: "rgb(4 17 29 / 25%) 0px 0px 8px 0px",
+	// },
 }));
 
 const RenderGallery = (props) => {
@@ -45,6 +49,9 @@ const RenderGallery = (props) => {
 				isCoverImageUpdated={props.isCoverImageUpdated}
 				setIsCoverImageUpdated={props.setIsCoverImageUpdated}
 			/>
+			{/* <div className={classes.divider}>
+				<Divider />
+			</div> */}
 			<GalleryNfts
 				nfts={props.galleryJson.nfts}
 				nftsLayout={props.nftsLayout}

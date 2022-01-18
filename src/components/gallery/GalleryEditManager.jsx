@@ -1,6 +1,7 @@
 import React from "react";
 import { darken, makeStyles } from "@material-ui/core/styles";
-import { Button, Grid } from "@material-ui/core";
+import { Button, Grid, IconButton } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
 import ThemePicker from "./gallery-edit-manager/ThemePicker";
 import LayoutPicker from "./gallery-edit-manager/LayoutPicker";
 
@@ -15,6 +16,19 @@ const useStyles = makeStyles((theme) => ({
 		width: "100%",
 		display: "flex",
 		alignItems: "center",
+	},
+	editGalleryContainer: {
+		top: "4vh",
+		marginTop: "-4vh",
+		marginBottom: "2vh",
+		marginLeft: "2vw",
+		display: "flex",
+		width: "100%",
+	},
+	editGalleryButton: {
+		color: theme.palette.secondary.light,
+		marginTop: "3vh",
+		marginLeft: "2vh",
 	},
 	gallerySettingsContainer: {
 		display: "flex",
@@ -59,7 +73,7 @@ const GalleryEditManager = (props) => {
 
 	return (
 		<>
-			{props.isEditMode && (
+			{props.isEditMode ? (
 				<div className={classes.galleryEditManagerContainer}>
 					<Grid item={true} xs={1} />
 					<Grid item={true} xs={7}>
@@ -103,6 +117,20 @@ const GalleryEditManager = (props) => {
 					</Grid>
 
 					<Grid item={true} xs={1} />
+				</div>
+			) : (
+				<div className={classes.editGalleryContainer}>
+					<div className={classes.editGalleryButton}>
+						<Button
+							aria-label="edit-gallery"
+							startIcon={<EditIcon />}
+							onClick={() => {
+								props.switchEditableMode();
+							}}
+						>
+							Edit
+						</Button>
+					</div>
 				</div>
 			)}
 		</>

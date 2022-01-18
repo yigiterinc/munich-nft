@@ -17,8 +17,8 @@ const CLASSIC_THEME = {
 		},
 		primary: {
 			// galleryOwner Button
-			main: "#e5e5ea", // btn background
-			contrastText: "#fff", // btn text
+			main: "rgb(32, 129, 226)", // creator-link
+			contrastText: "#1867B7", // creator-link hovered
 		},
 		secondary: {
 			// assetCard
@@ -41,8 +41,8 @@ const DARK_THEME = {
 		},
 		primary: {
 			// galleryOwner Button
-			main: "#fff",
-			contrastText: "#000",
+			main: "#fff", // created-link
+			contrastText: "#D3D3D3", // creator-link hovered
 		},
 		secondary: {
 			// assetCard
@@ -64,8 +64,9 @@ const CYBERPUNK_THEME = {
 			secondary: "rgba(0, 0, 0, 0.54)", // nft-card-collection-text
 		},
 		primary: {
-			main: "#FF003B", // galleryOwner button background
-			contrastText: "#fff", // gallerOwner button text color
+			// galleryOwner Button
+			main: "#FF003B", // creator-link
+			contrastText: "#8B0000", // creator-link hover
 		},
 		secondary: {
 			// assetCard
@@ -87,8 +88,9 @@ const IMMUTABLEX_THEME = {
 			secondary: "#fff", // nft-card-collection-text
 		},
 		primary: {
-			main: "#30A6BA", // galleryOwner button background
-			contrastText: "#fff", // gallerOwner button text color
+			// galleryOwner Button
+			main: "#30A6BA", // creator-link
+			contrastText: "#217482", // creator-link hover
 		},
 		secondary: {
 			// assetCard
@@ -110,8 +112,9 @@ const SOLANART_THEME = {
 			secondary: "#fff", // nft-card-collection-text
 		},
 		primary: {
-			main: "#11B981", // galleryOwner button background
-			contrastText: "#fff", // gallerOwner button text color
+			// galleryOwner Button
+			main: "#11B981", //  creator-link
+			contrastText: "#0d9467", // creator-link hover
 		},
 		secondary: {
 			// assetCard

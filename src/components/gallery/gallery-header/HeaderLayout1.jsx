@@ -2,8 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import GalleryCoverImage from "./GalleryCoverImage";
 import { makeStyles, darken } from "@material-ui/core/styles";
-import { Grid, Typography, TextField, IconButton } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
+import { Grid, Typography, TextField } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
 	galleryHeaderContainer: {
@@ -11,34 +10,30 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "center",
 		width: "80vw",
 	},
-	titleContainer: {
-		display: "flex",
-		alignItems: "center",
-	},
 	title: {
+		fontSize: "36px", // will be updated after theme variable setup
+		lineHeight: "4rem",
 		color: theme.palette.text.primary,
 	},
 	galleryOwner: {
-		marginTop: "2vh",
+		display: "flex",
+		marginTop: "3vh",
+		marginBottom: "4vh",
 		color: theme.palette.primary.main,
+	},
+	createdTextLabel: {
+		color: theme.palette.text.primary,
+		marginRight: "0.5vw",
+		fontSize: "16px", // will be updated after theme variable setup
 	},
 	creator: {
 		textDecoration: "none",
-		border: `solid 8px ${theme.palette.primary.main}`,
-		borderRadius: 10,
-		background: theme.palette.primary.main,
 		cursor: "pointer",
+		color: theme.palette.primary.main,
 		"&:hover": {
 			color: theme.palette.primary.contrastText,
-			background: darken(theme.palette.primary.main, 0.05),
-			border: `solid 8px ${darken(theme.palette.primary.main, 0.05)}`,
 		},
-		"&:visited": {
-			color: theme.palette.primary.contrastText,
-		},
-		"&:active": {
-			color: theme.palette.primary.contrastText,
-		},
+		fontSize: "16px", // will be updated after theme variable setup
 	},
 	descriptionContainer: {
 		marginTop: "2vh",
@@ -46,15 +41,12 @@ const useStyles = makeStyles((theme) => ({
 	description: {
 		marginTop: "2vh",
 		color: theme.palette.text.primary,
+		fontSize: "18px", // will be updated after theme variable setup
 	},
 	editGalleryButton: {
 		color: theme.palette.secondary.light,
 	},
-	galleryHeader: {
-		marginTop: "2vh",
-	},
 	coverImage: {
-		display: "flex",
 		alignItems: "center",
 		width: "400px",
 		height: "400px",
@@ -70,15 +62,6 @@ const HeaderLayout1 = (props) => {
 					<div className={classes.titleContainer}>
 						{props.isOwner && !props.isEditable ? (
 							<>
-								<IconButton
-									className={classes.editGalleryButton}
-									aria-label="edit-gallery"
-									onClick={() => {
-										props.switchEditableMode();
-									}}
-								>
-									<EditIcon />
-								</IconButton>
 								<Typography className={classes.title} variant="h4">
 									{props.galleryName}
 								</Typography>
@@ -86,15 +69,18 @@ const HeaderLayout1 = (props) => {
 						) : (
 							<form noValidate autoComplete="off">
 								<TextField
+									fullWidth
 									value={props.galleryName}
-									inputProps={{ style: { fontSize: "2.125rem" } }}
-									size="medium"
+									inputProps={{ style: { fontSize: "36px" } }}
 									onChange={(event) => props.setGalleryName(event.target.value)}
 								/>
 							</form>
 						)}
 					</div>
 					<div className={classes.galleryOwner}>
+						<Typography className={classes.createdTextLabel} variant="h5">
+							Created by
+						</Typography>
 						<Typography
 							to={`/profile/${props.galleryJson?.userId}`}
 							component={Link}
@@ -121,8 +107,7 @@ const HeaderLayout1 = (props) => {
 									multiline
 									fullWidth
 									value={props.galleryDescription}
-									inputProps={{ style: { fontSize: "1.5rem" } }}
-									size="medium"
+									inputProps={{ style: { fontSize: "18px" } }}
 									onChange={(event) =>
 										props.setGalleryDescription(event.target.value)
 									}

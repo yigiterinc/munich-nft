@@ -5,16 +5,14 @@ import { STRAPI_BASE_URL } from "../../../constants/strapiConstants";
 
 const useStyles = makeStyles({
 	galleryCoverImageContainer: {
-		width: "380px",
-		height: "380px",
-		borderRadius: "10px",
-		border: "1px solid rgb(229, 232, 235)",
+		width: "350px",
+		height: "350px",
 		display: "flex",
-		justifyContent: "center",
-		alignItems: "center",
 	},
 	galleryCoverImage: {
-		maxWidth: "100%",
+		width: "100%",
+		height: "100%",
+		objectFit: "cover",
 	},
 });
 
@@ -35,8 +33,8 @@ const GalleryCoverImage = (props) => {
 					{props.isOwner && props.isEditable && !props.isCoverImageUpdated ? (
 						<FileDropzone
 							dropzoneStyles={{
-								width: "380px",
-								height: "380px",
+								width: "350px",
+								height: "350px",
 							}}
 							handleSubmit={(file) => {
 								props.handleDropzoneSubmit(file);
@@ -52,8 +50,8 @@ const GalleryCoverImage = (props) => {
 					) : (
 						<Card className={classes.galleryCoverImageContainer}>
 							<CardMedia
-								className={classes.galleryCoverImage}
 								component="img"
+								className={classes.galleryCoverImage}
 								src={imageSrc}
 							/>
 						</Card>
