@@ -17,7 +17,6 @@ const useStyles = makeStyles({
 });
 
 const GalleryCoverImage = (props) => {
-	const classes = useStyles();
 	let imageSrc;
 	if (props.coverImage !== null) {
 		if ("preview" in props.coverImage) {
@@ -26,6 +25,8 @@ const GalleryCoverImage = (props) => {
 			imageSrc = STRAPI_BASE_URL + props.coverImage.url;
 		}
 	}
+
+	const classes = useStyles();
 	return (
 		<>
 			{props.coverImage && (

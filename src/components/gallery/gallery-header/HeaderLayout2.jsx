@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import GalleryCoverImage from "./GalleryCoverImage";
-import { makeStyles, darken } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography, TextField } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	createdTextLabel: {
 		color: theme.palette.text.primary,
-		marginRight: "0.5vw",
+		marginRight: "0.3vw",
 		fontSize: "16px", // will be updated after theme variable setup
 	},
 	creator: {

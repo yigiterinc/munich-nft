@@ -7,10 +7,9 @@ import LayoutPicker from "./gallery-edit-manager/LayoutPicker";
 
 const useStyles = makeStyles((theme) => ({
 	galleryEditManagerContainer: {
-		top: "4vh",
 		marginTop: "-4vh",
-		marginBottom: "2vh",
-		height: "96px",
+		marginBottom: "4vh",
+		height: "80px",
 		borderBottom: "1px solid rgb(229, 232, 235)",
 		background: "rgb(229, 232, 235)",
 		width: "100%",
@@ -20,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
 	editGalleryContainer: {
 		top: "4vh",
 		marginTop: "-4vh",
-		marginBottom: "2vh",
 		marginLeft: "2vw",
 		display: "flex",
 		width: "100%",
@@ -70,68 +68,71 @@ const useStyles = makeStyles((theme) => ({
 
 const GalleryEditManager = (props) => {
 	const classes = useStyles();
-
 	return (
 		<>
-			{props.isEditMode ? (
-				<div className={classes.galleryEditManagerContainer}>
-					<Grid item={true} xs={1} />
-					<Grid item={true} xs={7}>
-						<div className={classes.gallerySettingsContainer}>
-							<ThemePicker
-								galleryTheme={props.galleryTheme}
-								setGalleryTheme={props.setGalleryTheme}
-							/>
-							<LayoutPicker
-								headerLayout={props.headerLayout}
-								setHeaderLayout={props.setHeaderLayout}
-								nftsLayout={props.nftsLayout}
-								setNftsLayout={props.setNftsLayout}
-							/>
-						</div>
-					</Grid>
-					<Grid item={true} xs={3}>
-						<div className={classes.buttonsContainer}>
-							<Button
-								className={classes.cancelButton}
-								size="large"
-								variant="contained"
-								onClick={() => {
-									window.location.reload(false);
-								}}
-							>
-								Cancel
-							</Button>
-							<Button
-								className={classes.saveButton}
-								size="large"
-								variant="contained"
-								onClick={() => {
-									props.switchEditableMode();
-									props.handleUpdateGallery();
-								}}
-							>
-								SAVE
-							</Button>
-						</div>
-					</Grid>
+			{props.isOwner && (
+				<>
+					{props.isEditMode ? (
+						<div className={classes.galleryEditManagerContainer}>
+							<Grid item={true} xs={1} />
+							<Grid item={true} xs={7}>
+								<div className={classes.gallerySettingsContainer}>
+									<ThemePicker
+										galleryTheme={props.galleryTheme}
+										setGalleryTheme={props.setGalleryTheme}
+									/>
+									<LayoutPicker
+										headerLayout={props.headerLayout}
+										setHeaderLayout={props.setHeaderLayout}
+										nftsLayout={props.nftsLayout}
+										setNftsLayout={props.setNftsLayout}
+									/>
+								</div>
+							</Grid>
+							<Grid item={true} xs={3}>
+								<div className={classes.buttonsContainer}>
+									<Button
+										className={classes.cancelButton}
+										size="large"
+										variant="contained"
+										onClick={() => {
+											window.location.reload(false);
+										}}
+									>
+										Cancel
+									</Button>
+									<Button
+										className={classes.saveButton}
+										size="large"
+										variant="contained"
+										onClick={() => {
+											props.switchEditableMode();
+											props.handleUpdateGallery();
+										}}
+									>
+										SAVE
+									</Button>
+								</div>
+							</Grid>
 
-					<Grid item={true} xs={1} />
-				</div>
-			) : (
-				<div className={classes.editGalleryContainer}>
-					<div className={classes.editGalleryButton}>
-						<Button
-							aria-label="edit-gallery"
-							startIcon={<EditIcon />}
-							onClick={() => {
-								props.switchEditableMode();
-							}}
-						>
-							Edit
-						</Button>
-					</div>
-				</div>
+							<Grid item={true} xs={1} />
+						</div>
+					) : (
+						<div className={classes.editGalleryContainer}>
+							<div className={classes.editGalleryButton}>
+								<Button
+									aria-label="edit-gallery"
+									startIcon={<EditIcon />}
+									onClick={() => {
+										props.switchEditableMode();
+									}}
+								>
+									Edit
+								</Button>
+							</div>
+						</div>
+					)}
+				</>
 			)}
 		</>
 	);

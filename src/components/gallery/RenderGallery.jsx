@@ -13,10 +13,6 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "center",
 		alignItems: "center",
 	},
-	// divider: {
-	// 	width: "100%",
-	// 	boxShadow: "rgb(4 17 29 / 25%) 0px 0px 8px 0px",
-	// },
 }));
 
 const RenderGallery = (props) => {
@@ -24,6 +20,7 @@ const RenderGallery = (props) => {
 	return (
 		<div className={classes.galleryContainer}>
 			<GalleryEditManager
+				isOwner={props.isOwner}
 				isEditMode={props.isEditable}
 				switchEditableMode={props.switchGalleryEditMode}
 				handleUpdateGallery={props.handleUpdateGallery}
@@ -36,9 +33,8 @@ const RenderGallery = (props) => {
 			/>
 			<GalleryHeader
 				galleryJson={props.galleryJson}
-				isEditable={props.isEditable}
-				switchEditableMode={props.switchGalleryEditMode}
 				isOwner={props.isOwner}
+				isEditable={props.isEditable}
 				coverImage={props.coverImage}
 				handleDropzoneSubmit={props.handleDropzoneSubmit}
 				galleryName={props.galleryName}
@@ -49,9 +45,6 @@ const RenderGallery = (props) => {
 				isCoverImageUpdated={props.isCoverImageUpdated}
 				setIsCoverImageUpdated={props.setIsCoverImageUpdated}
 			/>
-			{/* <div className={classes.divider}>
-				<Divider />
-			</div> */}
 			<GalleryNfts
 				nfts={props.galleryJson.nfts}
 				nftsLayout={props.nftsLayout}
