@@ -5,11 +5,11 @@ import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
 	nftContainer: {
-		paddingTop: "10vh",
+		paddingTop: "4vh",
 		width: "80vw",
 	},
 	firstNftContainer: {
-		marginBottom: "4vh",
+		marginBottom: "2vh",
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "center",

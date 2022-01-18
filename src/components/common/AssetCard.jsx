@@ -21,8 +21,8 @@ const useStyles = makeStyles((theme) => ({
 		height: "30vh",
 	},
 	priorImage: {
-		width: "400px",
-		height: "400px",
+		width: "300px",
+		height: "300px",
 	},
 	link: {
 		textDecoration: "none",

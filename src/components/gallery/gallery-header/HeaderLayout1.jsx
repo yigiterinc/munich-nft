@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "center",
 		width: "80vw",
 	},
+	titleContainer: {},
 	title: {
 		fontSize: "36px", // will be updated after theme variable setup
 		lineHeight: "4rem",
@@ -46,87 +47,81 @@ const useStyles = makeStyles((theme) => ({
 	editGalleryButton: {
 		color: theme.palette.secondary.light,
 	},
-	coverImage: {
-		alignItems: "center",
-		width: "400px",
-		height: "400px",
+	coverImageContainer: {
+		display: "flex",
+		justifyContent: "center",
 	},
 }));
 
 const HeaderLayout1 = (props) => {
 	const classes = useStyles();
 	return (
-		<Grid container spacing={6} className={classes.galleryHeaderContainer}>
-			<Grid item lg={7} md={7} sm={6} xs={4}>
-				<div className={classes.galleryHeader}>
-					<div className={classes.titleContainer}>
-						{props.isOwner && !props.isEditable ? (
-							<>
-								<Typography className={classes.title} variant="h4">
-									{props.galleryName}
-								</Typography>
-							</>
-						) : (
-							<form noValidate autoComplete="off">
-								<TextField
-									fullWidth
-									value={props.galleryName}
-									inputProps={{ style: { fontSize: "36px" } }}
-									onChange={(event) => props.setGalleryName(event.target.value)}
-								/>
-							</form>
-						)}
-					</div>
-					<div className={classes.galleryOwner}>
-						<Typography className={classes.createdTextLabel} variant="h5">
-							Created by
-						</Typography>
-						<Typography
-							to={`/profile/${props.galleryJson?.userId}`}
-							component={Link}
-							className={classes.creator}
-							variant="h5"
+		<Grid container spacing={2} className={classes.galleryHeaderContainer}>
+			<Grid item lg={8} md={8} sm={7} xs={5}>
+				<div className={classes.titleContainer}>
+					{props.isOwner && !props.isEditable ? (
+						<>
+							<Typography className={classes.title} variant="h4">
+								{props.galleryName}
+							</Typography>
+						</>
+					) : (
+						<form noValidate autoComplete="off">
+							<TextField
+								fullWidth
+								value={props.galleryName}
+								inputProps={{ style: { fontSize: "36px" } }}
+								onChange={(event) => props.setGalleryName(event.target.value)}
+							/>
+						</form>
+					)}
+				</div>
+				<div className={classes.galleryOwner}>
+					<Typography className={classes.createdTextLabel} variant="h5">
+						Created by
+					</Typography>
+					<Typography
+						to={`/profile/${props.galleryJson?.userId}`}
+						component={Link}
+						className={classes.creator}
+						variant="h5"
+					>
+						{props.galleryJson.creator}
+					</Typography>
+				</div>
+				<div className={classes.descriptionPanel}>
+					{props.isOwner && !props.isEditable ? (
+						<>
+							<Typography className={classes.description} variant="h5">
+								{props.galleryDescription}
+							</Typography>
+						</>
+					) : (
+						<form
+							noValidate
+							autoComplete="off"
+							className={classes.descriptionContainer}
 						>
-							{props.galleryJson.creator}
-						</Typography>
-					</div>
-					<div className={classes.descriptionPanel}>
-						{props.isOwner && !props.isEditable ? (
-							<>
-								<Typography className={classes.description} variant="h5">
-									{props.galleryDescription}
-								</Typography>
-							</>
-						) : (
-							<form
-								noValidate
-								autoComplete="off"
-								className={classes.descriptionContainer}
-							>
-								<TextField
-									multiline
-									fullWidth
-									value={props.galleryDescription}
-									inputProps={{ style: { fontSize: "18px" } }}
-									onChange={(event) =>
-										props.setGalleryDescription(event.target.value)
-									}
-								/>
-							</form>
-						)}
-					</div>
+							<TextField
+								multiline
+								fullWidth
+								value={props.galleryDescription}
+								inputProps={{ style: { fontSize: "18px" } }}
+								onChange={(event) =>
+									props.setGalleryDescription(event.target.value)
+								}
+							/>
+						</form>
+					)}
 				</div>
 			</Grid>
 			<Grid
 				item
-				lg={5}
-				md={5}
-				sm={6}
-				xs={8}
-				container
-				spacing={0}
-				direction="column"
-				alignItems="center"
+				lg={4}
+				md={4}
+				sm={5}
+				xs={7}
+				className={classes.coverImageContainer}
 			>
 				<div className={classes.coverImage}>
 					<GalleryCoverImage
