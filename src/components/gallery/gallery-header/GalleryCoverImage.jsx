@@ -5,8 +5,8 @@ import { STRAPI_BASE_URL } from "../../../constants/strapiConstants";
 
 const useStyles = makeStyles({
 	galleryCoverImageContainer: {
-		width: "350px",
-		height: "350px",
+		width: "300px",
+		height: "300px",
 		display: "flex",
 	},
 	galleryCoverImage: {
@@ -34,8 +34,8 @@ const GalleryCoverImage = (props) => {
 					{props.isOwner && props.isEditable && !props.isCoverImageUpdated ? (
 						<FileDropzone
 							dropzoneStyles={{
-								width: "350px",
-								height: "350px",
+								width: "300px",
+								height: "300px",
 							}}
 							handleSubmit={(file) => {
 								props.handleDropzoneSubmit(file);

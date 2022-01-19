@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { darken, makeStyles } from "@material-ui/core/styles";
-import { Button, Grid, IconButton } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
+import LayoutModal from "./gallery-edit-manager/LayoutModal";
 import ThemePicker from "./gallery-edit-manager/ThemePicker";
-import LayoutPicker from "./gallery-edit-manager/LayoutPicker";
 
 const useStyles = makeStyles((theme) => ({
 	galleryEditManagerContainer: {
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 	editGalleryButton: {
 		color: theme.palette.secondary.light,
 		marginTop: "3vh",
-		marginLeft: "2vh",
+		marginLeft: "1.5vw",
 	},
 	gallerySettingsContainer: {
 		display: "flex",
@@ -37,6 +37,19 @@ const useStyles = makeStyles((theme) => ({
 		display: "flex",
 		justifyContent: "flex-end",
 		alignItems: "center",
+	},
+	layoutsButton: {
+		width: "175px",
+		color: "#FFFFFF",
+		margin: "13px 40px",
+		padding: "13px 15px",
+		"&:disabled": {
+			opacity: "80%",
+		},
+		background: "#dc143c",
+		"&:hover": {
+			background: darken("#dc143c", 0.1),
+		},
 	},
 	cancelButton: {
 		width: "100px",
@@ -67,6 +80,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const GalleryEditManager = (props) => {
+	const [openLayoutModal, setOpenLayoutModal] = useState(false);
+	const closeLayoutModal = () => setOpenLayoutModal(false);
+
 	const classes = useStyles();
 	return (
 		<>
@@ -81,7 +97,18 @@ const GalleryEditManager = (props) => {
 										galleryTheme={props.galleryTheme}
 										setGalleryTheme={props.setGalleryTheme}
 									/>
-									<LayoutPicker
+									<Button
+										variant="contained"
+										className={classes.layoutsButton}
+										onClick={() => {
+											setOpenLayoutModal(true);
+										}}
+									>
+										Change Layout
+									</Button>
+									<LayoutModal
+										openLayoutModal={openLayoutModal}
+										closeLayoutModal={closeLayoutModal}
 										headerLayout={props.headerLayout}
 										setHeaderLayout={props.setHeaderLayout}
 										nftsLayout={props.nftsLayout}

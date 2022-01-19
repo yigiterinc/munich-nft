@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	galleryOwner: {
 		display: "flex",
-		marginTop: "3vh",
+		marginLeft: "0.2vw",
+		marginTop: "0.5vh",
 		marginBottom: "4vh",
 		textAlign: "center",
 	},

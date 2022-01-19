@@ -10,7 +10,6 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "center",
 		width: "80vw",
 	},
-	titleContainer: {},
 	title: {
 		fontSize: "36px", // will be updated after theme variable setup
 		lineHeight: "4rem",
@@ -18,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	galleryOwner: {
 		display: "flex",
-		marginTop: "3vh",
+		marginLeft: "0.2vw",
+		marginTop: "0.5vh",
 		marginBottom: "4vh",
 		color: theme.palette.primary.main,
 	},
