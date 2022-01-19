@@ -76,7 +76,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const AddAssets = ({ galleryAssets, handleSubmit, setShowAddAssetsView }) => {
+const AddorRemoveAssets = ({
+	add = false,
+	galleryAssets,
+	handleChangeGalleryAssets,
+	setShowSelectedView,
+}) => {
 	const classes = useStyles();
 	const theme = useTheme();
 	let { slug } = useParams();
@@ -93,7 +98,7 @@ const AddAssets = ({ galleryAssets, handleSubmit, setShowAddAssetsView }) => {
 		if (isInitialMount.current) {
 			isInitialMount.current = false;
 		} else {
-			setShowAddAssetsView(false);
+			setShowSelectedView(false);
 		}
 	}, [slug]);
 
@@ -141,7 +146,13 @@ const AddAssets = ({ galleryAssets, handleSubmit, setShowAddAssetsView }) => {
 			<Grid container spacing={3} direction="row" alignItems="center">
 				{userCollections?.map((collection) =>
 					collection?.assets
-						.filter((item) => !galleryAssetIds.includes(item.id))
+						.filter((item) => {
+							if (add) {
+								return !galleryAssetIds.includes(item.id);
+							} else {
+								return galleryAssetIds.includes(item.id);
+							}
+						})
 						.map((item) => {
 							return (
 								<Grid key={item?.id} item lg={3} md={4} sm={6} xs={12}>
@@ -184,10 +195,10 @@ const AddAssets = ({ galleryAssets, handleSubmit, setShowAddAssetsView }) => {
 				variant="contained"
 				size="large"
 				classes={{ root: classes.button, disabled: classes.buttonDisabled }}
-				onClick={() => handleSubmit(selectedItems)}
+				onClick={() => handleChangeGalleryAssets(selectedItems)}
 				disabled={selectedItems.length === 0}
 			>
-				Add Selected Items
+				{add ? "Add Selected Item(s)" : "Remove Selected Item(s)"}
 			</Button>
 		</div>
 	);
@@ -215,4 +226,4 @@ const AddAssets = ({ galleryAssets, handleSubmit, setShowAddAssetsView }) => {
 	);
 };
 
-export default AddAssets;
+export default AddorRemoveAssets;

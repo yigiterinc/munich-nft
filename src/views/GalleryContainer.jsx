@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import Gallery from "./Gallery";
-import AddAssets from "../components/edit-gallery/AddAssets";
+import AddorRemoveAssets from "../components/edit-gallery/AddorRemoveAssets";
 import { isUserLoggedIn, getLoggedInUser } from "../utils/auth-utils";
 import { useHistory } from "react-router-dom";
 import { updateGallery } from "../api/strapi";
 
 const GalleryContainer = () => {
 	const [showAddAssetsView, setShowAddAssetsView] = useState(false);
+	const [showRemoveAssetsView, setShowRemoveAssetsView] = useState(false);
 	const [galleryData, setGalleryData] = useState();
 	const history = useHistory();
 	const user = getLoggedInUser();
 
-	const handleSubmit = async (selectedItems) => {
+	const handleAddSelectedAssets = async (selectedItems) => {
 		console.log(selectedItems);
 		if (!isUserLoggedIn()) {
 			history.push("/");
@@ -22,7 +23,7 @@ const GalleryContainer = () => {
 			return;
 		}
 
-		let galleryAssets = [];
+		let addedGalleryAssets = [];
 		selectedItems.forEach((pair) => {
 			const galleryAsset = {
 				...pair.item,
@@ -33,10 +34,10 @@ const GalleryContainer = () => {
 				slug: pair.collection.slug,
 			};
 
-			galleryAssets.push(galleryAsset);
+			addedGalleryAssets.push(galleryAsset);
 		});
 
-		const updatedAssets = galleryData.nfts.concat(galleryAssets);
+		const updatedAssets = galleryData.nfts.concat(addedGalleryAssets);
 
 		const updateResult = await updateGallery(galleryData.galleryId, {
 			assets: updatedAssets,
@@ -47,13 +48,62 @@ const GalleryContainer = () => {
 		}
 	};
 
+	const handleRemoveSelectedAssets = async (selectedItems) => {
+		console.log(selectedItems);
+		if (!isUserLoggedIn()) {
+			history.push("/");
+			return;
+		}
+
+		if (!user || !selectedItems) {
+			return;
+		}
+
+		let removedGalleryAssets = [];
+		selectedItems.forEach((pair) => {
+			const galleryAsset = {
+				...pair.item,
+			};
+
+			galleryAsset.collection = {
+				name: pair.collection.name,
+				slug: pair.collection.slug,
+			};
+
+			removedGalleryAssets.push(galleryAsset);
+		});
+
+		const removedAssetIds = removedGalleryAssets.map((item) => item.id);
+
+		const updatedAssets = galleryData.nfts.filter(
+			(item) => !removedAssetIds.includes(item.id)
+		);
+
+		const updateResult = await updateGallery(galleryData.galleryId, {
+			assets: updatedAssets,
+		});
+
+		if (updateResult.status === 200) {
+			setShowRemoveAssetsView(false);
+		}
+	};
+
 	const getActiveComponent = () => {
 		if (showAddAssetsView) {
 			return (
-				<AddAssets
+				<AddorRemoveAssets
+					add={true}
 					galleryAssets={galleryData.nfts}
-					handleSubmit={handleSubmit}
-					setShowAddAssetsView={setShowAddAssetsView}
+					handleChangeGalleryAssets={handleAddSelectedAssets}
+					setShowSelectedView={setShowAddAssetsView}
+				/>
+			);
+		} else if (showRemoveAssetsView) {
+			return (
+				<AddorRemoveAssets
+					galleryAssets={galleryData.nfts}
+					handleChangeGalleryAssets={handleRemoveSelectedAssets}
+					setShowSelectedView={setShowRemoveAssetsView}
 				/>
 			);
 		} else {
@@ -61,6 +111,7 @@ const GalleryContainer = () => {
 				<Gallery
 					setGalleryData={setGalleryData}
 					setShowAddAssetsView={setShowAddAssetsView}
+					setShowRemoveAssetsView={setShowRemoveAssetsView}
 				/>
 			);
 		}

@@ -31,7 +31,11 @@ const useStyles = makeStyles({
 	},
 });
 
-const Gallery = ({ setGalleryData, setShowAddAssetsView }) => {
+const Gallery = ({
+	setGalleryData,
+	setShowAddAssetsView,
+	setShowRemoveAssetsView,
+}) => {
 	const [gallery, setGallery] = useState(null);
 	const [isEditable, setIsEditable] = useState(false);
 	const [isOwner, setIsOwner] = useState(false);
@@ -109,7 +113,8 @@ const Gallery = ({ setGalleryData, setShowAddAssetsView }) => {
 					setGalleryName,
 					setGalleryDescription,
 					handleUpdateGallery,
-					setShowAddAssetsView
+					setShowAddAssetsView,
+					setShowRemoveAssetsView
 				)
 			) : (
 				<CircularSpinner />
@@ -139,7 +144,8 @@ const renderPage = (
 	setGalleryName,
 	setGalleryDescription,
 	handleUpdateGallery,
-	setShowAddAssetsView
+	setShowAddAssetsView,
+	setShowRemoveAssetsView
 ) => {
 	return (
 		<div className={classes.galleryContainer}>
@@ -160,7 +166,8 @@ const renderPage = (
 				galleryDescription,
 				setGalleryName,
 				setGalleryDescription,
-				setShowAddAssetsView
+				setShowAddAssetsView,
+				setShowRemoveAssetsView
 			)}
 			{renderNftsInGallery(classes, galleryJson.nfts, isEditable, isOwner)}
 		</div>
@@ -179,7 +186,8 @@ const renderGalleryHeader = (
 	galleryDescription,
 	setGalleryName,
 	setGalleryDescription,
-	setShowAddAssetsView
+	setShowAddAssetsView,
+	setShowRemoveAssetsView
 ) => {
 	return (
 		<Grid container spacing={6} className={classes.galleryHeaderContainer}>
@@ -205,7 +213,10 @@ const renderGalleryHeader = (
 			</Grid>
 			{isOwner && !isEditable && (
 				<Grid item xs={1}>
-					<GalleryMenu setShowAddAssetsView={setShowAddAssetsView} />
+					<GalleryMenu
+						setShowAddAssetsView={setShowAddAssetsView}
+						setShowRemoveAssetsView={setShowRemoveAssetsView}
+					/>
 				</Grid>
 			)}
 		</Grid>

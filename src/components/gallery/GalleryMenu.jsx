@@ -8,7 +8,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import AddAssets from "../edit-gallery/AddAssets";
+import AddorRemoveAssets from "../edit-gallery/AddorRemoveAssets";
 
 const StyledMenu = withStyles({
 	paper: {
@@ -30,7 +30,7 @@ const StyledMenu = withStyles({
 	/>
 ));
 
-const GalleryMenu = ({ setShowAddAssetsView }) => {
+const GalleryMenu = ({ setShowAddAssetsView, setShowRemoveAssetsView }) => {
 	const [anchorEl, setAnchorEl] = useState(null);
 
 	const handleClick = (event) => {
@@ -64,7 +64,7 @@ const GalleryMenu = ({ setShowAddAssetsView }) => {
 					</ListItemIcon>
 					<ListItemText primary="Add NFTs" />
 				</MenuItem>
-				<MenuItem>
+				<MenuItem onClick={() => setShowRemoveAssetsView(true)}>
 					<ListItemIcon>
 						<DeleteForeverIcon fontSize="small" />
 					</ListItemIcon>
