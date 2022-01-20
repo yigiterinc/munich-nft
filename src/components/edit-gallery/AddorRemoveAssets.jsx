@@ -192,6 +192,14 @@ const AddorRemoveAssets = ({
 	const ButtonsMenu = () => (
 		<div className={classes.buttonsContainer}>
 			<Button
+				className={classes.button}
+				variant="contained"
+				size="large"
+				onClick={() => setShowSelectedView(false)}
+			>
+				Back
+			</Button>
+			<Button
 				variant="contained"
 				size="large"
 				classes={{ root: classes.button, disabled: classes.buttonDisabled }}
