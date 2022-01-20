@@ -65,12 +65,11 @@ export default function ImportFromContract({ contractAddress, prevButton, handle
 	const theme = useTheme();
 
 	// Structure: [{collectionData, assets: [{asset1}, {asset2}]}, ...]
-	const [ownedAssetsOnContract, setOwnedAssetsOnContract] = useState(null);
 
 	// Each item is either {nft, collection} or {collection}
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [dataIsLoading, setDataIsLoading] = useState(true);
-	const [aso, setAso] = useState([]);
+	const [assetsOwned, setAssetsOwned] = useState([]);
 
 	useEffect(() => {
 			const user = getLoggedInUser();
@@ -87,18 +86,17 @@ export default function ImportFromContract({ contractAddress, prevButton, handle
 				});
 
 				await Promise.all(nftDetailPromises);
-				setAso(nftDetails);
+				setAssetsOwned(nftDetails);
 				setDataIsLoading(false);
 			}
 
-			if (user && aso.length === 0) {
+			if (user && assetsOwned.length === 0) {
 				fetchDataFromBlockchain();
 			}
 		}
 		,
 		[],
-	)
-	;
+	);
 
 	const addToSelectedItems = (item) => {
 		setSelectedItems([...selectedItems, item]);
@@ -113,7 +111,7 @@ export default function ImportFromContract({ contractAddress, prevButton, handle
 
 	const ImportCardsGrid = () => {
 		return (<Grid container spacing={3}>
-			{aso.map((asset, i) => {
+			{assetsOwned.map((asset, i) => {
 				return (
 					<Grid key={i} item lg={3} md={4} sm={6} xs={12}>
 						<ImportCard

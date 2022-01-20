@@ -25,7 +25,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const BrandLogo = () => {
+const Logo = () => {
 	const classes = useStyles();
 	return (
 		<div className={classes.logoContainer}>
@@ -37,4 +37,4 @@ const BrandLogo = () => {
 	);
 };
 
-export default BrandLogo;
+export default Logo;
