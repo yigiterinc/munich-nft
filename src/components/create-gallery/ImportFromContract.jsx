@@ -11,7 +11,11 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import SwipeableViews from "react-swipeable-views";
 import { getLoggedInUser, isUserLoggedIn } from "../../utils/auth-utils";
-import { fetchCollectionsOfUser, filterAssetsInCollectionByOwner, getAssetsAddedCollections } from "../../api/opensea";
+import {
+	fetchCollectionsOfUser,
+	filterAssetsInCollectionByOwner,
+	getAssetsAddedCollections,
+} from "../../api/opensea";
 import { findOwnedTokensOnERC721Contract } from "../../api/chainHelper";
 import axios from "axios";
 import { withDefault } from "../../utils/commons";
@@ -59,8 +63,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function ImportFromContract({ contractAddress, prevButton, handleSubmit }) {
-
+export default function ImportFromContract({
+	contractAddress,
+	prevButton,
+	handleSubmit,
+}) {
 	const classes = useStyles();
 	const theme = useTheme();
 
@@ -72,79 +79,83 @@ export default function ImportFromContract({ contractAddress, prevButton, handle
 	const [assetsOwned, setAssetsOwned] = useState([]);
 
 	useEffect(() => {
-			const user = getLoggedInUser();
+		const user = getLoggedInUser();
 
-			async function fetchDataFromBlockchain() {
-				const ipfsMetadataUris = await findOwnedTokensOnERC721Contract(contractAddress, user.walletAddress);
-				const nftDetailPromises = [];
-				let nftDetails = [];
-				ipfsMetadataUris.forEach((uri) => {
-					nftDetailPromises.push(
-						axios.get(uri).then((response) => {
-							nftDetails.push(response.data);
-						}));
-				});
+		async function fetchDataFromBlockchain() {
+			const ipfsMetadataUris = await findOwnedTokensOnERC721Contract(
+				contractAddress,
+				user.ethAddress
+			);
+			const nftDetailPromises = [];
+			let nftDetails = [];
+			ipfsMetadataUris.forEach((uri) => {
+				nftDetailPromises.push(
+					axios.get(uri).then((response) => {
+						nftDetails.push(response.data);
+					})
+				);
+			});
 
-				await Promise.all(nftDetailPromises);
-				setAssetsOwned(nftDetails);
-				setDataIsLoading(false);
-			}
-
-			if (user && assetsOwned.length === 0) {
-				fetchDataFromBlockchain();
-			}
+			await Promise.all(nftDetailPromises);
+			setAssetsOwned(nftDetails);
+			setDataIsLoading(false);
 		}
-		,
-		[],
-	);
+
+		if (user && assetsOwned.length === 0) {
+			fetchDataFromBlockchain();
+		}
+	}, []);
 
 	const addToSelectedItems = (item) => {
 		setSelectedItems([...selectedItems, item]);
 	};
 
 	const removeFromSelectedItems = (itemToBeRemoved) => {
-		const itemsWithoutTheSubject = selectedItems.filter((item) => item !== itemToBeRemoved);
+		const itemsWithoutTheSubject = selectedItems.filter(
+			(item) => item !== itemToBeRemoved
+		);
 		setSelectedItems(itemsWithoutTheSubject);
 	};
 
 	const DEFAULT_IMAGE_PATH = "/images/no-image.png";
 
 	const ImportCardsGrid = () => {
-		return (<Grid container spacing={3}>
-			{assetsOwned.map((asset, i) => {
-				return (
-					<Grid key={i} item lg={3} md={4} sm={6} xs={12}>
-						<ImportCard
-							name={asset.name}
-							image={withDefault(asset.image, DEFAULT_IMAGE_PATH)}
-							addToSelected={() => addToSelectedItems(asset)}
-							removeFromSelected={() => removeFromSelectedItems(asset)}
-						/>
-					</Grid>
-				);
-			})}
-		</Grid>);
+		return (
+			<Grid container spacing={3}>
+				{assetsOwned.map((asset, i) => {
+					return (
+						<Grid key={i} item lg={3} md={4} sm={6} xs={12}>
+							<ImportCard
+								name={asset.name}
+								image={withDefault(asset.image, DEFAULT_IMAGE_PATH)}
+								addToSelected={() => addToSelectedItems(asset)}
+								removeFromSelected={() => removeFromSelectedItems(asset)}
+							/>
+						</Grid>
+					);
+				})}
+			</Grid>
+		);
 	};
 
 	const TabPanelWithSpinner = (index, data) => {
-		return withSpinner(<TabPanel
+		return withSpinner(
+			<TabPanel
 				value={0}
 				index={index}
 				dir={theme.direction}
 				className={classes.tabPanel}
 			>
 				{data}
-			</TabPanel>, dataIsLoading,
+			</TabPanel>,
+			dataIsLoading,
 			{ marginTop: "10vh", marginBottom: "4vh", marginLeft: "48vw" }
-			,
 		);
 	};
 
 	const ButtonsMenu = () => (
 		<div className={classes.buttonsContainer}>
-			{
-				prevButton
-			}
+			{prevButton}
 
 			<Button
 				variant="contained"
@@ -162,7 +173,8 @@ export default function ImportFromContract({ contractAddress, prevButton, handle
 			>
 				Create gallery with Selected Items
 			</Button>
-		</div>);
+		</div>
+	);
 
 	return (
 		<div className={classes.root}>
@@ -181,13 +193,8 @@ export default function ImportFromContract({ contractAddress, prevButton, handle
 				index={0}
 			>
 				{TabPanelWithSpinner(0, ImportCardsGrid())}
-			</SwipeableViews>;
-			{
-				!dataIsLoading &&
-				ButtonsMenu()
-			}
+			</SwipeableViews>
+			;{!dataIsLoading && ButtonsMenu()}
 		</div>
-	)
-		;
+	);
 }
-;
