@@ -91,6 +91,11 @@ const Gallery = ({
 		};
 
 		const updateResult = await updateGallery(galleryId, changedParams);
+
+		if (updateResult.status === 200) {
+			history.push(`/gallery/${changedParams.slug}`);
+			window.location.reload();
+		}
 	};
 
 	const convertToSlug = (galleryName) => {
