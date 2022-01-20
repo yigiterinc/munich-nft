@@ -3,7 +3,8 @@ import Instruction from "./Instruction";
 import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { IoMdWallet } from "react-icons/io";
-import { BsCoin, BsDownload } from "react-icons/bs";
+import { RiGalleryLine } from "react-icons/ri";
+import { BsCoin } from "react-icons/bs";
 import { BiPencil } from "react-icons/bi";
 
 const iconSize = 50;
@@ -13,13 +14,13 @@ const instructions = [
 		label: "Connect your wallet",
 		icon: <IoMdWallet size={iconSize} />,
 		description:
-			"Connect your MetaMask wallet by clicking \"Connect Wallet\" button on top right corner",
+			'Connect your MetaMask or Phantom wallet by clicking "Connect Wallet" button on top right corner',
 	},
 	{
-		label: "ImportFromOpensea/Create NFTs",
-		icon: <BsDownload size={iconSize} />,
+		label: "Create a gallery",
+		icon: <RiGalleryLine size={iconSize} />,
 		description:
-			"ImportFromOpensea your NFTs from multiple marketplaces or create new ones",
+			"Import your NFTs from multiple marketplaces or create new ones to create a gallery",
 	},
 	{
 		label: "Customize your gallery",
