@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { useParams } from "react-router";
-import Grid from "@material-ui/core/Grid";
-import AssetCard from "../components/common/AssetCard";
+import { useParams, useHistory } from "react-router";
+import { Grid } from "@material-ui/core";
+import GalleryEditManager from "../components/gallery/GalleryEditManager";
 import GalleryCoverImage from "../components/gallery/GalleryCoverImage";
 import GalleryHeaderPanel from "../components/gallery/GalleryHeaderPanel";
 import CircularSpinner from "../components/common/CircularSpinner";
 import { fetchGallery } from "../api/strapi";
+import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
+import AssetCard from "../components/common/AssetCard";
+import { uploadImageToMediaGallery, updateGallery } from "../api/strapi";
 
 const useStyles = makeStyles({
 	galleryContainer: {
@@ -30,26 +33,84 @@ const useStyles = makeStyles({
 
 const Gallery = () => {
 	const [gallery, setGallery] = useState(null);
+	const [isEditable, setIsEditable] = useState(false);
+	const [isOwner, setIsOwner] = useState(false);
+	const [coverImage, setCoverImage] = useState(null);
+	const [galleryId, setGalleryId] = useState(null);
+	const [galleryName, setGalleryName] = useState("");
+	const [galleryDescription, setGalleryDescription] = useState("");
 	let { slug } = useParams();
+	const currentUser = getLoggedInUser();
+	const history = useHistory();
 	const classes = useStyles();
 
 	useEffect(async () => {
 		const json = await fetchGallery(slug);
-		console.log(json.coverImage.url);
 		let nfts = nftHelper(json.assets);
 		let coverImageUrl = `http://localhost:1337${json.coverImage.url}`;
 		const gallery = {
-			name: json.galleryName,
-			description: json.description,
-			imageSrc: coverImageUrl,
 			userId: json.userId,
 			creator: json.username,
 			nfts: nfts,
 		};
+		setGalleryId(json.id);
 		setGallery(gallery);
+		setGalleryName(json.galleryName);
+		setGalleryDescription(json.description);
+		setCoverImage(coverImageUrl);
+		if (currentUser.id === gallery.userId) {
+			setIsOwner(true);
+		}
 	}, []);
 
-	return <>{gallery ? renderPage(classes, gallery) : <CircularSpinner />}</>;
+	const switchGalleryEditMode = () => {
+		setIsEditable(!isEditable);
+	};
+	const handleDropzoneSubmit = async (file) => {
+		setCoverImage(file.preview);
+	};
+
+	const handleUpdateGallery = async () => {
+		if (!isUserLoggedIn()) {
+			history.push("/");
+			return;
+		}
+
+		const changedParams = {
+			galleryName,
+			description: galleryDescription,
+			slug: convertToSlug(galleryName),
+		};
+
+		const updateResult = await updateGallery(galleryId, changedParams);
+	};
+
+	const convertToSlug = (galleryName) => {
+		return galleryName.toLowerCase().replaceAll(" ", "_");
+	};
+
+	return (
+		<>
+			{gallery ? (
+				renderPage(
+					classes,
+					gallery,
+					switchGalleryEditMode,
+					isEditable,
+					isOwner,
+					coverImage,
+					handleDropzoneSubmit,
+					galleryName,
+					galleryDescription,
+					setGalleryName,
+					setGalleryDescription,
+					handleUpdateGallery
+				)
+			) : (
+				<CircularSpinner />
+			)}
+		</>
+	);
 };
 
 const nftHelper = (assets) => {
@@ -60,29 +121,85 @@ const nftHelper = (assets) => {
 	return tmp;
 };
 
-const renderPage = (classes, galleryJson) => {
+const renderPage = (
+	classes,
+	galleryJson,
+	switchGalleryEditMode,
+	isEditable,
+	isOwner,
+	coverImage,
+	handleDropzoneSubmit,
+	galleryName,
+	galleryDescription,
+	setGalleryName,
+	setGalleryDescription,
+	handleUpdateGallery
+) => {
 	return (
 		<div className={classes.galleryContainer}>
-			{renderGalleryHeader(classes, galleryJson)}
-			{renderNftsInGallery(classes, galleryJson.nfts)}
+			<GalleryEditManager
+				isEditMode={isEditable}
+				switchEditableMode={switchGalleryEditMode}
+				handleUpdateGallery={handleUpdateGallery}
+			/>
+			{renderGalleryHeader(
+				classes,
+				galleryJson,
+				switchGalleryEditMode,
+				isEditable,
+				isOwner,
+				coverImage,
+				handleDropzoneSubmit,
+				galleryName,
+				galleryDescription,
+				setGalleryName,
+				setGalleryDescription
+			)}
+			{renderNftsInGallery(classes, galleryJson.nfts, isEditable, isOwner)}
 		</div>
 	);
 };
 
-const renderGalleryHeader = (classes, dummyGallery) => {
+const renderGalleryHeader = (
+	classes,
+	galleryJson,
+	switchGalleryEditMode,
+	isEditable,
+	isOwner,
+	coverImage,
+	handleDropzoneSubmit,
+	galleryName,
+	galleryDescription,
+	setGalleryName,
+	setGalleryDescription
+) => {
 	return (
 		<Grid container spacing={6} className={classes.galleryHeaderContainer}>
 			<Grid item lg={5} md={5} sm={6} xs={8}>
-				<GalleryCoverImage {...dummyGallery} />
+				<GalleryCoverImage
+					coverImage={coverImage}
+					isEditable={isEditable}
+					isOwner={isOwner}
+					handleDropzoneSubmit={handleDropzoneSubmit}
+				/>
 			</Grid>
 			<Grid item lg={7} md={7} sm={6} xs={4}>
-				<GalleryHeaderPanel {...dummyGallery} />
+				<GalleryHeaderPanel
+					json={galleryJson}
+					switchEditableMode={switchGalleryEditMode}
+					isEditable={isEditable}
+					isOwner={isOwner}
+					galleryName={galleryName}
+					setGalleryName={setGalleryName}
+					galleryDescription={galleryDescription}
+					setGalleryDescription={setGalleryDescription}
+				/>
 			</Grid>
 		</Grid>
 	);
 };
 
-export const renderNftsInGallery = (classes, nfts) => {
+export const renderNftsInGallery = (classes, nfts, isEditable, isOwner) => {
 	return (
 		<Grid container spacing={4} className={classes.nftContainer}>
 			{nfts.map((item) => {
