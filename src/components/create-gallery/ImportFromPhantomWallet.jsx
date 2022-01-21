@@ -62,10 +62,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function ImportFromOpensea({ prevButton, handleSubmit }) {
+export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 	const classes = useStyles();
 	const theme = useTheme();
-	const [activeTab, setActiveTab] = useState(0);
 
 	// Structure: [{collectionData, assets: [{asset1}, {asset2}]}, ...]
 	const [userCollections, setUserCollections] = useState(null);
@@ -116,10 +115,6 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 		setSelectedItems(itemsWithoutTheSubject);
 	};
 
-	const handleChangeIndex = (index) => {
-		setActiveTab(index);
-	};
-
 	const DEFAULT_IMAGE_PATH = "/images/no-image.png";
 
 	const CollectionCardsGrid = () => {
@@ -141,11 +136,6 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 				})}
 			</Grid>
 		);
-	};
-
-	const handleTabSwitch = (event, newValue) => {
-		setSelectedItems([]);
-		setActiveTab(newValue);
 	};
 
 	const AssetCardsGrid = () => {
@@ -174,7 +164,7 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 	const TabPanelWithSpinner = (index, data) => {
 		return withSpinner(
 			<TabPanel
-				value={activeTab}
+				value={0}
 				index={index}
 				dir={theme.direction}
 				className={classes.tabPanel}
@@ -216,17 +206,11 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 		<div className={classes.root}>
 			<AppBar position="static" color="inherit" elevation={0}>
 				<Tabs
-					value={activeTab}
-					onChange={handleTabSwitch}
+					value={0}
 					indicatorColor="primary"
 					textColor="primary"
 					variant="fullWidth"
 				>
-					<Tab
-						icon={<CollectionsIcon />}
-						label="Collections"
-						{...a11yProps(collectionsTabIndex)}
-					/>
 					<Tab
 						icon={<ImageIcon />}
 						label="Assets"
@@ -236,8 +220,7 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 			</AppBar>
 			<SwipeableViews
 				axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-				index={activeTab}
-				onChangeIndex={handleChangeIndex}
+				index={0}
 			>
 				{TabPanelWithSpinner(collectionsTabIndex, CollectionCardsGrid)}
 				{TabPanelWithSpinner(nftsTabIndex, AssetCardsGrid)}
