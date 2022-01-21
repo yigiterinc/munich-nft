@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { MunichNftContractAddress, NETWORK } from "../config/config";
+import { MunichNftContractAddress, ETH_NETWORK } from "../config/config";
 
 import {
 	FETCH_ACCOUNT_COLLECTIONS_ENDPOINT,
@@ -17,7 +17,7 @@ let seaport;
 
 if (window.web3) {
 	seaport = new OpenSeaPort(window.web3.currentProvider, {
-		networkName: NETWORK,
+		networkName: ETH_NETWORK,
 	});
 }
 

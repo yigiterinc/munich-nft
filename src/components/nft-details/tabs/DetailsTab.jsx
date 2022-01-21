@@ -8,7 +8,7 @@ import {
 	ListItemText,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { NETWORK } from "../../../config/config";
+import { ETH_NETWORK } from "../../../config/config";
 
 const useStyles = makeStyles({
 	listItemText: {
@@ -28,8 +28,13 @@ const useStyles = makeStyles({
 
 const DetailsTab = (nftJson) => {
 	const computeBlockchain = () => {
-		return "Blockchain: " + network.charAt(0).toUpperCase() + network.slice(1);
+		return (
+			"Blockchain: " +
+			ETH_NETWORK?.charAt(0)?.toUpperCase() +
+			ETH_NETWORK?.slice(1)
+		);
 	};
+
 	const computeTokenStandard = () => {
 		return (
 			"Token Standard: " +
@@ -40,11 +45,12 @@ const DetailsTab = (nftJson) => {
 	};
 
 	const classes = useStyles();
-	const network = NETWORK === "main" ? "ethereum" : NETWORK;
-	const blockchain = useMemo(() => computeBlockchain(network), [network]);
+	const blockchain = useMemo(() => computeBlockchain(ETH_NETWORK), [
+		ETH_NETWORK,
+	]);
 	const tokenStandard = useMemo(() => computeTokenStandard(), [nftJson]);
 	const etherscanPath =
-		network === "ethereum"
+		ETH_NETWORK === "mainnet"
 			? "https://etherscan.io/address/"
 			: "https://rinkeby.etherscan.io/address/";
 

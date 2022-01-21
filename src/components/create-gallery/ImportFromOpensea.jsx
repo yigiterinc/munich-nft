@@ -12,7 +12,11 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import SwipeableViews from "react-swipeable-views";
 import { getLoggedInUser, isUserLoggedIn } from "../../utils/auth-utils";
-import { fetchCollectionsOfUser, filterAssetsInCollectionByOwner, getAssetsAddedCollections } from "../../api/opensea";
+import {
+	fetchCollectionsOfUser,
+	filterAssetsInCollectionByOwner,
+	getAssetsAddedCollections,
+} from "../../api/opensea";
 import { withDefault } from "../../utils/commons";
 
 function TabPanel(props) {
@@ -59,11 +63,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ImportFromOpensea({
-																						collections,
-																						prevButton,
-																						handleSubmit,
-																					}) {
-
+	collections,
+	prevButton,
+	handleSubmit,
+}) {
 	const classes = useStyles();
 	const theme = useTheme();
 	const [activeTab, setActiveTab] = useState(0);
@@ -77,14 +80,16 @@ export default function ImportFromOpensea({
 
 	useEffect(async () => {
 		if (isUserLoggedIn()) {
-			let collectionsData = await fetchCollectionsOfUser(getLoggedInUser().walletAddress);
+			let collectionsData = await fetchCollectionsOfUser(
+				getLoggedInUser().ethAddress
+			);
 			let collectionsWithAssets = [];
 			collectionsWithAssets.push(
-				await getAssetsAddedCollections(collectionsData),
+				await getAssetsAddedCollections(collectionsData)
 			);
 
 			let filtered = await filterAssetsInCollectionByOwner(
-				collectionsWithAssets,
+				collectionsWithAssets
 			);
 
 			setUserCollections(filtered);
@@ -102,12 +107,16 @@ export default function ImportFromOpensea({
 	};
 
 	const removeCollectionFromSelectedItems = (itemToBeRemoved) => {
-		const itemsWithoutTheSubject = selectedItems.filter((item) => item !== itemToBeRemoved);
+		const itemsWithoutTheSubject = selectedItems.filter(
+			(item) => item !== itemToBeRemoved
+		);
 		setSelectedItems(itemsWithoutTheSubject);
 	};
 
 	const removeNftFromSelectedItems = (itemToBeRemoved) => {
-		const itemsWithoutTheSubject = selectedItems.filter((item) => item.nft !== itemToBeRemoved);
+		const itemsWithoutTheSubject = selectedItems.filter(
+			(item) => item.nft !== itemToBeRemoved
+		);
 		setSelectedItems(itemsWithoutTheSubject);
 	};
 
@@ -118,20 +127,24 @@ export default function ImportFromOpensea({
 	const DEFAULT_IMAGE_PATH = "/images/no-image.png";
 
 	const CollectionCardsGrid = () => {
-		return (<Grid container spacing={3}>
-			{userCollections?.map((collection) => {
-				return (
-					<Grid key={collection.slug} item lg={3} md={4} sm={6} xs={12}>
-						<ImportCard
-							name={collection.name}
-							image={withDefault(collection.image_url, DEFAULT_IMAGE_PATH)}
-							addToSelected={(coll) => addToSelectedItems(coll)}
-							removeFromSelected={(coll) => removeCollectionFromSelectedItems(coll)}
-						/>
-					</Grid>
-				);
-			})}
-		</Grid>);
+		return (
+			<Grid container spacing={3}>
+				{userCollections?.map((collection) => {
+					return (
+						<Grid key={collection.slug} item lg={3} md={4} sm={6} xs={12}>
+							<ImportCard
+								name={collection.name}
+								image={withDefault(collection.image_url, DEFAULT_IMAGE_PATH)}
+								addToSelected={(coll) => addToSelectedItems(coll)}
+								removeFromSelected={(coll) =>
+									removeCollectionFromSelectedItems(coll)
+								}
+							/>
+						</Grid>
+					);
+				})}
+			</Grid>
+		);
 	};
 
 	const handleTabSwitch = (event, newValue) => {
@@ -141,10 +154,7 @@ export default function ImportFromOpensea({
 
 	const AssetCardsGrid = () => {
 		return (
-			<Grid container
-						spacing={3}
-						direction="row"
-						alignItems="center">
+			<Grid container spacing={3} direction="row" alignItems="center">
 				{userCollections?.map((collection) =>
 					collection?.assets.map((item) => {
 						return (
@@ -153,35 +163,36 @@ export default function ImportFromOpensea({
 									name={item.name}
 									image={item.image_url}
 									addToSelected={() => addToSelectedItems({ collection, item })}
-									removeFromSelected={() => removeNftFromSelectedItems({ collection, item })}
+									removeFromSelected={() =>
+										removeNftFromSelectedItems({ collection, item })
+									}
 								/>
 							</Grid>
 						);
-					}),
+					})
 				)}
 			</Grid>
 		);
 	};
 
 	const TabPanelWithSpinner = (index, data) => {
-		return withSpinner(<TabPanel
+		return withSpinner(
+			<TabPanel
 				value={activeTab}
 				index={index}
 				dir={theme.direction}
 				className={classes.tabPanel}
 			>
 				{data}
-			</TabPanel>, dataIsLoading,
+			</TabPanel>,
+			dataIsLoading,
 			{ marginTop: "10vh", marginBottom: "4vh", marginLeft: "48vw" }
-			,
 		);
 	};
 
 	const ButtonsMenu = (
 		<div className={classes.buttonsContainer}>
-			{
-				prevButton
-			}
+			{prevButton}
 
 			<Button
 				variant="contained"
@@ -199,10 +210,11 @@ export default function ImportFromOpensea({
 			>
 				Create gallery with Selected Items
 			</Button>
-		</div>);
+		</div>
+	);
 
-
-	const collectionsTabIndex = 0, nftsTabIndex = 1;
+	const collectionsTabIndex = 0,
+		nftsTabIndex = 1;
 
 	return (
 		<div className={classes.root}>
@@ -219,7 +231,11 @@ export default function ImportFromOpensea({
 						label="Collections"
 						{...a11yProps(collectionsTabIndex)}
 					/>
-					<Tab icon={<ImageIcon />} label="Assets" {...a11yProps(nftsTabIndex)} />
+					<Tab
+						icon={<ImageIcon />}
+						label="Assets"
+						{...a11yProps(nftsTabIndex)}
+					/>
 				</Tabs>
 			</AppBar>
 			<SwipeableViews
@@ -229,12 +245,8 @@ export default function ImportFromOpensea({
 			>
 				{TabPanelWithSpinner(collectionsTabIndex, CollectionCardsGrid)}
 				{TabPanelWithSpinner(nftsTabIndex, AssetCardsGrid)}
-			</SwipeableViews>;
-			{
-				!dataIsLoading &&
-				ButtonsMenu
-			}
+			</SwipeableViews>
+			;{!dataIsLoading && ButtonsMenu}
 		</div>
-	)
-		;
+	);
 }
