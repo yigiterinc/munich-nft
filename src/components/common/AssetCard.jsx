@@ -4,9 +4,8 @@ import { Typography, Card, CardMedia, CardContent } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { withDefault } from "../../utils/commons";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
 	root: {
-		background: theme.palette.info.main,
 		minWidth: 200,
 		minHeight: 200,
 		height: "auto",
@@ -20,22 +19,12 @@ const useStyles = makeStyles((theme) => ({
 	image: {
 		height: "30vh",
 	},
-	priorImage: {
-		width: "300px",
-		height: "300px",
-	},
 	link: {
 		textDecoration: "none",
 	},
-	collectionText: {
-		color: theme.palette.secondary.light,
-	},
-	nftText: {
-		color: theme.palette.secondary.main,
-	},
-}));
+});
 
-const AssetCard = ({ asset, priorNft }) => {
+const AssetCard = ({ asset }) => {
 	const contractAddressId = asset.asset_contract.address;
 	const tokenId = asset.token_id;
 
@@ -49,32 +38,17 @@ const AssetCard = ({ asset, priorNft }) => {
 			to={`/token/${contractAddressId}/${tokenId}`}
 		>
 			<Card className={classes.root} variant="outlined">
-				<>
-					{priorNft ? (
-						<CardMedia
-							component="img"
-							className={classes.priorImage}
-							image={withDefault(asset.image_url, defaultImagePath)}
-							title={asset.name}
-						/>
-					) : (
-						<CardMedia
-							component="img"
-							className={classes.image}
-							image={withDefault(asset.image_url, defaultImagePath)}
-							title={asset.name}
-						/>
-					)}
-				</>
+				<CardMedia
+					component="img"
+					className={classes.image}
+					image={withDefault(asset.image_url, defaultImagePath)}
+					title={asset.name}
+				/>
 				<CardContent>
-					<Typography
-						variant="h6"
-						className={classes.collectionText}
-						gutterBottom
-					>
+					<Typography variant="h6" color="textSecondary" gutterBottom>
 						{asset.collection.name}
 					</Typography>
-					<Typography variant="h6" component="h2" className={classes.nftText}>
+					<Typography variant="h6" component="h2">
 						{asset.name ? asset.name : "-"}
 					</Typography>
 				</CardContent>

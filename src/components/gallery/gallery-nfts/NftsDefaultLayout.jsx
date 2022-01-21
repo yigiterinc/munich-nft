@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import AssetCard from "../../common/AssetCard";
+import GalleryCard from "./GalleryCard";
 import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +17,7 @@ const NftsDefaultLayout = (props) => {
 			{props.nfts.map((item) => {
 				return (
 					<Grid key={item.id} item lg={3} md={4} sm={6} xs={12}>
-						<AssetCard asset={item} />
+						<GalleryCard asset={item} />
 					</Grid>
 				);
 			})}

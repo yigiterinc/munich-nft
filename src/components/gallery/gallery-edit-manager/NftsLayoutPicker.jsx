@@ -8,7 +8,6 @@ import {
 } from "@material-ui/core";
 import defaultLayout from "../../../assets/images/layout-samples/nftDefaultLayout.png";
 import layout1 from "../../../assets/images/layout-samples/nftLayout1.png";
-import layout2 from "../../../assets/images/layout-samples/nftLayout2.png";
 
 const useStyles = makeStyles((theme) => ({
 	layoutPickerContainer: {
@@ -71,12 +70,6 @@ const NftsLayoutPicker = (props) => {
 					value="layout-1"
 					control={<BlackRadio />}
 					label={<img src={layout1} className={classes.image} alt="layout-1" />}
-					className={classes.options}
-				/>
-				<FormControlLabel
-					value="layout-2"
-					control={<BlackRadio />}
-					label={<img src={layout2} className={classes.image} alt="layout-2" />}
 					className={classes.options}
 				/>
 			</RadioGroup>
