@@ -10,6 +10,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { fetchExistingUserWithId, fetchUserGalleries } from "../api/strapi";
 import GalleryCard from "../components/common/GalleryCard";
 import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
+import withSpinner from "../components/common/WithSpinner";
 
 const useStyles = makeStyles((theme) => ({
 	mainContainer: {
@@ -71,6 +72,7 @@ const Profile = () => {
 	const classes = useStyles();
 	const [profileOwner, setProfileOwner] = useState();
 	const [profileOwnerGalleries, setProfileOwnerGalleries] = useState(null);
+	const [gallerySectionLoading, setGallerySectionLoading] = useState(true);
 	const [user, setUser] = useState(null);
 
 	let { userId: userIdParam } = useParams();
@@ -89,6 +91,12 @@ const Profile = () => {
 		}
 		setProfileOwnerGalleries(await fetchUserGalleries(userIdParam));
 	}, [userIdParam]);
+
+	useEffect(() => {
+		if (profileOwnerGalleries) {
+			setGallerySectionLoading(false);
+		}
+	}, [profileOwnerGalleries]);
 
 	const Galleries = () => {
 		return (
@@ -172,7 +180,12 @@ const Profile = () => {
 						ownProfile={userIdParam === user?.id}
 						profile={profileOwner}
 					/>
-					<div className={classes.galleriesContainer}>{GallerySection()}</div>
+					{withSpinner(
+						<div className={classes.galleriesContainer}>
+							{GallerySection()}
+						</div>,
+						gallerySectionLoading
+					)}
 				</>
 			)}
 		</div>
