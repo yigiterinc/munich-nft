@@ -1,42 +1,31 @@
-import { Connection, clusterApiUrl, LAMPORTS_PER_SOL } from "@solana/web3.js";
-import {
-	getParsedNftAccountsByOwner,
-	isValidSolanaAddress,
-	createConnectionConfig,
-} from "@nfteyez/sol-rayz";
+import axios from "axios";
 import { SOL_NETWORK } from "../config/config";
 
-//create a connection of devnet
-const createConnection = () => {
-	return new Connection(clusterApiUrl(SOL_NETWORK));
+const RPC_SERVER = {
+	devnet: "http://api.devnet.solana.com",
 };
 
-//check solana on window. This is useful to fetch address of your wallet.
-const getProvider = () => {
-	if ("solana" in window) {
-		const provider = window.solana;
-		if (provider.isPhantom) {
-			return provider;
-		}
-	}
-};
-
-//Function to get all NFT information.
-//get NFT
-export const fetchSolTokens = async () => {
+export const fetchSolTokensByWalletAddress = async (solAddress) => {
 	try {
-		const connect = createConnectionConfig(clusterApiUrl("devnet"));
-		const provider = getProvider();
-		let ownerToken = provider.publicKey;
-		const result = isValidSolanaAddress(ownerToken);
-		console.log("result", result);
-		const nfts = await getParsedNftAccountsByOwner({
-			publicAddress: ownerToken,
-			connection: connect,
-			serialization: true,
-		});
+		const TOKEN_PROGRAM_ID = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
+		const data = {
+			jsonrpc: "2.0",
+			id: 1,
+			method: "getTokenAccountsByOwner",
+			params: [
+				solAddress,
+				{
+					programId: TOKEN_PROGRAM_ID,
+				},
+				{
+					encoding: "jsonParsed",
+				},
+			],
+		};
 
-		return nfts;
+		const tokenAccounts = await axios.post(RPC_SERVER[SOL_NETWORK], data);
+
+		return tokenAccounts;
 	} catch (error) {
 		console.log(error);
 	}

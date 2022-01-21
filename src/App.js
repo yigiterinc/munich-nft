@@ -20,14 +20,17 @@ import Gallery from "./views/Gallery";
 import "./App.css";
 import CreateGallery from "./views/CreateGallery";
 import NftDetails from "./views/NftDetails";
-import { isUserLoggedIn } from "./utils/auth-utils";
+import { getLoggedInUser, isUserLoggedIn } from "./utils/auth-utils";
+import { fetchSolTokensByWalletAddress } from "./api/sol";
 
 let web3;
 
 function App() {
-
 	useEffect(async () => {
 		if (!web3) await loadWeb3();
+		console.log(
+			await fetchSolTokensByWalletAddress(getLoggedInUser().solAddress)
+		);
 	}, []);
 
 	const loadWeb3 = async () => {
@@ -60,7 +63,10 @@ function App() {
 				<ProtectedRoute path="/gallery/:slug" component={Gallery} />
 				<Route path="/collection/:slug" component={Collection} />
 				<ProtectedRoute path="/profile-settings" component={ProfileSettings} />
-				<Route path="/token/:contractAddressId/:tokenId" component={NftDetails} />
+				<Route
+					path="/token/:contractAddressId/:tokenId"
+					component={NftDetails}
+				/>
 				<ProtectedRoute path="/profile/:userId" component={Profile} />
 				<ProtectedRoute path="/create-gallery" component={CreateGallery} />
 			</Switch>
