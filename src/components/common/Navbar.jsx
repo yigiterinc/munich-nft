@@ -3,9 +3,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 
-import BrandLogo from "./nav/BrandLogo";
+import Logo from "./nav/Logo";
 import AutocompleteSearchBar from "./AutocompleteSearchBar";
-import Menu from "./nav/Menu";
+import NavbarItems from "./nav/NavbarItems";
+import LoginMenu from "./nav/login/LoginMenu";
 import { fetchGalleries } from "../../api/strapi";
 
 const useStyles = makeStyles({
@@ -40,14 +41,15 @@ const Navbar = (props) => {
 		<div className={classes.root}>
 			<AppBar position="static" className={classes.navbar}>
 				<Toolbar>
-					<BrandLogo />
+					<Logo />
 					<div className={classes.searchBarContainer}>
 						<AutocompleteSearchBar
 							placeholder="Search galleries"
 							options={options}
 						/>
 					</div>
-					<Menu {...props} />
+					<NavbarItems {...props} />
+					<LoginMenu />
 				</Toolbar>
 			</AppBar>
 		</div>

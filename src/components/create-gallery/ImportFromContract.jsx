@@ -72,12 +72,11 @@ export default function ImportFromContract({
 	const theme = useTheme();
 
 	// Structure: [{collectionData, assets: [{asset1}, {asset2}]}, ...]
-	const [ownedAssetsOnContract, setOwnedAssetsOnContract] = useState(null);
 
 	// Each item is either {nft, collection} or {collection}
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [dataIsLoading, setDataIsLoading] = useState(true);
-	const [aso, setAso] = useState([]);
+	const [assetsOwned, setAssetsOwned] = useState([]);
 
 	useEffect(() => {
 		const user = getLoggedInUser();
@@ -97,15 +96,18 @@ export default function ImportFromContract({
 				);
 			});
 
-			await Promise.all(nftDetailPromises);
-			setAso(nftDetails);
-			setDataIsLoading(false);
-		}
+				await Promise.all(nftDetailPromises);
+				setAssetsOwned(nftDetails);
+				setDataIsLoading(false);
+			}
 
-		if (user && aso.length === 0) {
-			fetchDataFromBlockchain();
+			if (user && assetsOwned.length === 0) {
+				fetchDataFromBlockchain();
+			}
 		}
-	}, []);
+		,
+		[],
+	);
 
 	const addToSelectedItems = (item) => {
 		setSelectedItems([...selectedItems, item]);
@@ -121,22 +123,20 @@ export default function ImportFromContract({
 	const DEFAULT_IMAGE_PATH = "/images/no-image.png";
 
 	const ImportCardsGrid = () => {
-		return (
-			<Grid container spacing={3}>
-				{aso.map((asset, i) => {
-					return (
-						<Grid key={i} item lg={3} md={4} sm={6} xs={12}>
-							<NFTImportCard
-								name={asset.name}
-								image={withDefault(asset.image, DEFAULT_IMAGE_PATH)}
-								addToSelected={() => addToSelectedItems(asset)}
-								removeFromSelected={() => removeFromSelectedItems(asset)}
-							/>
-						</Grid>
-					);
-				})}
-			</Grid>
-		);
+		return (<Grid container spacing={3}>
+			{assetsOwned.map((asset, i) => {
+				return (
+					<Grid key={i} item lg={3} md={4} sm={6} xs={12}>
+						<ImportCard
+							name={asset.name}
+							image={withDefault(asset.image, DEFAULT_IMAGE_PATH)}
+							addToSelected={() => addToSelectedItems(asset)}
+							removeFromSelected={() => removeFromSelectedItems(asset)}
+						/>
+					</Grid>
+				);
+			})}
+		</Grid>);
 	};
 
 	const TabPanelWithSpinner = (index, data) => {

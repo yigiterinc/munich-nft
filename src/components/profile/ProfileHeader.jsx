@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 	address: {
 		marginTop: "10px",
 		letterSpacing: "1.5px",
+		display: "block",
 	},
 	bio: {
 		marginTop: theme.spacing(1),
@@ -63,7 +64,7 @@ const ProfileHeader = ({ ownProfile, profile }) => {
 			let profileImage = await uploadImageToMediaGallery(updatedProfileImage);
 			let profileImageUploadResult = await changeUserProfilePicture(
 				profileImage,
-				profile
+				profile,
 			);
 			console.log(profileImageUploadResult);
 		}
@@ -74,7 +75,7 @@ const ProfileHeader = ({ ownProfile, profile }) => {
 			let bannerImage = await uploadImageToMediaGallery(updatedBannerImage);
 			let bannerImageUploadResult = await changeUserBannerImage(
 				bannerImage,
-				profile
+				profile,
 			);
 			console.log(bannerImageUploadResult);
 		}
@@ -101,7 +102,7 @@ const ProfileHeader = ({ ownProfile, profile }) => {
 		return (
 			<div className={classes.profileSummary}>
 				<Typography className={classes.name} variant="h5" component="h2">
-					{profile?.username !== "null" ? profile.username : "Alien"}
+					{profile?.username ? profile.username : "Alien"}
 				</Typography>
 				<Typography
 					className={classes.address}
@@ -109,7 +110,15 @@ const ProfileHeader = ({ ownProfile, profile }) => {
 					component="h2"
 					color="textSecondary"
 				>
-					{truncateWalletAddress(`${profile?.walletAddress}`, 13)}
+					{profile.ethAddress && `ETH: ${truncateWalletAddress(`${profile?.ethAddress}`, 13)}`}
+				</Typography>
+				<Typography
+					className={classes.address}
+					variant="h6"
+					component="h2"
+					color="textSecondary"
+				>
+					{profile.solAddress && `SOL: ${truncateWalletAddress(`${profile?.solAddress}`, 13)}`}
 				</Typography>
 				<Typography className={classes.bio} variant="h6" component="h2">
 					{profile.bio}
