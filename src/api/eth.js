@@ -3,16 +3,7 @@ import { MUNICH_NFT_ABI } from "../abis/munich-nft";
 import { ERC721_ABI } from "../abis/erc721-common";
 import { ERC1155_ABI } from "../abis/erc1155-common";
 
-import { OpenSeaPort } from "opensea-js";
 import Web3 from "web3";
-
-let seaport;
-
-if (window.web3) {
-	seaport = new OpenSeaPort(window.web3.currentProvider, {
-		networkName: NETWORK,
-	});
-}
 
 export const mintNftAfterDeployingNewContract = async (
 	uploadedMetadata,
@@ -118,7 +109,7 @@ const requestTokenURIFromContract = async (contract, tokenId) => {
 	return await contract.methods.tokenURI(tokenId).call();
 };
 
-export const mintNft = async (
+export const mintErc721Token = async (
 	uploadedMetadata,
 	gas,
 	ownerWalletAddress,
@@ -156,25 +147,6 @@ export const mintNft = async (
 		blockhash: txResult.blockHash,
 		id: lastTokenId,
 	};
-};
-
-export const listNft = async (
-	expirationTime,
-	resultingTokenId,
-	listingPrice,
-	ownerWalletAddress
-) => {
-	const listing = await seaport.createSellOrder({
-		asset: {
-			tokenId: resultingTokenId,
-			tokenAddress: MunichNftContractAddress,
-		},
-		accountAddress: ownerWalletAddress,
-		startAmount: listingPrice,
-		expirationTime,
-	});
-
-	return listing;
 };
 
 const getWeb3Contract = (contractAddress, abi, options) => {

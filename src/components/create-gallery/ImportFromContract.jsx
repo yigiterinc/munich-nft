@@ -11,12 +11,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import SwipeableViews from "react-swipeable-views";
 import { getLoggedInUser, isUserLoggedIn } from "../../utils/auth-utils";
-import {
-	fetchCollectionsOfUser,
-	filterAssetsInCollectionByOwner,
-	getAssetsAddedCollections,
-} from "../../api/opensea";
-import { findOwnedTokensOnERC721Contract } from "../../api/chainHelper";
+import { findOwnedTokensOnERC721Contract } from "../../api/eth.js";
 import axios from "axios";
 import { withDefault } from "../../utils/commons";
 

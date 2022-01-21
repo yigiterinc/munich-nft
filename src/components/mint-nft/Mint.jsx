@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Container, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { mintNft } from "../../api/chainHelper";
+import { mintErc721Token } from "../../api/eth.js";
 import withSpinner from "../common/WithSpinner";
 import { getLoggedInUser } from "../../utils/auth-utils";
 
@@ -42,8 +42,12 @@ function Mint({
 	const mint = async () => {
 		setMintInProgress(true);
 
-		const user = getLoggedInUser()
-		const mintingResult = await mintNft(uploadedMetadata, 300000, user.walletAddress);
+		const user = getLoggedInUser();
+		const mintingResult = await mintErc721Token(
+			uploadedMetadata,
+			300000,
+			user.walletAddress
+		);
 
 		setMintedNft(mintingResult.blockhash);
 		setResultingTokenId(mintingResult.id);
@@ -100,9 +104,9 @@ function Mint({
 			return withSpinner(MintPrompt(), mintInProgress, {
 				justifyContent: "center",
 				marginTop: "6vh",
-			})
+			});
 		}
-	}
+	};
 
 	return <div className={classes.root}>{getRenderContent()}</div>;
 }

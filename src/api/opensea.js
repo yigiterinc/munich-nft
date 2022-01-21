@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { MunichNftContractAddress, NETWORK } from "../config/config";
+
 import {
 	FETCH_ACCOUNT_COLLECTIONS_ENDPOINT,
 	FETCH_ASSETS_IN_COLLECTION_ENDPOINT,
@@ -7,6 +9,17 @@ import {
 	FETCH_SINGLE_COLLECTION_ENDPOINT,
 } from "../constants/openseaApiConstants";
 import { getLoggedInUser } from "../utils/auth-utils";
+
+import { OpenSeaPort } from "opensea-js";
+import Web3 from "web3";
+
+let seaport;
+
+if (window.web3) {
+	seaport = new OpenSeaPort(window.web3.currentProvider, {
+		networkName: NETWORK,
+	});
+}
 
 export const fetchCollectionsOfUser = async (accountAddress) => {
 	if (!accountAddress) return;
@@ -33,7 +46,7 @@ export const getAssetsAddedCollections = async (collections) => {
 					...coll,
 					assets,
 				});
-			}),
+			})
 		);
 	});
 
@@ -67,9 +80,15 @@ export const fetchSingleCollectionMetadata = async (slug) => {
 const userSoldTheAsset = (asset, tx, walletAddress) => {
 	if (!asset.last_sale.event_type === "successful") return false;
 
-	if (tx.from !== walletAddress && tx.logs[0]?.data.indexOf(walletAddress) >= 0) {
+	if (
+		tx.from !== walletAddress &&
+		tx.logs[0]?.data.indexOf(walletAddress) >= 0
+	) {
 		return true;
-	} else if (tx.from === walletAddress && tx.logs[0]?.data.indexOf(walletAddress) < 0) {
+	} else if (
+		tx.from === walletAddress &&
+		tx.logs[0]?.data.indexOf(walletAddress) < 0
+	) {
 		return tx.logs.length > 2;
 	} else if (tx.from === tx.logs[0]?.data.substring(0, 42)) {
 		return true;
@@ -110,7 +129,9 @@ export const filterAssetsInCollectionByOwner = async (collectionWithAssets) => {
 		for (let i = 0; i < currCollection.assets.length; i++) {
 			asset = currCollection.assets[i];
 
-			if (await assetBelongsToCurrentUser(asset, getLoggedInUser().walletAddress)) {
+			if (
+				await assetBelongsToCurrentUser(asset, getLoggedInUser().ethAddress)
+			) {
 				assetsOfUserInCurrCollection.push(asset);
 			}
 		}
@@ -119,4 +140,23 @@ export const filterAssetsInCollectionByOwner = async (collectionWithAssets) => {
 	}
 
 	return filteredCollections;
+};
+
+export const listNftOnOpensea = async (
+	expirationTime,
+	resultingTokenId,
+	listingPrice,
+	ownerWalletAddress
+) => {
+	const listing = await seaport.createSellOrder({
+		asset: {
+			tokenId: resultingTokenId,
+			tokenAddress: MunichNftContractAddress,
+		},
+		accountAddress: ownerWalletAddress,
+		startAmount: listingPrice,
+		expirationTime,
+	});
+
+	return listing;
 };
