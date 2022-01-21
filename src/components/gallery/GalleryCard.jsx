@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Card, CardMedia, CardContent } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { withDefault } from "../../../utils/commons";
+import { withDefault } from "../../utils/commons";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -17,10 +17,6 @@ const useStyles = makeStyles((theme) => ({
 	image: {
 		height: "30vh",
 	},
-	// priorImage: {
-	// 	width: "440px",
-	// 	height: "440px",
-	// },
 	link: {
 		textDecoration: "none",
 	},

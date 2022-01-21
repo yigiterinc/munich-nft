@@ -1,17 +1,28 @@
 import React from "react";
-import NftsDefaultLayout from "./gallery-nfts/NftsDefaultLayout";
-import NftsLayout1 from "./gallery-nfts/NftsLayout1";
+import { makeStyles } from "@material-ui/core/styles";
+import GalleryCard from "./GalleryCard";
+import { Grid } from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+	nftContainer: {
+		paddingTop: "10vh",
+		width: "80vw",
+	},
+}));
 
 const GalleryNfts = (props) => {
-	return <>{renderSelectedNftsLayout(props)}</>;
-};
-
-const renderSelectedNftsLayout = (props) => {
-	if (props.nftsLayout === "default") {
-		return <NftsDefaultLayout {...props} />;
-	} else if (props.nftsLayout === "layout-1") {
-		return <NftsLayout1 {...props} />;
-	}
+	const classes = useStyles();
+	return (
+		<Grid container spacing={4} className={classes.nftContainer}>
+			{props.nfts.map((item) => {
+				return (
+					<Grid key={item.id} item lg={3} md={4} sm={6} xs={12}>
+						<GalleryCard asset={item} />
+					</Grid>
+				);
+			})}
+		</Grid>
+	);
 };
 
 export default GalleryNfts;

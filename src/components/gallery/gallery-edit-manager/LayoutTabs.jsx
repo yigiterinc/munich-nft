@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {
 	makeStyles,
 	AppBar,
@@ -11,7 +10,6 @@ import {
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import HeaderLayoutPicker from "./HeaderLayoutPicker";
-import NftsLayoutPicker from "./NftsLayoutPicker";
 
 function TabPanel(props) {
 	const { children, value, index } = props;
@@ -60,7 +58,6 @@ const LayoutTabs = (props) => {
 					TabIndicatorProps={{ style: { background: "#000" } }}
 				>
 					<Tab label="Header Layout" />
-					<Tab label="NFTs Layout" />
 					<div className={classes.closeDialogPanel}>
 						<IconButton
 							aria-label="close-gallery-settings"
@@ -77,12 +74,6 @@ const LayoutTabs = (props) => {
 				<HeaderLayoutPicker
 					headerLayout={props.headerLayout}
 					setHeaderLayout={props.setHeaderLayout}
-				/>
-			</TabPanel>
-			<TabPanel value={value} index={1}>
-				<NftsLayoutPicker
-					nftsLayout={props.nftsLayout}
-					setNftsLayout={props.setNftsLayout}
 				/>
 			</TabPanel>
 		</div>
