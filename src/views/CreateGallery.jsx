@@ -205,7 +205,10 @@ const CreateGallery = (props) => {
 
 	return (
 		<>
-			{ActiveStep()}
+			<ImportFromPhantomWallet
+				prevButton={props.prevButton}
+				handleSubmit={handleSubmit}
+			/>
 			<Snackbar
 				open={success}
 				anchorOrigin={{ vertical: "bottom", horizontal: "right" }}

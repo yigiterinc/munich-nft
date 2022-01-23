@@ -18,6 +18,7 @@ import {
 	getAssetsAddedCollections,
 } from "../../api/opensea";
 import { withDefault } from "../../utils/commons";
+import { fetchSolNftsByWalletAddress } from "../../api/sol";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -75,19 +76,10 @@ export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 
 	useEffect(async () => {
 		if (isUserLoggedIn()) {
-			let collectionsData = await fetchCollectionsOfUser(
-				getLoggedInUser().ethAddress
-			);
-			let collectionsWithAssets = [];
-			collectionsWithAssets.push(
-				await getAssetsAddedCollections(collectionsData)
-			);
-
-			let filtered = await filterAssetsInCollectionByOwner(
-				collectionsWithAssets
-			);
-
-			setUserCollections(filtered);
+			const user = getLoggedInUser();
+			const assets = await fetchSolNftsByWalletAddress(user.solAddress);
+			console.log(assets);
+			setUserCollections(assets);
 		}
 	}, []);
 
@@ -225,7 +217,7 @@ export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 				{TabPanelWithSpinner(collectionsTabIndex, CollectionCardsGrid)}
 				{TabPanelWithSpinner(nftsTabIndex, AssetCardsGrid)}
 			</SwipeableViews>
-			;{!dataIsLoading && ButtonsMenu}
+			{!dataIsLoading && ButtonsMenu}
 		</div>
 	);
 }

@@ -21,16 +21,12 @@ import "./App.css";
 import CreateGallery from "./views/CreateGallery";
 import NftDetails from "./views/NftDetails";
 import { getLoggedInUser, isUserLoggedIn } from "./utils/auth-utils";
-import { fetchSolTokensByWalletAddress } from "./api/sol";
 
 let web3;
 
 function App() {
 	useEffect(async () => {
 		if (!web3) await loadWeb3();
-		console.log(
-			await fetchSolTokensByWalletAddress(getLoggedInUser().solAddress)
-		);
 	}, []);
 
 	const loadWeb3 = async () => {
