@@ -44,6 +44,8 @@ const RenderGallery = (props) => {
 				headerLayout={props.headerLayout}
 				isCoverImageUpdated={props.isCoverImageUpdated}
 				setIsCoverImageUpdated={props.setIsCoverImageUpdated}
+				setShowAddAssetsView={props.setShowAddAssetsView}
+				setShowRemoveAssetsView={props.setShowRemoveAssetsView}
 			/>
 			<GalleryNfts
 				nfts={props.galleryJson.nfts}

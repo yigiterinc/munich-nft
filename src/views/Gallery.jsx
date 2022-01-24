@@ -11,7 +11,11 @@ import {
 } from "../api/strapi";
 import { RECOMMENDED_THEMES } from "../themes/galleryThemes";
 
-const Gallery = () => {
+const Gallery = ({
+	setGalleryData,
+	setShowAddAssetsView,
+	setShowRemoveAssetsView,
+}) => {
 	const [gallery, setGallery] = useState(null);
 	const [isEditable, setIsEditable] = useState(false);
 	const [isOwner, setIsOwner] = useState(false);
@@ -29,6 +33,9 @@ const Gallery = () => {
 	const history = useHistory();
 
 	useEffect(async () => {
+		if (!slug) {
+			return;
+		}
 		const json = await fetchGallery(slug);
 		const gallery = {
 			userId: json.userId,
@@ -40,6 +47,7 @@ const Gallery = () => {
 		setGalleryName(json.galleryName);
 		setGalleryDescription(json.description);
 		setCoverImage(json.coverImage);
+		setGalleryData({ galleryId: json.id, nfts: gallery.nfts, slug: slug });
 		if (currentUser.id === gallery.userId) {
 			setIsOwner(true);
 		}
@@ -50,7 +58,7 @@ const Gallery = () => {
 		}
 		setHeaderLayout(json.headerLayout);
 		setNftsLayout(json.nftsLayout);
-	}, []);
+	}, [slug]);
 
 	const switchGalleryEditMode = () => {
 		setIsEditable(!isEditable);
@@ -87,6 +95,11 @@ const Gallery = () => {
 		setIsCoverImageUpdated(false);
 
 		const updateResult = await updateGallery(galleryId, changedParams);
+
+		if (updateResult.status === 200) {
+			history.push(`/gallery/${changedParams.slug}`);
+			window.location.reload();
+		}
 	};
 
 	const convertToSlug = (galleryName) => {
@@ -117,6 +130,8 @@ const Gallery = () => {
 						setNftsLayout={setNftsLayout}
 						isCoverImageUpdated={isCoverImageUpdated}
 						setIsCoverImageUpdated={setIsCoverImageUpdated}
+						setShowAddAssetsView={setShowAddAssetsView}
+						setShowRemoveAssetsView={setShowRemoveAssetsView}
 					/>
 				) : (
 					<CircularSpinner />

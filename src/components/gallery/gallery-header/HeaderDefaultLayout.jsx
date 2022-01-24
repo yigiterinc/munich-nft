@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import GalleryCoverImage from "./GalleryCoverImage";
 import { makeStyles, darken } from "@material-ui/core/styles";
 import { Grid, Typography, TextField } from "@material-ui/core";
+import GalleryMenu from "../GalleryMenu";
 
 const useStyles = makeStyles((theme) => ({
 	galleryHeaderContainer: {
@@ -130,6 +131,14 @@ const HeaderDefaultLayout = (props) => {
 					</div>
 				</div>
 			</Grid>
+			{props.isOwner && !props.isEditable && (
+				<Grid item xs={1}>
+					<GalleryMenu
+						setShowAddAssetsView={props.setShowAddAssetsView}
+						setShowRemoveAssetsView={props.setShowRemoveAssetsView}
+					/>
+				</Grid>
+			)}
 		</Grid>
 	);
 };

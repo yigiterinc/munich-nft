@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
 	GALLERIES_URL,
+	GALLERY_URL,
 	GET_USER_UPDATE_URL,
 	IMAGE_UPLOAD_URL,
 	USER_GALLERIES_URL,
@@ -128,7 +129,7 @@ export const createGallery = async (gallery) => {
 };
 
 export const updateGallery = async (galleryId, updatedGalleryParams) => {
-	return await axios.put(`${GALLERIES_URL}/${galleryId}`, updatedGalleryParams);
+	return await axios.put(GALLERY_URL(galleryId), updatedGalleryParams);
 };
 
 export const saveImportedCollections = async (user, collectionsToSave) => {

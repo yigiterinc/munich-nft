@@ -26,29 +26,22 @@ const useStyles = makeStyles((theme) => ({
 			"rgba(120, 105, 199, 0.4) 0px 0px 0px 2px, rgba(120, 105, 199, 0.65) 0px 4px 6px -1px, rgba(120, 105, 199, 0.08) 0px 1px 0px inset",
 		cursor: "pointer",
 	},
-	cardContent: {
-		display: "flex",
-		flexDirection: "column",
-		alignItems: "center",
-	},
-	avatar: {
-		width: theme.spacing(15),
-		height: theme.spacing(15),
-		marginBottom: "5vh",
-	},
-	name: {
+	nftName: {
 		marginTop: "10px",
-		fontSize: "17px",
+		fontSize: "18px",
 	},
 	image: {
 		height: "30vh",
-	},
-	nftName: {
-		fontSize: "18px",
+		borderRadius: "4px",
 	},
 }));
 
-const ImportCard = ({ name, image, addToSelected, removeFromSelected }) => {
+const CollectionImportCard = ({
+	name,
+	image,
+	addToSelected,
+	removeFromSelected,
+}) => {
 	const [selected, setSelected] = useState(false);
 	const classes = useStyles();
 
@@ -62,7 +55,8 @@ const ImportCard = ({ name, image, addToSelected, removeFromSelected }) => {
 		setSelected(!selected);
 	};
 
-	const DEFAULT_COLLECTION_NAME = "Nameless";
+	const DEFAULT_NFT_NAME = "Nameless";
+	const DEFAULT_IMAGE_PATH = "/images/no-image.png";
 
 	return (
 		<Card
@@ -71,20 +65,24 @@ const ImportCard = ({ name, image, addToSelected, removeFromSelected }) => {
 			selected={selected}
 			onClick={() => handleOnClick()}
 		>
-			{(
-				<CardContent className={classes.cardContent}>
-					<Avatar
-						alt={name}
-						src={image}  // ipfsImage ? nft.image : withDefault(nft.image_url, DEFAULT_IMAGE_PATH)
-						className={classes.avatar}
+			{
+				<CardContent>
+					<CardMedia
+						component="img"
+						className={classes.image}
+						image={withDefault(image, DEFAULT_IMAGE_PATH)}
+						title={name}
 					/>
-					<Typography className={classes.name} variant="body1">
-						{truncateString(withDefault(name, DEFAULT_COLLECTION_NAME), 20)}
+					{/* <Typography variant="body2" color="textSecondary" gutterBottom>
+						{truncateString(nft.collection.name, 20)}
+					</Typography> */}
+					<Typography variant="body2" className={classes.nftName}>
+						{truncateString(withDefault(name, DEFAULT_NFT_NAME), 20)}
 					</Typography>
 				</CardContent>
-			)}
+			}
 		</Card>
 	);
 };
 
-export default ImportCard;
+export default CollectionImportCard;
