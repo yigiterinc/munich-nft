@@ -29,8 +29,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const GalleryCard = ({ asset, priorNft }) => {
-	const contractAddressId = asset.asset_contract.address;
-	const tokenId = asset.token_id;
+	console.log(asset);
+	const contractAddressId = asset?.item?.asset_contract?.address;
+	const tokenId = asset?.item?.token_id;
+	const item = asset?.item;
 
 	const classes = useStyles();
 
@@ -47,15 +49,15 @@ const GalleryCard = ({ asset, priorNft }) => {
 						<CardMedia
 							component="img"
 							className={classes.priorImage}
-							image={withDefault(asset.image_url, defaultImagePath)}
-							title={asset.name}
+							image={withDefault(item.image_url, defaultImagePath)}
+							title={asset.item.name}
 						/>
 					) : (
 						<CardMedia
 							component="img"
 							className={classes.image}
-							image={withDefault(asset.image_url, defaultImagePath)}
-							title={asset.name}
+							image={withDefault(item.image_url, defaultImagePath)}
+							title={item.name}
 						/>
 					)}
 				</>
@@ -65,10 +67,10 @@ const GalleryCard = ({ asset, priorNft }) => {
 						className={classes.collectionText}
 						gutterBottom
 					>
-						{asset.collection.name}
+						{item.collection.name}
 					</Typography>
 					<Typography variant="h6" component="h2" className={classes.nftText}>
-						{asset.name ? asset.name : "-"}
+						{item.name ? item.name : "-"}
 					</Typography>
 				</CardContent>
 			</Card>

@@ -25,7 +25,6 @@ const Gallery = ({
 	const [galleryDescription, setGalleryDescription] = useState("");
 	const [galleryTheme, setGalleryTheme] = useState(null);
 	const [headerLayout, setHeaderLayout] = useState("default");
-	const [nftsLayout, setNftsLayout] = useState("default");
 	const [isCoverImageUpdated, setIsCoverImageUpdated] = useState(false);
 
 	let { slug } = useParams();
@@ -33,31 +32,25 @@ const Gallery = ({
 	const history = useHistory();
 
 	useEffect(async () => {
-		if (!slug) {
-			return;
-		}
+		if (!slug) return;
 		const json = await fetchGallery(slug);
 		const gallery = {
 			userId: json.userId,
 			creator: json.username,
 			nfts: json.assets,
 		};
+		const selectedTheme =
+			json.theme === undefined ? RECOMMENDED_THEMES[0].theme : json.theme;
+
 		setGalleryId(json.id);
 		setGallery(gallery);
 		setGalleryName(json.galleryName);
 		setGalleryDescription(json.description);
 		setCoverImage(json.coverImage);
 		setGalleryData({ galleryId: json.id, nfts: gallery.nfts, slug: slug });
-		if (currentUser.id === gallery.userId) {
-			setIsOwner(true);
-		}
-		if (Object.keys(json.theme).length === 0) {
-			setGalleryTheme(createTheme(RECOMMENDED_THEMES[0].theme));
-		} else {
-			setGalleryTheme(createTheme(json.theme));
-		}
+		if (currentUser.id === gallery.userId) setIsOwner(true);
+		setGalleryTheme(createTheme(selectedTheme));
 		setHeaderLayout(json.headerLayout);
-		setNftsLayout(json.nftsLayout);
 	}, [slug]);
 
 	const switchGalleryEditMode = () => {
@@ -80,7 +73,6 @@ const Gallery = ({
 			slug: convertToSlug(galleryName),
 			theme: galleryTheme,
 			headerLayout: headerLayout,
-			nftsLayout: nftsLayout,
 		};
 
 		history.push(`${convertToSlug(galleryName)}`);
@@ -126,8 +118,6 @@ const Gallery = ({
 						setGalleryTheme={setGalleryTheme}
 						headerLayout={headerLayout}
 						setHeaderLayout={setHeaderLayout}
-						nftsLayout={nftsLayout}
-						setNftsLayout={setNftsLayout}
 						isCoverImageUpdated={isCoverImageUpdated}
 						setIsCoverImageUpdated={setIsCoverImageUpdated}
 						setShowAddAssetsView={setShowAddAssetsView}
