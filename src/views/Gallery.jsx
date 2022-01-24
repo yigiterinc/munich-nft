@@ -53,7 +53,7 @@ const Gallery = ({
 		setHeaderLayout(json.headerLayout);
 	}, [slug]);
 
-	const switchGalleryEditMode = () => {
+	const switchEditableMode = () => {
 		setIsEditable(!isEditable);
 	};
 
@@ -104,7 +104,7 @@ const Gallery = ({
 				{gallery ? (
 					<RenderGallery
 						galleryJson={gallery}
-						switchGalleryEditMode={switchGalleryEditMode}
+						switchEditableMode={switchEditableMode}
 						isEditable={isEditable}
 						isOwner={isOwner}
 						coverImage={coverImage}

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { withStyles } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
+import {
+	withStyles,
+	Button,
+	Menu,
+	MenuItem,
+	ListItemIcon,
+	ListItemText,
+} from "@material-ui/core";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
@@ -42,15 +44,16 @@ const GalleryMenu = ({ setShowAddAssetsView, setShowRemoveAssetsView }) => {
 	};
 
 	return (
-		<div>
-			<IconButton
+		<>
+			<Button
 				aria-label="more"
 				aria-controls="gallery-menu"
+				startIcon={<MoreVertIcon />}
 				aria-haspopup="true"
 				onClick={handleClick}
 			>
-				<MoreVertIcon />
-			</IconButton>
+				Nfts
+			</Button>
 			<StyledMenu
 				id="gallery-menu"
 				anchorEl={anchorEl}
@@ -71,7 +74,7 @@ const GalleryMenu = ({ setShowAddAssetsView, setShowRemoveAssetsView }) => {
 					<ListItemText primary="Remove NFTs" />
 				</MenuItem>
 			</StyledMenu>
-		</div>
+		</>
 	);
 };
 

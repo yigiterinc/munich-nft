@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 const GalleryCard = ({ asset, priorNft }) => {
 	const contractAddressId = asset?.item?.asset_contract?.address;
 	const tokenId = asset?.item?.token_id;
-	const item = asset?.item;
+	const item = Object.keys(asset).includes("item") ? asset?.item : asset;
 
 	const classes = useStyles();
 
