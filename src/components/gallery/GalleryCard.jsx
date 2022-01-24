@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const GalleryCard = ({ asset, priorNft }) => {
-	console.log(asset);
 	const contractAddressId = asset?.item?.asset_contract?.address;
 	const tokenId = asset?.item?.token_id;
 	const item = asset?.item;
@@ -50,7 +49,7 @@ const GalleryCard = ({ asset, priorNft }) => {
 							component="img"
 							className={classes.priorImage}
 							image={withDefault(item.image_url, defaultImagePath)}
-							title={asset.item.name}
+							title={item.name}
 						/>
 					) : (
 						<CardMedia
