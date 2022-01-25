@@ -19,11 +19,11 @@ const EditGalleryModal = (props) => {
 
 	return (
 		<Dialog
-			open={props.openLayoutModal}
+			open={props.openEditGalleryModal}
 			classes={{ paper: classes.dialogWrapper }}
 		>
 			<EditGalleryTabs
-				closeLayoutModal={props.closeLayoutModal}
+				closeEditGalleryModal={props.closeEditGalleryModal}
 				headerLayout={props.headerLayout}
 				setHeaderLayout={props.setHeaderLayout}
 				galleryTheme={props.galleryTheme}

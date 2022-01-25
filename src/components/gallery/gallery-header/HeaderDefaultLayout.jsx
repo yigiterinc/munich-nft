@@ -1,9 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import GalleryCoverImage from "./GalleryCoverImage";
-import { makeStyles, darken } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography, TextField } from "@material-ui/core";
-import GalleryMenu from "../GalleryMenu";
 
 const useStyles = makeStyles((theme) => ({
 	galleryHeaderContainer: {

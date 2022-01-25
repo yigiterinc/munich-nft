@@ -65,7 +65,7 @@ const EditGalleryTabs = (props) => {
 						<IconButton
 							aria-label="close-gallery-settings"
 							onClick={() => {
-								props.closeLayoutModal();
+								props.closeEditGalleryModal();
 							}}
 						>
 							<CloseIcon />

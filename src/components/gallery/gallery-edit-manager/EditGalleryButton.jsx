@@ -3,56 +3,66 @@ import { makeStyles, ButtonGroup, Button } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import BrushIcon from "@material-ui/icons/Brush";
 import SaveIcon from "@material-ui/icons/Save";
-import GalleryMenu from "../GalleryMenu";
+import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 const useStyles = makeStyles((theme) => ({
-	buttonsContainer: {
-		width: "100px",
-		display: "flex",
-		"& > *": {
-			margin: theme.spacing(1),
-		},
-	},
-	edit: {
-		width: "102.36px",
+	editButton: {
+		width: "91.5px",
 	},
 }));
 
 const EditGalleryButton = (props) => {
 	const classes = useStyles();
 	return (
-		<div className={classes.buttonsContainer}>
+		<>
 			{props.isEditMode ? (
 				<ButtonGroup
 					orientation="vertical"
 					color="secondary"
+					size="medium"
 					aria-label="vertical outlined primary button group"
 				>
 					<Button
 						aria-label="edit-gallery"
-						startIcon={<EditIcon />}
+						startIcon={<EditIcon fontSize="small" />}
+						style={{ textTransform: "none" }}
 						onClick={() => {
 							props.switchEditableMode();
 						}}
 					>
 						Edit
 					</Button>
-					<GalleryMenu
-						setShowAddAssetsView={props.setShowAddAssetsView}
-						setShowRemoveAssetsView={props.setShowRemoveAssetsView}
-					/>
+					<Button
+						aria-label="add-nfts"
+						startIcon={<AddToPhotosIcon fontSize="small" />}
+						style={{ textTransform: "none" }}
+						onClick={() => props.setShowAddAssetsView(true)}
+					>
+						NFTs
+					</Button>
+					<Button
+						aria-label="remove-nfts"
+						startIcon={<DeleteForeverIcon fontSize="small" />}
+						style={{ textTransform: "none" }}
+						onClick={() => props.setShowRemoveAssetsView(true)}
+					>
+						NFTs
+					</Button>
 					<Button
 						aria-label="customize-gallery"
-						startIcon={<BrushIcon />}
+						startIcon={<BrushIcon fontSize="small" />}
+						style={{ textTransform: "none" }}
 						onClick={() => {
-							props.setOpenLayoutModal(true);
+							props.setOpenEditGalleryModal(true);
 						}}
 					>
 						Style
 					</Button>
 					<Button
 						aria-label="save-gallery"
-						startIcon={<SaveIcon />}
+						startIcon={<SaveIcon fontSize="small" />}
+						style={{ textTransform: "none" }}
 						onClick={() => {
 							props.switchEditableMode();
 							props.handleUpdateGallery();
@@ -65,12 +75,14 @@ const EditGalleryButton = (props) => {
 				<ButtonGroup
 					orientation="vertical"
 					color="secondary"
+					size="medium"
 					aria-label="vertical outlined primary button group"
 				>
 					<Button
-						className={classes.edit}
+						className={classes.editButton}
 						aria-label="edit-gallery"
-						startIcon={<EditIcon />}
+						startIcon={<EditIcon fontSize="small" />}
+						style={{ textTransform: "none" }}
 						onClick={() => {
 							props.switchEditableMode();
 						}}
@@ -79,7 +91,7 @@ const EditGalleryButton = (props) => {
 					</Button>
 				</ButtonGroup>
 			)}
-		</div>
+		</>
 	);
 };
 

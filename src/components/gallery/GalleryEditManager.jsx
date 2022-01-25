@@ -6,17 +6,15 @@ import EditGalleryModal from "./gallery-edit-manager/EditGalleryModal";
 const useStyles = makeStyles((theme) => ({
 	galleryEditManagerContainer: {
 		position: "fixed",
-		height: "40px",
 		marginTop: "-1.2vh",
-		marginBottom: "2.5vh",
 		marginLeft: "2vw",
 		color: theme.palette.secondary.light,
 	},
 }));
 
 const GalleryEditManager = (props) => {
-	const [openLayoutModal, setOpenLayoutModal] = useState(false);
-	const closeLayoutModal = () => setOpenLayoutModal(false);
+	const [openEditGalleryModal, setOpenEditGalleryModal] = useState(false);
+	const closeEditGalleryModal = () => setOpenEditGalleryModal(false);
 
 	const classes = useStyles();
 	return (
@@ -24,7 +22,7 @@ const GalleryEditManager = (props) => {
 			{props.isOwner && (
 				<div className={classes.galleryEditManagerContainer}>
 					<EditGalleryButton
-						setOpenLayoutModal={setOpenLayoutModal}
+						setOpenEditGalleryModal={setOpenEditGalleryModal}
 						isEditMode={props.isEditMode}
 						switchEditableMode={props.switchEditableMode}
 						handleUpdateGallery={props.handleUpdateGallery}
@@ -32,8 +30,8 @@ const GalleryEditManager = (props) => {
 						setShowRemoveAssetsView={props.setShowRemoveAssetsView}
 					></EditGalleryButton>
 					<EditGalleryModal
-						openLayoutModal={openLayoutModal}
-						closeLayoutModal={closeLayoutModal}
+						openEditGalleryModal={openEditGalleryModal}
+						closeEditGalleryModal={closeEditGalleryModal}
 						switchEditableMode={props.switchEditableMode}
 						headerLayout={props.headerLayout}
 						setHeaderLayout={props.setHeaderLayout}
