@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { makeStyles, Button, Divider } from "@material-ui/core";
+import { makeStyles, ButtonGroup, Button } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import BrushIcon from "@material-ui/icons/Brush";
 import SaveIcon from "@material-ui/icons/Save";
@@ -8,21 +8,22 @@ import GalleryMenu from "./GalleryMenu";
 
 const useStyles = makeStyles((theme) => ({
 	galleryEditManagerContainer: {
-		width: "100%",
+		position: "fixed",
 		height: "40px",
-		marginTop: "-3vh",
+		marginTop: "-1.2vh",
 		marginBottom: "2.5vh",
 		marginLeft: "2vw",
-		display: "flex",
 		color: theme.palette.secondary.light,
 	},
 	buttonsContainer: {
+		width: "100px",
 		display: "flex",
+		"& > *": {
+			margin: theme.spacing(1),
+		},
 	},
-	divider: {
-		marginLeft: "1vw",
-		marginRight: "1vw",
-		background: theme.palette.secondary.light,
+	edit: {
+		width: "100px",
 	},
 }));
 
@@ -38,43 +39,44 @@ const GalleryEditManager = (props) => {
 					{props.isEditMode ? (
 						<>
 							<div className={classes.buttonsContainer}>
-								<Button
-									aria-label="edit-gallery"
-									startIcon={<EditIcon />}
-									onClick={() => {
-										props.switchEditableMode();
-									}}
-								>
-									Edit
-								</Button>
-								<Divider
+								<ButtonGroup
 									orientation="vertical"
-									flexItem
-									className={classes.divider}
-								/>
-								<Button
-									aria-label="customize-gallery"
-									startIcon={<BrushIcon />}
-									onClick={() => {
-										setOpenLayoutModal(true);
-									}}
+									color="secondary"
+									aria-label="vertical outlined primary button group"
 								>
-									Customize
-								</Button>
-								<GalleryMenu
-									setShowAddAssetsView={props.setShowAddAssetsView}
-									setShowRemoveAssetsView={props.setShowRemoveAssetsView}
-								/>
-								<Button
-									aria-label="save-gallery"
-									startIcon={<SaveIcon />}
-									onClick={() => {
-										props.switchEditableMode();
-										props.handleUpdateGallery();
-									}}
-								>
-									Save
-								</Button>
+									<Button
+										aria-label="edit-gallery"
+										startIcon={<EditIcon />}
+										onClick={() => {
+											props.switchEditableMode();
+										}}
+									>
+										Edit
+									</Button>
+									<GalleryMenu
+										setShowAddAssetsView={props.setShowAddAssetsView}
+										setShowRemoveAssetsView={props.setShowRemoveAssetsView}
+									/>
+									<Button
+										aria-label="customize-gallery"
+										startIcon={<BrushIcon />}
+										onClick={() => {
+											setOpenLayoutModal(true);
+										}}
+									>
+										Style
+									</Button>
+									<Button
+										aria-label="save-gallery"
+										startIcon={<SaveIcon />}
+										onClick={() => {
+											props.switchEditableMode();
+											props.handleUpdateGallery();
+										}}
+									>
+										Save
+									</Button>
+								</ButtonGroup>
 							</div>
 							<EditGalleryModal
 								openLayoutModal={openLayoutModal}
@@ -89,15 +91,22 @@ const GalleryEditManager = (props) => {
 					) : (
 						<>
 							<div className={classes.buttonsContainer}>
-								<Button
-									aria-label="edit-gallery"
-									startIcon={<EditIcon />}
-									onClick={() => {
-										props.switchEditableMode();
-									}}
+								<ButtonGroup
+									orientation="vertical"
+									color="secondary"
+									aria-label="vertical outlined primary button group"
 								>
-									Edit
-								</Button>
+									<Button
+										className={classes.edit}
+										aria-label="edit-gallery"
+										startIcon={<EditIcon />}
+										onClick={() => {
+											props.switchEditableMode();
+										}}
+									>
+										Edit
+									</Button>
+								</ButtonGroup>
 							</div>
 						</>
 					)}

@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
 		marginRight: "0.3vw",
 		fontSize: "16px", // will be updated after theme variable setup
 	},
+	titleTextField: {
+		lineHeight: "64px",
+	},
 	creator: {
 		textDecoration: "none",
 		cursor: "pointer",
@@ -67,14 +70,18 @@ const HeaderLayout2 = (props) => {
 								</Typography>
 							</>
 						) : (
-							<form noValidate autoComplete="off">
-								<TextField
-									fullWidth
-									value={props.galleryName}
-									inputProps={{ style: { fontSize: "36px" } }}
-									onChange={(event) => props.setGalleryName(event.target.value)}
-								/>
-							</form>
+							<div className={classes.titleTextField}>
+								<form noValidate autoComplete="off">
+									<TextField
+										fullWidth
+										value={props.galleryName}
+										inputProps={{ style: { fontSize: "36px" } }}
+										onChange={(event) =>
+											props.setGalleryName(event.target.value)
+										}
+									/>
+								</form>
+							</div>
 						)}
 					</div>
 					<div className={classes.coverImageContainer}>
