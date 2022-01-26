@@ -1,11 +1,6 @@
 import React from "react";
-import {
-	makeStyles,
-	Typography,
-	Divider,
-	createTheme,
-} from "@material-ui/core";
-import { ColorPalette } from "material-ui-color";
+import { makeStyles, Typography, createTheme } from "@material-ui/core";
+import { ColorPalette, ColorPicker } from "material-ui-color";
 import { RECOMMENDED_THEMES } from "../../../themes/galleryThemes";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,9 +22,10 @@ const ThemePicker = (props) => {
 	const palette = createPalette(RECOMMENDED_THEMES);
 
 	const handleChange = (value) => {
-		let themeVariable = themeFinder(value);
-		let theme = createTheme(themeVariable);
-		props.setGalleryTheme(theme);
+		console.log(value);
+		// let themeVariable = themeFinder(value);
+		// let theme = createTheme(themeVariable);
+		// props.setGalleryTheme(theme);
 	};
 
 	const classes = useStyles();
@@ -37,10 +33,19 @@ const ThemePicker = (props) => {
 	return (
 		<div className={classes.pickColorContainer}>
 			<div className={classes.pickColorPanel}>
-				<Typography variant="h6" className={classes.label}>
-					Themes
-				</Typography>
-				<ColorPalette palette={palette} onSelect={handleChange} />
+				<div className={classes.picker}>
+					<Typography variant="h6" className={classes.label}>
+						Background Color
+					</Typography>
+					<ColorPicker defaultValue="transparent" onSelect={handleChange} />
+					{/* <ColorPalette palette={palette} onSelect={handleChange} /> */}
+				</div>
+				<div className={classes.picker}>
+					<Typography variant="h6" className={classes.label}>
+						Key Color
+					</Typography>
+					<ColorPalette palette={palette} onSelect={handleChange} />
+				</div>
 			</div>
 		</div>
 	);
