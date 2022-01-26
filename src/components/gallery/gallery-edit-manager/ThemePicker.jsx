@@ -1,73 +1,100 @@
 import React from "react";
 import { makeStyles, Typography, createTheme } from "@material-ui/core";
-import { ColorPalette, ColorPicker } from "material-ui-color";
-import { RECOMMENDED_THEMES } from "../../../themes/galleryThemes";
+import { ColorPicker } from "material-ui-color";
 
 const useStyles = makeStyles((theme) => ({
-	pickColorContainer: {
-		height: "80px",
-		display: "flex",
-		alignItems: "center",
+	".MuiInputBase-root": {
+		color: theme.palette.common.black,
 	},
-	pickColorPanel: {
+	pickColorContainer: {
+		width: "600px",
+		color: theme.palette.common.black,
 		display: "flex",
-		alignItems: "center",
+		justifyContent: "center",
+	},
+	picker: {
+		color: theme.palette.common.black,
+		width: "250px",
+	},
+	colorPicker: {
+		color: theme.palette.common.black,
+		margin: "auto",
 	},
 	label: {
-		marginRight: "1vw",
+		color: theme.palette.common.black,
+		marginLeft: "1vw",
 	},
 }));
 
 const ThemePicker = (props) => {
-	const palette = createPalette(RECOMMENDED_THEMES);
+	const handleBackgroundColorChange = (value) => {
+		let backgroundColorType = lightOrDark(value.rgb);
+		let backgroundColor = value.css.backgroundColor;
+		let fontColor = backgroundColorType === "light" ? "#000" : "#fff";
+		let fontContrastColor = fontColor === "#000" ? "#fff" : "#000";
+		let themeVariable = createTheme({
+			palette: {
+				background: {
+					default: `${backgroundColor}`,
+				},
+				text: {
+					primary: `${fontColor}`,
+				},
+				primary: {
+					main: `${props.galleryTheme.palette.primary.main}`,
+					contrastText: `${fontContrastColor}`,
+				},
+			},
+		});
 
-	const handleChange = (value) => {
-		console.log(value);
-		// let themeVariable = themeFinder(value);
-		// let theme = createTheme(themeVariable);
-		// props.setGalleryTheme(theme);
+		let theme = createTheme(themeVariable);
+		props.setGalleryTheme(theme);
 	};
 
-	const classes = useStyles();
+	const handleKeyColorChange = (value) => {
+		let keyColor = value.css.backgroundColor;
+		let prevTheme = props.galleryTheme;
 
+		prevTheme.palette.primary.main = keyColor;
+		props.setGalleryTheme(createTheme(prevTheme));
+	};
+
+	const backColor = props.galleryTheme.palette.background.default;
+	const keyColor = props.galleryTheme.palette.primary.main;
+	const classes = useStyles();
 	return (
 		<div className={classes.pickColorContainer}>
-			<div className={classes.pickColorPanel}>
-				<div className={classes.picker}>
-					<Typography variant="h6" className={classes.label}>
-						Background Color
-					</Typography>
-					<ColorPicker defaultValue="transparent" onSelect={handleChange} />
-					{/* <ColorPalette palette={palette} onSelect={handleChange} /> */}
+			<div className={classes.picker}>
+				<Typography variant="h6" className={classes.label}>
+					Background Color
+				</Typography>
+				<div className={classes.colorPicker}>
+					<ColorPicker
+						value={backColor}
+						onChange={handleBackgroundColorChange}
+					/>
 				</div>
-				<div className={classes.picker}>
-					<Typography variant="h6" className={classes.label}>
-						Key Color
-					</Typography>
-					<ColorPalette palette={palette} onSelect={handleChange} />
-				</div>
+			</div>
+			<div className={classes.picker}>
+				<Typography variant="h6" className={classes.label}>
+					Key Color
+				</Typography>
+				<ColorPicker
+					className={classes.colorPicker}
+					value={keyColor}
+					onChange={handleKeyColorChange}
+				/>
 			</div>
 		</div>
 	);
 };
 
-const createPalette = (themes) => {
-	const paletteObj = {};
-	for (let i = 0; i < themes.length; i++) {
-		let name = themes[i].name;
-		Object.assign(paletteObj, {
-			[name]: themes[i].theme.palette.background.default,
-		});
-	}
-	return paletteObj;
-};
-
-const themeFinder = (themeName) => {
-	for (let i = 0; i < RECOMMENDED_THEMES.length; i++) {
-		if (RECOMMENDED_THEMES[i].name === themeName) {
-			return RECOMMENDED_THEMES[i].theme;
-		}
-	}
+const lightOrDark = (color) => {
+	let r = color[0];
+	let g = color[1];
+	let b = color[2];
+	const hsp = Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b));
+	return hsp > 127.5 ? "light" : "dark";
 };
 
 export default ThemePicker;

@@ -9,7 +9,6 @@ import {
 	updateGallery,
 	uploadImageToMediaGallery,
 } from "../api/strapi";
-import { RECOMMENDED_THEMES } from "../themes/galleryThemes";
 
 const Gallery = ({
 	setGalleryData,
@@ -33,14 +32,28 @@ const Gallery = ({
 
 	useEffect(async () => {
 		if (!slug) return;
+
 		const json = await fetchGallery(slug);
 		const gallery = {
 			userId: json.userId,
 			creator: json.username,
 			nfts: json.assets,
 		};
-		const selectedTheme =
-			json.theme === undefined ? RECOMMENDED_THEMES[0].theme : json.theme;
+		const defaultTheme = createTheme({
+			palette: {
+				background: {
+					default: "#fff",
+				},
+				text: {
+					primary: "#000",
+				},
+				primary: {
+					main: "#000",
+					contrastText: "#fff",
+				},
+			},
+		});
+		let selectedTheme = json.theme === undefined ? defaultTheme : json.theme;
 
 		setGalleryId(json.id);
 		setGallery(gallery);

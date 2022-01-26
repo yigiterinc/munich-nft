@@ -35,9 +35,7 @@ const useStyles = makeStyles((theme) => ({
 		textDecoration: "none",
 		cursor: "pointer",
 		color: theme.palette.primary.main,
-		"&:hover": {
-			color: theme.palette.primary.contrastText,
-		},
+		fontWeight: "bold",
 		fontSize: "16px", // will be updated after theme variable setup
 	},
 	description: {

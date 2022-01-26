@@ -19,7 +19,7 @@ const EditGalleryButton = (props) => {
 			{props.isEditMode ? (
 				<ButtonGroup
 					orientation="vertical"
-					color="secondary"
+					color="primary"
 					size="medium"
 					aria-label="vertical outlined primary button group"
 				>
@@ -74,7 +74,7 @@ const EditGalleryButton = (props) => {
 			) : (
 				<ButtonGroup
 					orientation="vertical"
-					color="secondary"
+					color="primary"
 					size="medium"
 					aria-label="vertical outlined primary button group"
 				>
