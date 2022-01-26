@@ -8,7 +8,8 @@ import { Grid, Typography, TextField } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
 	galleryHeaderContainer: {
 		display: "flex",
-		width: "96.5vw",
+		width: "96vw",
+		margin: "auto",
 	},
 	centeredContainers: {
 		display: "flex",

@@ -7,7 +7,9 @@ const useStyles = makeStyles((theme) => ({
 	nftContainer: {
 		maxWidth: "1552px",
 		paddingTop: "10vh",
-		width: "98vw",
+		width: "96vw",
+		margin: "auto",
+		display: "flex",
 	},
 }));
 

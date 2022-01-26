@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Card, CardMedia, CardContent } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { withDefault } from "../../utils/commons";
+import { fetchSingleAsset } from "../../api/opensea";
+import { formatOpenseaPrice } from "../../utils/currency-utils";
 
 const useStyles = makeStyles((theme) => ({
 	link: {
@@ -44,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
 	priceSection: {
 		background: theme.palette.text.primary,
 		color: theme.palette.primary.contrastText,
+		height: "50px",
 	},
 	priceLabel: {
 		lineSpacing: "1px",
@@ -58,11 +61,10 @@ const GalleryCard = ({ asset }) => {
 	const contractAddressId = asset?.item?.asset_contract?.address;
 	const tokenId = asset?.item?.token_id;
 	const item = Object.keys(asset).includes("item") ? asset?.item : asset;
-	const currentPrice = null;
-	//console.log(item);
-	const classes = useStyles();
-
 	const defaultImagePath = "/images/no-image.png";
+	const currentPrice = 0.1; // dummy -> asset does not contain price info
+
+	const classes = useStyles();
 	return (
 		<div className={classes.root}>
 			<Link

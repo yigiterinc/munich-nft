@@ -10,7 +10,6 @@ import { formatOpenseaPrice } from "../utils/currency-utils";
 import NftImage from "../components/nft-details/NftImage";
 import NftDetailsPanel from "../components/nft-details/NftDetailsPanel";
 import withSpinner from "../components/common/WithSpinner";
-import { getErc721TokenDetails } from "../api/chain";
 
 const useStyles = makeStyles({
 	nftDetailsContainer: {
@@ -19,7 +18,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const NftDetails = () => {
+const NaiveNftDetails = () => {
 	const classes = useStyles();
 	const [nftJson, setNftJson] = useState(null);
 	const { contractAddressId, tokenId } = useParams();
@@ -86,4 +85,4 @@ const renderPage = (classes, nftJson) => {
 	);
 };
 
-export default NftDetails;
+export default NaiveNftDetails;

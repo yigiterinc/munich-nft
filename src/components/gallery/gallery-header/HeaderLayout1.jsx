@@ -9,7 +9,8 @@ const useStyles = makeStyles((theme) => ({
 	galleryHeaderContainer: {
 		display: "flex",
 		justifyContent: "center",
-		width: "96.5vw",
+		width: "96vw",
+		margin: "auto",
 	},
 	title: {
 		fontSize: "36px", // will be updated after theme variable setup

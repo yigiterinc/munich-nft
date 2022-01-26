@@ -8,12 +8,13 @@ const useStyles = makeStyles((theme) => ({
 	renderGalleryContainer: {
 		backgroundColor: theme.palette.background.default,
 		paddingTop: "10vh",
+		height: "100%",
 	},
 	galleryContainer: {
-		display: "flex",
-		flexDirection: "column",
-		justifyContent: "center",
-		alignItems: "center",
+		// display: "flex",
+		// flexDirection: "column",
+		// justifyContent: "center",
+		// alignItems: "center",
 	},
 }));
 
