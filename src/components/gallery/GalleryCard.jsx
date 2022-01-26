@@ -5,6 +5,9 @@ import { Link } from "react-router-dom";
 import { withDefault } from "../../utils/commons";
 
 const useStyles = makeStyles((theme) => ({
+	link: {
+		textDecoration: "none",
+	},
 	root: {
 		width: "100%",
 		height: "100%",
@@ -22,18 +25,26 @@ const useStyles = makeStyles((theme) => ({
 		width: "100%",
 		height: "auto",
 	},
-	link: {
-		textDecoration: "none",
-	},
-	collectionText: {
+	collectionLink: {
 		color: theme.palette.secondary.light,
+		cursor: "pointer",
+		"&:focus, &:hover, &:visited, &:link, &:active": {
+			textDecoration: "none",
+		},
+		fontSize: "14px",
+		"&:hover": {
+			color: theme.palette.primary.contrastText,
+		},
 	},
 	nftText: {
 		color: theme.palette.secondary.main,
+		marginTop: "2vh",
+		fontWeight: "bold",
+		fontSize: "20px",
 	},
 }));
 
-const GalleryCard = ({ asset, priorNft }) => {
+const GalleryCard = ({ asset }) => {
 	const contractAddressId = asset?.item?.asset_contract?.address;
 	const tokenId = asset?.item?.token_id;
 	const item = Object.keys(asset).includes("item") ? asset?.item : asset;
@@ -41,7 +52,6 @@ const GalleryCard = ({ asset, priorNft }) => {
 	const classes = useStyles();
 
 	const defaultImagePath = "/images/no-image.png";
-
 	return (
 		<div className={classes.root}>
 			<Link
@@ -56,13 +66,14 @@ const GalleryCard = ({ asset, priorNft }) => {
 						title={item.name}
 					/>
 					<CardContent>
-						<Typography
-							variant="h6"
-							className={classes.collectionText}
-							gutterBottom
-						>
-							{item.collection.name}
-						</Typography>
+						<div className={classes.collectionSection}>
+							<Link
+								className={classes.collectionLink}
+								to={`/collection/${asset.collection.slug}`}
+							>
+								{item.collection.name}
+							</Link>
+						</div>
 						<Typography variant="h6" component="h2" className={classes.nftText}>
 							{item.name ? item.name : "-"}
 						</Typography>

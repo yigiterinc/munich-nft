@@ -4,7 +4,6 @@ import EditGalleryButton from "./gallery-edit-manager/EditGalleryButton";
 
 const useStyles = makeStyles((theme) => ({
 	galleryEditManagerContainer: {
-		padding: "24px",
 		color: theme.palette.secondary.light,
 	},
 }));

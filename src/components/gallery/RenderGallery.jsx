@@ -7,7 +7,7 @@ import GalleryNfts from "./GalleryNfts";
 const useStyles = makeStyles((theme) => ({
 	renderGalleryContainer: {
 		backgroundColor: theme.palette.background.default,
-		paddingTop: "4vh",
+		paddingTop: "10vh",
 	},
 	galleryContainer: {
 		display: "flex",
