@@ -8,7 +8,6 @@ import { Grid, Typography, TextField } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
 	galleryHeaderContainer: {
 		display: "flex",
-		flexDirection: "column",
 		width: "96.5vw",
 	},
 	centeredContainers: {
@@ -78,85 +77,81 @@ const HeaderLayout2 = (props) => {
 					/>
 				</Grid>
 				<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
-				<Grid
-					item
-					lg={5}
-					md={5}
-					sm={4}
-					xs={2}
-					className={classes.centeredContainers}
-				>
-					<div className={classes.titleContainer}>
+				<Grid item lg={8} md={8} sm={8} xs={8}>
+					<div className={classes.centeredContainers}>
+						<div className={classes.titleContainer}>
+							{props.isOwner && !props.isEditable ? (
+								<>
+									<Typography className={classes.title} variant="h4">
+										{props.galleryName}
+									</Typography>
+								</>
+							) : (
+								<div className={classes.titleTextField}>
+									<form noValidate autoComplete="off">
+										<TextField
+											fullWidth
+											value={props.galleryName}
+											inputProps={{ style: { fontSize: "36px" } }}
+											onChange={(event) =>
+												props.setGalleryName(event.target.value)
+											}
+										/>
+									</form>
+								</div>
+							)}
+						</div>
+						<div className={classes.coverImageContainer}>
+							<GalleryCoverImage
+								coverImage={props.coverImage}
+								isEditable={props.isEditable}
+								isOwner={props.isOwner}
+								handleDropzoneSubmit={props.handleDropzoneSubmit}
+								isCoverImageUpdated={props.isCoverImageUpdated}
+								setIsCoverImageUpdated={props.setIsCoverImageUpdated}
+							/>
+						</div>
+						<div className={classes.galleryOwner}>
+							<Typography className={classes.createdTextLabel} variant="h5">
+								Created by
+							</Typography>
+							<Typography
+								to={`/profile/${props.galleryJson?.userId}`}
+								component={Link}
+								className={classes.creator}
+								variant="h5"
+							>
+								{props.galleryJson.creator}
+							</Typography>
+						</div>
+					</div>
+					<div className={classes.descriptionPanel}>
 						{props.isOwner && !props.isEditable ? (
 							<>
-								<Typography className={classes.title} variant="h4">
-									{props.galleryName}
+								<Typography className={classes.description} variant="h5">
+									{props.galleryDescription}
 								</Typography>
 							</>
 						) : (
-							<div className={classes.titleTextField}>
-								<form noValidate autoComplete="off">
-									<TextField
-										fullWidth
-										value={props.galleryName}
-										inputProps={{ style: { fontSize: "36px" } }}
-										onChange={(event) =>
-											props.setGalleryName(event.target.value)
-										}
-									/>
-								</form>
-							</div>
+							<form
+								noValidate
+								autoComplete="off"
+								className={classes.descriptionContainer}
+							>
+								<TextField
+									multiline
+									fullWidth
+									value={props.galleryDescription}
+									inputProps={{ style: { fontSize: "18px" } }}
+									onChange={(event) =>
+										props.setGalleryDescription(event.target.value)
+									}
+								/>
+							</form>
 						)}
 					</div>
-					<div className={classes.coverImageContainer}>
-						<GalleryCoverImage
-							coverImage={props.coverImage}
-							isEditable={props.isEditable}
-							isOwner={props.isOwner}
-							handleDropzoneSubmit={props.handleDropzoneSubmit}
-							isCoverImageUpdated={props.isCoverImageUpdated}
-							setIsCoverImageUpdated={props.setIsCoverImageUpdated}
-						/>
-					</div>
-					<div className={classes.galleryOwner}>
-						<Typography className={classes.createdTextLabel} variant="h5">
-							Created by
-						</Typography>
-						<Typography
-							to={`/profile/${props.galleryJson?.userId}`}
-							component={Link}
-							className={classes.creator}
-							variant="h5"
-						>
-							{props.galleryJson.creator}
-						</Typography>
-					</div>
 				</Grid>
-				<div className={classes.descriptionPanel}>
-					{props.isOwner && !props.isEditable ? (
-						<>
-							<Typography className={classes.description} variant="h5">
-								{props.galleryDescription}
-							</Typography>
-						</>
-					) : (
-						<form
-							noValidate
-							autoComplete="off"
-							className={classes.descriptionContainer}
-						>
-							<TextField
-								multiline
-								fullWidth
-								value={props.galleryDescription}
-								inputProps={{ style: { fontSize: "18px" } }}
-								onChange={(event) =>
-									props.setGalleryDescription(event.target.value)
-								}
-							/>
-						</form>
-					)}
-				</div>
+
 				<Grid item lg={2} md={2} sm={2} xs={2}></Grid>
 			</Grid>
 		</>
