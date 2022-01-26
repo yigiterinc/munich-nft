@@ -14,21 +14,42 @@ const useStyles = makeStyles((theme) => ({
 const GalleryNfts = (props) => {
 	const classes = useStyles();
 	return (
-		<Grid
-			container
-			direction="row"
-			alignItems="center"
-			spacing={4}
-			className={classes.nftContainer}
-		>
-			{props.nfts.map((item) => {
-				return (
-					<Grid key={item.id} container item lg={4} md={4} sm={6} xs={12}>
-						<GalleryCard asset={item} />
-					</Grid>
-				);
-			})}
-		</Grid>
+		<>
+			{props.nfts.length <= 2 ? (
+				<Grid
+					container
+					direction="row"
+					alignItems="center"
+					justifyContent="center"
+					spacing={4}
+					className={classes.nftContainer}
+				>
+					{props.nfts.map((item) => {
+						return (
+							<Grid key={item.id} container item lg={4} md={4} sm={6} xs={12}>
+								<GalleryCard asset={item} />
+							</Grid>
+						);
+					})}
+				</Grid>
+			) : (
+				<Grid
+					container
+					direction="row"
+					alignItems="center"
+					spacing={4}
+					className={classes.nftContainer}
+				>
+					{props.nfts.map((item) => {
+						return (
+							<Grid key={item.id} container item lg={4} md={4} sm={6} xs={12}>
+								<GalleryCard asset={item} />
+							</Grid>
+						);
+					})}
+				</Grid>
+			)}
+		</>
 	);
 };
 

@@ -49,6 +49,9 @@ const useStyles = makeStyles((theme) => ({
 		},
 		fontSize: "16px", // will be updated after theme variable setup
 	},
+	descriptionPanel: {
+		textAlign: "center",
+	},
 	description: {
 		marginTop: "2vh",
 		color: theme.palette.text.primary,
