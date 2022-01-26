@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import GalleryCoverImage from "./GalleryCoverImage";
+import GalleryEditManager from "../GalleryEditManager";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography, TextField } from "@material-ui/core";
 
@@ -8,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
 	galleryHeaderContainer: {
 		display: "flex",
 		flexDirection: "column",
-		width: "80vw",
+		width: "96.5vw",
 	},
 	centeredContainers: {
 		display: "flex",
@@ -61,7 +62,30 @@ const HeaderLayout2 = (props) => {
 	return (
 		<>
 			<Grid container spacing={6} className={classes.galleryHeaderContainer}>
-				<div className={classes.centeredContainers}>
+				<Grid item lg={1} md={1} sm={1} xs={1}>
+					<GalleryEditManager
+						setOpenEditGalleryModal={props.setOpenEditGalleryModal}
+						isOwner={props.isOwner}
+						isEditMode={props.isEditable}
+						switchEditableMode={props.switchEditableMode}
+						handleUpdateGallery={props.handleUpdateGallery}
+						galleryTheme={props.galleryTheme}
+						setGalleryTheme={props.setGalleryTheme}
+						headerLayout={props.headerLayout}
+						setHeaderLayout={props.setHeaderLayout}
+						setShowAddAssetsView={props.setShowAddAssetsView}
+						setShowRemoveAssetsView={props.setShowRemoveAssetsView}
+					/>
+				</Grid>
+				<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+				<Grid
+					item
+					lg={5}
+					md={5}
+					sm={4}
+					xs={2}
+					className={classes.centeredContainers}
+				>
 					<div className={classes.titleContainer}>
 						{props.isOwner && !props.isEditable ? (
 							<>
@@ -107,7 +131,7 @@ const HeaderLayout2 = (props) => {
 							{props.galleryJson.creator}
 						</Typography>
 					</div>
-				</div>
+				</Grid>
 				<div className={classes.descriptionPanel}>
 					{props.isOwner && !props.isEditable ? (
 						<>
@@ -133,6 +157,7 @@ const HeaderLayout2 = (props) => {
 						</form>
 					)}
 				</div>
+				<Grid item lg={2} md={2} sm={2} xs={2}></Grid>
 			</Grid>
 		</>
 	);

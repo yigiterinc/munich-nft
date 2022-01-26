@@ -5,18 +5,25 @@ import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
 	nftContainer: {
-		paddingTop: "10vh",
-		width: "80vw",
+		maxWidth: "1552px",
+		paddingTop: "8vh",
+		width: "98vw",
 	},
 }));
 
 const GalleryNfts = (props) => {
 	const classes = useStyles();
 	return (
-		<Grid container spacing={4} className={classes.nftContainer}>
+		<Grid
+			container
+			direction="row"
+			alignItems="center"
+			spacing={4}
+			className={classes.nftContainer}
+		>
 			{props.nfts.map((item) => {
 				return (
-					<Grid key={item.id} item lg={3} md={4} sm={6} xs={12}>
+					<Grid key={item.id} container item lg={4} md={4} sm={6} xs={12}>
 						<GalleryCard asset={item} />
 					</Grid>
 				);

@@ -6,7 +6,8 @@ import { withDefault } from "../../utils/commons";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		background: theme.palette.info.main,
+		width: "100%",
+		height: "100%",
 		cursor: "pointer",
 		transition: "all 0.2s ease-out",
 		"&:hover": {
@@ -14,8 +15,12 @@ const useStyles = makeStyles((theme) => ({
 			boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
 		},
 	},
+	card: {
+		background: theme.palette.info.main,
+	},
 	image: {
-		height: "30vh",
+		width: "100%",
+		height: "auto",
 	},
 	link: {
 		textDecoration: "none",
@@ -38,42 +43,33 @@ const GalleryCard = ({ asset, priorNft }) => {
 	const defaultImagePath = "/images/no-image.png";
 
 	return (
-		<Link
-			className={classes.link}
-			to={`/token/${contractAddressId}/${tokenId}`}
-		>
-			<Card className={classes.root} variant="outlined">
-				<>
-					{priorNft ? (
-						<CardMedia
-							component="img"
-							className={classes.priorImage}
-							image={withDefault(item.image_url, defaultImagePath)}
-							title={item.name}
-						/>
-					) : (
-						<CardMedia
-							component="img"
-							className={classes.image}
-							image={withDefault(item.image_url, defaultImagePath)}
-							title={item.name}
-						/>
-					)}
-				</>
-				<CardContent>
-					<Typography
-						variant="h6"
-						className={classes.collectionText}
-						gutterBottom
-					>
-						{item.collection.name}
-					</Typography>
-					<Typography variant="h6" component="h2" className={classes.nftText}>
-						{item.name ? item.name : "-"}
-					</Typography>
-				</CardContent>
-			</Card>
-		</Link>
+		<div className={classes.root}>
+			<Link
+				className={classes.link}
+				to={`/token/${contractAddressId}/${tokenId}`}
+			>
+				<Card variant="outlined" className={classes.card}>
+					<CardMedia
+						component="img"
+						className={classes.image}
+						image={withDefault(item.image_url, defaultImagePath)}
+						title={item.name}
+					/>
+					<CardContent>
+						<Typography
+							variant="h6"
+							className={classes.collectionText}
+							gutterBottom
+						>
+							{item.collection.name}
+						</Typography>
+						<Typography variant="h6" component="h2" className={classes.nftText}>
+							{item.name ? item.name : "-"}
+						</Typography>
+					</CardContent>
+				</Card>
+			</Link>
+		</div>
 	);
 };
 

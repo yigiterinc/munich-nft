@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import GalleryCoverImage from "./GalleryCoverImage";
+import GalleryEditManager from "../GalleryEditManager";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography, TextField } from "@material-ui/core";
 
@@ -8,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
 	galleryHeaderContainer: {
 		display: "flex",
 		justifyContent: "center",
-		width: "80vw",
+		width: "96.5vw",
 	},
 	title: {
 		fontSize: "36px", // will be updated after theme variable setup
@@ -59,8 +60,24 @@ const useStyles = makeStyles((theme) => ({
 const HeaderLayout1 = (props) => {
 	const classes = useStyles();
 	return (
-		<Grid container spacing={2} className={classes.galleryHeaderContainer}>
-			<Grid item lg={8} md={8} sm={7} xs={5}>
+		<Grid container spacing={6} className={classes.galleryHeaderContainer}>
+			<Grid item lg={1} md={1} sm={1} xs={1}>
+				<GalleryEditManager
+					setOpenEditGalleryModal={props.setOpenEditGalleryModal}
+					isOwner={props.isOwner}
+					isEditMode={props.isEditable}
+					switchEditableMode={props.switchEditableMode}
+					handleUpdateGallery={props.handleUpdateGallery}
+					galleryTheme={props.galleryTheme}
+					setGalleryTheme={props.setGalleryTheme}
+					headerLayout={props.headerLayout}
+					setHeaderLayout={props.setHeaderLayout}
+					setShowAddAssetsView={props.setShowAddAssetsView}
+					setShowRemoveAssetsView={props.setShowRemoveAssetsView}
+				/>
+			</Grid>
+			<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+			<Grid item lg={5} md={5} sm={4} xs={2}>
 				<div className={classes.titleContainer}>
 					{props.isOwner && !props.isEditable ? (
 						<>
@@ -122,10 +139,10 @@ const HeaderLayout1 = (props) => {
 			</Grid>
 			<Grid
 				item
-				lg={4}
-				md={4}
-				sm={5}
-				xs={7}
+				lg={3}
+				md={3}
+				sm={4}
+				xs={6}
 				className={classes.coverImageContainer}
 			>
 				<div className={classes.coverImage}>
@@ -139,6 +156,7 @@ const HeaderLayout1 = (props) => {
 					/>
 				</div>
 			</Grid>
+			<Grid item lg={2} md={2} sm={2} xs={2}></Grid>
 		</Grid>
 	);
 };
