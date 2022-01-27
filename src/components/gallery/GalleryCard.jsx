@@ -54,7 +54,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const GalleryCard = ({ asset }) => {
+const GalleryCard = (props) => {
+	let asset = props.asset;
+	let slug = props.slug;
+
 	const contractAddressId = asset?.item?.asset_contract?.address;
 	const tokenId = asset?.item?.token_id;
 	const item = Object.keys(asset).includes("item") ? asset?.item : asset;
@@ -66,7 +69,7 @@ const GalleryCard = ({ asset }) => {
 		<div className={classes.root}>
 			<Link
 				className={classes.link}
-				to={`/token/${contractAddressId}/${tokenId}`}
+				to={`/gallery/${slug}/${contractAddressId}/${tokenId}`}
 			>
 				<Card variant="outlined" className={classes.card}>
 					<CardMedia

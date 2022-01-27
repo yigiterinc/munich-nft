@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	headerContainer: {
 		paddingTop: "0.4vw",
 		display: "flex",
@@ -14,15 +14,16 @@ const useStyles = makeStyles({
 		overflow: "hidden",
 		whiteSpace: "nowrap",
 		textOverflow: "ellipsis",
+		color: theme.palette.text.primary,
 	},
-});
+}));
 
-const NftHeader = (nftJson) => {
+const NftHeader = (props) => {
 	const classes = useStyles();
 	return (
 		<div className={classes.headerContainer}>
 			<Typography className={classes.nftTitle} variant="h4">
-				{nftJson.name}
+				{props.nftJson.name}
 			</Typography>
 		</div>
 	);

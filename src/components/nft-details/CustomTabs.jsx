@@ -57,7 +57,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const CustomTabs = (nftJson) => {
+const CustomTabs = (props) => {
 	const classes = useStyles();
 	const [value, setValue] = useState(0);
 
@@ -66,17 +66,20 @@ const CustomTabs = (nftJson) => {
 	};
 
 	const tabLabels =
-		nftJson.properties.length === 0
+		props.nftJson.properties.length === 0
 			? ["Description", "Details"]
 			: ["Properties", "Description", "Details"];
 
 	const tabLabelComponents =
-		nftJson.properties.length === 0
-			? [<DescriptionTab {...nftJson} />, <DetailsTab {...nftJson} />]
+		props.nftJson.properties.length === 0
+			? [
+					<DescriptionTab {...props.nftJson} />,
+					<DetailsTab {...props.nftJson} />,
+			  ]
 			: [
-					<PropertiesTab {...nftJson} />,
-					<DescriptionTab {...nftJson} />,
-					<DetailsTab {...nftJson} />,
+					<PropertiesTab {...props.nftJson} />,
+					<DescriptionTab {...props.nftJson} />,
+					<DetailsTab {...props.nftJson} />,
 			  ];
 	return (
 		<>

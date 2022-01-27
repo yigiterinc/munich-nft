@@ -46,10 +46,10 @@ const useStyles = makeStyles({
 	},
 });
 
-const PriceField = (nftJson) => {
+const PriceField = (props) => {
 	const classes = useStyles();
 
-	let price = nftJson.price;
+	let price = props.nftJson.price;
 	if (price) {
 		let decimal = countDecimals(price);
 		if (decimal > MAX_BOUNDARY_FOR_NUMBER_OF_DECIMALS_NFT_PRICE) {
@@ -67,7 +67,7 @@ const PriceField = (nftJson) => {
 							<Typography className={classes.price}>{price}</Typography>
 						</div>
 						<Typography className={classes.usdPrice}>
-							{`(~ $${nftJson.priceUsd.toFixed(2)})`}
+							{`(~ $${props.nftJson.priceUsd.toFixed(2)})`}
 						</Typography>
 					</div>
 					<Button

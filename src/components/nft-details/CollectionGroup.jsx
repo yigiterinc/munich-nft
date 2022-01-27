@@ -25,7 +25,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const CollectionGroup = (nftJson) => {
+const CollectionGroup = (props) => {
 	const classes = useStyles();
 
 	return (
@@ -33,9 +33,9 @@ const CollectionGroup = (nftJson) => {
 			<div className={classes.collectionSection}>
 				<Link
 					className={classes.collectionLink}
-					to={`/collection/${nftJson.slug}`}
+					to={`/collection/${props.nftJson.slug}`}
 				>
-					{nftJson.collection}
+					{props.nftJson.collection}
 				</Link>
 			</div>
 		</div>

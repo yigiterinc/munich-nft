@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
 
 const GalleryNfts = (props) => {
 	const classes = useStyles();
+	const slug = props.slug;
 	return (
 		<>
 			{props.nfts.length <= 2 ? (
@@ -26,13 +27,7 @@ const GalleryNfts = (props) => {
 					spacing={4}
 					className={classes.nftContainer}
 				>
-					{props.nfts.map((item) => {
-						return (
-							<Grid key={item.id} container item lg={4} md={4} sm={6} xs={12}>
-								<GalleryCard asset={item} />
-							</Grid>
-						);
-					})}
+					{renderNfts(props)}
 				</Grid>
 			) : (
 				<Grid
@@ -42,17 +37,21 @@ const GalleryNfts = (props) => {
 					spacing={4}
 					className={classes.nftContainer}
 				>
-					{props.nfts.map((item) => {
-						return (
-							<Grid key={item.id} container item lg={4} md={4} sm={6} xs={12}>
-								<GalleryCard asset={item} />
-							</Grid>
-						);
-					})}
+					{renderNfts(props)}
 				</Grid>
 			)}
 		</>
 	);
 };
 
+const renderNfts = (props) => {
+	return props.nfts.map((item) => {
+		let slug = props.slug;
+		return (
+			<Grid key={item.id} container item lg={4} md={4} sm={6} xs={12}>
+				<GalleryCard asset={item} slug={slug} />
+			</Grid>
+		);
+	});
+};
 export default GalleryNfts;

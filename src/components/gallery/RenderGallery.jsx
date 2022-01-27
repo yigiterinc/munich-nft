@@ -31,7 +31,6 @@ const RenderGallery = (props) => {
 			},
 		},
 	});
-
 	const classes = useStyles();
 	return (
 		<div className={classes.renderGalleryContainer}>
@@ -60,7 +59,7 @@ const RenderGallery = (props) => {
 					setShowAddAssetsView={props.setShowAddAssetsView}
 					setShowRemoveAssetsView={props.setShowRemoveAssetsView}
 				/>
-				<GalleryNfts nfts={props.galleryJson.nfts} />
+				<GalleryNfts nfts={props.galleryJson.nfts} slug={props.slug} />
 
 				<ThemeProvider theme={defaultTheme}>
 					<EditGalleryModal

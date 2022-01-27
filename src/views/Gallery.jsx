@@ -110,12 +110,12 @@ const Gallery = ({
 	const convertToSlug = (galleryName) => {
 		return galleryName.toLowerCase().replaceAll(" ", "_");
 	};
-
 	return (
 		<ThemeProvider theme={galleryTheme}>
 			<>
 				{gallery ? (
 					<RenderGallery
+						slug={slug}
 						galleryJson={gallery}
 						switchEditableMode={switchEditableMode}
 						isEditable={isEditable}
