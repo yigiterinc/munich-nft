@@ -45,27 +45,28 @@ export const changeUserBannerImage = async (image, user) => {
 };
 
 export const createOrFetchUserOnLoginWithMetamask = async ({
-																														 username,
-																														 ethAddress,
-																														 profilePicture,
-																													 }) => {
-
+	username,
+	ethAddress,
+	profilePicture,
+}) => {
 	return await createOrFetchUser(username, ethAddress, profilePicture, "ETH");
 };
 
 export const createOrFetchUserOnLoginWithPhantom = async ({
-																														username,
-																														solAddress,
-																														profilePicture,
-																													}) => {
-
-
+	username,
+	solAddress,
+	profilePicture,
+}) => {
 	return await createOrFetchUser(username, solAddress, profilePicture, "SOL");
 };
 
 // Fetches if user is already present in DB, otherwise saves to db
-const createOrFetchUser = async (username, walletAddress, profilePicture, chain) => {
-
+const createOrFetchUser = async (
+	username,
+	walletAddress,
+	profilePicture,
+	chain
+) => {
 	let data = {
 		username: username,
 		profilePicture,
@@ -86,9 +87,10 @@ const createOrFetchUser = async (username, walletAddress, profilePicture, chain)
 	} catch (err) {
 		if (err.response?.status === 500) {
 			console.log("User already exists, fetching existing user");
-			user = chain === "ETH" ?
-				await fetchExistingUserWithEthAddress(walletAddress)
-				: await fetchExistingUserWithSolAddress(walletAddress);
+			user =
+				chain === "ETH"
+					? await fetchExistingUserWithEthAddress(walletAddress)
+					: await fetchExistingUserWithSolAddress(walletAddress);
 		} else {
 			console.log("Unknown internal server err while fetching user");
 		}
@@ -165,7 +167,7 @@ export const saveImportedNfts = async (user, selectedCollectionNftPairs) => {
 	return await updateUser(user);
 };
 export const convertSelectedNftsToGalleryAssets = (
-	selectedNftCollectionPairs,
+	selectedNftCollectionPairs
 ) => {
 	if (!selectedNftCollectionPairs) return;
 	let galleryAssets = [];
@@ -211,6 +213,8 @@ export const fetchGallery = async (slug) => {
 	const url = `${GALLERIES_URL}?slug=${slug}`;
 	const resp = await axios.get(url);
 
+	console.log(resp.data[0]);
+
 	return resp.data[0];
 };
 
@@ -220,7 +224,7 @@ export const updateUserProfile = async (
 	email,
 	profileImage,
 	bannerImage,
-	user,
+	user
 ) => {
 	user.username = username;
 	user.bio = bio;

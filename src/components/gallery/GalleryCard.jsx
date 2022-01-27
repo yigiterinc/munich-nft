@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Card, CardMedia, CardContent } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { withDefault } from "../../utils/commons";
-import { fetchSingleAsset } from "../../api/opensea";
-import { formatOpenseaPrice } from "../../utils/currency-utils";
-
 const useStyles = makeStyles((theme) => ({
 	link: {
 		textDecoration: "none",

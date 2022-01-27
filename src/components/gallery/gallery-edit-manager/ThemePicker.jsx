@@ -3,26 +3,12 @@ import { makeStyles, Typography, createTheme } from "@material-ui/core";
 import { ColorPicker } from "material-ui-color";
 
 const useStyles = makeStyles((theme) => ({
-	".MuiInputBase-root": {
-		color: theme.palette.common.black,
-	},
-	pickColorContainer: {
-		width: "600px",
-		color: theme.palette.common.black,
-		display: "flex",
-		justifyContent: "center",
-	},
 	picker: {
-		color: theme.palette.common.black,
+		marginTop: "1.5vh",
 		width: "250px",
 	},
-	colorPicker: {
-		color: theme.palette.common.black,
-		margin: "auto",
-	},
 	label: {
-		color: theme.palette.common.black,
-		marginLeft: "1vw",
+		marginLeft: "0.5vw",
 	},
 }));
 

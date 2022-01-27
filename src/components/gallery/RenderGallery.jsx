@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, createTheme, ThemeProvider } from "@material-ui/core";
+
 import EditGalleryModal from "./gallery-edit-manager/EditGalleryModal";
 import GalleryHeader from "./GalleryHeader";
 import GalleryNfts from "./GalleryNfts";
@@ -10,17 +11,26 @@ const useStyles = makeStyles((theme) => ({
 		paddingTop: "10vh",
 		height: "100%",
 	},
-	galleryContainer: {
-		// display: "flex",
-		// flexDirection: "column",
-		// justifyContent: "center",
-		// alignItems: "center",
-	},
 }));
 
 const RenderGallery = (props) => {
 	const [openEditGalleryModal, setOpenEditGalleryModal] = useState(false);
 	const closeEditGalleryModal = () => setOpenEditGalleryModal(false);
+
+	const defaultTheme = createTheme({
+		palette: {
+			background: {
+				default: "#fff",
+			},
+			text: {
+				primary: "#000",
+			},
+			primary: {
+				main: "#000",
+				contrastText: "#fff",
+			},
+		},
+	});
 
 	const classes = useStyles();
 	return (
@@ -51,15 +61,18 @@ const RenderGallery = (props) => {
 					setShowRemoveAssetsView={props.setShowRemoveAssetsView}
 				/>
 				<GalleryNfts nfts={props.galleryJson.nfts} />
-				<EditGalleryModal
-					openEditGalleryModal={openEditGalleryModal}
-					closeEditGalleryModal={closeEditGalleryModal}
-					switchEditableMode={props.switchEditableMode}
-					headerLayout={props.headerLayout}
-					setHeaderLayout={props.setHeaderLayout}
-					galleryTheme={props.galleryTheme}
-					setGalleryTheme={props.setGalleryTheme}
-				/>
+
+				<ThemeProvider theme={defaultTheme}>
+					<EditGalleryModal
+						openEditGalleryModal={openEditGalleryModal}
+						closeEditGalleryModal={closeEditGalleryModal}
+						switchEditableMode={props.switchEditableMode}
+						headerLayout={props.headerLayout}
+						setHeaderLayout={props.setHeaderLayout}
+						galleryTheme={props.galleryTheme}
+						setGalleryTheme={props.setGalleryTheme}
+					/>
+				</ThemeProvider>
 			</div>
 		</div>
 	);
