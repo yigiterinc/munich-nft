@@ -15,10 +15,10 @@ const GalleryNftDetails = () => {
 	const { slug, contractAddressId, tokenId } = useParams();
 	const [dataIsLoading, setDataIsLoading] = useState(true);
 	useEffect(() => {
-		if (nftJson) {
+		if (nftJson && galleryTheme) {
 			setDataIsLoading(false);
 		}
-	}, [nftJson]);
+	}, [nftJson, galleryTheme]);
 
 	useEffect(async () => {
 		const fetchData = async () => {
