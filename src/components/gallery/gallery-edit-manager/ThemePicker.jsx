@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, Typography, createTheme } from "@material-ui/core";
-import { ColorPicker } from "material-ui-color";
+import { ColorPicker, createColor } from "material-ui-color";
 
 const useStyles = makeStyles((theme) => ({
 	picker: {
@@ -13,7 +13,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ThemePicker = (props) => {
+	const [backgroundColor, setBackgroundColor] = useState(createColor("#fff"));
+	const [keyColor, setKeyColor] = useState(createColor("#fff"));
+
+	useEffect(() => {
+		const prevBackgroundColor = createColor(
+			props.galleryTheme.palette.background.default
+		);
+		const prevKeyColor = createColor(props.galleryTheme.palette.primary.main);
+		setBackgroundColor(prevBackgroundColor);
+		setKeyColor(prevKeyColor);
+	}, []);
+
 	const handleBackgroundColorChange = (value) => {
+		setBackgroundColor(value);
 		let backgroundColorType = lightOrDark(value.rgb);
 		let backgroundColor = value.css.backgroundColor;
 		let fontColor = backgroundColorType === "light" ? "#000" : "#fff";
@@ -38,6 +51,7 @@ const ThemePicker = (props) => {
 	};
 
 	const handleKeyColorChange = (value) => {
+		setKeyColor(value);
 		let keyColor = value.css.backgroundColor;
 		let prevTheme = props.galleryTheme;
 
@@ -45,8 +59,6 @@ const ThemePicker = (props) => {
 		props.setGalleryTheme(createTheme(prevTheme));
 	};
 
-	const backColor = props.galleryTheme.palette.background.default;
-	const keyColor = props.galleryTheme.palette.primary.main;
 	const classes = useStyles();
 	return (
 		<div className={classes.pickColorContainer}>
@@ -56,7 +68,7 @@ const ThemePicker = (props) => {
 				</Typography>
 				<div className={classes.colorPicker}>
 					<ColorPicker
-						value={backColor}
+						value={backgroundColor}
 						onChange={handleBackgroundColorChange}
 					/>
 				</div>
