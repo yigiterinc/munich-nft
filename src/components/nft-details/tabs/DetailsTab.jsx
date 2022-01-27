@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: "center",
 		marginBottom: "1vw",
 	},
+	divider: {
+		backgroundColor: theme.palette.text.primary,
+	},
 }));
 
 const DetailsTab = (nftJson) => {
@@ -54,15 +57,15 @@ const DetailsTab = (nftJson) => {
 				<Button
 					href={etherscanPath + nftJson.contractAddressId}
 					className={classes.ethScanButton}
-					variant="contained"
+					color="primary"
+					variant="outlined"
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					{" "}
 					View on ETHScan
 				</Button>
 			</div>
-			<Divider />
+			<Divider className={classes.divider} />
 			<List component={"span"}>
 				<ListItem>
 					<ListItemText

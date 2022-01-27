@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
 	priceFieldBorder: {
 		marginTop: "3vw",
 		borderRadius: "10px",
-		border: "1px solid rgb(229, 232, 235)",
+		border: `1px solid ${theme.palette.text.primary}`,
 		overflow: "hidden",
 	},
 	priceFieldContainer: {
