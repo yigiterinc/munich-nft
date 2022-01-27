@@ -69,12 +69,9 @@ const renderPage = (nftJson, galleryTheme) => {
 	return (
 		<>
 			{galleryTheme && (
-				<>
-					{console.log(galleryTheme)}
-					<ThemeProvider theme={galleryTheme}>
-						<RenderNftDetails nftJson={nftJson} />
-					</ThemeProvider>
-				</>
+				<ThemeProvider theme={galleryTheme}>
+					<RenderNftDetails nftJson={nftJson} />
+				</ThemeProvider>
 			)}
 		</>
 	);

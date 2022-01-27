@@ -42,20 +42,23 @@ function a11yProps(index) {
 	};
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	box: {
 		justifyContent: "center",
+		border: "1px solid black",
 	},
 	tabContainer: {
+		background: theme.palette.text.primary,
+		color: theme.palette.primary.contrastText,
 		flexGrow: 1,
 		marginTop: "2.5vw",
 		boxShadow: "none",
-		borderBottom: "1px solid gray",
+		borderBottom: `1px solid ${theme.palette.primary.contrastText}`,
 	},
 	tab: {
 		textTransform: "capitalize",
 	},
-});
+}));
 
 const CustomTabs = (props) => {
 	const classes = useStyles();

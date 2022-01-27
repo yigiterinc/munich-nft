@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import { fetchSingleAsset } from "../api/opensea";
 import { getCurrentCryptoPriceInCurrency } from "../api/currencyHelper";
 import { formatOpenseaPrice } from "../utils/currency-utils";
 
-import NftImage from "../components/nft-details/NftImage";
-import NftDetailsPanel from "../components/nft-details/NftDetailsPanel";
+import RenderNftDetails from "../components/nft-details/RenderNftDetails";
 import withSpinner from "../components/common/WithSpinner";
 
 const useStyles = makeStyles({
@@ -62,7 +59,7 @@ const NaiveNftDetails = () => {
 
 	return (
 		<>
-			{withSpinner(renderPage(classes, nftJson), dataIsLoading, {
+			{withSpinner(renderPage(nftJson), dataIsLoading, {
 				position: "absolute",
 				left: "50%",
 				top: "50%",
@@ -71,18 +68,8 @@ const NaiveNftDetails = () => {
 	);
 };
 
-const renderPage = (classes, nftJson) => {
-	return (
-		<Container className={classes.nftDetailsContainer}>
-			<Grid item={true} xs={1} />
-			<Grid item={true} xs={5}>
-				<NftImage {...nftJson} />
-			</Grid>
-			<Grid item={true} xs={6}>
-				<NftDetailsPanel {...nftJson} />
-			</Grid>
-		</Container>
-	);
+const renderPage = (nftJson) => {
+	return <RenderNftDetails nftJson={nftJson} />;
 };
 
 export default NaiveNftDetails;

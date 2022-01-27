@@ -7,11 +7,11 @@ import {
 	ListItem,
 	ListItemText,
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
 import { NETWORK } from "../../../config/config";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	listItemText: {
+		color: theme.palette.text.primary,
 		"& span, & svg": {
 			fontSize: "14px",
 			padding: 0,
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 		textAlign: "center",
 		marginBottom: "1vw",
 	},
-});
+}));
 
 const DetailsTab = (nftJson) => {
 	const computeBlockchain = () => {

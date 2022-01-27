@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	collectionGroupContainer: {
 		marginTop: "0.85vw",
 		display: "flex",
@@ -15,6 +15,7 @@ const useStyles = makeStyles({
 		overflow: "hidden",
 	},
 	collectionLink: {
+		color: theme.palette.primary.main,
 		cursor: "pointer",
 		"&:focus, &:hover, &:visited, &:link, &:active": {
 			textDecoration: "none",
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
 	icon: {
 		paddingRight: "0.5vw",
 	},
-});
+}));
 
 const CollectionGroup = (props) => {
 	const classes = useStyles();

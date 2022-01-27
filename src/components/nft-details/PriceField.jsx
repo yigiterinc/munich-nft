@@ -1,11 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Typography } from "@material-ui/core";
-import { Icon } from "@iconify/react";
 import { countDecimals } from "../../utils/currency-utils";
 import { MAX_BOUNDARY_FOR_NUMBER_OF_DECIMALS_NFT_PRICE } from "../../constants/priceFieldConstants";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	priceFieldBorder: {
 		marginTop: "3vw",
 		borderRadius: "10px",
@@ -36,15 +35,16 @@ const useStyles = makeStyles({
 		alignItems: "center",
 	},
 	price: {
+		color: theme.palette.text.primary,
 		fontSize: "30px",
 		marginLeft: "0.1em",
 	},
 	usdPrice: {
-		color: "gray",
+		color: theme.palette.text.primary,
 		marginLeft: "8px",
 		fontSize: "18px",
 	},
-});
+}));
 
 const PriceField = (props) => {
 	const classes = useStyles();
@@ -63,8 +63,9 @@ const PriceField = (props) => {
 				<div className={classes.priceFieldContainer}>
 					<div className={classes.pricePanel}>
 						<div className={classes.priceBox}>
-							<Icon icon="mdi:ethereum" width="36" height="36" />
-							<Typography className={classes.price}>{price}</Typography>
+							<Typography
+								className={classes.price}
+							>{`${price} ETH`}</Typography>
 						</div>
 						<Typography className={classes.usdPrice}>
 							{`(~ $${props.nftJson.priceUsd.toFixed(2)})`}
