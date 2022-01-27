@@ -1,5 +1,19 @@
 import axios from "axios";
 import { SOL_NETWORK } from "../config/config";
+import { Connection, PublicKey } from "@solana/web3.js";
+import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
+
+const connection = new Connection("https://api.devnet.solana.com");
+
+export const fetchSolNftMetadata = async () => {
+	let mintPubkey = new PublicKey(
+		"7RQFGy4qkn1ogyKY6QRcdmWYXFZqnxRxUt5VzyARDZAL"
+	);
+	let tokenmetaPubkey = await Metadata.getPDA(mintPubkey);
+
+	const tokenmeta = await Metadata.load(connection, tokenmetaPubkey);
+	console.log(tokenmeta);
+};
 
 const RPC_SERVER = {
 	devnet: "http://api.devnet.solana.com",
