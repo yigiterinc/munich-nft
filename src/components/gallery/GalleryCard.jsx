@@ -64,8 +64,9 @@ const GalleryCard = (props) => {
 	const contractAddressId = asset?.item?.asset_contract?.address;
 	const tokenId = asset?.item?.token_id;
 	const item = Object.keys(asset).includes("item") ? asset?.item : asset;
+	console.log(item);
 	const defaultImagePath = "/images/no-image.png";
-	const currentPrice = 0.1; // dummy -> asset does not contain price info
+	const currentPrice = null; // dummy -> asset does not contain price info
 
 	const classes = useStyles();
 	return (
