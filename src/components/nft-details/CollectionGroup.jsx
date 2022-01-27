@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
 		"&:focus, &:hover, &:visited, &:link, &:active": {
 			textDecoration: "none",
 		},
+		"&:hover": {
+			fontWeight: "bold",
+		},
 	},
 	icon: {
 		paddingRight: "0.5vw",

@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Card, CardMedia, CardContent } from "@material-ui/core";
-import Link from "@material-ui/core/Link";
 import { Link as RouterLink } from "react-router-dom";
 import { withDefault } from "../../utils/commons";
 const useStyles = makeStyles((theme) => ({
@@ -32,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
 		cursor: "pointer",
 		"&:focus, &:hover, &:visited, &:link, &:active": {
 			textDecoration: "none",
+		},
+		"&:hover": {
+			fontWeight: "bold",
 		},
 		fontSize: "14px",
 	},
@@ -80,14 +82,12 @@ const GalleryCard = (props) => {
 						title={item.name}
 					/>
 					<CardContent className={classes.collectionSection}>
-						<Link
-							component="span"
+						<RouterLink
 							className={classes.collectionLink}
 							to={`/collection/${asset.collection.slug}`}
 						>
 							{item.collection.name}
-						</Link>
-
+						</RouterLink>
 						<Typography variant="h6" component="h2" className={classes.nftText}>
 							{item.name ? item.name : "-"}
 						</Typography>
