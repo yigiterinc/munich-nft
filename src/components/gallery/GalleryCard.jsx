@@ -1,7 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Card, CardMedia, CardContent } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import Link from "@material-ui/core/Link";
+import { Link as RouterLink } from "react-router-dom";
 import { withDefault } from "../../utils/commons";
 const useStyles = makeStyles((theme) => ({
 	link: {
@@ -67,7 +68,7 @@ const GalleryCard = (props) => {
 	const classes = useStyles();
 	return (
 		<div className={classes.root}>
-			<Link
+			<RouterLink
 				className={classes.link}
 				to={`/gallery/${slug}/${contractAddressId}/${tokenId}`}
 			>
@@ -80,6 +81,7 @@ const GalleryCard = (props) => {
 					/>
 					<CardContent className={classes.collectionSection}>
 						<Link
+							component="span"
 							className={classes.collectionLink}
 							to={`/collection/${asset.collection.slug}`}
 						>
@@ -113,7 +115,7 @@ const GalleryCard = (props) => {
 						</CardContent>
 					)}
 				</Card>
-			</Link>
+			</RouterLink>
 		</div>
 	);
 };

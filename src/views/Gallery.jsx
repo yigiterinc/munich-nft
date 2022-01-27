@@ -111,36 +111,40 @@ const Gallery = ({
 		return galleryName.toLowerCase().replaceAll(" ", "_");
 	};
 	return (
-		<ThemeProvider theme={galleryTheme}>
-			<>
-				{gallery ? (
-					<RenderGallery
-						slug={slug}
-						galleryJson={gallery}
-						switchEditableMode={switchEditableMode}
-						isEditable={isEditable}
-						isOwner={isOwner}
-						coverImage={coverImage}
-						handleDropzoneSubmit={handleDropzoneSubmit}
-						galleryName={galleryName}
-						galleryDescription={galleryDescription}
-						setGalleryName={setGalleryName}
-						setGalleryDescription={setGalleryDescription}
-						handleUpdateGallery={handleUpdateGallery}
-						galleryTheme={galleryTheme}
-						setGalleryTheme={setGalleryTheme}
-						headerLayout={headerLayout}
-						setHeaderLayout={setHeaderLayout}
-						isCoverImageUpdated={isCoverImageUpdated}
-						setIsCoverImageUpdated={setIsCoverImageUpdated}
-						setShowAddAssetsView={setShowAddAssetsView}
-						setShowRemoveAssetsView={setShowRemoveAssetsView}
-					/>
-				) : (
-					<CircularSpinner />
-				)}
-			</>
-		</ThemeProvider>
+		<>
+			{galleryTheme && (
+				<ThemeProvider theme={galleryTheme}>
+					<>
+						{gallery ? (
+							<RenderGallery
+								slug={slug}
+								galleryJson={gallery}
+								switchEditableMode={switchEditableMode}
+								isEditable={isEditable}
+								isOwner={isOwner}
+								coverImage={coverImage}
+								handleDropzoneSubmit={handleDropzoneSubmit}
+								galleryName={galleryName}
+								galleryDescription={galleryDescription}
+								setGalleryName={setGalleryName}
+								setGalleryDescription={setGalleryDescription}
+								handleUpdateGallery={handleUpdateGallery}
+								galleryTheme={galleryTheme}
+								setGalleryTheme={setGalleryTheme}
+								headerLayout={headerLayout}
+								setHeaderLayout={setHeaderLayout}
+								isCoverImageUpdated={isCoverImageUpdated}
+								setIsCoverImageUpdated={setIsCoverImageUpdated}
+								setShowAddAssetsView={setShowAddAssetsView}
+								setShowRemoveAssetsView={setShowRemoveAssetsView}
+							/>
+						) : (
+							<CircularSpinner />
+						)}
+					</>
+				</ThemeProvider>
+			)}
+		</>
 	);
 };
 

@@ -45,10 +45,10 @@ const GalleryNfts = (props) => {
 };
 
 const renderNfts = (props) => {
-	return props.nfts.map((item) => {
+	return props.nfts.map((item, i) => {
 		let slug = props.slug;
 		return (
-			<Grid key={item.id} container item lg={4} md={4} sm={6} xs={12}>
+			<Grid key={i} container item lg={4} md={4} sm={6} xs={12}>
 				<GalleryCard asset={item} slug={slug} />
 			</Grid>
 		);
