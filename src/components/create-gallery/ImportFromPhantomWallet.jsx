@@ -3,8 +3,7 @@ import { darken, makeStyles, useTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import ImportCard from "../common/ImportCard";
-import CollectionsIcon from "@material-ui/icons/Collections";
+import NFTImportCard from "../common/NFTImportCard";
 import ImageIcon from "@material-ui/icons/Image";
 import withSpinner from "../common/WithSpinner";
 import AppBar from "@material-ui/core/AppBar";
@@ -12,13 +11,8 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import SwipeableViews from "react-swipeable-views";
 import { getLoggedInUser, isUserLoggedIn } from "../../utils/auth-utils";
-import {
-	fetchCollectionsOfUser,
-	filterAssetsInCollectionByOwner,
-	getAssetsAddedCollections,
-} from "../../api/opensea";
 import { withDefault } from "../../utils/commons";
-import { fetchSolNftsByWalletAddress } from "../../api/sol";
+import { getAllNftDataByWalletAddress } from "../../api/sol";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -67,88 +61,53 @@ export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 	const classes = useStyles();
 	const theme = useTheme();
 
-	// Structure: [{collectionData, assets: [{asset1}, {asset2}]}, ...]
-	const [userCollections, setUserCollections] = useState(null);
-
-	// Each item is either {nft, collection} or {collection}
+	const [userAssets, setUserAssets] = useState(null);
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [dataIsLoading, setDataIsLoading] = useState(true);
 
 	useEffect(async () => {
 		if (isUserLoggedIn()) {
 			const user = getLoggedInUser();
-			const assets = await fetchSolNftsByWalletAddress(user.solAddress);
+			const assets = await getAllNftDataByWalletAddress(user.solAddress);
 			console.log(assets);
-			setUserCollections(assets);
+			setUserAssets(assets);
 		}
 	}, []);
 
 	useEffect(() => {
-		if (userCollections) {
+		if (userAssets) {
 			setDataIsLoading(false);
 		}
-	}, [userCollections]);
+	}, [userAssets]);
 
 	const addToSelectedItems = (item) => {
 		setSelectedItems([...selectedItems, item]);
 	};
 
-	const removeCollectionFromSelectedItems = (itemToBeRemoved) => {
+	const removeNftFromSelectedItems = (itemToBeRemoved) => {
 		const itemsWithoutTheSubject = selectedItems.filter(
 			(item) => item !== itemToBeRemoved
 		);
 		setSelectedItems(itemsWithoutTheSubject);
 	};
 
-	const removeNftFromSelectedItems = (itemToBeRemoved) => {
-		const itemsWithoutTheSubject = selectedItems.filter(
-			(item) => item.nft !== itemToBeRemoved
-		);
-		setSelectedItems(itemsWithoutTheSubject);
-	};
-
 	const DEFAULT_IMAGE_PATH = "/images/no-image.png";
 
-	const CollectionCardsGrid = () => {
+	const AssetCardsGrid = () => {
 		return (
 			<Grid container spacing={3}>
-				{userCollections?.map((collection) => {
+				{userAssets?.map((asset) => {
 					return (
-						<Grid key={collection.slug} item lg={3} md={4} sm={6} xs={12}>
-							<ImportCard
-								name={collection.name}
-								image={withDefault(collection.image_url, DEFAULT_IMAGE_PATH)}
-								addToSelected={(coll) => addToSelectedItems(coll)}
-								removeFromSelected={(coll) =>
-									removeCollectionFromSelectedItems(coll)
-								}
+						<Grid key={asset.mint} item lg={3} md={4} sm={6} xs={12}>
+							<NFTImportCard
+								name={asset.data.name}
+								image={withDefault(asset.image, DEFAULT_IMAGE_PATH)}
+								addToSelected={() => addToSelectedItems(asset)}
+								removeFromSelected={() => removeNftFromSelectedItems(asset)}
 							/>
 						</Grid>
 					);
 				})}
-			</Grid>
-		);
-	};
-
-	const AssetCardsGrid = () => {
-		return (
-			<Grid container spacing={3} direction="row" alignItems="center">
-				{userCollections?.map((collection) =>
-					collection?.assets.map((item) => {
-						return (
-							<Grid key={item?.id} item lg={3} md={4} sm={6} xs={12}>
-								<ImportCard
-									name={item.name}
-									image={item.image_url}
-									addToSelected={() => addToSelectedItems({ collection, item })}
-									removeFromSelected={() =>
-										removeNftFromSelectedItems({ collection, item })
-									}
-								/>
-							</Grid>
-						);
-					})
-				)}
 			</Grid>
 		);
 	};
@@ -175,12 +134,12 @@ export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 			<Button
 				variant="contained"
 				style={{
-					background: "#FF6700",
+					background: "#b35bff",
 					color: "#FFFFFF",
 					margin: "13px 25px",
 					padding: "13px 25px",
 					"&:hover": {
-						background: darken("#FF6700", 0.1),
+						background: darken("#b35bff", 0.1),
 					},
 				}}
 				size="large"
@@ -191,8 +150,7 @@ export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 		</div>
 	);
 
-	const collectionsTabIndex = 0,
-		nftsTabIndex = 1;
+	const nftsTabIndex = 0;
 
 	return (
 		<div className={classes.root}>
@@ -214,7 +172,6 @@ export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 				axis={theme.direction === "rtl" ? "x-reverse" : "x"}
 				index={0}
 			>
-				{TabPanelWithSpinner(collectionsTabIndex, CollectionCardsGrid)}
 				{TabPanelWithSpinner(nftsTabIndex, AssetCardsGrid)}
 			</SwipeableViews>
 			{!dataIsLoading && ButtonsMenu}

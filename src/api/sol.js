@@ -31,11 +31,14 @@ export const getAllNftDataByWalletAddress = async (solAddress) => {
 		serialization: true,
 	});
 
-	const nftDetails = nfts.map((nft) => nft.data);
+	const cloneNfts = JSON.parse(JSON.stringify(nfts));
+
+	const nftDetails = cloneNfts.map((nft) => nft.data);
 	nftDetails.forEach(async (detail, i) => {
 		let metadata = await axios.get(detail.uri);
-		nfts[i].image = metadata.data.image;
+		console.log(metadata);
+		cloneNfts[i].image = metadata.data.image;
 	});
 
-	return nfts;
+	return cloneNfts;
 };
