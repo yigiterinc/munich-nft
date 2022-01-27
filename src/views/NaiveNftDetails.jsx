@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@material-ui/core";
 import { fetchSingleAsset } from "../api/opensea";
 import { getCurrentCryptoPriceInCurrency } from "../api/currencyHelper";
 import { formatOpenseaPrice } from "../utils/currency-utils";
@@ -16,7 +17,6 @@ const useStyles = makeStyles({
 });
 
 const NaiveNftDetails = () => {
-	const classes = useStyles();
 	const [nftJson, setNftJson] = useState(null);
 	const { contractAddressId, tokenId } = useParams();
 	const [dataIsLoading, setDataIsLoading] = useState(true);
@@ -57,9 +57,24 @@ const NaiveNftDetails = () => {
 		fetchData();
 	}, [contractAddressId, tokenId]);
 
+	const defaultTheme = createTheme({
+		palette: {
+			background: {
+				default: "#fff",
+			},
+			text: {
+				primary: "#000",
+			},
+			primary: {
+				main: "#000",
+				contrastText: "#fff",
+			},
+		},
+	});
+
 	return (
 		<>
-			{withSpinner(renderPage(nftJson), dataIsLoading, {
+			{withSpinner(renderPage(nftJson, defaultTheme), dataIsLoading, {
 				position: "absolute",
 				left: "50%",
 				top: "50%",
@@ -68,8 +83,12 @@ const NaiveNftDetails = () => {
 	);
 };
 
-const renderPage = (nftJson) => {
-	return <RenderNftDetails nftJson={nftJson} />;
+const renderPage = (nftJson, defaultTheme) => {
+	return (
+		<ThemeProvider theme={defaultTheme}>
+			<RenderNftDetails nftJson={nftJson} />;
+		</ThemeProvider>
+	);
 };
 
 export default NaiveNftDetails;

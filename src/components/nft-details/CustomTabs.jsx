@@ -45,7 +45,6 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
 	box: {
 		justifyContent: "center",
-		border: "1px solid black",
 	},
 	tabContainer: {
 		background: theme.palette.text.primary,
@@ -53,7 +52,6 @@ const useStyles = makeStyles((theme) => ({
 		flexGrow: 1,
 		marginTop: "2.5vw",
 		boxShadow: "none",
-		borderBottom: `1px solid ${theme.palette.primary.contrastText}`,
 	},
 	tab: {
 		textTransform: "capitalize",
@@ -91,7 +89,12 @@ const CustomTabs = (props) => {
 				position="static"
 				className={classes.tabContainer}
 			>
-				<Tabs value={value} onChange={handleChange} centered>
+				<Tabs
+					value={value}
+					onChange={handleChange}
+					centered
+					indicatorColor="primary"
+				>
 					{tabLabels.map((tabLabel, index) => {
 						return (
 							<Tab

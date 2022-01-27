@@ -46,7 +46,6 @@ const GalleryNftDetails = () => {
 			};
 
 			setNftJson(json);
-			console.log(slug);
 			let gallery = await fetchGallery(slug);
 			let theme = gallery.theme;
 			setGalleryTheme(createTheme(theme));
