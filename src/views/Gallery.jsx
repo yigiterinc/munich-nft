@@ -1,37 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { useParams, useHistory } from "react-router";
-import { Grid } from "@material-ui/core";
-import GalleryEditManager from "../components/gallery/GalleryEditManager";
-import GalleryCoverImage from "../components/gallery/GalleryCoverImage";
-import GalleryHeaderPanel from "../components/gallery/GalleryHeaderPanel";
+import { createTheme, ThemeProvider } from "@material-ui/core";
 import CircularSpinner from "../components/common/CircularSpinner";
-import { fetchGallery } from "../api/strapi";
+import RenderGallery from "../components/gallery/RenderGallery";
 import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
-import AssetCard from "../components/common/AssetCard";
-import { uploadImageToMediaGallery, updateGallery } from "../api/strapi";
+import {
+	fetchGallery,
+	updateGallery,
+	uploadImageToMediaGallery,
+} from "../api/strapi";
+import { RECOMMENDED_THEMES } from "../themes/galleryThemes";
 
-const useStyles = makeStyles({
-	galleryContainer: {
-		paddingTop: "4vh",
-		display: "flex",
-		flexDirection: "column",
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	galleryHeaderContainer: {
-		display: "flex",
-		justifyContent: "center",
-		alignItems: "center",
-		width: "80vw",
-	},
-	nftContainer: {
-		paddingTop: "10vh",
-		width: "80vw",
-	},
-});
-
-const Gallery = () => {
+const Gallery = ({
+	setGalleryData,
+	setShowAddAssetsView,
+	setShowRemoveAssetsView,
+}) => {
 	const [gallery, setGallery] = useState(null);
 	const [isEditable, setIsEditable] = useState(false);
 	const [isOwner, setIsOwner] = useState(false);
@@ -39,35 +23,49 @@ const Gallery = () => {
 	const [galleryId, setGalleryId] = useState(null);
 	const [galleryName, setGalleryName] = useState("");
 	const [galleryDescription, setGalleryDescription] = useState("");
+	const [galleryTheme, setGalleryTheme] = useState(null);
+	const [headerLayout, setHeaderLayout] = useState("default");
+	const [nftsLayout, setNftsLayout] = useState("default");
+	const [isCoverImageUpdated, setIsCoverImageUpdated] = useState(false);
+
 	let { slug } = useParams();
 	const currentUser = getLoggedInUser();
 	const history = useHistory();
-	const classes = useStyles();
 
 	useEffect(async () => {
+		if (!slug) {
+			return;
+		}
 		const json = await fetchGallery(slug);
-		let nfts = nftHelper(json.assets);
-		let coverImageUrl = `http://localhost:1337${json.coverImage.url}`;
 		const gallery = {
 			userId: json.userId,
 			creator: json.username,
-			nfts: nfts,
+			nfts: json.assets,
 		};
 		setGalleryId(json.id);
 		setGallery(gallery);
 		setGalleryName(json.galleryName);
 		setGalleryDescription(json.description);
-		setCoverImage(coverImageUrl);
+		setCoverImage(json.coverImage);
+		setGalleryData({ galleryId: json.id, nfts: gallery.nfts, slug: slug });
 		if (currentUser.id === gallery.userId) {
 			setIsOwner(true);
 		}
-	}, []);
+		if (Object.keys(json.theme).length === 0) {
+			setGalleryTheme(createTheme(RECOMMENDED_THEMES[0].theme));
+		} else {
+			setGalleryTheme(createTheme(json.theme));
+		}
+		setHeaderLayout(json.headerLayout);
+		setNftsLayout(json.nftsLayout);
+	}, [slug]);
 
 	const switchGalleryEditMode = () => {
 		setIsEditable(!isEditable);
 	};
+
 	const handleDropzoneSubmit = async (file) => {
-		setCoverImage(file.preview);
+		setCoverImage(file);
 	};
 
 	const handleUpdateGallery = async () => {
@@ -80,9 +78,28 @@ const Gallery = () => {
 			galleryName,
 			description: galleryDescription,
 			slug: convertToSlug(galleryName),
+			theme: galleryTheme,
+			headerLayout: headerLayout,
+			nftsLayout: nftsLayout,
 		};
 
+		history.push(`${convertToSlug(galleryName)}`);
+
+		if (isCoverImageUpdated) {
+			const uploadResult = await uploadImageToMediaGallery(coverImage);
+			const imageIdentifier = uploadResult.data[0];
+
+			changedParams.coverImage = imageIdentifier;
+		}
+
+		setIsCoverImageUpdated(false);
+
 		const updateResult = await updateGallery(galleryId, changedParams);
+
+		if (updateResult.status === 200) {
+			history.push(`/gallery/${changedParams.slug}`);
+			window.location.reload();
+		}
 	};
 
 	const convertToSlug = (galleryName) => {
@@ -90,126 +107,37 @@ const Gallery = () => {
 	};
 
 	return (
-		<>
-			{gallery ? (
-				renderPage(
-					classes,
-					gallery,
-					switchGalleryEditMode,
-					isEditable,
-					isOwner,
-					coverImage,
-					handleDropzoneSubmit,
-					galleryName,
-					galleryDescription,
-					setGalleryName,
-					setGalleryDescription,
-					handleUpdateGallery
-				)
-			) : (
-				<CircularSpinner />
-			)}
-		</>
-	);
-};
-
-const nftHelper = (assets) => {
-	let tmp = [];
-	for (let i = 0; i < assets.length; i++) {
-		tmp.push(assets[i]);
-	}
-	return tmp;
-};
-
-const renderPage = (
-	classes,
-	galleryJson,
-	switchGalleryEditMode,
-	isEditable,
-	isOwner,
-	coverImage,
-	handleDropzoneSubmit,
-	galleryName,
-	galleryDescription,
-	setGalleryName,
-	setGalleryDescription,
-	handleUpdateGallery
-) => {
-	return (
-		<div className={classes.galleryContainer}>
-			<GalleryEditManager
-				isEditMode={isEditable}
-				switchEditableMode={switchGalleryEditMode}
-				handleUpdateGallery={handleUpdateGallery}
-			/>
-			{renderGalleryHeader(
-				classes,
-				galleryJson,
-				switchGalleryEditMode,
-				isEditable,
-				isOwner,
-				coverImage,
-				handleDropzoneSubmit,
-				galleryName,
-				galleryDescription,
-				setGalleryName,
-				setGalleryDescription
-			)}
-			{renderNftsInGallery(classes, galleryJson.nfts, isEditable, isOwner)}
-		</div>
-	);
-};
-
-const renderGalleryHeader = (
-	classes,
-	galleryJson,
-	switchGalleryEditMode,
-	isEditable,
-	isOwner,
-	coverImage,
-	handleDropzoneSubmit,
-	galleryName,
-	galleryDescription,
-	setGalleryName,
-	setGalleryDescription
-) => {
-	return (
-		<Grid container spacing={6} className={classes.galleryHeaderContainer}>
-			<Grid item lg={5} md={5} sm={6} xs={8}>
-				<GalleryCoverImage
-					coverImage={coverImage}
-					isEditable={isEditable}
-					isOwner={isOwner}
-					handleDropzoneSubmit={handleDropzoneSubmit}
-				/>
-			</Grid>
-			<Grid item lg={7} md={7} sm={6} xs={4}>
-				<GalleryHeaderPanel
-					json={galleryJson}
-					switchEditableMode={switchGalleryEditMode}
-					isEditable={isEditable}
-					isOwner={isOwner}
-					galleryName={galleryName}
-					setGalleryName={setGalleryName}
-					galleryDescription={galleryDescription}
-					setGalleryDescription={setGalleryDescription}
-				/>
-			</Grid>
-		</Grid>
-	);
-};
-
-export const renderNftsInGallery = (classes, nfts, isEditable, isOwner) => {
-	return (
-		<Grid container spacing={4} className={classes.nftContainer}>
-			{nfts.map((item) => {
-				return (
-					<Grid key={item.id} item lg={3} md={4} sm={6} xs={12}>
-						<AssetCard asset={item} />
-					</Grid>
-				);
-			})}
-		</Grid>
+		<ThemeProvider theme={galleryTheme}>
+			<>
+				{gallery ? (
+					<RenderGallery
+						galleryJson={gallery}
+						switchGalleryEditMode={switchGalleryEditMode}
+						isEditable={isEditable}
+						isOwner={isOwner}
+						coverImage={coverImage}
+						handleDropzoneSubmit={handleDropzoneSubmit}
+						galleryName={galleryName}
+						galleryDescription={galleryDescription}
+						setGalleryName={setGalleryName}
+						setGalleryDescription={setGalleryDescription}
+						handleUpdateGallery={handleUpdateGallery}
+						galleryTheme={galleryTheme}
+						setGalleryTheme={setGalleryTheme}
+						headerLayout={headerLayout}
+						setHeaderLayout={setHeaderLayout}
+						nftsLayout={nftsLayout}
+						setNftsLayout={setNftsLayout}
+						isCoverImageUpdated={isCoverImageUpdated}
+						setIsCoverImageUpdated={setIsCoverImageUpdated}
+						setShowAddAssetsView={setShowAddAssetsView}
+						setShowRemoveAssetsView={setShowRemoveAssetsView}
+					/>
+				) : (
+					<CircularSpinner />
+				)}
+			</>
+		</ThemeProvider>
 	);
 };
 

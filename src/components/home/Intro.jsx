@@ -3,6 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import { isUserLoggedIn } from "../../utils/auth-utils";
 
 const useStyles = makeStyles((theme) => ({
 	box: {
@@ -17,11 +20,22 @@ const useStyles = makeStyles((theme) => ({
 	},
 	text: {
 		textAlign: "center",
-		fontSize: "36px",
 		fontWeight: "lighter",
 		letterSpacing: "2px",
 		lineHeight: 1.5,
 		padding: 30,
+		[theme.breakpoints.up("xs")]: {
+			fontSize: "24px",
+		},
+		[theme.breakpoints.up("sm")]: {
+			fontSize: "26px",
+		},
+		[theme.breakpoints.up("md")]: {
+			fontSize: "30px",
+		},
+		[theme.breakpoints.up("lg")]: {
+			fontSize: "36px",
+		},
 	},
 	buttonGroup: {
 		display: "flex",
@@ -32,8 +46,23 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	button: {
-		fontSize: "1.3rem",
 		padding: "10px 20px",
+		[theme.breakpoints.up("xs")]: {
+			width: "70px",
+			fontSize: "0.8rem",
+		},
+		[theme.breakpoints.up("sm")]: {
+			width: "90px",
+			fontSize: "1.0rem",
+		},
+		[theme.breakpoints.up("md")]: {
+			width: "110px",
+			fontSize: "1.2rem",
+		},
+		[theme.breakpoints.up("lg")]: {
+			width: "120px",
+			fontSize: "1.3rem",
+		},
 	},
 }));
 
@@ -43,9 +72,8 @@ export default function Intro() {
 	return (
 		<Box className={classes.box}>
 			<Typography className={classes.text}>
-				“Insert brand name here” is <br /> the de-facto platform to <br />{" "}
-				create your outstanding art <br /> gallery that reveals your <br />{" "}
-				virtuosity
+				MunichNFT is the de-facto platform to create your outstanding art
+				gallery that reveals your virtuosity
 			</Typography>
 			<div className={classes.buttonGroup}>
 				<Button
@@ -59,8 +87,18 @@ export default function Intro() {
 				<Button
 					variant="contained"
 					color="primary"
-					size="large"
 					className={classes.button}
+					component={Link}
+					to="/create-gallery"
+					onClick={() => {
+						if (!isUserLoggedIn()) {
+							Swal.fire({
+								title: "You must login to create a gallery!",
+								icon: "info",
+								timer: 3500,
+							});
+						}
+					}}
 				>
 					Create
 				</Button>

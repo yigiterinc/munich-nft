@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { darken, makeStyles, useTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
@@ -11,9 +11,12 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import SwipeableViews from "react-swipeable-views";
 import { getLoggedInUser, isUserLoggedIn } from "../../utils/auth-utils";
-import { findOwnedTokensOnERC721Contract } from "../../api/eth.js";
-import axios from "axios";
-import { withDefault } from "../../utils/commons";
+import {
+	fetchCollectionsOfUser,
+	filterAssetsInCollectionByOwner,
+	getAssetsAddedCollections,
+} from "../../api/opensea";
+import { useParams } from "react-router";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -56,79 +59,117 @@ const useStyles = makeStyles((theme) => ({
 		overflow: "scroll",
 		height: "auto",
 	},
+	button: {
+		background: "#b35bff",
+		color: "white",
+		margin: "13px 25px",
+		padding: "13px 25px",
+		"&:hover": {
+			background: darken("#b35bff", 0.1),
+		},
+	},
+	buttonDisabled: {
+		background: "gray",
+		color: "white",
+		margin: "13px 25px",
+		padding: "13px 25px",
+	},
 }));
 
-export default function ImportFromContract({
-	contractAddress,
-	prevButton,
-	handleSubmit,
-}) {
+const AddorRemoveAssets = ({
+	add = false,
+	galleryAssets,
+	handleChangeGalleryAssets,
+	setShowSelectedView,
+}) => {
 	const classes = useStyles();
 	const theme = useTheme();
+	let { slug } = useParams();
 
 	// Structure: [{collectionData, assets: [{asset1}, {asset2}]}, ...]
+	const [userCollections, setUserCollections] = useState(null);
 
 	// Each item is either {nft, collection} or {collection}
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [dataIsLoading, setDataIsLoading] = useState(true);
-	const [assetsOwned, setAssetsOwned] = useState([]);
+	const isInitialMount = useRef(true);
 
 	useEffect(() => {
-		const user = getLoggedInUser();
-
-		async function fetchDataFromBlockchain() {
-			const ipfsMetadataUris = await findOwnedTokensOnERC721Contract(
-				contractAddress,
-				user.ethAddress
-			);
-			const nftDetailPromises = [];
-			let nftDetails = [];
-			ipfsMetadataUris.forEach((uri) => {
-				nftDetailPromises.push(
-					axios.get(uri).then((response) => {
-						nftDetails.push(response.data);
-					})
-				);
-			});
-
-			await Promise.all(nftDetailPromises);
-			setAssetsOwned(nftDetails);
-			setDataIsLoading(false);
+		if (isInitialMount.current) {
+			isInitialMount.current = false;
+		} else {
+			setShowSelectedView(false);
 		}
+	}, [slug]);
 
-		if (user && assetsOwned.length === 0) {
-			fetchDataFromBlockchain();
+	useEffect(async () => {
+		if (isUserLoggedIn()) {
+			let collectionsData = await fetchCollectionsOfUser(
+				getLoggedInUser().walletAddress
+			);
+			let collectionsWithAssets = [];
+			collectionsWithAssets.push(
+				await getAssetsAddedCollections(collectionsData)
+			);
+
+			let filtered = await filterAssetsInCollectionByOwner(
+				collectionsWithAssets
+			);
+
+			setUserCollections(filtered);
 		}
 	}, []);
+
+	useEffect(() => {
+		if (userCollections) {
+			setDataIsLoading(false);
+		}
+	}, [userCollections]);
 
 	const addToSelectedItems = (item) => {
 		setSelectedItems([...selectedItems, item]);
 	};
 
-	const removeFromSelectedItems = (itemToBeRemoved) => {
+	const removeNftFromSelectedItems = (itemToBeRemoved) => {
 		const itemsWithoutTheSubject = selectedItems.filter(
-			(item) => item !== itemToBeRemoved
+			(selectedItem) => selectedItem.item !== itemToBeRemoved.item
 		);
 		setSelectedItems(itemsWithoutTheSubject);
 	};
 
 	const DEFAULT_IMAGE_PATH = "/images/no-image.png";
 
-	const ImportCardsGrid = () => {
+	const galleryAssetIds = galleryAssets.map((asset) => asset.id);
+
+	const AssetCardsGrid = () => {
 		return (
-			<Grid container spacing={3}>
-				{assetsOwned.map((asset, i) => {
-					return (
-						<Grid key={i} item lg={3} md={4} sm={6} xs={12}>
-							<NFTImportCard
-								name={asset.name}
-								image={withDefault(asset.image, DEFAULT_IMAGE_PATH)}
-								addToSelected={() => addToSelectedItems(asset)}
-								removeFromSelected={() => removeFromSelectedItems(asset)}
-							/>
-						</Grid>
-					);
-				})}
+			<Grid container spacing={3} direction="row" alignItems="center">
+				{userCollections?.map((collection) =>
+					collection?.assets
+						.filter((item) => {
+							if (add) {
+								return !galleryAssetIds.includes(item.id);
+							} else {
+								return galleryAssetIds.includes(item.id);
+							}
+						})
+						.map((item) => {
+							return (
+								<Grid key={item?.id} item lg={3} md={4} sm={6} xs={12}>
+									<NFTImportCard
+										name={item.name}
+										image={item.image_url}
+										addToSelected={() =>
+											addToSelectedItems({ collection, item })
+										}
+										removeFromSelected={() =>
+											removeNftFromSelectedItems({ collection, item })
+										}
+									/>
+								</Grid>
+							);
+						})
+				)}
 			</Grid>
 		);
 	};
@@ -150,23 +191,22 @@ export default function ImportFromContract({
 
 	const ButtonsMenu = () => (
 		<div className={classes.buttonsContainer}>
-			{prevButton}
-
+			<Button
+				className={classes.button}
+				variant="contained"
+				size="large"
+				onClick={() => setShowSelectedView(false)}
+			>
+				Back
+			</Button>
 			<Button
 				variant="contained"
-				style={{
-					background: "#b35bff",
-					color: "white",
-					margin: "13px 25px",
-					padding: "13px 25px",
-					"&:hover": {
-						background: darken("#b35bff", 0.1),
-					},
-				}}
 				size="large"
-				onClick={() => handleSubmit(selectedItems)}
+				classes={{ root: classes.button, disabled: classes.buttonDisabled }}
+				onClick={() => handleChangeGalleryAssets(selectedItems)}
+				disabled={selectedItems.length === 0}
 			>
-				Create gallery with Selected Items
+				{add ? "Add Selected Item(s)" : "Remove Selected Item(s)"}
 			</Button>
 		</div>
 	);
@@ -187,9 +227,11 @@ export default function ImportFromContract({
 				axis={theme.direction === "rtl" ? "x-reverse" : "x"}
 				index={0}
 			>
-				{TabPanelWithSpinner(0, ImportCardsGrid())}
+				{TabPanelWithSpinner(0, AssetCardsGrid())}
 			</SwipeableViews>
 			;{!dataIsLoading && ButtonsMenu()}
 		</div>
 	);
-}
+};
+
+export default AddorRemoveAssets;
