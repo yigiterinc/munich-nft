@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
 		display: "flex",
 		paddingTop: "2vw",
 		width: "88vw",
+		maxWidth: "1552px",
 		margin: "auto",
 		height: "100vh",
 	},
