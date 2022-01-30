@@ -11,15 +11,15 @@ const useStyles = makeStyles({
 	},
 });
 
-const NftDetailsPanel = (nftJson) => {
+const NftDetailsPanel = (props) => {
 	const classes = useStyles();
 
 	return (
 		<div className={classes.nftDetailsPanel}>
-			<NftHeader {...nftJson} />
-			<CollectionGroup {...nftJson} />
-			<PriceField {...nftJson} />
-			<CustomTabs {...nftJson} />
+			<NftHeader nftJson={props.nftJson} />
+			<CollectionGroup nftJson={props.nftJson} />
+			<PriceField nftJson={props.nftJson} />
+			<CustomTabs nftJson={props.nftJson} />
 		</div>
 	);
 };

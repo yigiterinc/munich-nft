@@ -42,22 +42,23 @@ function a11yProps(index) {
 	};
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	box: {
 		justifyContent: "center",
 	},
 	tabContainer: {
+		background: theme.palette.text.primary,
+		color: theme.palette.primary.contrastText,
 		flexGrow: 1,
 		marginTop: "2.5vw",
 		boxShadow: "none",
-		borderBottom: "1px solid gray",
 	},
 	tab: {
 		textTransform: "capitalize",
 	},
-});
+}));
 
-const CustomTabs = (nftJson) => {
+const CustomTabs = (props) => {
 	const classes = useStyles();
 	const [value, setValue] = useState(0);
 
@@ -66,17 +67,20 @@ const CustomTabs = (nftJson) => {
 	};
 
 	const tabLabels =
-		nftJson.properties.length === 0
+		props.nftJson.properties.length === 0
 			? ["Description", "Details"]
 			: ["Properties", "Description", "Details"];
 
 	const tabLabelComponents =
-		nftJson.properties.length === 0
-			? [<DescriptionTab {...nftJson} />, <DetailsTab {...nftJson} />]
+		props.nftJson.properties.length === 0
+			? [
+					<DescriptionTab {...props.nftJson} />,
+					<DetailsTab {...props.nftJson} />,
+			  ]
 			: [
-					<PropertiesTab {...nftJson} />,
-					<DescriptionTab {...nftJson} />,
-					<DetailsTab {...nftJson} />,
+					<PropertiesTab {...props.nftJson} />,
+					<DescriptionTab {...props.nftJson} />,
+					<DetailsTab {...props.nftJson} />,
 			  ];
 	return (
 		<>
@@ -85,7 +89,12 @@ const CustomTabs = (nftJson) => {
 				position="static"
 				className={classes.tabContainer}
 			>
-				<Tabs value={value} onChange={handleChange} centered>
+				<Tabs
+					value={value}
+					onChange={handleChange}
+					centered
+					indicatorColor="primary"
+				>
 					{tabLabels.map((tabLabel, index) => {
 						return (
 							<Tab

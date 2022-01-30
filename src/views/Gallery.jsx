@@ -9,7 +9,6 @@ import {
 	updateGallery,
 	uploadImageToMediaGallery,
 } from "../api/strapi";
-import { RECOMMENDED_THEMES } from "../themes/galleryThemes";
 
 const Gallery = ({
 	setGalleryData,
@@ -25,7 +24,6 @@ const Gallery = ({
 	const [galleryDescription, setGalleryDescription] = useState("");
 	const [galleryTheme, setGalleryTheme] = useState(null);
 	const [headerLayout, setHeaderLayout] = useState("default");
-	const [nftsLayout, setNftsLayout] = useState("default");
 	const [isCoverImageUpdated, setIsCoverImageUpdated] = useState(false);
 
 	let { slug } = useParams();
@@ -33,34 +31,42 @@ const Gallery = ({
 	const history = useHistory();
 
 	useEffect(async () => {
-		if (!slug) {
-			return;
-		}
+		if (!slug) return;
+
 		const json = await fetchGallery(slug);
 		const gallery = {
 			userId: json.userId,
 			creator: json.username,
 			nfts: json.assets,
 		};
+		const defaultTheme = createTheme({
+			palette: {
+				background: {
+					default: "#fff",
+				},
+				text: {
+					primary: "#000",
+				},
+				primary: {
+					main: "#000",
+					contrastText: "#fff",
+				},
+			},
+		});
+		let selectedTheme = json.theme === undefined ? defaultTheme : json.theme;
+
 		setGalleryId(json.id);
 		setGallery(gallery);
 		setGalleryName(json.galleryName);
 		setGalleryDescription(json.description);
 		setCoverImage(json.coverImage);
 		setGalleryData({ galleryId: json.id, nfts: gallery.nfts, slug: slug });
-		if (currentUser.id === gallery.userId) {
-			setIsOwner(true);
-		}
-		if (Object.keys(json.theme).length === 0) {
-			setGalleryTheme(createTheme(RECOMMENDED_THEMES[0].theme));
-		} else {
-			setGalleryTheme(createTheme(json.theme));
-		}
+		if (currentUser.id === gallery.userId) setIsOwner(true);
+		setGalleryTheme(createTheme(selectedTheme));
 		setHeaderLayout(json.headerLayout);
-		setNftsLayout(json.nftsLayout);
 	}, [slug]);
 
-	const switchGalleryEditMode = () => {
+	const switchEditableMode = () => {
 		setIsEditable(!isEditable);
 	};
 
@@ -80,7 +86,6 @@ const Gallery = ({
 			slug: convertToSlug(galleryName),
 			theme: galleryTheme,
 			headerLayout: headerLayout,
-			nftsLayout: nftsLayout,
 		};
 
 		history.push(`${convertToSlug(galleryName)}`);
@@ -105,39 +110,41 @@ const Gallery = ({
 	const convertToSlug = (galleryName) => {
 		return galleryName.toLowerCase().replaceAll(" ", "_");
 	};
-
 	return (
-		<ThemeProvider theme={galleryTheme}>
-			<>
-				{gallery ? (
-					<RenderGallery
-						galleryJson={gallery}
-						switchGalleryEditMode={switchGalleryEditMode}
-						isEditable={isEditable}
-						isOwner={isOwner}
-						coverImage={coverImage}
-						handleDropzoneSubmit={handleDropzoneSubmit}
-						galleryName={galleryName}
-						galleryDescription={galleryDescription}
-						setGalleryName={setGalleryName}
-						setGalleryDescription={setGalleryDescription}
-						handleUpdateGallery={handleUpdateGallery}
-						galleryTheme={galleryTheme}
-						setGalleryTheme={setGalleryTheme}
-						headerLayout={headerLayout}
-						setHeaderLayout={setHeaderLayout}
-						nftsLayout={nftsLayout}
-						setNftsLayout={setNftsLayout}
-						isCoverImageUpdated={isCoverImageUpdated}
-						setIsCoverImageUpdated={setIsCoverImageUpdated}
-						setShowAddAssetsView={setShowAddAssetsView}
-						setShowRemoveAssetsView={setShowRemoveAssetsView}
-					/>
-				) : (
-					<CircularSpinner />
-				)}
-			</>
-		</ThemeProvider>
+		<>
+			{galleryTheme && (
+				<ThemeProvider theme={galleryTheme}>
+					<>
+						{gallery ? (
+							<RenderGallery
+								slug={slug}
+								galleryJson={gallery}
+								switchEditableMode={switchEditableMode}
+								isEditable={isEditable}
+								isOwner={isOwner}
+								coverImage={coverImage}
+								handleDropzoneSubmit={handleDropzoneSubmit}
+								galleryName={galleryName}
+								galleryDescription={galleryDescription}
+								setGalleryName={setGalleryName}
+								setGalleryDescription={setGalleryDescription}
+								handleUpdateGallery={handleUpdateGallery}
+								galleryTheme={galleryTheme}
+								setGalleryTheme={setGalleryTheme}
+								headerLayout={headerLayout}
+								setHeaderLayout={setHeaderLayout}
+								isCoverImageUpdated={isCoverImageUpdated}
+								setIsCoverImageUpdated={setIsCoverImageUpdated}
+								setShowAddAssetsView={setShowAddAssetsView}
+								setShowRemoveAssetsView={setShowRemoveAssetsView}
+							/>
+						) : (
+							<CircularSpinner />
+						)}
+					</>
+				</ThemeProvider>
+			)}
+		</>
 	);
 };
 

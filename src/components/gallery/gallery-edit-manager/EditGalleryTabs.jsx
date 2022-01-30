@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import HeaderLayoutPicker from "./HeaderLayoutPicker";
+import ThemePicker from "./ThemePicker";
 
 function TabPanel(props) {
 	const { children, value, index } = props;
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const LayoutTabs = (props) => {
+const EditGalleryTabs = (props) => {
 	const classes = useStyles();
 	const [value, setValue] = React.useState(0);
 
@@ -57,12 +58,14 @@ const LayoutTabs = (props) => {
 					aria-label="simple tabs example"
 					TabIndicatorProps={{ style: { background: "#000" } }}
 				>
-					<Tab label="Header Layout" />
+					<Tab label="Layout" />
+					<Tab label="Colors" />
+
 					<div className={classes.closeDialogPanel}>
 						<IconButton
 							aria-label="close-gallery-settings"
 							onClick={() => {
-								props.closeLayoutModal();
+								props.closeEditGalleryModal(true);
 							}}
 						>
 							<CloseIcon />
@@ -76,8 +79,14 @@ const LayoutTabs = (props) => {
 					setHeaderLayout={props.setHeaderLayout}
 				/>
 			</TabPanel>
+			<TabPanel value={value} index={1}>
+				<ThemePicker
+					galleryTheme={props.galleryTheme}
+					setGalleryTheme={props.setGalleryTheme}
+				/>
+			</TabPanel>
 		</div>
 	);
 };
 
-export default LayoutTabs;
+export default EditGalleryTabs;

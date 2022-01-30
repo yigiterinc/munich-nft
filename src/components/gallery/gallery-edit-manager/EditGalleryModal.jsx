@@ -1,7 +1,6 @@
 import React from "react";
-import { Dialog, DialogTitle, IconButton, makeStyles } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
-import LayoutTabs from "./LayoutTabs";
+import { Dialog, makeStyles } from "@material-ui/core";
+import EditGalleryTabs from "./EditGalleryTabs";
 
 const useStyles = makeStyles((theme) => ({
 	dialogWrapper: {
@@ -15,23 +14,23 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: "right",
 	},
 }));
-const LayoutModal = (props) => {
+const EditGalleryModal = (props) => {
 	const classes = useStyles();
 
 	return (
 		<Dialog
-			open={props.openLayoutModal}
+			open={props.openEditGalleryModal}
 			classes={{ paper: classes.dialogWrapper }}
 		>
-			<LayoutTabs
+			<EditGalleryTabs
+				closeEditGalleryModal={props.closeEditGalleryModal}
 				headerLayout={props.headerLayout}
 				setHeaderLayout={props.setHeaderLayout}
-				nftsLayout={props.nftsLayout}
-				setNftsLayout={props.setNftsLayout}
-				closeLayoutModal={props.closeLayoutModal}
+				galleryTheme={props.galleryTheme}
+				setGalleryTheme={props.setGalleryTheme}
 			/>
 		</Dialog>
 	);
 };
 
-export default LayoutModal;
+export default EditGalleryModal;

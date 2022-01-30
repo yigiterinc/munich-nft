@@ -1,56 +1,78 @@
-import React from "react";
-import { makeStyles, Divider } from "@material-ui/core";
-import GalleryEditManager from "./GalleryEditManager";
+import React, { useState } from "react";
+import { makeStyles, createTheme, ThemeProvider } from "@material-ui/core";
+
+import EditGalleryModal from "./gallery-edit-manager/EditGalleryModal";
 import GalleryHeader from "./GalleryHeader";
 import GalleryNfts from "./GalleryNfts";
 
 const useStyles = makeStyles((theme) => ({
-	galleryContainer: {
+	renderGalleryContainer: {
 		backgroundColor: theme.palette.background.default,
-		paddingTop: "4vh",
-		display: "flex",
-		flexDirection: "column",
-		justifyContent: "center",
-		alignItems: "center",
+		paddingTop: "10vh",
+		height: "100%",
 	},
 }));
 
 const RenderGallery = (props) => {
+	const [openEditGalleryModal, setOpenEditGalleryModal] = useState(false);
+	const closeEditGalleryModal = () => setOpenEditGalleryModal(false);
+
+	const defaultTheme = createTheme({
+		palette: {
+			background: {
+				default: "#fff",
+			},
+			text: {
+				primary: "#000",
+			},
+			primary: {
+				main: "#000",
+				contrastText: "#fff",
+			},
+		},
+	});
 	const classes = useStyles();
 	return (
-		<div className={classes.galleryContainer}>
-			<GalleryEditManager
-				isOwner={props.isOwner}
-				isEditMode={props.isEditable}
-				switchEditableMode={props.switchGalleryEditMode}
-				handleUpdateGallery={props.handleUpdateGallery}
-				galleryTheme={props.galleryTheme}
-				setGalleryTheme={props.setGalleryTheme}
-				headerLayout={props.headerLayout}
-				setHeaderLayout={props.setHeaderLayout}
-				nftsLayout={props.nftsLayout}
-				setNftsLayout={props.setNftsLayout}
-			/>
-			<GalleryHeader
-				galleryJson={props.galleryJson}
-				isOwner={props.isOwner}
-				isEditable={props.isEditable}
-				coverImage={props.coverImage}
-				handleDropzoneSubmit={props.handleDropzoneSubmit}
-				galleryName={props.galleryName}
-				setGalleryName={props.setGalleryName}
-				galleryDescription={props.galleryDescription}
-				setGalleryDescription={props.setGalleryDescription}
-				headerLayout={props.headerLayout}
-				isCoverImageUpdated={props.isCoverImageUpdated}
-				setIsCoverImageUpdated={props.setIsCoverImageUpdated}
-				setShowAddAssetsView={props.setShowAddAssetsView}
-				setShowRemoveAssetsView={props.setShowRemoveAssetsView}
-			/>
-			<GalleryNfts
-				nfts={props.galleryJson.nfts}
-				nftsLayout={props.nftsLayout}
-			/>
+		<div className={classes.renderGalleryContainer}>
+			<div className={classes.galleryContainer}>
+				<GalleryHeader
+					openEditGalleryModal={openEditGalleryModal}
+					closeEditGalleryModal={closeEditGalleryModal}
+					setOpenEditGalleryModal={setOpenEditGalleryModal}
+					isOwner={props.isOwner}
+					isEditable={props.isEditable}
+					switchEditableMode={props.switchEditableMode}
+					handleUpdateGallery={props.handleUpdateGallery}
+					galleryJson={props.galleryJson}
+					coverImage={props.coverImage}
+					handleDropzoneSubmit={props.handleDropzoneSubmit}
+					galleryName={props.galleryName}
+					setGalleryName={props.setGalleryName}
+					galleryDescription={props.galleryDescription}
+					setGalleryDescription={props.setGalleryDescription}
+					headerLayout={props.headerLayout}
+					setHeaderLayout={props.setHeaderLayout}
+					galleryTheme={props.galleryTheme}
+					setGalleryTheme={props.setGalleryTheme}
+					isCoverImageUpdated={props.isCoverImageUpdated}
+					setIsCoverImageUpdated={props.setIsCoverImageUpdated}
+					setShowAddAssetsView={props.setShowAddAssetsView}
+					setShowRemoveAssetsView={props.setShowRemoveAssetsView}
+				/>
+				<GalleryNfts nfts={props.galleryJson.nfts} slug={props.slug} />
+
+				<ThemeProvider theme={defaultTheme}>
+					<EditGalleryModal
+						openEditGalleryModal={openEditGalleryModal}
+						closeEditGalleryModal={closeEditGalleryModal}
+						switchEditableMode={props.switchEditableMode}
+						headerLayout={props.headerLayout}
+						setHeaderLayout={props.setHeaderLayout}
+						galleryTheme={props.galleryTheme}
+						setGalleryTheme={props.setGalleryTheme}
+					/>
+				</ThemeProvider>
+			</div>
 		</div>
 	);
 };
