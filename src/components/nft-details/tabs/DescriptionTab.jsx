@@ -2,11 +2,12 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	descriptionTabContainer: {
 		marginTop: "0.75vw",
+		color: theme.palette.text.primary,
 	},
-});
+}));
 
 const DescriptionTab = (nftJson) => {
 	const classes = useStyles();

@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	collectionGroupContainer: {
 		marginTop: "0.85vw",
 		display: "flex",
@@ -15,17 +15,21 @@ const useStyles = makeStyles({
 		overflow: "hidden",
 	},
 	collectionLink: {
+		color: theme.palette.primary.main,
 		cursor: "pointer",
 		"&:focus, &:hover, &:visited, &:link, &:active": {
 			textDecoration: "none",
+		},
+		"&:hover": {
+			fontWeight: "bold",
 		},
 	},
 	icon: {
 		paddingRight: "0.5vw",
 	},
-});
+}));
 
-const CollectionGroup = (nftJson) => {
+const CollectionGroup = (props) => {
 	const classes = useStyles();
 
 	return (
@@ -33,9 +37,9 @@ const CollectionGroup = (nftJson) => {
 			<div className={classes.collectionSection}>
 				<Link
 					className={classes.collectionLink}
-					to={`/collection/${nftJson.slug}`}
+					to={`/collection/${props.nftJson.slug}`}
 				>
-					{nftJson.collection}
+					{props.nftJson.collection}
 				</Link>
 			</div>
 		</div>

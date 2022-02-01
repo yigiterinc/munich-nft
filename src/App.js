@@ -19,8 +19,9 @@ import GalleryContainer from "./views/GalleryContainer";
 
 import "./App.css";
 import CreateGallery from "./views/CreateGallery";
-import NftDetails from "./views/NftDetails";
-import { getLoggedInUser, isUserLoggedIn } from "./utils/auth-utils";
+import NaiveNftDetails from "./views/NaiveNftDetails";
+import GalleryNftDetails from "./views/GalleryNftDetails";
+import { isUserLoggedIn } from "./utils/auth-utils";
 
 let web3;
 
@@ -56,12 +57,16 @@ function App() {
 			<Switch>
 				<Route exact path="/" component={Home} />
 				<ProtectedRoute path="/mint-nft" component={MintNft} />
-				<ProtectedRoute path="/gallery/:slug" component={GalleryContainer} />
+				<Route
+					path="/gallery/:slug/:contractAddressId/:tokenId"
+					component={GalleryNftDetails}
+				/>
+				<Route path="/gallery/:slug" component={GalleryContainer} />
 				<Route path="/collection/:slug" component={Collection} />
 				<ProtectedRoute path="/profile-settings" component={ProfileSettings} />
 				<Route
 					path="/token/:contractAddressId/:tokenId"
-					component={NftDetails}
+					component={NaiveNftDetails}
 				/>
 				<ProtectedRoute path="/profile/:userId" component={Profile} />
 				<ProtectedRoute path="/create-gallery" component={CreateGallery} />

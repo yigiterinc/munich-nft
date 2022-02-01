@@ -1,15 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import GalleryCoverImage from "./GalleryCoverImage";
-import { makeStyles, darken } from "@material-ui/core/styles";
+import GalleryEditManager from "../GalleryEditManager";
+import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography, TextField } from "@material-ui/core";
-import GalleryMenu from "../GalleryMenu";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
 	galleryHeaderContainer: {
 		display: "flex",
 		justifyContent: "center",
-		width: "80vw",
+		width: "96vw",
+		margin: "auto",
 	},
 	title: {
 		fontSize: "36px", // will be updated after theme variable setup
@@ -28,13 +29,14 @@ const useStyles = makeStyles((theme) => ({
 		marginRight: "0.3vw",
 		fontSize: "16px", // will be updated after theme variable setup
 	},
+	titleTextField: {
+		lineHeight: "64px",
+	},
 	creator: {
 		textDecoration: "none",
 		cursor: "pointer",
 		color: theme.palette.primary.main,
-		"&:hover": {
-			color: theme.palette.primary.contrastText,
-		},
+		fontWeight: "bold",
 		fontSize: "16px", // will be updated after theme variable setup
 	},
 	description: {
@@ -52,13 +54,30 @@ const HeaderDefaultLayout = (props) => {
 	const classes = useStyles();
 	return (
 		<Grid container spacing={6} className={classes.galleryHeaderContainer}>
+			<Grid item lg={1} md={1} sm={1} xs={1}>
+				<GalleryEditManager
+					setOpenEditGalleryModal={props.setOpenEditGalleryModal}
+					isOwner={props.isOwner}
+					isEditMode={props.isEditable}
+					switchEditableMode={props.switchEditableMode}
+					handleUpdateGallery={props.handleUpdateGallery}
+					galleryTheme={props.galleryTheme}
+					setGalleryTheme={props.setGalleryTheme}
+					headerLayout={props.headerLayout}
+					setHeaderLayout={props.setHeaderLayout}
+					setShowAddAssetsView={props.setShowAddAssetsView}
+					setShowRemoveAssetsView={props.setShowRemoveAssetsView}
+				/>
+			</Grid>
+			<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+
 			<Grid
 				className={classes.coverImageContainer}
 				item
-				lg={4}
-				md={4}
-				sm={5}
-				xs={7}
+				lg={3}
+				md={3}
+				sm={4}
+				xs={6}
 			>
 				<div className={classes.coverImage}>
 					<GalleryCoverImage
@@ -71,24 +90,28 @@ const HeaderDefaultLayout = (props) => {
 					/>
 				</div>
 			</Grid>
-			<Grid item lg={7} md={7} sm={6} xs={4}>
+			<Grid item lg={5} md={5} sm={4} xs={2}>
 				<div className={classes.galleryHeader}>
 					<div className={classes.titleContainer}>
-						{!props.isEditable ? (
+						{props.isOwner && props.isEditable ? (
+							<div className={classes.titleTextField}>
+								<form noValidate autoComplete="off">
+									<TextField
+										fullWidth
+										value={props.galleryName}
+										inputProps={{ style: { fontSize: "36px" } }}
+										onChange={(event) =>
+											props.setGalleryName(event.target.value)
+										}
+									/>
+								</form>
+							</div>
+						) : (
 							<>
 								<Typography className={classes.title} variant="h4">
 									{props.galleryName}
 								</Typography>
 							</>
-						) : (
-							<form noValidate autoComplete="off">
-								<TextField
-									fullWidth
-									value={props.galleryName}
-									inputProps={{ style: { fontSize: "36px" } }}
-									onChange={(event) => props.setGalleryName(event.target.value)}
-								/>
-							</form>
 						)}
 					</div>
 					<div className={classes.galleryOwner}>
@@ -105,13 +128,7 @@ const HeaderDefaultLayout = (props) => {
 						</Typography>
 					</div>
 					<div className={classes.descriptionPanel}>
-						{props.isOwner && !props.isEditable ? (
-							<>
-								<Typography className={classes.description} variant="h5">
-									{props.galleryDescription}
-								</Typography>
-							</>
-						) : (
+						{props.isOwner && props.isEditable ? (
 							<form
 								noValidate
 								autoComplete="off"
@@ -127,18 +144,17 @@ const HeaderDefaultLayout = (props) => {
 									}
 								/>
 							</form>
+						) : (
+							<>
+								<Typography className={classes.description} variant="h5">
+									{props.galleryDescription}
+								</Typography>
+							</>
 						)}
 					</div>
 				</div>
 			</Grid>
-			{props.isOwner && !props.isEditable && (
-				<Grid item xs={1}>
-					<GalleryMenu
-						setShowAddAssetsView={props.setShowAddAssetsView}
-						setShowRemoveAssetsView={props.setShowRemoveAssetsView}
-					/>
-				</Grid>
-			)}
+			<Grid item lg={2} md={2} sm={2} xs={2}></Grid>
 		</Grid>
 	);
 };

@@ -7,11 +7,11 @@ import {
 	ListItem,
 	ListItemText,
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
-import { ETH_NETWORK } from "../../../config/config";
+import { NETWORK } from "../../../config/config";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	listItemText: {
+		color: theme.palette.text.primary,
 		"& span, & svg": {
 			fontSize: "14px",
 			padding: 0,
@@ -24,7 +24,10 @@ const useStyles = makeStyles({
 		textAlign: "center",
 		marginBottom: "1vw",
 	},
-});
+	divider: {
+		backgroundColor: theme.palette.text.primary,
+	},
+}));
 
 const DetailsTab = (nftJson) => {
 	const computeBlockchain = () => {
@@ -60,15 +63,15 @@ const DetailsTab = (nftJson) => {
 				<Button
 					href={etherscanPath + nftJson.contractAddressId}
 					className={classes.ethScanButton}
-					variant="contained"
+					color="primary"
+					variant="outlined"
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					{" "}
 					View on ETHScan
 				</Button>
 			</div>
-			<Divider />
+			<Divider className={classes.divider} />
 			<List component={"span"}>
 				<ListItem>
 					<ListItemText

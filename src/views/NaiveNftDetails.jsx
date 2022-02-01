@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@material-ui/core";
 import { fetchSingleAsset } from "../api/opensea";
 import { getCurrentCryptoPriceInCurrency } from "../api/currencyHelper";
 import { formatOpenseaPrice } from "../utils/currency-utils";
 
-import NftImage from "../components/nft-details/NftImage";
-import NftDetailsPanel from "../components/nft-details/NftDetailsPanel";
+import RenderNftDetails from "../components/nft-details/RenderNftDetails";
 import withSpinner from "../components/common/WithSpinner";
 
 const useStyles = makeStyles({
@@ -18,8 +16,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const NftDetails = () => {
-	const classes = useStyles();
+const NaiveNftDetails = () => {
 	const [nftJson, setNftJson] = useState(null);
 	const { contractAddressId, tokenId } = useParams();
 	const [dataIsLoading, setDataIsLoading] = useState(true);
@@ -60,9 +57,24 @@ const NftDetails = () => {
 		fetchData();
 	}, [contractAddressId, tokenId]);
 
+	const defaultTheme = createTheme({
+		palette: {
+			background: {
+				default: "#fff",
+			},
+			text: {
+				primary: "#000",
+			},
+			primary: {
+				main: "#000",
+				contrastText: "#fff",
+			},
+		},
+	});
+
 	return (
 		<>
-			{withSpinner(renderPage(classes, nftJson), dataIsLoading, {
+			{withSpinner(renderPage(nftJson, defaultTheme), dataIsLoading, {
 				position: "absolute",
 				left: "50%",
 				top: "50%",
@@ -71,18 +83,12 @@ const NftDetails = () => {
 	);
 };
 
-const renderPage = (classes, nftJson) => {
+const renderPage = (nftJson, defaultTheme) => {
 	return (
-		<Container className={classes.nftDetailsContainer}>
-			<Grid item={true} xs={1} />
-			<Grid item={true} xs={5}>
-				<NftImage {...nftJson} />
-			</Grid>
-			<Grid item={true} xs={6}>
-				<NftDetailsPanel {...nftJson} />
-			</Grid>
-		</Container>
+		<ThemeProvider theme={defaultTheme}>
+			<RenderNftDetails nftJson={nftJson} />;
+		</ThemeProvider>
 	);
 };
 
-export default NftDetails;
+export default NaiveNftDetails;

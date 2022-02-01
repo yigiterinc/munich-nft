@@ -1,12 +1,15 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Card, CardMedia, CardContent } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { withDefault } from "../../utils/commons";
-
 const useStyles = makeStyles((theme) => ({
+	link: {
+		textDecoration: "none",
+	},
 	root: {
-		background: theme.palette.info.main,
+		width: "100%",
+		height: "100%",
 		cursor: "pointer",
 		transition: "all 0.2s ease-out",
 		"&:hover": {
@@ -14,65 +17,106 @@ const useStyles = makeStyles((theme) => ({
 			boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
 		},
 	},
+	card: {
+		background: theme.palette.background.default,
+		borderRadius: "10px",
+	},
 	image: {
-		height: "30vh",
+		width: "100%",
+		height: "auto",
 	},
-	link: {
-		textDecoration: "none",
-	},
-	collectionText: {
-		color: theme.palette.secondary.light,
+	collectionSection: {},
+	collectionLink: {
+		color: theme.palette.primary.main,
+		cursor: "pointer",
+		"&:focus, &:hover, &:visited, &:link, &:active": {
+			textDecoration: "none",
+		},
+		"&:hover": {
+			fontWeight: "bold",
+		},
+		fontSize: "14px",
 	},
 	nftText: {
-		color: theme.palette.secondary.main,
+		color: theme.palette.text.primary,
+		marginTop: "2vh",
+		fontWeight: "bold",
+		fontSize: "24px",
+	},
+	priceSection: {
+		background: theme.palette.text.primary,
+		color: theme.palette.primary.contrastText,
+		height: "50px",
+	},
+	priceLabel: {
+		lineSpacing: "1px",
+		fontSize: "18px",
+	},
+	priceText: {
+		paddingTop: "1vh",
 	},
 }));
 
-const GalleryCard = ({ asset, priorNft }) => {
-	const contractAddressId = asset.asset_contract.address;
-	const tokenId = asset.token_id;
+const GalleryCard = (props) => {
+	let asset = props.asset;
+	let slug = props.slug;
+
+	const contractAddressId = asset?.item?.asset_contract?.address;
+	const tokenId = asset?.item?.token_id;
+	const item = Object.keys(asset).includes("item") ? asset?.item : asset;
+	const defaultImagePath = "/images/no-image.png";
+	const currentPrice = 1.25; // dummy -> asset does not contain price info
 
 	const classes = useStyles();
-
-	const defaultImagePath = "/images/no-image.png";
-
 	return (
-		<Link
-			className={classes.link}
-			to={`/token/${contractAddressId}/${tokenId}`}
-		>
-			<Card className={classes.root} variant="outlined">
-				<>
-					{priorNft ? (
-						<CardMedia
-							component="img"
-							className={classes.priorImage}
-							image={withDefault(asset.image_url, defaultImagePath)}
-							title={asset.name}
-						/>
+		<div className={classes.root}>
+			<RouterLink
+				className={classes.link}
+				to={`/gallery/${slug}/${contractAddressId}/${tokenId}`}
+			>
+				<Card variant="outlined" className={classes.card}>
+					<CardMedia
+						component="img"
+						className={classes.image}
+						image={withDefault(item.image_url, defaultImagePath)}
+						title={item.name}
+					/>
+					<CardContent className={classes.collectionSection}>
+						<RouterLink
+							className={classes.collectionLink}
+							to={`/collection/${asset.collection.slug}`}
+						>
+							{item.collection.name}
+						</RouterLink>
+						<Typography variant="h6" component="h2" className={classes.nftText}>
+							{item.name ? item.name : "-"}
+						</Typography>
+					</CardContent>
+					{currentPrice ? (
+						<CardContent className={classes.priceSection}>
+							<div className={classes.priceLabel}>Current Price</div>
+							<Typography
+								variant="h6"
+								component="h2"
+								className={classes.priceText}
+							>
+								{currentPrice + " ETH"}
+							</Typography>
+						</CardContent>
 					) : (
-						<CardMedia
-							component="img"
-							className={classes.image}
-							image={withDefault(asset.image_url, defaultImagePath)}
-							title={asset.name}
-						/>
+						<CardContent className={classes.priceSection}>
+							<Typography
+								variant="h6"
+								component="h2"
+								className={classes.priceText}
+							>
+								Not listed yet
+							</Typography>
+						</CardContent>
 					)}
-				</>
-				<CardContent>
-					<Typography
-						variant="h6"
-						className={classes.collectionText}
-						gutterBottom
-					>
-						{asset.collection.name}
-					</Typography>
-					<Typography variant="h6" component="h2" className={classes.nftText}>
-						{asset.name ? asset.name : "-"}
-					</Typography>
-				</CardContent>
-			</Card>
-		</Link>
+				</Card>
+			</RouterLink>
+		</div>
 	);
 };
 
