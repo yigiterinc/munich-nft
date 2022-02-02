@@ -65,7 +65,7 @@ const GalleryCard = (props) => {
 	const tokenId = asset?.item?.token_id;
 	const item = Object.keys(asset).includes("item") ? asset?.item : asset;
 	const defaultImagePath = "/images/no-image.png";
-	const currentPrice = 1.25; // dummy -> asset does not contain price info
+	const currentPrice = null; // dummy -> asset does not contain price info
 
 	const classes = useStyles();
 	return (
@@ -82,12 +82,14 @@ const GalleryCard = (props) => {
 						title={item.name}
 					/>
 					<CardContent className={classes.collectionSection}>
-						<RouterLink
-							className={classes.collectionLink}
-							to={`/collection/${asset.collection.slug}`}
-						>
-							{item.collection.name}
-						</RouterLink>
+						{item.collection && (
+							<RouterLink
+								className={classes.collectionLink}
+								to={`/collection/${asset.collection.slug}`}
+							>
+								{item.collection.name}
+							</RouterLink>
+						)}
 						<Typography variant="h6" component="h2" className={classes.nftText}>
 							{item.name ? item.name : "-"}
 						</Typography>

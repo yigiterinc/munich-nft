@@ -56,7 +56,7 @@ const CreateGallery = (props) => {
 	const classes = useStyles();
 
 	const handleSubmit = async (selectedItems) => {
-		let selectedItemsAreNft = selectedItems.hasOwnProperty("nft"); // and not collection
+		let selectedItemsAreEthNft = selectedItems.hasOwnProperty("nft"); // and not collection
 		if (!isUserLoggedIn()) {
 			history.push("/");
 			return;
@@ -71,7 +71,7 @@ const CreateGallery = (props) => {
 		}
 
 		let assets = selectedItems;
-		if (selectedItemsAreNft) {
+		if (selectedItemsAreEthNft) {
 			assets = convertSelectedNftsToGalleryAssets(selectedItems);
 		}
 
@@ -205,10 +205,7 @@ const CreateGallery = (props) => {
 
 	return (
 		<>
-			<ImportFromPhantomWallet
-				prevButton={props.prevButton}
-				handleSubmit={handleSubmit}
-			/>
+			{ActiveStep()}
 			<Snackbar
 				open={success}
 				anchorOrigin={{ vertical: "bottom", horizontal: "right" }}

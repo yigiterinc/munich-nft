@@ -7,7 +7,7 @@ import {
 	ListItem,
 	ListItemText,
 } from "@material-ui/core";
-import { NETWORK } from "../../../config/config";
+import { NETWORK, ETH_NETWORK } from "../../../config/config";
 
 const useStyles = makeStyles((theme) => ({
 	listItemText: {
@@ -48,9 +48,10 @@ const DetailsTab = (nftJson) => {
 	};
 
 	const classes = useStyles();
-	const blockchain = useMemo(() => computeBlockchain(ETH_NETWORK), [
-		ETH_NETWORK,
-	]);
+	const blockchain = useMemo(
+		() => computeBlockchain(ETH_NETWORK),
+		[ETH_NETWORK]
+	);
 	const tokenStandard = useMemo(() => computeTokenStandard(), [nftJson]);
 	const etherscanPath =
 		ETH_NETWORK === "mainnet"

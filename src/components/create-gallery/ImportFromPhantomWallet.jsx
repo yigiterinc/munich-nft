@@ -12,7 +12,7 @@ import Tab from "@material-ui/core/Tab";
 import SwipeableViews from "react-swipeable-views";
 import { getLoggedInUser, isUserLoggedIn } from "../../utils/auth-utils";
 import { withDefault } from "../../utils/commons";
-import { getAllNftDataByWalletAddress } from "../../api/sol";
+import { getNftTokenDetails } from "../../api/sol";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -60,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 	const classes = useStyles();
 	const theme = useTheme();
+	const [activeTab, setActiveTab] = useState(0);
 
 	const [userAssets, setUserAssets] = useState(null);
 	const [selectedItems, setSelectedItems] = useState([]);
@@ -68,7 +69,7 @@ export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 	useEffect(async () => {
 		if (isUserLoggedIn()) {
 			const user = getLoggedInUser();
-			const assets = await getAllNftDataByWalletAddress(user.solAddress);
+			const assets = await getNftTokenDetails(user.solAddress);
 			console.log(assets);
 			setUserAssets(assets);
 		}
@@ -91,17 +92,22 @@ export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 		setSelectedItems(itemsWithoutTheSubject);
 	};
 
+	const handleChangeIndex = (index) => {
+		setActiveTab(index);
+	};
+
 	const DEFAULT_IMAGE_PATH = "/images/no-image.png";
 
 	const AssetCardsGrid = () => {
 		return (
 			<Grid container spacing={3}>
+				{console.log(userAssets)}
 				{userAssets?.map((asset) => {
 					return (
-						<Grid key={asset.mint} item lg={3} md={4} sm={6} xs={12}>
+						<Grid key={asset.image_url} item lg={3} md={4} sm={6} xs={12}>
 							<NFTImportCard
-								name={asset.data.name}
-								image={withDefault(asset.image, DEFAULT_IMAGE_PATH)}
+								name={asset.name}
+								image={withDefault(asset.image_url, DEFAULT_IMAGE_PATH)}
 								addToSelected={() => addToSelectedItems(asset)}
 								removeFromSelected={() => removeNftFromSelectedItems(asset)}
 							/>
@@ -112,10 +118,15 @@ export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 		);
 	};
 
+	const handleTabSwitch = (event, newValue) => {
+		setSelectedItems([]);
+		setActiveTab(newValue);
+	};
+
 	const TabPanelWithSpinner = (index, data) => {
 		return withSpinner(
 			<TabPanel
-				value={0}
+				value={activeTab}
 				index={index}
 				dir={theme.direction}
 				className={classes.tabPanel}
@@ -156,7 +167,8 @@ export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 		<div className={classes.root}>
 			<AppBar position="static" color="inherit" elevation={0}>
 				<Tabs
-					value={0}
+					value={activeTab}
+					onChange={handleTabSwitch}
 					indicatorColor="primary"
 					textColor="primary"
 					variant="fullWidth"
@@ -170,7 +182,8 @@ export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 			</AppBar>
 			<SwipeableViews
 				axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-				index={0}
+				index={activeTab}
+				onChangeIndex={handleChangeIndex}
 			>
 				{TabPanelWithSpinner(nftsTabIndex, AssetCardsGrid)}
 			</SwipeableViews>
