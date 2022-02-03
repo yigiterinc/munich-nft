@@ -13,14 +13,24 @@ const RPC_SERVER = {
 
 const connection = new Connection("https://api.devnet.solana.com");
 
-export const fetchSolNftMetadata = async () => {
-	let mintPubkey = new PublicKey(
-		"7RQFGy4qkn1ogyKY6QRcdmWYXFZqnxRxUt5VzyARDZAL"
-	);
-	let tokenmetaPubkey = await Metadata.getPDA(mintPubkey);
+const connectionMain = new Connection("https://api.mainnet-beta.solana.com");
 
-	const tokenmeta = await Metadata.load(connection, tokenmetaPubkey);
-	console.log(tokenmeta);
+export const fetchSolNftMetadata = async (mintAddress) => {
+	let mintPubkey = new PublicKey(mintAddress);
+	let tokenmetaPubkey = await Metadata.getPDA(mintPubkey);
+	const tokenmeta = await Metadata.load(connectionMain, tokenmetaPubkey);
+
+	return tokenmeta;
+};
+
+export const getSolNftDetailsFromUri = async (tokenmeta) => {
+	let metadata = await axios.get(tokenmeta.data.data.uri);
+	tokenmeta.data.image = metadata.data.image;
+	tokenmeta.data.description = metadata.data.description;
+	tokenmeta.data.attributes = metadata.data.attributes;
+	tokenmeta.data.background_color = metadata.data.background_color;
+
+	return tokenmeta.data;
 };
 
 export const getAllNftDataByWalletAddress = async (solAddress) => {

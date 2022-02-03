@@ -21,6 +21,7 @@ import "./App.css";
 import CreateGallery from "./views/CreateGallery";
 import NaiveNftDetails from "./views/NaiveNftDetails";
 import GalleryNftDetails from "./views/GalleryNftDetails";
+import SolNftDetails from "./views/SolNftDetails";
 import { isUserLoggedIn } from "./utils/auth-utils";
 
 let web3;
@@ -68,6 +69,7 @@ function App() {
 					path="/token/:contractAddressId/:tokenId"
 					component={NaiveNftDetails}
 				/>
+				<Route path="/sol-token/:mintAddress" component={SolNftDetails} />
 				<ProtectedRoute path="/profile/:userId" component={Profile} />
 				<ProtectedRoute path="/create-gallery" component={CreateGallery} />
 			</Switch>
