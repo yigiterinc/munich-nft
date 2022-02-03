@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Gallery from "./Gallery";
-import AddorRemoveAssets from "../components/edit-gallery/AddorRemoveAssets";
+import AddorRemoveAssetsContainer from "../components/edit-gallery/AddorRemoveAssetsContainer";
 import { isUserLoggedIn, getLoggedInUser } from "../utils/auth-utils";
 import { useHistory } from "react-router-dom";
 import { updateGallery } from "../api/strapi";
@@ -91,7 +91,7 @@ const GalleryContainer = () => {
 	const getActiveComponent = () => {
 		if (showAddAssetsView) {
 			return (
-				<AddorRemoveAssets
+				<AddorRemoveAssetsContainer
 					add={true}
 					galleryAssets={galleryData.nfts}
 					handleChangeGalleryAssets={handleAddSelectedAssets}
@@ -100,7 +100,7 @@ const GalleryContainer = () => {
 			);
 		} else if (showRemoveAssetsView) {
 			return (
-				<AddorRemoveAssets
+				<AddorRemoveAssetsContainer
 					galleryAssets={galleryData.nfts}
 					handleChangeGalleryAssets={handleRemoveSelectedAssets}
 					setShowSelectedView={setShowRemoveAssetsView}

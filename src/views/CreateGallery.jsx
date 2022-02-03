@@ -13,10 +13,6 @@ import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
 import { useHistory } from "react-router-dom";
-import {
-	CONTRACT_ADDRESS_RINKEBY,
-	MunichNftContractAddress,
-} from "../config/config";
 import ImportFromOpensea from "../components/create-gallery/ImportFromOpensea";
 import ImportFromContract from "../components/create-gallery/ImportFromContract";
 import ImportFromPhantomWallet from "../components/create-gallery/ImportFromPhantomWallet";
@@ -151,18 +147,6 @@ const CreateGallery = (props) => {
 			Next
 		</Button>
 	);
-
-	const prevButton = (
-		<Button
-			className={classes.navigationButton}
-			variant="contained"
-			size="large"
-			onClick={() => setActiveStep((prevActiveStep) => prevActiveStep - 1)}
-		>
-			Previous
-		</Button>
-	);
-
 	const handleDropzoneSubmit = async (file) => {
 		setCoverImage(file);
 	};
