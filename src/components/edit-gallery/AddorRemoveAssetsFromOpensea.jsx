@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const AddorRemoveAssets = ({
+const AddorRemoveAssetsFromOpensea = ({
 	add = false,
 	galleryAssets,
 	handleChangeGalleryAssets,
@@ -105,8 +105,9 @@ const AddorRemoveAssets = ({
 	useEffect(async () => {
 		if (isUserLoggedIn()) {
 			let collectionsData = await fetchCollectionsOfUser(
-				getLoggedInUser().walletAddress
+				getLoggedInUser().ethAddress
 			);
+
 			let collectionsWithAssets = [];
 			collectionsWithAssets.push(
 				await getAssetsAddedCollections(collectionsData)
@@ -234,4 +235,4 @@ const AddorRemoveAssets = ({
 	);
 };
 
-export default AddorRemoveAssets;
+export default AddorRemoveAssetsFromOpensea;
