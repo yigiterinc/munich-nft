@@ -5,8 +5,7 @@ import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme) => ({
 	nftImageContainer: {
-		width: "512px",
-		height: "512px",
+		height: "60vh",
 		borderRadius: "10px",
 		border: "1px solid rgb(229, 232, 235)",
 		background: theme.palette.background.default,
@@ -22,28 +21,29 @@ const useStyles = makeStyles((theme) => ({
 			backgroundColor: "transparent",
 		},
 	},
-	nftImage: {
+	image: ({ backgroundColor }) => ({
 		margin: "auto",
-	},
+		height: "inherit",
+		objectFit: "cover",
+		backgroundColor: backgroundColor,
+	}),
 }));
 
 const NftImage = (props) => {
-	const classes = useStyles();
+	const backgroundColor = "#" + props.nftJson.backgroundColor;
+	const classes = useStyles({ backgroundColor });
 
 	return <>{renderNftImage(classes, props.nftJson)}</>;
 };
 
 const renderNftImage = (classes, nftJson) => {
-	const backgroundColor = "#" + nftJson.backgroundColor;
 	return (
 		<Grid
 			className={classes.nftImageContainer}
 			container
 			justifyContent="center"
 		>
-			<Box style={{ backgroundColor }} className={classes.nftImage}>
-				<img src={nftJson.imageSrc} />
-			</Box>
+			<img src={nftJson.imageSrc} className={classes.image} />
 		</Grid>
 	);
 };

@@ -84,9 +84,12 @@ export const renderRows = (classes, properties) => {
 								</Typography>
 							</div>
 							<div className={classes.propertyValue}>{property.value}</div>
-							<div className={classes.propertyRarity}>
-								{"Rarity: " + property.rarity}
-							</div>
+							{console.log(property.rarity)}
+							{property.rarity && (
+								<div className={classes.propertyRarity}>
+									{"Rarity: " + property.rarity}
+								</div>
+							)}
 						</div>
 					</Grid>
 				);
@@ -102,10 +105,13 @@ export const customPropertiesHelper = (traits, collectionSize) => {
 			if (trait.trait_count !== 0) {
 				const type = trait.trait_type;
 				const value = trait.value;
-				const rarity =
-					((trait.trait_count / collectionSize) * 100).toFixed(1) + "%";
-
-				properties.push({ type, value, rarity });
+				if (collectionSize) {
+					const rarity =
+						((trait.trait_count / collectionSize) * 100).toFixed(1) + "%";
+					properties.push({ type, value, rarity });
+				} else {
+					properties.push({ type, value });
+				}
 			}
 		}
 	});
