@@ -7,11 +7,13 @@ const GalleryEditManager = (props) => {
 			{(
 					<EditGalleryMenu
 						setOpenEditGalleryModal={props.setOpenEditGalleryModal}
-						isEditMode={props.isEditMode}
+						inEditMode={props.inEditMode}
+						isOwner={props.isOwner}
 						switchEditableMode={props.switchEditableMode}
 						handleUpdateGallery={props.handleUpdateGallery}
 						setShowAddAssetsView={props.setShowAddAssetsView}
 						setShowRemoveAssetsView={props.setShowRemoveAssetsView}
+						updatedMetadata={props.updatedMetadata}
 						/>
 			)}
 		</>

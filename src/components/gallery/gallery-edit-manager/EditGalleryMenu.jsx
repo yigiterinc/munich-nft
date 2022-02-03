@@ -6,7 +6,7 @@ import SaveIcon from "@material-ui/icons/Save";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	editButton: {
 		width: "8vw",
 	},
@@ -16,7 +16,7 @@ const EditGalleryMenu = (props) => {
 	const classes = useStyles();
 
 	const shouldOpenMenu = () => {
-		return props.isEditMode && props.isOwner;
+		return props.inEditMode && props.isOwner;
 	}
 
 	return (
@@ -70,7 +70,7 @@ const EditGalleryMenu = (props) => {
 						style={{ textTransform: "none" }}
 						onClick={() => {
 							props.switchEditableMode();
-							props.handleUpdateGallery();
+							props.handleUpdateGallery(props.updatedMetadata);
 						}}
 					>
 						Save

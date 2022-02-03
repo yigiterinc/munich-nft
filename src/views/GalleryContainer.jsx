@@ -1,17 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Gallery from "./Gallery";
 import AddorRemoveAssetsContainer from "../components/edit-gallery/AddorRemoveAssetsContainer";
 import { isUserLoggedIn, getLoggedInUser } from "../utils/auth-utils";
 import { useHistory } from "react-router-dom";
-import { updateGallery } from "../api/strapi";
+import { fetchGallery, updateGallery } from "../api/strapi";
 import RemoveAssets from "../components/edit-gallery/RemoveAssets";
+import { useParams } from "react-router-dom";
 
 const GalleryContainer = () => {
+	const { slug } = useParams();
+
 	const [showAddAssetsView, setShowAddAssetsView] = useState(false);
 	const [showRemoveAssetsView, setShowRemoveAssetsView] = useState(false);
-	const [galleryData, setGalleryData] = useState();
+	const [galleryData, setGalleryData] = useState(null);
+
 	const history = useHistory();
+
 	const user = getLoggedInUser();
+
+	useEffect(async () => {
+		if (!galleryData) {
+			setGalleryData(await fetchGallery(slug))
+		}
+	}, []);
+
 
 	const handleAddSelectedAssets = async (selectedItems) => {
 		if (!isUserLoggedIn()) {
@@ -109,7 +121,9 @@ const GalleryContainer = () => {
 		} else {
 			return (
 				<Gallery
-					setGalleryData={setGalleryData}
+					gallery={galleryData}
+					slug={slug}
+					isOwner={user && (user.id === galleryData?.userId)}
 					setShowAddAssetsView={setShowAddAssetsView}
 					setShowRemoveAssetsView={setShowRemoveAssetsView}
 				/>
