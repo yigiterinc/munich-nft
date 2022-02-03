@@ -43,7 +43,7 @@ const RenderGallery = (props) => {
 					isEditable={props.isEditable}
 					switchEditableMode={props.switchEditableMode}
 					handleUpdateGallery={props.handleUpdateGallery}
-					galleryJson={props.galleryJson}
+					gallery={props.gallery}
 					coverImage={props.coverImage}
 					handleDropzoneSubmit={props.handleDropzoneSubmit}
 					galleryName={props.galleryName}
@@ -59,7 +59,7 @@ const RenderGallery = (props) => {
 					setShowAddAssetsView={props.setShowAddAssetsView}
 					setShowRemoveAssetsView={props.setShowRemoveAssetsView}
 				/>
-				<GalleryNfts nfts={props.galleryJson.nfts} slug={props.slug} />
+				<GalleryNfts nfts={props.gallery.assets} slug={props.slug} />
 
 				<ThemeProvider theme={defaultTheme}>
 					<EditGalleryModal

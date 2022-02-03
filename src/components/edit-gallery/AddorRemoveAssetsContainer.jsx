@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import {Select, MenuItem} from '@material-ui/core'
-import AddorRemoveAssetsFromOpensea from "./AddorRemoveAssetsFromOpensea";
+import { Select, MenuItem, Typography, Button } from "@material-ui/core";
+import RemoveAssets from "./RemoveAssets";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -16,16 +16,18 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: "column",
 		alignItems: "center",
 	},
+	selectMethodText: {
+		fontSize: "20px",
+	}
 }));
 
 function AddorRemoveAssetsContainer(props) {
-	// Value: ETH || ETH_CONTRACT || SOL
-	const [importMethod, setImportMethod] = useState(null);
+	// Value: OPENSEA || ETH_CONTRACT || SOL
+	const [importMethod, setImportMethod] = useState("OPENSEA");
 
 	const [activeStep, setActiveStep] = useState(0);
 
 	const classes = useStyles()
-
 
 	const SelectImportMethod = () => {
 			return (
@@ -38,25 +40,41 @@ function AddorRemoveAssetsContainer(props) {
 					className={classes.gridContainer}
 				>
 					<Grid item xs={12} className={classes.gridItem}>
+						<Typography classes={classes.selectMethodText} variant={"p"}>
+							How would you like to add or NFTs to your gallery?
+						</Typography>
+					</Grid>
+
+					<Grid item xs={12} className={classes.gridItem}>
 						<Select
-							value={props.importMethod}
+							value={importMethod}
 							onChange={(event) => {
 								setImportMethod(event.target.value);
-								setActiveStep(1);
 							}}
 						>
-							<MenuItem value={"ETH"}>Ethereum</MenuItem>
+							<MenuItem value={"OPENSEA"}>Opensea</MenuItem>
 							<MenuItem value={"SOL"}>Solana</MenuItem>
 							<MenuItem value={"ETH_CONTRACT"}>Ethereum Contract</MenuItem>
 						</Select>
+					</Grid>
+
+					<Grid item xs={12} className={classes.gridItem}>
+						<Button
+							color="primary"
+							size="large"
+							onClick={() => setActiveStep((prevActiveStep) => prevActiveStep + 1)}
+							variant="outlined"
+						>
+							Next
+						</Button>
 					</Grid>
 				</Grid>
 			)
 	};
 
 	const SelectedImportComponent = () => {
-		if (importMethod === "ETH") {
-			return <AddorRemoveAssetsFromOpensea {...props} />;
+		if (importMethod === "OPENSEA") {
+			return <RemoveAssets {...props} />;
 		} else if (importMethod === "ETH_CONTRACT") {
 		} else if (importMethod === "SOL") {
 		}

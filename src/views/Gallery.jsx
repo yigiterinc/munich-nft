@@ -11,12 +11,11 @@ import {
 } from "../api/strapi";
 
 const Gallery = ({
-	setGalleryData,
 	setShowAddAssetsView,
 	setShowRemoveAssetsView,
 }) => {
 	const [gallery, setGallery] = useState(null);
-	const [isEditable, setIsEditable] = useState(false);
+	const [inEditMode, setInEditMode] = useState(false);
 	const [isOwner, setIsOwner] = useState(false);
 	const [coverImage, setCoverImage] = useState(null);
 	const [galleryId, setGalleryId] = useState(null);
@@ -33,12 +32,8 @@ const Gallery = ({
 	useEffect(async () => {
 		if (!slug) return;
 
-		const json = await fetchGallery(slug);
-		const gallery = {
-			userId: json.userId,
-			creator: json.username,
-			nfts: json.assets,
-		};
+		const gallery = await fetchGallery(slug);
+
 		const defaultTheme = createTheme({
 			palette: {
 				background: {
@@ -53,21 +48,27 @@ const Gallery = ({
 				},
 			},
 		});
-		let selectedTheme = json.theme === undefined ? defaultTheme : json.theme;
+		let selectedTheme = gallery.theme === undefined ? defaultTheme : gallery.theme;
 
-		setGalleryId(json.id);
+		if (!currentUser) {
+			setIsOwner(false);
+		} else if (currentUser?.id === gallery.userId) {
+			setIsOwner(true);
+		}
+
+		setGalleryId(gallery.id);
 		setGallery(gallery);
-		setGalleryName(json.galleryName);
-		setGalleryDescription(json.description);
-		setCoverImage(json.coverImage);
-		setGalleryData({ galleryId: json.id, nfts: gallery.nfts, slug: slug });
-		if (currentUser.id === gallery.userId) setIsOwner(true);
+		setGalleryName(gallery.galleryName);
+		setGalleryDescription(gallery.description);
+		setCoverImage(gallery.coverImage);
+		console.log(gallery);
+		setGallery(gallery);
 		setGalleryTheme(createTheme(selectedTheme));
-		setHeaderLayout(json.headerLayout);
+		setHeaderLayout(gallery.headerLayout);
 	}, [slug]);
 
 	const switchEditableMode = () => {
-		setIsEditable(!isEditable);
+		setInEditMode(!inEditMode);
 	};
 
 	const handleDropzoneSubmit = async (file) => {
@@ -118,9 +119,9 @@ const Gallery = ({
 						{gallery ? (
 							<RenderGallery
 								slug={slug}
-								galleryJson={gallery}
+								gallery={gallery}
 								switchEditableMode={switchEditableMode}
-								isEditable={isEditable}
+								isEditable={inEditMode}
 								isOwner={isOwner}
 								coverImage={coverImage}
 								handleDropzoneSubmit={handleDropzoneSubmit}

@@ -8,15 +8,20 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 const useStyles = makeStyles((theme) => ({
 	editButton: {
-		width: "91.5px",
+		width: "8vw",
 	},
 }));
 
-const EditGalleryButton = (props) => {
+const EditGalleryMenu = (props) => {
 	const classes = useStyles();
+
+	const shouldOpenMenu = () => {
+		return props.isEditMode && props.isOwner;
+	}
+
 	return (
 		<>
-			{props.isEditMode ? (
+			{shouldOpenMenu() ? (
 				<ButtonGroup
 					orientation="vertical"
 					color="primary"
@@ -95,4 +100,4 @@ const EditGalleryButton = (props) => {
 	);
 };
 
-export default EditGalleryButton;
+export default EditGalleryMenu;

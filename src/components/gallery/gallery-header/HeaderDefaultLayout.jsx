@@ -69,7 +69,7 @@ const HeaderDefaultLayout = (props) => {
 					setShowRemoveAssetsView={props.setShowRemoveAssetsView}
 				/>
 			</Grid>
-			<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+			<Grid item lg={1} md={1} sm={1} xs={1}/>
 
 			<Grid
 				className={classes.coverImageContainer}
@@ -124,7 +124,7 @@ const HeaderDefaultLayout = (props) => {
 							className={classes.creator}
 							variant="h5"
 						>
-							{props.galleryJson.creator}
+							{props.gallery.creator}
 						</Typography>
 					</div>
 					<div className={classes.descriptionPanel}>
@@ -154,7 +154,7 @@ const HeaderDefaultLayout = (props) => {
 					</div>
 				</div>
 			</Grid>
-			<Grid item lg={2} md={2} sm={2} xs={2}></Grid>
+			<Grid item lg={2} md={2} sm={2} xs={2}/>
 		</Grid>
 	);
 };

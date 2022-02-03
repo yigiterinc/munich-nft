@@ -77,7 +77,7 @@ const HeaderLayout1 = (props) => {
 					setShowRemoveAssetsView={props.setShowRemoveAssetsView}
 				/>
 			</Grid>
-			<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+			<Grid item lg={1} md={1} sm={1} xs={1}/>
 			<Grid item lg={5} md={5} sm={4} xs={2}>
 				<div className={classes.titleContainer}>
 					{props.isOwner && !props.isEditable ? (

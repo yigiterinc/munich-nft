@@ -4,6 +4,7 @@ import AddorRemoveAssetsContainer from "../components/edit-gallery/AddorRemoveAs
 import { isUserLoggedIn, getLoggedInUser } from "../utils/auth-utils";
 import { useHistory } from "react-router-dom";
 import { updateGallery } from "../api/strapi";
+import RemoveAssets from "../components/edit-gallery/RemoveAssets";
 
 const GalleryContainer = () => {
 	const [showAddAssetsView, setShowAddAssetsView] = useState(false);
@@ -13,7 +14,6 @@ const GalleryContainer = () => {
 	const user = getLoggedInUser();
 
 	const handleAddSelectedAssets = async (selectedItems) => {
-		console.log(selectedItems);
 		if (!isUserLoggedIn()) {
 			history.push("/");
 			return;
@@ -37,7 +37,7 @@ const GalleryContainer = () => {
 			addedGalleryAssets.push(galleryAsset);
 		});
 
-		const updatedAssets = galleryData.nfts.concat(addedGalleryAssets);
+		const updatedAssets = galleryData.assets.concat(addedGalleryAssets);
 
 		const updateResult = await updateGallery(galleryData.galleryId, {
 			assets: updatedAssets,
@@ -75,7 +75,7 @@ const GalleryContainer = () => {
 
 		const removedAssetIds = removedGalleryAssets.map((item) => item.id);
 
-		const updatedAssets = galleryData.nfts.filter(
+		const updatedAssets = galleryData.assets.filter(
 			(item) => !removedAssetIds.includes(item.id)
 		);
 
@@ -93,15 +93,15 @@ const GalleryContainer = () => {
 			return (
 				<AddorRemoveAssetsContainer
 					add={true}
-					galleryAssets={galleryData.nfts}
+					galleryAssets={galleryData.assets}
 					handleChangeGalleryAssets={handleAddSelectedAssets}
 					setShowSelectedView={setShowAddAssetsView}
 				/>
 			);
 		} else if (showRemoveAssetsView) {
 			return (
-				<AddorRemoveAssetsContainer
-					galleryAssets={galleryData.nfts}
+				<RemoveAssets
+					galleryAssets={galleryData.assets}
 					handleChangeGalleryAssets={handleRemoveSelectedAssets}
 					setShowSelectedView={setShowRemoveAssetsView}
 				/>
