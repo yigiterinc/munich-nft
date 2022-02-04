@@ -27,7 +27,7 @@ const Gallery = (props) => {
 	const closeEditGalleryModal = () => setOpenEditGalleryModal(false);
 
 	const history = useHistory();
-	const classes = useStyles()
+	const classes = useStyles();
 
 	const defaultTheme = createTheme({
 		palette: {

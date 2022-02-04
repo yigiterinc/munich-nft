@@ -72,7 +72,8 @@ const HeaderLayout1 = (props) => {
 					setShowAddAssetsView={props.setShowAddAssetsView}
 					setShowRemoveAssetsView={props.setShowRemoveAssetsView}
 					//updatedMetadata={updatedMetadata}
-				/>			</Grid>
+				/>
+			</Grid>
 			<Grid item lg={1} md={1} sm={1} xs={1}/>
 			<Grid item lg={5} md={5} sm={4} xs={2}>
 				<div className={classes.titleContainer}>
@@ -134,12 +135,8 @@ const HeaderLayout1 = (props) => {
 					)}
 				</div>
 			</Grid>
-			<Grid
-				item
-				lg={3}
-				md={3}
-				sm={4}
-				xs={6}
+
+			<Grid item lg={3} md={3} sm={4} xs={6}
 				className={classes.coverImageContainer}
 			>
 				<div className={classes.coverImage}>
@@ -153,7 +150,8 @@ const HeaderLayout1 = (props) => {
 					/>
 				</div>
 			</Grid>
-			<Grid item lg={2} md={2} sm={2} xs={2}></Grid>
+
+			<Grid item lg={2} md={2} sm={2} xs={2}/>
 		</Grid>
 	);
 };
