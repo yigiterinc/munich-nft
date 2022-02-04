@@ -1,13 +1,7 @@
 import React, { useMemo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-	Button,
-	Divider,
-	List,
-	ListItem,
-	ListItemText,
-} from "@material-ui/core";
-import { NETWORK, ETH_NETWORK } from "../../../config/config";
+import { Button, List, ListItem, ListItemText } from "@material-ui/core";
+import { SOL_NETWORK, ETH_NETWORK } from "../../../config/config";
 
 const useStyles = makeStyles((theme) => ({
 	listItemText: {
@@ -20,81 +14,81 @@ const useStyles = makeStyles((theme) => ({
 			overflow: "hidden",
 		},
 	},
-	ethScanButtonPanel: {
+	explorerButtonPanel: {
 		textAlign: "center",
-		marginBottom: "1vw",
-	},
-	divider: {
-		backgroundColor: theme.palette.text.primary,
+		marginBottom: "1vh",
 	},
 }));
 
 const DetailsTab = (nftJson) => {
-	const computeBlockchain = () => {
-		return (
-			"Blockchain: " +
-			ETH_NETWORK?.charAt(0)?.toUpperCase() +
-			ETH_NETWORK?.slice(1)
-		);
-	};
+	let explorerPath;
+	let listItems = [];
 
-	const computeTokenStandard = () => {
-		return (
-			"Token Standard: " +
+	if (nftJson.blockchain === "Ethereum") {
+		explorerPath =
+			ETH_NETWORK === "mainnet"
+				? "https://etherscan.io/address/"
+				: "https://rinkeby.etherscan.io/address/";
+		explorerPath += nftJson.contractAddressId;
+
+		const tokenStandard =
 			nftJson.tokenStandard.substring(0, 3) +
 			"-" +
-			nftJson.tokenStandard.slice(3, 7)
+			nftJson.tokenStandard.slice(3, 7);
+
+		const network =
+			ETH_NETWORK?.charAt(0)?.toUpperCase() + ETH_NETWORK?.slice(1);
+
+		listItems.push(
+			"Blockchain: " + nftJson.blockchain,
+			"Contract: " + nftJson.contractAddressId,
+			"Token ID: " + nftJson.tokenId,
+			"Token Standard: " + tokenStandard,
+			"Network: " + network
 		);
-	};
+	}
+
+	if (nftJson.blockchain === "Solana") {
+		explorerPath = "https://explorer.solana.com/address/" + nftJson.mint;
+		if (SOL_NETWORK === "devnet") {
+			explorerPath = explorerPath + "?cluster=devnet";
+		}
+
+		let creators = [];
+		nftJson.creators.forEach((creator, index) => {
+			creators.push(`Creator ${index + 1}: ${creator.address}`);
+		});
+
+		listItems.push(
+			"Blockchain: " + nftJson.blockchain,
+			"Update Authority: " + nftJson.updateAuthority
+		);
+		listItems = listItems.concat(creators);
+	}
 
 	const classes = useStyles();
-	const blockchain = useMemo(
-		() => computeBlockchain(ETH_NETWORK),
-		[ETH_NETWORK]
-	);
-	const tokenStandard = useMemo(() => computeTokenStandard(), [nftJson]);
-	const etherscanPath =
-		ETH_NETWORK === "mainnet"
-			? "https://etherscan.io/address/"
-			: "https://rinkeby.etherscan.io/address/";
 
 	return (
 		<div className={classes.detailsTabContainer}>
-			<div className={classes.ethScanButtonPanel}>
+			<div className={classes.explorerButtonPanel}>
 				<Button
-					href={etherscanPath + nftJson.contractAddressId}
-					className={classes.ethScanButton}
+					href={explorerPath}
 					color="primary"
-					variant="outlined"
+					variant="contained"
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					View on ETHScan
+					View on Explorer
 				</Button>
 			</div>
-			<Divider className={classes.divider} />
 			<List component={"span"}>
-				<ListItem>
-					<ListItemText
-						className={classes.listItemText}
-						primary={"Contract: " + nftJson.contractAddressId}
-					/>
-				</ListItem>
-				<ListItem>
-					<ListItemText
-						className={classes.listItemText}
-						primary={"Token ID: " + nftJson.tokenId}
-					/>
-				</ListItem>
-				<ListItem>
-					<ListItemText
-						className={classes.listItemText}
-						primary={tokenStandard}
-					/>
-				</ListItem>
-				<ListItem>
-					<ListItemText className={classes.listItemText} primary={blockchain} />
-				</ListItem>
+				{listItems.map((item) => {
+					return (
+						<ListItem>
+							<ListItemText className={classes.listItemText} primary={item} />
+						</ListItem>
+					);
+				})}
 			</List>
 		</div>
 	);

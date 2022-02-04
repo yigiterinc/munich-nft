@@ -43,14 +43,11 @@ function a11yProps(index) {
 }
 
 const useStyles = makeStyles((theme) => ({
-	box: {
-		justifyContent: "center",
-	},
 	tabContainer: {
 		background: theme.palette.text.primary,
 		color: theme.palette.primary.contrastText,
 		flexGrow: 1,
-		marginTop: "2.5vw",
+		marginTop: "2vh",
 		boxShadow: "none",
 	},
 	tab: {
@@ -66,22 +63,20 @@ const CustomTabs = (props) => {
 		setValue(newValue);
 	};
 
-	const tabLabels =
-		props.nftJson.properties.length === 0
-			? ["Description", "Details"]
-			: ["Properties", "Description", "Details"];
+	const tabLabels = props.nftJson.properties
+		? ["Properties", "Description", "Details"]
+		: ["Description", "Details"];
 
-	const tabLabelComponents =
-		props.nftJson.properties.length === 0
-			? [
-					<DescriptionTab {...props.nftJson} />,
-					<DetailsTab {...props.nftJson} />,
-			  ]
-			: [
-					<PropertiesTab {...props.nftJson} />,
-					<DescriptionTab {...props.nftJson} />,
-					<DetailsTab {...props.nftJson} />,
-			  ];
+	const tabLabelComponents = props.nftJson.properties
+		? [
+				<PropertiesTab {...props.nftJson} />,
+				<DescriptionTab {...props.nftJson} />,
+				<DetailsTab {...props.nftJson} />,
+		  ]
+		: [
+				<DescriptionTab {...props.nftJson} />,
+				<DetailsTab {...props.nftJson} />,
+		  ];
 	return (
 		<>
 			<AppBar
@@ -89,12 +84,7 @@ const CustomTabs = (props) => {
 				position="static"
 				className={classes.tabContainer}
 			>
-				<Tabs
-					value={value}
-					onChange={handleChange}
-					centered
-					indicatorColor="primary"
-				>
+				<Tabs value={value} onChange={handleChange} variant="fullWidth">
 					{tabLabels.map((tabLabel, index) => {
 						return (
 							<Tab

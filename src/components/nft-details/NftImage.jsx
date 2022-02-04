@@ -6,6 +6,7 @@ import Box from "@material-ui/core/Box";
 const useStyles = makeStyles((theme) => ({
 	nftImageContainer: {
 		height: "60vh",
+		width: "35vw",
 		borderRadius: "10px",
 		border: "1px solid rgb(229, 232, 235)",
 		background: theme.palette.background.default,
@@ -22,9 +23,10 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	image: ({ backgroundColor }) => ({
-		margin: "auto",
 		height: "inherit",
-		objectFit: "cover",
+		width: "inherit",
+		objectFit: "contain",
+		borderRadius: "inherit",
 		backgroundColor: backgroundColor,
 	}),
 }));

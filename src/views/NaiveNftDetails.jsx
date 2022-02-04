@@ -36,6 +36,7 @@ const NaiveNftDetails = () => {
 				listedPrice = formatOpenseaPrice(tokenData.orders[0].current_price);
 			}
 			let json = {
+				blockchain: "Ethereum",
 				name: tokenData.name,
 				imageSrc: tokenData.image_url,
 				backgroundColor: tokenData.background_color,

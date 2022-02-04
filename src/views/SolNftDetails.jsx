@@ -30,6 +30,7 @@ const SolNftDetails = () => {
 		let tokenData = await getSolNftDetailsFromUri(tokenmeta);
 
 		let json = {
+			blockchain: "Solana",
 			name: tokenData.data.name,
 			imageSrc: tokenData.image,
 			backgroundColor: tokenData.background_color,
@@ -41,6 +42,9 @@ const SolNftDetails = () => {
 			properties: tokenData.attributes,
 			price: null,
 			priceUsd: null,
+			mint: tokenData.mint,
+			updateAuthority: tokenData.updateAuthority,
+			creators: tokenData.data.creators,
 		};
 
 		setNftJson(json);
