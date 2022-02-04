@@ -63,20 +63,22 @@ const CustomTabs = (props) => {
 		setValue(newValue);
 	};
 
-	const tabLabels = props.nftJson.properties
-		? ["Properties", "Description", "Details"]
-		: ["Description", "Details"];
+	const tabLabels =
+		props.nftJson.properties && props.nftJson.properties.length > 0
+			? ["Properties", "Description", "Details"]
+			: ["Description", "Details"];
 
-	const tabLabelComponents = props.nftJson.properties
-		? [
-				<PropertiesTab {...props.nftJson} />,
-				<DescriptionTab {...props.nftJson} />,
-				<DetailsTab {...props.nftJson} />,
-		  ]
-		: [
-				<DescriptionTab {...props.nftJson} />,
-				<DetailsTab {...props.nftJson} />,
-		  ];
+	const tabLabelComponents =
+		props.nftJson.properties && props.nftJson.properties.length > 0
+			? [
+					<PropertiesTab {...props.nftJson} />,
+					<DescriptionTab {...props.nftJson} />,
+					<DetailsTab {...props.nftJson} />,
+			  ]
+			: [
+					<DescriptionTab {...props.nftJson} />,
+					<DetailsTab {...props.nftJson} />,
+			  ];
 	return (
 		<>
 			<AppBar

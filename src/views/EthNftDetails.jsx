@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const NaiveNftDetails = () => {
+const EthNftDetails = () => {
 	const [nftJson, setNftJson] = useState(null);
 	const { contractAddressId, tokenId } = useParams();
 	const [dataIsLoading, setDataIsLoading] = useState(true);
@@ -92,4 +92,4 @@ const renderPage = (nftJson, defaultTheme) => {
 	);
 };
 
-export default NaiveNftDetails;
+export default EthNftDetails;
