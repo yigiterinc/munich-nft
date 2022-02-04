@@ -53,7 +53,7 @@ function App() {
 
 	return (
 		<Router>
-			<Navbar />
+			<Navbar/>
 			<Switch>
 				<Route exact path="/" component={Home} />
 				<ProtectedRoute path="/mint-nft" component={MintNft} />
