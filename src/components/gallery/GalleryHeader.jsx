@@ -64,165 +64,13 @@ const GalleryHeader = (props) => {
 		});
 	}, []);
 
-	const HeaderDefaultLayout = () => {
+	const canEditGallery = () => {
+		return props.isOwner && props.inEditMode;
+	}
+
+	const CoverImage = () => {
 		return (
-			<>
-				<Grid className={classes.coverImageContainer} item lg={3} md={3} sm={4} xs={6}>
-					<GalleryCoverImage
-						coverImage={props.gallery.coverImage}
-						isEditable={props.inEditMode}
-						isOwner={props.isOwner}
-						handleDropzoneSubmit={props.handleDropzoneSubmit}
-						isCoverImageUpdated={props.isCoverImageUpdated}
-						setIsCoverImageUpdated={props.setIsCoverImageUpdated}
-					/>
-				</Grid>
-				<Grid item lg={5} md={5} sm={4} xs={2}>
-					{props.isOwner && props.inEditMode ? (
-						<div className={classes.titleTextField}>
-							<form noValidate autoComplete="off">
-								<TextField
-									fullWidth
-									value={updatedMetadata.galleryName}
-									inputProps={{ style: { fontSize: "36px" } }}
-									onChange={(event) =>
-										setUpdatedMetadata({ ...updatedMetadata, galleryName: event.target.value })
-									}
-								/>
-							</form>
-						</div>
-					) : (
-							<Typography className={classes.title} variant="h4">
-								{props.gallery.galleryName}
-							</Typography>
-					)}
-					<div className={classes.galleryOwner}>
-						<Typography className={classes.createdTextLabel} variant="h5">
-							Created by
-						</Typography>
-						<Typography
-							to={`/profile/${props.gallery?.userId}`}
-							component={Link}
-							className={classes.creator}
-							variant="h5"
-						>
-							{props.gallery?.username}
-						</Typography>
-					</div>
-					{props.isOwner && props.inEditMode ? (
-						<form
-							noValidate
-							autoComplete="off"
-						>
-							<TextField
-								multiline
-								fullWidth
-								value={updatedMetadata.description}
-								inputProps={{ style: { fontSize: "18px" } }}
-								onChange={(event) =>
-									setUpdatedMetadata({ ...updatedMetadata, description: event.target.value })
-								}
-							/>
-						</form>
-					) : (
-						<Typography className={classes.description} variant="h5">
-							{props.gallery?.description}
-						</Typography>
-					)}
-				</Grid>
-			</>);
-	};
-
-	const HeaderLayout1 = () => {
-		return (
-			<>
-				<Grid item lg={5} md={5} sm={4} xs={2}>
-					{props.isOwner && !props.inEditMode ? (
-							<Typography className={classes.title} variant="h4">
-								{props.gallery.galleryName}
-							</Typography>
-					) : (
-						<div className={classes.titleTextField}>
-							<form noValidate autoComplete="off">
-								<TextField
-									fullWidth
-									value={updatedMetadata.galleryName}
-									inputProps={{ style: { fontSize: "36px" } }}
-									onChange={(event) => setUpdatedMetadata({ ...updatedMetadata, galleryName: event.target.value })}
-								/>
-							</form>
-						</div>
-					)}
-					<div className={classes.galleryOwner}>
-						<Typography className={classes.createdTextLabel} variant="h5">
-							Created by
-						</Typography>
-						<Typography
-							to={`/profile/${props.gallery?.userId}`}
-							component={Link}
-							className={classes.creator}
-							variant="h5"
-						>
-							{props.gallery?.username}
-						</Typography>
-					</div>
-					{props.isOwner && props.inEditMode ? (
-						<form
-							noValidate
-							autoComplete="off"
-						>
-							<TextField
-								multiline
-								fullWidth
-								value={updatedMetadata.description}
-								inputProps={{ style: { fontSize: "18px" } }}
-								onChange={(event) =>
-									setUpdatedMetadata({ ...updatedMetadata, description: event.target.value })
-								}
-							/>
-						</form>
-					) : (
-						<Typography className={classes.description} variant="h5">
-							{props.gallery?.description}
-						</Typography>
-					)}
-				</Grid>
-
-				<Grid item lg={3} md={3} sm={4} xs={6}
-							className={classes.coverImageContainer}
-				>
-					<GalleryCoverImage
-						coverImage={props.gallery.coverImage}
-						isEditable={props.inEditMode}
-						isOwner={props.isOwner}
-						handleDropzoneSubmit={props.handleDropzoneSubmit}
-						isCoverImageUpdated={props.isCoverImageUpdated}
-						setIsCoverImageUpdated={props.setIsCoverImageUpdated}
-					/>
-				</Grid>
-			</>
-		)
-	};
-
-	const HeaderLayout2 = () => {
-		return (<Grid item lg={8} md={8} sm={8} xs={8}>
-			{props.isOwner && !props.inEditMode ? (
-					<Typography className={classes.title} variant="h4">
-						{props.galleryName}
-					</Typography>
-			) : (
-				<div className={classes.titleTextField}>
-					<form noValidate autoComplete="off">
-						<TextField
-							fullWidth
-							value={updatedMetadata.galleryName}
-							inputProps={{ style: { fontSize: "36px" } }}
-							onChange={(event) => setUpdatedMetadata({ ...updatedMetadata, galleryName: event.target.value })}
-						/>
-					</form>
-				</div>
-			)}
-			<div className={classes.coverImageContainer}>
+			<Grid className={classes.coverImageContainer} item lg={3} md={3} sm={4} xs={6}>
 				<GalleryCoverImage
 					coverImage={props.gallery.coverImage}
 					isEditable={props.inEditMode}
@@ -231,7 +79,37 @@ const GalleryHeader = (props) => {
 					isCoverImageUpdated={props.isCoverImageUpdated}
 					setIsCoverImageUpdated={props.setIsCoverImageUpdated}
 				/>
+			</Grid>
+		)
+	}
+
+	const GalleryName = () => {
+		return (
+			<Typography className={classes.title} variant="h4">
+				{props.gallery.galleryName}
+			</Typography>
+		)
+	}
+
+	const EditGalleryName = () => {
+		return (
+			<div className={classes.titleTextField}>
+				<form noValidate autoComplete="off">
+					<TextField
+						fullWidth
+						value={updatedMetadata.galleryName}
+						inputProps={{ style: { fontSize: "36px" } }}
+						onChange={(event) =>
+							setUpdatedMetadata({ ...updatedMetadata, galleryName: event.target.value })
+						}
+					/>
+				</form>
 			</div>
+		)
+	}
+
+	const CreatedBy = () => {
+		return (
 			<div className={classes.galleryOwner}>
 				<Typography className={classes.createdTextLabel} variant="h5">
 					Created by
@@ -245,27 +123,73 @@ const GalleryHeader = (props) => {
 					{props.gallery?.username}
 				</Typography>
 			</div>
-			{props.isOwner && props.inEditMode ? (
-					<form
-						noValidate
-						autoComplete="off"
-					>
-						<TextField
-							multiline
-							fullWidth
-							value={updatedMetadata.description}
-							inputProps={{ style: { fontSize: "18px" } }}
-							onChange={(event) =>
-								setUpdatedMetadata({ ...updatedMetadata, description: event.target.value })
-							}
-						/>
-					</form>)
-				:
-				(<Typography className={classes.description} variant="h5">
-						{props.gallery.description}
-					</Typography>
-				)}
-			)}
+		)
+	}
+
+	const Description = () => {
+		return (<Typography className={classes.description} variant="h5">
+			{props.gallery?.description}
+		</Typography>)
+	}
+
+	const EditDescription = () => {
+		return (
+			<form
+				noValidate
+				autoComplete="off"
+			>
+				<TextField
+					multiline
+					fullWidth
+					value={updatedMetadata.description}
+					inputProps={{ style: { fontSize: "18px" } }}
+					onChange={(event) =>
+						setUpdatedMetadata({ ...updatedMetadata, description: event.target.value })
+					}
+				/>
+			</form>
+		)
+	}
+
+	const HeaderDefaultLayout = () => {
+		return (
+			<>
+				<CoverImage/>
+				<Grid item lg={5} md={5} sm={4} xs={2}>
+					{ canEditGallery() ? <EditGalleryName/> : <GalleryName/> }
+
+					<CreatedBy/>
+
+					{canEditGallery() ? <EditDescription/> : <Description/>}
+				</Grid>
+			</>
+		);
+	};
+
+	const HeaderLayout1 = () => {
+		return (
+			<>
+				<Grid item lg={5} md={5} sm={4} xs={2}>
+					{canEditGallery() ? <EditGalleryName/> : <GalleryName/>}
+
+					<CreatedBy/>
+
+					{canEditGallery() ? <EditDescription/> : <Description/>}
+				</Grid>
+
+				<CoverImage/>
+			</>
+		)
+	};
+
+	const HeaderLayout2 = () => {
+		return (
+			<Grid item lg={8} md={8} sm={8} xs={8}>
+				{canEditGallery() ? <EditGalleryName/> : <GalleryName/>}
+
+				<CoverImage/>
+			  <CreatedBy/>
+			{canEditGallery() ? <EditDescription/> : <Description/>}
 		</Grid>);
 	};
 
