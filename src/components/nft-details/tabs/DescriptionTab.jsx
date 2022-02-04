@@ -14,7 +14,7 @@ const DescriptionTab = (nftJson) => {
 	return (
 		<div className={classes.descriptionTabContainer}>
 			<Typography component="span" className={classes.descriptionText}>
-				{nftJson.description}
+				{nftJson.description || "No description"}
 			</Typography>
 		</div>
 	);
