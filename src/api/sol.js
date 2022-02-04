@@ -7,18 +7,23 @@ import {
 	createConnectionConfig,
 } from "@nfteyez/sol-rayz";
 
-const RPC_SERVER = {
-	devnet: "https://api.devnet.solana.com",
-};
+let connection;
+let connect;
 
-const connection = new Connection("https://api.devnet.solana.com");
+if (SOL_NETWORK === "mainnet") {
+	connection = new Connection("https://api.mainnet-beta.solana.com");
+	connect = createConnectionConfig(clusterApiUrl("mainnet-beta"));
+}
 
-const connectionMain = new Connection("https://api.mainnet-beta.solana.com");
+if (SOL_NETWORK === "devnet") {
+	connection = new Connection("https://api.devnet.solana.com");
+	connect = createConnectionConfig(clusterApiUrl("devnet"));
+}
 
 export const fetchSolNftMetadata = async (mintAddress) => {
 	let mintPubkey = new PublicKey(mintAddress);
 	let tokenmetaPubkey = await Metadata.getPDA(mintPubkey);
-	const tokenmeta = await Metadata.load(connectionMain, tokenmetaPubkey);
+	const tokenmeta = await Metadata.load(connection, tokenmetaPubkey);
 
 	return tokenmeta;
 };
@@ -34,7 +39,6 @@ export const getSolNftDetailsFromUri = async (tokenmeta) => {
 };
 
 export const getAllNftDataByWalletAddress = async (solAddress) => {
-	const connect = createConnectionConfig(clusterApiUrl("devnet"));
 	const nfts = await getParsedNftAccountsByOwner({
 		publicAddress: solAddress,
 		connection: connect,
