@@ -1,10 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { createTheme, ThemeProvider } from "@material-ui/core";
-import RenderGallery from "../components/gallery/RenderGallery";
+import { createTheme, makeStyles, ThemeProvider } from "@material-ui/core";
 import { isUserLoggedIn } from "../utils/auth-utils";
 import { convertToSlug, withDefault } from "../utils/commons";
 import { updateGallery, uploadImageToMediaGallery } from "../api/strapi";
 import { useHistory } from "react-router-dom";
+import GalleryHeader from "../components/gallery/GalleryHeader";
+import GalleryNfts from "../components/gallery/GalleryNfts";
+import EditGalleryModal from "../components/gallery/gallery-edit-manager/EditGalleryModal";
+
+const useStyles = makeStyles((theme) => ({
+	galleryContainer: {
+		backgroundColor: theme.palette.background.default,
+		paddingTop: "10vh",
+		height: "100%",
+	},
+}));
 
 const Gallery = (props) => {
 	const [inEditMode, setInEditMode] = useState(false);
@@ -13,7 +23,11 @@ const Gallery = (props) => {
 	const [headerLayout, setHeaderLayout] = useState("default");
 	const [isCoverImageUpdated, setIsCoverImageUpdated] = useState(false);
 
+	const [openEditGalleryModal, setOpenEditGalleryModal] = useState(false);
+	const closeEditGalleryModal = () => setOpenEditGalleryModal(false);
+
 	const history = useHistory();
+	const classes = useStyles()
 
 	const defaultTheme = createTheme({
 		palette: {
@@ -74,26 +88,38 @@ const Gallery = (props) => {
 		<>
 			{galleryTheme && (
 				<ThemeProvider theme={galleryTheme}>
-					{
-							<RenderGallery
-								slug={props.slug}
-								gallery={props.gallery}
-								switchEditableMode={switchEditableMode}
-								inEditMode={inEditMode}
-								isOwner={props.isOwner}
-								coverImage={coverImage}
-								handleDropzoneSubmit={handleDropzoneSubmit}
-								handleUpdateGallery={handleUpdateGallery}
-								galleryTheme={galleryTheme}
-								setGalleryTheme={setGalleryTheme}
-								headerLayout={headerLayout}
-								setHeaderLayout={setHeaderLayout}
-								isCoverImageUpdated={isCoverImageUpdated}
-								setIsCoverImageUpdated={setIsCoverImageUpdated}
-								setShowAddAssetsView={props.setShowAddAssetsView}
-								setShowRemoveAssetsView={props.setShowRemoveAssetsView}
-							/>
-					}
+					<div className={classes.galleryContainer}>
+						<GalleryHeader
+							openEditGalleryModal={openEditGalleryModal}
+							closeEditGalleryModal={closeEditGalleryModal}
+							setOpenEditGalleryModal={setOpenEditGalleryModal}
+							isOwner={props.isOwner}
+							inEditMode={inEditMode}
+							switchEditableMode={switchEditableMode}
+							handleUpdateGallery={handleUpdateGallery}
+							gallery={props.gallery}
+							coverImage={coverImage}
+							handleDropzoneSubmit={handleDropzoneSubmit}
+							headerLayout={headerLayout}
+							setHeaderLayout={setHeaderLayout}
+							galleryTheme={galleryTheme}
+							setGalleryTheme={setGalleryTheme}
+							isCoverImageUpdated={isCoverImageUpdated}
+							setIsCoverImageUpdated={setIsCoverImageUpdated}
+							setShowAddAssetsView={props.setShowAddAssetsView}
+							setShowRemoveAssetsView={props.setShowRemoveAssetsView}
+						/>
+						<GalleryNfts nfts={props.gallery.assets} slug={props.slug} />
+						<EditGalleryModal
+							openEditGalleryModal={openEditGalleryModal}
+							closeEditGalleryModal={closeEditGalleryModal}
+							switchEditableMode={switchEditableMode}
+							headerLayout={headerLayout}
+							setHeaderLayout={setHeaderLayout}
+							galleryTheme={galleryTheme}
+							setGalleryTheme={setGalleryTheme}
+						/>
+					</div>
 				</ThemeProvider>
 			)}
 		</>

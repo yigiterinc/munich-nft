@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import GalleryCoverImage from "./GalleryCoverImage";
-import GalleryEditManager from "../GalleryEditManager";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography, TextField } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import EditGalleryMenu from "../gallery-edit-manager/EditGalleryMenu";
 
 const useStyles = makeStyles((theme) => ({
 	galleryHeaderContainer: {
@@ -68,19 +68,15 @@ const HeaderDefaultLayout = (props) => {
 	return (
 		<Grid container spacing={6} className={classes.galleryHeaderContainer}>
 			<Grid item lg={1} md={1} sm={1} xs={1}>
-				<GalleryEditManager
+				<EditGalleryMenu
 					setOpenEditGalleryModal={props.setOpenEditGalleryModal}
-					isOwner={props.isOwner}
 					inEditMode={props.inEditMode}
+					isOwner={props.isOwner}
 					switchEditableMode={props.switchEditableMode}
 					handleUpdateGallery={props.handleUpdateGallery}
-					galleryTheme={props.galleryTheme}
-					setGalleryTheme={props.setGalleryTheme}
-					updatedMetadata={updatedMetadata}
-					headerLayout={props.headerLayout}
-					setHeaderLayout={props.setHeaderLayout}
 					setShowAddAssetsView={props.setShowAddAssetsView}
 					setShowRemoveAssetsView={props.setShowRemoveAssetsView}
+					updatedMetadata={updatedMetadata}
 				/>
 			</Grid>
 			<Grid item lg={1} md={1} sm={1} xs={1} />

@@ -28,6 +28,7 @@ const EditGalleryModal = (props) => {
 				setHeaderLayout={props.setHeaderLayout}
 				galleryTheme={props.galleryTheme}
 				setGalleryTheme={props.setGalleryTheme}
+				switchEditableMode={props.switchEditableMode}
 			/>
 		</Dialog>
 	);

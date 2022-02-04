@@ -16,6 +16,7 @@ import { useHistory } from "react-router-dom";
 import ImportFromOpensea from "../components/create-gallery/ImportFromOpensea";
 import ImportFromContract from "../components/create-gallery/ImportFromContract";
 import ImportFromPhantomWallet from "../components/create-gallery/ImportFromPhantomWallet";
+import { convertToSlug } from "../utils/commons";
 
 const Alert = (props) => {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -102,10 +103,6 @@ const CreateGallery = (props) => {
 		window.setTimeout(() => {
 			history.push(url);
 		}, delay);
-	};
-
-	const convertToSlug = (galleryName) => {
-		return galleryName.toLowerCase().replaceAll(" ", "_");
 	};
 
 	const IMPORT_METHODS = {
