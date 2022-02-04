@@ -1,18 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { makeStyles } from "@material-ui/core/styles";
-import { createTheme, ThemeProvider } from "@material-ui/core";
-
-import RenderNftDetails from "../components/nft-details/RenderNftDetails";
+import NftDetails from "../components/nft-details/NftDetails";
 import withSpinner from "../components/common/WithSpinner";
 import { fetchSolNftMetadata, getSolNftDetailsFromUri } from "../api/sol";
-
-const useStyles = makeStyles({
-	nftDetailsContainer: {
-		display: "flex",
-		paddingTop: "2vw",
-	},
-});
 
 const SolNftDetails = () => {
 	const [nftJson, setNftJson] = useState(null);
@@ -50,37 +40,14 @@ const SolNftDetails = () => {
 		setNftJson(json);
 	}, [mintAddress]);
 
-	const defaultTheme = createTheme({
-		palette: {
-			background: {
-				default: "#fff",
-			},
-			text: {
-				primary: "#000",
-			},
-			primary: {
-				main: "#000",
-				contrastText: "#fff",
-			},
-		},
-	});
-
 	return (
 		<>
-			{withSpinner(renderPage(nftJson, defaultTheme), dataIsLoading, {
+			{withSpinner(<NftDetails nftJson={nftJson} />, dataIsLoading, {
 				position: "absolute",
 				left: "50%",
 				top: "50%",
 			})}
 		</>
-	);
-};
-
-const renderPage = (nftJson, defaultTheme) => {
-	return (
-		<ThemeProvider theme={defaultTheme}>
-			<RenderNftDetails nftJson={nftJson} />;
-		</ThemeProvider>
 	);
 };
 

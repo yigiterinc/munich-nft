@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 
 const GalleryNfts = (props) => {
 	const classes = useStyles();
-	const slug = props.slug;
+
 	return (
 		<>
 			{props.nfts.length <= 2 ? (

@@ -5,24 +5,20 @@ import { countDecimals } from "../../utils/currency-utils";
 import { MAX_BOUNDARY_FOR_NUMBER_OF_DECIMALS_NFT_PRICE } from "../../constants/priceFieldConstants";
 
 const useStyles = makeStyles((theme) => ({
-	priceFieldBorder: {
-		marginTop: "3vw",
+	priceFieldContainer: {
+		marginTop: "5vh",
 		borderRadius: "10px",
 		border: `1px solid ${theme.palette.text.primary}`,
 		overflow: "hidden",
-	},
-	priceFieldContainer: {
 		padding: "20px",
 		display: "flex",
 		justifyContent: "flex-end",
 		alignItems: "center",
 	},
-	makeOfferContainer: {
-		padding: "20px",
-		width: "50%",
-	},
 	makeOfferButton: {
-		width: "100%",
+		marginTop: "5vh",
+		height: 50,
+		width: "40%",
 	},
 	pricePanel: {
 		display: "flex",
@@ -58,8 +54,8 @@ const PriceField = (props) => {
 	}
 
 	return (
-		<div className={classes.priceFieldBorder}>
-			{price !== null ? (
+		<div>
+			{price ? (
 				<div className={classes.priceFieldContainer}>
 					<div className={classes.pricePanel}>
 						<div className={classes.priceBox}>
@@ -71,26 +67,18 @@ const PriceField = (props) => {
 							{`(~ $${props.nftJson.priceUsd.toFixed(2)})`}
 						</Typography>
 					</div>
-					<Button
-						className={classes.buyButton}
-						variant="outlined"
-						color="primary"
-					>
+					<Button variant="outlined" color="primary">
 						buy now
 					</Button>
 				</div>
 			) : (
-				<div className={classes.makeOfferContainer}>
-					<>
-						<Button
-							className={classes.makeOfferButton}
-							variant="outlined"
-							color="primary"
-						>
-							make offer
-						</Button>
-					</>
-				</div>
+				<Button
+					className={classes.makeOfferButton}
+					variant="outlined"
+					color="primary"
+				>
+					make offer
+				</Button>
 			)}
 		</div>
 	);

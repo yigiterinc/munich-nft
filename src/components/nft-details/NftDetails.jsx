@@ -6,42 +6,49 @@ import CustomTabs from "./CustomTabs";
 import NftHeader from "./NftHeader";
 import CollectionGroup from "./CollectionGroup";
 import PriceField from "./PriceField";
+import { createTheme, ThemeProvider } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		background: theme.palette.background.default,
-	},
 	nftDetailsContainer: {
 		display: "flex",
-		paddingTop: "2vw",
-		width: "88vw",
-		maxWidth: "1552px",
+		paddingTop: "5vh",
+		width: "80vw",
 		margin: "auto",
-		height: "100vh",
-	},
-	nftDetailsPanel: {
-		marginLeft: "20px",
 	},
 }));
 
-const RenderNftDetails = (props) => {
+const defaultTheme = createTheme({
+	palette: {
+		background: {
+			default: "#fff",
+		},
+		text: {
+			primary: "#000",
+		},
+		primary: {
+			main: "#000",
+			contrastText: "#fff",
+		},
+	},
+});
+
+const NftDetails = (props) => {
 	const classes = useStyles();
 	return (
-		<div className={classes.root}>
+		<ThemeProvider theme={defaultTheme}>
 			<div className={classes.nftDetailsContainer}>
-				<Grid item xs={1} />
-				<Grid item xs={5}>
+				<Grid item xs={6}>
 					<NftImage nftJson={props.nftJson} />
 				</Grid>
-				<Grid item xs={6} className={classes.nftDetailsPanel}>
+				<Grid item xs={6}>
 					<NftHeader nftJson={props.nftJson} />
 					<CollectionGroup nftJson={props.nftJson} />
 					<PriceField nftJson={props.nftJson} />
 					<CustomTabs nftJson={props.nftJson} />
 				</Grid>
 			</div>
-		</div>
+		</ThemeProvider>
 	);
 };
 
-export default RenderNftDetails;
+export default NftDetails;
