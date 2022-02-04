@@ -2,7 +2,10 @@ import React from "react";
 import { makeStyles, Grid } from "@material-ui/core";
 
 import NftImage from "./NftImage";
-import NftDetailsPanel from "./NftDetailsPanel";
+import CustomTabs from "./CustomTabs";
+import NftHeader from "./NftHeader";
+import CollectionGroup from "./CollectionGroup";
+import PriceField from "./PriceField";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -16,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
 		margin: "auto",
 		height: "100vh",
 	},
+	nftDetailsPanel: {
+		marginLeft: "20px",
+	},
 }));
 
 const RenderNftDetails = (props) => {
@@ -27,8 +33,11 @@ const RenderNftDetails = (props) => {
 				<Grid item xs={5}>
 					<NftImage nftJson={props.nftJson} />
 				</Grid>
-				<Grid item xs={6}>
-					<NftDetailsPanel nftJson={props.nftJson} />
+				<Grid item xs={6} className={classes.nftDetailsPanel}>
+					<NftHeader nftJson={props.nftJson} />
+					<CollectionGroup nftJson={props.nftJson} />
+					<PriceField nftJson={props.nftJson} />
+					<CustomTabs nftJson={props.nftJson} />
 				</Grid>
 			</div>
 		</div>

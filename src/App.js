@@ -19,8 +19,7 @@ import GalleryContainer from "./views/GalleryContainer";
 
 import "./App.css";
 import CreateGallery from "./views/CreateGallery";
-import NaiveNftDetails from "./views/NaiveNftDetails";
-import GalleryNftDetails from "./views/GalleryNftDetails";
+import EthNftDetails from "./views/EthNftDetails";
 import SolNftDetails from "./views/SolNftDetails";
 import { isUserLoggedIn } from "./utils/auth-utils";
 
@@ -58,16 +57,12 @@ function App() {
 			<Switch>
 				<Route exact path="/" component={Home} />
 				<ProtectedRoute path="/mint-nft" component={MintNft} />
-				<Route
-					path="/gallery/:slug/:contractAddressId/:tokenId"
-					component={GalleryNftDetails}
-				/>
 				<Route path="/gallery/:slug" component={GalleryContainer} />
 				<Route path="/collection/:slug" component={Collection} />
 				<ProtectedRoute path="/profile-settings" component={ProfileSettings} />
 				<Route
-					path="/token/:contractAddressId/:tokenId"
-					component={NaiveNftDetails}
+					path="/eth-token/:contractAddressId/:tokenId"
+					component={EthNftDetails}
 				/>
 				<Route path="/sol-token/:mintAddress" component={SolNftDetails} />
 				<ProtectedRoute path="/profile/:userId" component={Profile} />

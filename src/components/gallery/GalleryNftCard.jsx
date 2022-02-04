@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Card, CardMedia, CardContent } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 import { withDefault } from "../../utils/commons";
+
 const useStyles = makeStyles((theme) => ({
 	link: {
 		textDecoration: "none",
@@ -57,9 +58,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const GalleryCard = (props) => {
+const GalleryNftCard = (props) => {
 	let asset = props.asset;
-	let slug = props.slug;
 
 	const contractAddressId = asset?.item?.asset_contract?.address;
 	const tokenId = asset?.item?.token_id;
@@ -72,7 +72,7 @@ const GalleryCard = (props) => {
 		<div className={classes.root}>
 			<RouterLink
 				className={classes.link}
-				to={`/gallery/${slug}/${contractAddressId}/${tokenId}`}
+				to={`/eth-token/${contractAddressId}/${tokenId}`}
 			>
 				<Card variant="outlined" className={classes.card}>
 					<CardMedia
@@ -122,4 +122,4 @@ const GalleryCard = (props) => {
 	);
 };
 
-export default GalleryCard;
+export default GalleryNftCard;
