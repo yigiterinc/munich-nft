@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Card, CardMedia, CardContent } from "@material-ui/core";
-import { Link as RouterLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { withDefault } from "../../utils/commons";
 
 const useStyles = makeStyles((theme) => ({
@@ -70,7 +70,7 @@ const GalleryNftCard = (props) => {
 	const classes = useStyles();
 	return (
 		<div className={classes.root}>
-			<RouterLink
+			<Link
 				className={classes.link}
 				to={`/eth-token/${contractAddressId}/${tokenId}`}
 			>
@@ -83,12 +83,12 @@ const GalleryNftCard = (props) => {
 					/>
 					<CardContent className={classes.collectionSection}>
 						{item.collection && (
-							<RouterLink
+							<Link
 								className={classes.collectionLink}
 								to={`/collection/${asset.collection.slug}`}
 							>
 								{item.collection.name}
-							</RouterLink>
+							</Link>
 						)}
 						<Typography variant="h6" component="h2" className={classes.nftText}>
 							{item.name ? item.name : "-"}
@@ -117,7 +117,7 @@ const GalleryNftCard = (props) => {
 						</CardContent>
 					)}
 				</Card>
-			</RouterLink>
+			</Link>
 		</div>
 	);
 };
