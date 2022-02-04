@@ -80,7 +80,7 @@ const HeaderLayout2 = (props) => {
 						setShowRemoveAssetsView={props.setShowRemoveAssetsView}
 					/>
 				</Grid>
-				<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+				<Grid item lg={1} md={1} sm={1} xs={1}/>
 				<Grid item lg={8} md={8} sm={8} xs={8}>
 					<div className={classes.centeredContainers}>
 						<div className={classes.titleContainer}>
@@ -156,7 +156,7 @@ const HeaderLayout2 = (props) => {
 					</div>
 				</Grid>
 
-				<Grid item lg={2} md={2} sm={2} xs={2}></Grid>
+				<Grid item lg={2} md={2} sm={2} xs={2}/>
 			</Grid>
 		</>
 	);

@@ -1,19 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Gallery from "./Gallery";
 import AddorRemoveAssetsContainer from "../components/edit-gallery/AddorRemoveAssetsContainer";
 import { isUserLoggedIn, getLoggedInUser } from "../utils/auth-utils";
 import { useHistory } from "react-router-dom";
-import { updateGallery } from "../api/strapi";
+import { fetchGallery, updateGallery } from "../api/strapi";
+import RemoveAssets from "../components/edit-gallery/RemoveAssets";
+import { useParams } from "react-router-dom";
 
 const GalleryContainer = () => {
+	const { slug } = useParams();
+
 	const [showAddAssetsView, setShowAddAssetsView] = useState(false);
 	const [showRemoveAssetsView, setShowRemoveAssetsView] = useState(false);
-	const [galleryData, setGalleryData] = useState();
+	const [galleryData, setGalleryData] = useState(null);
+
 	const history = useHistory();
+
 	const user = getLoggedInUser();
 
+	useEffect(async () => {
+		if (!galleryData) {
+			setGalleryData(await fetchGallery(slug))
+		}
+	}, []);
+
+
 	const handleAddSelectedAssets = async (selectedItems) => {
-		console.log(selectedItems);
 		if (!isUserLoggedIn()) {
 			history.push("/");
 			return;
@@ -37,7 +49,7 @@ const GalleryContainer = () => {
 			addedGalleryAssets.push(galleryAsset);
 		});
 
-		const updatedAssets = galleryData.nfts.concat(addedGalleryAssets);
+		const updatedAssets = galleryData.assets.concat(addedGalleryAssets);
 
 		const updateResult = await updateGallery(galleryData.galleryId, {
 			assets: updatedAssets,
@@ -75,7 +87,7 @@ const GalleryContainer = () => {
 
 		const removedAssetIds = removedGalleryAssets.map((item) => item.id);
 
-		const updatedAssets = galleryData.nfts.filter(
+		const updatedAssets = galleryData.assets.filter(
 			(item) => !removedAssetIds.includes(item.id)
 		);
 
@@ -93,15 +105,15 @@ const GalleryContainer = () => {
 			return (
 				<AddorRemoveAssetsContainer
 					add={true}
-					galleryAssets={galleryData.nfts}
+					galleryAssets={galleryData.assets}
 					handleChangeGalleryAssets={handleAddSelectedAssets}
 					setShowSelectedView={setShowAddAssetsView}
 				/>
 			);
 		} else if (showRemoveAssetsView) {
 			return (
-				<AddorRemoveAssetsContainer
-					galleryAssets={galleryData.nfts}
+				<RemoveAssets
+					galleryAssets={galleryData.assets}
 					handleChangeGalleryAssets={handleRemoveSelectedAssets}
 					setShowSelectedView={setShowRemoveAssetsView}
 				/>
@@ -109,7 +121,9 @@ const GalleryContainer = () => {
 		} else {
 			return (
 				<Gallery
-					setGalleryData={setGalleryData}
+					gallery={galleryData}
+					slug={slug}
+					isOwner={user && (user.id === galleryData?.userId)}
 					setShowAddAssetsView={setShowAddAssetsView}
 					setShowRemoveAssetsView={setShowRemoveAssetsView}
 				/>

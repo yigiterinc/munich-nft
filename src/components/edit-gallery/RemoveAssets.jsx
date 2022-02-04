@@ -10,12 +10,6 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import SwipeableViews from "react-swipeable-views";
-import { getLoggedInUser, isUserLoggedIn } from "../../utils/auth-utils";
-import {
-	fetchCollectionsOfUser,
-	filterAssetsInCollectionByOwner,
-	getAssetsAddedCollections,
-} from "../../api/opensea";
 import { useParams } from "react-router";
 
 function TabPanel(props) {
@@ -76,8 +70,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const AddorRemoveAssetsFromOpensea = ({
-	add = false,
+const RemoveAssets = ({
 	galleryAssets,
 	handleChangeGalleryAssets,
 	setShowSelectedView,
@@ -85,9 +78,6 @@ const AddorRemoveAssetsFromOpensea = ({
 	const classes = useStyles();
 	const theme = useTheme();
 	let { slug } = useParams();
-
-	// Structure: [{collectionData, assets: [{asset1}, {asset2}]}, ...]
-	const [userCollections, setUserCollections] = useState(null);
 
 	// Each item is either {nft, collection} or {collection}
 	const [selectedItems, setSelectedItems] = useState([]);
@@ -102,30 +92,11 @@ const AddorRemoveAssetsFromOpensea = ({
 		}
 	}, [slug]);
 
-	useEffect(async () => {
-		if (isUserLoggedIn()) {
-			let collectionsData = await fetchCollectionsOfUser(
-				getLoggedInUser().ethAddress
-			);
-
-			let collectionsWithAssets = [];
-			collectionsWithAssets.push(
-				await getAssetsAddedCollections(collectionsData)
-			);
-
-			let filtered = await filterAssetsInCollectionByOwner(
-				collectionsWithAssets
-			);
-
-			setUserCollections(filtered);
-		}
-	}, []);
-
 	useEffect(() => {
-		if (userCollections) {
+		if (galleryAssets) {
 			setDataIsLoading(false);
 		}
-	}, [userCollections]);
+	}, [galleryAssets]);
 
 	const addToSelectedItems = (item) => {
 		setSelectedItems([...selectedItems, item]);
@@ -145,34 +116,26 @@ const AddorRemoveAssetsFromOpensea = ({
 	const AssetCardsGrid = () => {
 		return (
 			<Grid container spacing={3} direction="row" alignItems="center">
-				{userCollections?.map((collection) =>
-					collection?.assets
-						.filter((item) => {
-							if (add) {
-								return !galleryAssetIds.includes(item.id);
-							} else {
-								return galleryAssetIds.includes(item.id);
-							}
-						})
-						.map((item) => {
-							return (
-								<Grid key={item?.id} item lg={3} md={4} sm={6} xs={12}>
-									<NFTImportCard
-										name={item.name}
-										image={item.image_url}
-										addToSelected={() =>
-											addToSelectedItems({ collection, item })
-										}
-										removeFromSelected={() =>
-											removeNftFromSelectedItems({ collection, item })
-										}
-									/>
-								</Grid>
-							);
-						})
+				{galleryAssets
+					.map((item) => {
+						return (
+							<Grid key={item?.id} item lg={3} md={4} sm={6} xs={12}>
+								<NFTImportCard
+									name={item.name}
+									image={item.image_url}
+									addToSelected={() =>
+										addToSelectedItems({ item })
+									}
+									removeFromSelected={() =>
+										removeNftFromSelectedItems({ item })
+									}
+								/>
+							</Grid>
+						);
+					})
+				}
 				)}
-			</Grid>
-		);
+			</Grid>)
 	};
 
 	const TabPanelWithSpinner = (index, data) => {
@@ -207,7 +170,7 @@ const AddorRemoveAssetsFromOpensea = ({
 				onClick={() => handleChangeGalleryAssets(selectedItems)}
 				disabled={selectedItems.length === 0}
 			>
-				{add ? "Add Selected Item(s)" : "Remove Selected Item(s)"}
+				{"Remove Selected Item(s)"}
 			</Button>
 		</div>
 	);
@@ -235,4 +198,4 @@ const AddorRemoveAssetsFromOpensea = ({
 	);
 };
 
-export default AddorRemoveAssetsFromOpensea;
+export default RemoveAssets;

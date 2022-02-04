@@ -1,133 +1,88 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useHistory } from "react-router";
 import { createTheme, ThemeProvider } from "@material-ui/core";
-import CircularSpinner from "../components/common/CircularSpinner";
 import RenderGallery from "../components/gallery/RenderGallery";
-import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
-import {
-	fetchGallery,
-	updateGallery,
-	uploadImageToMediaGallery,
-} from "../api/strapi";
+import { isUserLoggedIn } from "../utils/auth-utils";
+import { convertToSlug, withDefault } from "../utils/commons";
+import { updateGallery, uploadImageToMediaGallery } from "../api/strapi";
+import { useHistory } from "react-router-dom";
 
-const Gallery = ({
-	setGalleryData,
-	setShowAddAssetsView,
-	setShowRemoveAssetsView,
-}) => {
-	const [gallery, setGallery] = useState(null);
-	const [isEditable, setIsEditable] = useState(false);
-	const [isOwner, setIsOwner] = useState(false);
+const Gallery = (props) => {
+	const [inEditMode, setInEditMode] = useState(false);
 	const [coverImage, setCoverImage] = useState(null);
-	const [galleryId, setGalleryId] = useState(null);
-	const [galleryName, setGalleryName] = useState("");
-	const [galleryDescription, setGalleryDescription] = useState("");
 	const [galleryTheme, setGalleryTheme] = useState(null);
 	const [headerLayout, setHeaderLayout] = useState("default");
 	const [isCoverImageUpdated, setIsCoverImageUpdated] = useState(false);
 
-	let { slug } = useParams();
-	const currentUser = getLoggedInUser();
 	const history = useHistory();
 
-	useEffect(async () => {
-		if (!slug) return;
-
-		const json = await fetchGallery(slug);
-		const gallery = {
-			userId: json.userId,
-			creator: json.username,
-			nfts: json.assets,
-		};
-		const defaultTheme = createTheme({
-			palette: {
-				background: {
-					default: "#fff",
-				},
-				text: {
-					primary: "#000",
-				},
-				primary: {
-					main: "#000",
-					contrastText: "#fff",
-				},
+	const defaultTheme = createTheme({
+		palette: {
+			background: {
+				default: "#fff",
 			},
-		});
-		let selectedTheme = json.theme === undefined ? defaultTheme : json.theme;
+			text: {
+				primary: "#000",
+			},
+			primary: {
+				main: "#000",
+				contrastText: "#fff",
+			},
+		},
+	});
 
-		setGalleryId(json.id);
-		setGallery(gallery);
-		setGalleryName(json.galleryName);
-		setGalleryDescription(json.description);
-		setCoverImage(json.coverImage);
-		setGalleryData({ galleryId: json.id, nfts: gallery.nfts, slug: slug });
-		if (currentUser.id === gallery.userId) setIsOwner(true);
-		setGalleryTheme(createTheme(selectedTheme));
-		setHeaderLayout(json.headerLayout);
-	}, [slug]);
+	useEffect(async () => {
+		if (props.gallery) {
+			let selectedTheme = withDefault(props.gallery.theme, defaultTheme)
+			setGalleryTheme(createTheme(selectedTheme));
+			setHeaderLayout(props.gallery.headerLayout);
+		}
+	}, [props.gallery]);
 
 	const switchEditableMode = () => {
-		setIsEditable(!isEditable);
+		setInEditMode(!inEditMode);
 	};
 
 	const handleDropzoneSubmit = async (file) => {
 		setCoverImage(file);
 	};
 
-	const handleUpdateGallery = async () => {
+	const handleUpdateGallery = async (updatedMetadata) => {
 		if (!isUserLoggedIn()) {
-			history.push("/");
 			return;
 		}
 
-		const changedParams = {
-			galleryName,
-			description: galleryDescription,
-			slug: convertToSlug(galleryName),
-			theme: galleryTheme,
-			headerLayout: headerLayout,
-		};
-
-		history.push(`${convertToSlug(galleryName)}`);
+		updatedMetadata.slug = convertToSlug(updatedMetadata.galleryName);
+		updatedMetadata.theme = galleryTheme;
+		updatedMetadata.headerLayout = headerLayout;
 
 		if (isCoverImageUpdated) {
 			const uploadResult = await uploadImageToMediaGallery(coverImage);
-			const imageIdentifier = uploadResult.data[0];
-
-			changedParams.coverImage = imageIdentifier;
+			updatedMetadata.coverImage = uploadResult.data[0];
 		}
 
 		setIsCoverImageUpdated(false);
 
-		const updateResult = await updateGallery(galleryId, changedParams);
+		const updateResult = await updateGallery(props.gallery.id, updatedMetadata);
 
 		if (updateResult.status === 200) {
-			history.push(`/gallery/${changedParams.slug}`);
+			history.push(`/gallery/${updatedMetadata.slug}`);
 			window.location.reload();
 		}
 	};
 
-	const convertToSlug = (galleryName) => {
-		return galleryName.toLowerCase().replaceAll(" ", "_");
-	};
 	return (
 		<>
 			{galleryTheme && (
 				<ThemeProvider theme={galleryTheme}>
-					<>
-						{gallery ? (
+					{
 							<RenderGallery
-								slug={slug}
-								galleryJson={gallery}
+								slug={props.slug}
+								gallery={props.gallery}
 								switchEditableMode={switchEditableMode}
-								isEditable={isEditable}
-								isOwner={isOwner}
+								inEditMode={inEditMode}
+								isOwner={props.isOwner}
 								coverImage={coverImage}
 								handleDropzoneSubmit={handleDropzoneSubmit}
-								galleryName={galleryName}
-								galleryDescription={galleryDescription}
-								setGalleryName={setGalleryName}
-								setGalleryDescription={setGalleryDescription}
 								handleUpdateGallery={handleUpdateGallery}
 								galleryTheme={galleryTheme}
 								setGalleryTheme={setGalleryTheme}
@@ -135,13 +90,10 @@ const Gallery = ({
 								setHeaderLayout={setHeaderLayout}
 								isCoverImageUpdated={isCoverImageUpdated}
 								setIsCoverImageUpdated={setIsCoverImageUpdated}
-								setShowAddAssetsView={setShowAddAssetsView}
-								setShowRemoveAssetsView={setShowRemoveAssetsView}
+								setShowAddAssetsView={props.setShowAddAssetsView}
+								setShowRemoveAssetsView={props.setShowRemoveAssetsView}
 							/>
-						) : (
-							<CircularSpinner />
-						)}
-					</>
+					}
 				</ThemeProvider>
 			)}
 		</>

@@ -18,3 +18,7 @@ export const truncateString = (str, num) => {
 export const withDefault = (value, defaultValue) => {
 	return value ? value : defaultValue;
 };
+
+export const convertToSlug = (galleryName) => {
+	return galleryName.toLowerCase().replaceAll(" ", "_");
+};

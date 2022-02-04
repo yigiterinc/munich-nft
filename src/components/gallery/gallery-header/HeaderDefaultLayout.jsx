@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import GalleryCoverImage from "./GalleryCoverImage";
 import GalleryEditManager from "../GalleryEditManager";
 import { makeStyles } from "@material-ui/core/styles";
@@ -52,37 +52,44 @@ const useStyles = makeStyles((theme) => ({
 
 const HeaderDefaultLayout = (props) => {
 	const classes = useStyles();
+
+	const [updatedMetadata, setUpdatedMetadata] = useState();
+
+	useEffect(() => {
+		let { galleryName, coverImage, galleryDescription } = props.gallery
+
+		setUpdatedMetadata({
+			galleryName,
+			coverImage,
+			galleryDescription
+		})
+	}, []);
+
 	return (
 		<Grid container spacing={6} className={classes.galleryHeaderContainer}>
 			<Grid item lg={1} md={1} sm={1} xs={1}>
 				<GalleryEditManager
 					setOpenEditGalleryModal={props.setOpenEditGalleryModal}
 					isOwner={props.isOwner}
-					isEditMode={props.isEditable}
+					inEditMode={props.inEditMode}
 					switchEditableMode={props.switchEditableMode}
 					handleUpdateGallery={props.handleUpdateGallery}
 					galleryTheme={props.galleryTheme}
 					setGalleryTheme={props.setGalleryTheme}
+					updatedMetadata={updatedMetadata}
 					headerLayout={props.headerLayout}
 					setHeaderLayout={props.setHeaderLayout}
 					setShowAddAssetsView={props.setShowAddAssetsView}
 					setShowRemoveAssetsView={props.setShowRemoveAssetsView}
 				/>
 			</Grid>
-			<Grid item lg={1} md={1} sm={1} xs={1}></Grid>
+			<Grid item lg={1} md={1} sm={1} xs={1} />
 
-			<Grid
-				className={classes.coverImageContainer}
-				item
-				lg={3}
-				md={3}
-				sm={4}
-				xs={6}
-			>
+			<Grid className={classes.coverImageContainer} item lg={3} md={3} sm={4} xs={6}>
 				<div className={classes.coverImage}>
 					<GalleryCoverImage
-						coverImage={props.coverImage}
-						isEditable={props.isEditable}
+						coverImage={props.gallery.coverImage}
+						isEditable={props.inEditMode}
 						isOwner={props.isOwner}
 						handleDropzoneSubmit={props.handleDropzoneSubmit}
 						isCoverImageUpdated={props.isCoverImageUpdated}
@@ -91,17 +98,16 @@ const HeaderDefaultLayout = (props) => {
 				</div>
 			</Grid>
 			<Grid item lg={5} md={5} sm={4} xs={2}>
-				<div className={classes.galleryHeader}>
 					<div className={classes.titleContainer}>
-						{props.isOwner && props.isEditable ? (
+						{props.isOwner && props.inEditMode ? (
 							<div className={classes.titleTextField}>
 								<form noValidate autoComplete="off">
 									<TextField
 										fullWidth
-										value={props.galleryName}
+										value={updatedMetadata.galleryName}
 										inputProps={{ style: { fontSize: "36px" } }}
 										onChange={(event) =>
-											props.setGalleryName(event.target.value)
+											setUpdatedMetadata({...updatedMetadata, galleryName: event.target.value })
 										}
 									/>
 								</form>
@@ -109,7 +115,7 @@ const HeaderDefaultLayout = (props) => {
 						) : (
 							<>
 								<Typography className={classes.title} variant="h4">
-									{props.galleryName}
+									{props.gallery.galleryName}
 								</Typography>
 							</>
 						)}
@@ -119,16 +125,16 @@ const HeaderDefaultLayout = (props) => {
 							Created by
 						</Typography>
 						<Typography
-							to={`/profile/${props.galleryJson?.userId}`}
+							to={`/profile/${props.gallery?.userId}`}
 							component={Link}
 							className={classes.creator}
 							variant="h5"
 						>
-							{props.galleryJson.creator}
+							{props.gallery.username}
 						</Typography>
 					</div>
 					<div className={classes.descriptionPanel}>
-						{props.isOwner && props.isEditable ? (
+						{props.isOwner && props.inEditMode ? (
 							<form
 								noValidate
 								autoComplete="off"
@@ -137,24 +143,24 @@ const HeaderDefaultLayout = (props) => {
 								<TextField
 									multiline
 									fullWidth
-									value={props.galleryDescription}
+									value={updatedMetadata.description}
 									inputProps={{ style: { fontSize: "18px" } }}
 									onChange={(event) =>
-										props.setGalleryDescription(event.target.value)
+										setUpdatedMetadata({ ...updatedMetadata, description: event.target.value, })
 									}
 								/>
 							</form>
 						) : (
 							<>
 								<Typography className={classes.description} variant="h5">
-									{props.galleryDescription}
+									{props.gallery.description}
 								</Typography>
 							</>
 						)}
 					</div>
-				</div>
 			</Grid>
-			<Grid item lg={2} md={2} sm={2} xs={2}></Grid>
+
+			<Grid item lg={2} md={2} sm={2} xs={2} />
 		</Grid>
 	);
 };
