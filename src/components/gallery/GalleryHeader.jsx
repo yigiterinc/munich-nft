@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import HeaderLayout1 from "./gallery-header/HeaderLayout1";
-import HeaderLayout2 from "./gallery-header/HeaderLayout2";
 import EditGalleryMenu from "./gallery-edit-manager/EditGalleryMenu";
 import { Grid, Link, TextField, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -49,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 		display: "flex",
 		justifyContent: "flex-end",
 	},
-}))
+}));
 
 const GalleryHeader = (props) => {
 	const classes = useStyles();
@@ -57,13 +55,13 @@ const GalleryHeader = (props) => {
 	const [updatedMetadata, setUpdatedMetadata] = useState();
 
 	useEffect(() => {
-		let { galleryName, coverImage, galleryDescription } = props.gallery
+		let { galleryName, coverImage, galleryDescription } = props.gallery;
 
 		setUpdatedMetadata({
 			galleryName,
 			coverImage,
-			galleryDescription
-		})
+			galleryDescription,
+		});
 	}, []);
 
 	const HeaderDefaultLayout = () => {
@@ -94,11 +92,9 @@ const GalleryHeader = (props) => {
 							</form>
 						</div>
 					) : (
-						<>
 							<Typography className={classes.title} variant="h4">
 								{props.gallery.galleryName}
 							</Typography>
-						</>
 					)}
 					<div className={classes.galleryOwner}>
 						<Typography className={classes.createdTextLabel} variant="h5">
@@ -110,7 +106,7 @@ const GalleryHeader = (props) => {
 							className={classes.creator}
 							variant="h5"
 						>
-							{props.gallery.username}
+							{props.gallery?.username}
 						</Typography>
 					</div>
 					{props.isOwner && props.inEditMode ? (
@@ -129,29 +125,155 @@ const GalleryHeader = (props) => {
 							/>
 						</form>
 					) : (
-						<>
-							<Typography className={classes.description} variant="h5">
-								{props.gallery.description}
-							</Typography>
-						</>
+						<Typography className={classes.description} variant="h5">
+							{props.gallery?.description}
+						</Typography>
 					)}
 				</Grid>
 			</>);
 	};
 
 	const HeaderLayout1 = () => {
+		return (
+			<>
+				<Grid item lg={5} md={5} sm={4} xs={2}>
+					{props.isOwner && !props.inEditMode ? (
+							<Typography className={classes.title} variant="h4">
+								{props.gallery.galleryName}
+							</Typography>
+					) : (
+						<div className={classes.titleTextField}>
+							<form noValidate autoComplete="off">
+								<TextField
+									fullWidth
+									value={updatedMetadata.galleryName}
+									inputProps={{ style: { fontSize: "36px" } }}
+									onChange={(event) => setUpdatedMetadata({ ...updatedMetadata, galleryName: event.target.value })}
+								/>
+							</form>
+						</div>
+					)}
+					<div className={classes.galleryOwner}>
+						<Typography className={classes.createdTextLabel} variant="h5">
+							Created by
+						</Typography>
+						<Typography
+							to={`/profile/${props.gallery?.userId}`}
+							component={Link}
+							className={classes.creator}
+							variant="h5"
+						>
+							{props.gallery?.username}
+						</Typography>
+					</div>
+					{props.isOwner && props.inEditMode ? (
+						<form
+							noValidate
+							autoComplete="off"
+						>
+							<TextField
+								multiline
+								fullWidth
+								value={updatedMetadata.description}
+								inputProps={{ style: { fontSize: "18px" } }}
+								onChange={(event) =>
+									setUpdatedMetadata({ ...updatedMetadata, description: event.target.value })
+								}
+							/>
+						</form>
+					) : (
+						<Typography className={classes.description} variant="h5">
+							{props.gallery?.description}
+						</Typography>
+					)}
+				</Grid>
 
-	}
+				<Grid item lg={3} md={3} sm={4} xs={6}
+							className={classes.coverImageContainer}
+				>
+					<GalleryCoverImage
+						coverImage={props.gallery.coverImage}
+						isEditable={props.inEditMode}
+						isOwner={props.isOwner}
+						handleDropzoneSubmit={props.handleDropzoneSubmit}
+						isCoverImageUpdated={props.isCoverImageUpdated}
+						setIsCoverImageUpdated={props.setIsCoverImageUpdated}
+					/>
+				</Grid>
+			</>
+		)
+	};
 
 	const HeaderLayout2 = () => {
-
-	}
+		return (<Grid item lg={8} md={8} sm={8} xs={8}>
+			{props.isOwner && !props.inEditMode ? (
+					<Typography className={classes.title} variant="h4">
+						{props.galleryName}
+					</Typography>
+			) : (
+				<div className={classes.titleTextField}>
+					<form noValidate autoComplete="off">
+						<TextField
+							fullWidth
+							value={updatedMetadata.galleryName}
+							inputProps={{ style: { fontSize: "36px" } }}
+							onChange={(event) => setUpdatedMetadata({ ...updatedMetadata, galleryName: event.target.value })}
+						/>
+					</form>
+				</div>
+			)}
+			<div className={classes.coverImageContainer}>
+				<GalleryCoverImage
+					coverImage={props.gallery.coverImage}
+					isEditable={props.inEditMode}
+					isOwner={props.isOwner}
+					handleDropzoneSubmit={props.handleDropzoneSubmit}
+					isCoverImageUpdated={props.isCoverImageUpdated}
+					setIsCoverImageUpdated={props.setIsCoverImageUpdated}
+				/>
+			</div>
+			<div className={classes.galleryOwner}>
+				<Typography className={classes.createdTextLabel} variant="h5">
+					Created by
+				</Typography>
+				<Typography
+					to={`/profile/${props.gallery?.userId}`}
+					component={Link}
+					className={classes.creator}
+					variant="h5"
+				>
+					{props.gallery?.username}
+				</Typography>
+			</div>
+			{props.isOwner && props.inEditMode ? (
+					<form
+						noValidate
+						autoComplete="off"
+					>
+						<TextField
+							multiline
+							fullWidth
+							value={updatedMetadata.description}
+							inputProps={{ style: { fontSize: "18px" } }}
+							onChange={(event) =>
+								setUpdatedMetadata({ ...updatedMetadata, description: event.target.value })
+							}
+						/>
+					</form>)
+				:
+				(<Typography className={classes.description} variant="h5">
+						{props.gallery.description}
+					</Typography>
+				)}
+			)}
+		</Grid>);
+	};
 
 	const LAYOUT_PROP_TO_COMPONENT = {
 		default: <HeaderDefaultLayout {...props} />,
-	}
-	LAYOUT_PROP_TO_COMPONENT["layout-1"] = <HeaderLayout1 {...props} />
-	LAYOUT_PROP_TO_COMPONENT["layout-2"] = <HeaderLayout2 {...props} />
+	};
+	LAYOUT_PROP_TO_COMPONENT["layout-1"] = <HeaderLayout1 {...props} />;
+	LAYOUT_PROP_TO_COMPONENT["layout-2"] = <HeaderLayout2 {...props} />;
 
 	return (
 		<Grid container spacing={6} className={classes.galleryHeaderContainer}>
@@ -175,7 +297,7 @@ const GalleryHeader = (props) => {
 			<Grid item lg={1} md={1} sm={1} xs={1} />
 		</Grid>
 
-		)
+	);
 };
 
 
