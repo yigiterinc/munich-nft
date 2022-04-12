@@ -22,7 +22,7 @@ const EthNftDetails = () => {
 			const tokenData = await fetchSingleAsset(contractAddressId, tokenId);
 			const ethPrice = await getCurrentCryptoPriceInCurrency("ETH", "USD");
 			let listedPrice = null;
-			if (tokenData.orders.length !== 0) {
+			if (tokenData.orders && tokenData.orders.length !== 0) {
 				listedPrice = formatOpenseaPrice(tokenData.orders[0].current_price);
 			}
 			let json = {

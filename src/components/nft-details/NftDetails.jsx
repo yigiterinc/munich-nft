@@ -42,7 +42,9 @@ const NftDetails = (props) => {
 				</Grid>
 				<Grid item xs={6}>
 					<NftHeader nftJson={props.nftJson} />
-					<CollectionGroup nftJson={props.nftJson} />
+					{props.nftJson.blockchain === "Ethereum" && (
+						<CollectionGroup nftJson={props.nftJson} />
+					)}
 					<PriceField nftJson={props.nftJson} />
 					<CustomTabs nftJson={props.nftJson} />
 				</Grid>
