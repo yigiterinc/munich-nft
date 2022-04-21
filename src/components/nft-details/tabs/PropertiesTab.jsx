@@ -5,7 +5,6 @@ import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles({
 	propertyBox: {
-		width: "150px",
 		backgroundColor: "rgba(220, 94, 132, 0.06)",
 		borderRadius: "6px",
 		border: "1px solid rgb(230,46,132)",
@@ -15,8 +14,6 @@ const useStyles = makeStyles({
 	propertyType: {
 		color: "rgb(255, 0, 117)",
 		textTransform: "uppercase",
-	},
-	typeText: {
 		fontSize: "12px",
 		fontWeight: "500",
 		overflow: "hidden",
@@ -54,44 +51,26 @@ const PropertiesTab = (nftJson) => {
 export const renderProperties = (classes, properties) => {
 	return (
 		<Grid container spacing={1} justifyContent="flex-start">
-			{renderGrids(classes, properties)}
-		</Grid>
-	);
-};
-
-export const renderGrids = (classes, properties) => {
-	const row = [];
-	for (let i = 0; i < properties.length; i += 3) {
-		row.push(
-			<Grid container item xs={12} spacing={3} key={i}>
-				{renderRows(classes, properties.slice(i, i + 3))}
-			</Grid>
-		);
-	}
-	return row;
-};
-
-export const renderRows = (classes, properties) => {
-	return (
-		<>
 			{properties.map((property, key) => {
 				return (
 					<Grid item xs={4} key={key}>
 						<div className={classes.propertyBox}>
-							<div className={classes.propertyType}>
-								<Typography className={classes.typeText}>
-									{property.type}
+							<Typography className={classes.propertyType}>
+								{property.type}
+							</Typography>
+							<Typography className={classes.propertyValue}>
+								{property.value}
+							</Typography>
+							{property.rarity && (
+								<Typography className={classes.propertyRarity}>
+									{"Rarity: " + property.rarity}
 								</Typography>
-							</div>
-							<div className={classes.propertyValue}>{property.value}</div>
-							<div className={classes.propertyRarity}>
-								{"Rarity: " + property.rarity}
-							</div>
+							)}
 						</div>
 					</Grid>
 				);
 			})}
-		</>
+		</Grid>
 	);
 };
 
@@ -102,10 +81,13 @@ export const customPropertiesHelper = (traits, collectionSize) => {
 			if (trait.trait_count !== 0) {
 				const type = trait.trait_type;
 				const value = trait.value;
-				const rarity =
-					((trait.trait_count / collectionSize) * 100).toFixed(1) + "%";
-
-				properties.push({ type, value, rarity });
+				if (collectionSize) {
+					const rarity =
+						((trait.trait_count / collectionSize) * 100).toFixed(1) + "%";
+					properties.push({ type, value, rarity });
+				} else {
+					properties.push({ type, value });
+				}
 			}
 		}
 	});

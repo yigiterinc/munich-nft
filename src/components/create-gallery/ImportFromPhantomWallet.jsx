@@ -11,9 +11,8 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import SwipeableViews from "react-swipeable-views";
 import { getLoggedInUser, isUserLoggedIn } from "../../utils/auth-utils";
-import { findOwnedTokensOnERC721Contract } from "../../api/eth.js";
-import axios from "axios";
 import { withDefault } from "../../utils/commons";
+import { getNftTokenDetails } from "../../api/sol";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -58,73 +57,59 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function ImportFromContract({
-	contractAddress,
-	prevButton,
-	handleSubmit,
-}) {
+export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 	const classes = useStyles();
 	const theme = useTheme();
+	const [activeTab, setActiveTab] = useState(0);
 
-	// Structure: [{collectionData, assets: [{asset1}, {asset2}]}, ...]
-
-	// Each item is either {nft, collection} or {collection}
+	const [userAssets, setUserAssets] = useState(null);
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [dataIsLoading, setDataIsLoading] = useState(true);
-	const [assetsOwned, setAssetsOwned] = useState([]);
 
-	useEffect(() => {
-		const user = getLoggedInUser();
-
-		async function fetchDataFromBlockchain() {
-			const ipfsMetadataUris = await findOwnedTokensOnERC721Contract(
-				contractAddress,
-				user.ethAddress
-			);
-			const nftDetailPromises = [];
-			let nftDetails = [];
-			ipfsMetadataUris.forEach((uri) => {
-				nftDetailPromises.push(
-					axios.get(uri).then((response) => {
-						nftDetails.push(response.data);
-					})
-				);
-			});
-
-			await Promise.all(nftDetailPromises);
-			setAssetsOwned(nftDetails);
-			setDataIsLoading(false);
-		}
-
-		if (user && assetsOwned.length === 0) {
-			fetchDataFromBlockchain();
+	useEffect(async () => {
+		if (isUserLoggedIn()) {
+			const user = getLoggedInUser();
+			const assets = await getNftTokenDetails(user.solAddress);
+			console.log(assets);
+			setUserAssets(assets);
 		}
 	}, []);
+
+	useEffect(() => {
+		if (userAssets) {
+			setDataIsLoading(false);
+		}
+	}, [userAssets]);
 
 	const addToSelectedItems = (item) => {
 		setSelectedItems([...selectedItems, item]);
 	};
 
-	const removeFromSelectedItems = (itemToBeRemoved) => {
+	const removeNftFromSelectedItems = (itemToBeRemoved) => {
 		const itemsWithoutTheSubject = selectedItems.filter(
 			(item) => item !== itemToBeRemoved
 		);
 		setSelectedItems(itemsWithoutTheSubject);
 	};
 
+	const handleChangeIndex = (index) => {
+		setActiveTab(index);
+	};
+
 	const DEFAULT_IMAGE_PATH = "/images/no-image.png";
 
-	const ImportCardsGrid = () => {
+	const AssetCardsGrid = () => {
 		return (
 			<Grid container spacing={3}>
-				{assetsOwned.map((asset, i) => {
+				{console.log(userAssets)}
+				{userAssets?.map((asset) => {
 					return (
-						<Grid key={i} item lg={3} md={4} sm={6} xs={12}>
+						<Grid key={asset.image_url} item lg={3} md={4} sm={6} xs={12}>
 							<NFTImportCard
 								name={asset.name}
-								image={withDefault(asset.image, DEFAULT_IMAGE_PATH)}
+								image={withDefault(asset.image_url, DEFAULT_IMAGE_PATH)}
 								addToSelected={() => addToSelectedItems(asset)}
-								removeFromSelected={() => removeFromSelectedItems(asset)}
+								removeFromSelected={() => removeNftFromSelectedItems(asset)}
 							/>
 						</Grid>
 					);
@@ -133,10 +118,15 @@ export default function ImportFromContract({
 		);
 	};
 
+	const handleTabSwitch = (event, newValue) => {
+		setSelectedItems([]);
+		setActiveTab(newValue);
+	};
+
 	const TabPanelWithSpinner = (index, data) => {
 		return withSpinner(
 			<TabPanel
-				value={0}
+				value={activeTab}
 				index={index}
 				dir={theme.direction}
 				className={classes.tabPanel}
@@ -148,7 +138,7 @@ export default function ImportFromContract({
 		);
 	};
 
-	const ButtonsMenu = () => (
+	const ButtonsMenu = (
 		<div className={classes.buttonsContainer}>
 			{prevButton}
 
@@ -156,7 +146,7 @@ export default function ImportFromContract({
 				variant="contained"
 				style={{
 					background: "#b35bff",
-					color: "white",
+					color: "#FFFFFF",
 					margin: "13px 25px",
 					padding: "13px 25px",
 					"&:hover": {
@@ -171,25 +161,33 @@ export default function ImportFromContract({
 		</div>
 	);
 
+	const nftsTabIndex = 0;
+
 	return (
 		<div className={classes.root}>
 			<AppBar position="static" color="inherit" elevation={0}>
 				<Tabs
-					value={0}
+					value={activeTab}
+					onChange={handleTabSwitch}
 					indicatorColor="primary"
 					textColor="primary"
 					variant="fullWidth"
 				>
-					<Tab icon={<ImageIcon />} label="Assets" {...a11yProps(0)} />
+					<Tab
+						icon={<ImageIcon />}
+						label="Assets"
+						{...a11yProps(nftsTabIndex)}
+					/>
 				</Tabs>
 			</AppBar>
 			<SwipeableViews
 				axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-				index={0}
+				index={activeTab}
+				onChangeIndex={handleChangeIndex}
 			>
-				{TabPanelWithSpinner(0, ImportCardsGrid())}
+				{TabPanelWithSpinner(nftsTabIndex, AssetCardsGrid)}
 			</SwipeableViews>
-			;{!dataIsLoading && ButtonsMenu()}
+			{!dataIsLoading && ButtonsMenu}
 		</div>
 	);
 }

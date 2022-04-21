@@ -13,12 +13,10 @@ import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
 import { useHistory } from "react-router-dom";
-import {
-	CONTRACT_ADDRESS_RINKEBY,
-	MunichNftContractAddress,
-} from "../config/config";
 import ImportFromOpensea from "../components/create-gallery/ImportFromOpensea";
 import ImportFromContract from "../components/create-gallery/ImportFromContract";
+import ImportFromPhantomWallet from "../components/create-gallery/ImportFromPhantomWallet";
+import { convertToSlug } from "../utils/commons";
 
 const Alert = (props) => {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -39,11 +37,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const IMPORT_METHODS = {
-	OPENSEA: "OPENSEA",
-	CUSTOM_CONTRACT: "CUSTOM_CONTRACT",
-};
-
 const CreateGallery = (props) => {
 	const [galleryName, setGalleryName] = useState();
 	const [galleryDescription, setGalleryDescription] = useState();
@@ -51,9 +44,7 @@ const CreateGallery = (props) => {
 	const [activeStep, setActiveStep] = useState(0);
 	const [error, setError] = useState(false);
 	const [success, setSuccess] = useState(false);
-	const [importMethod, setImportMethod] = useState(
-		IMPORT_METHODS.CUSTOM_CONTRACT
-	);
+	const [importMethod, setImportMethod] = useState("OPENSEA");
 	const [contractAddress, setContractAddress] = useState();
 
 	const user = getLoggedInUser();
@@ -62,7 +53,7 @@ const CreateGallery = (props) => {
 	const classes = useStyles();
 
 	const handleSubmit = async (selectedItems) => {
-		let selectedItemsAreNft = selectedItems.hasOwnProperty("nft"); // and not collection
+		let selectedItemsAreEthNft = selectedItems.hasOwnProperty("nft"); // and not collection
 		if (!isUserLoggedIn()) {
 			history.push("/");
 			return;
@@ -77,7 +68,7 @@ const CreateGallery = (props) => {
 		}
 
 		let assets = selectedItems;
-		if (selectedItemsAreNft) {
+		if (selectedItemsAreEthNft) {
 			assets = convertSelectedNftsToGalleryAssets(selectedItems);
 		}
 
@@ -114,8 +105,32 @@ const CreateGallery = (props) => {
 		}, delay);
 	};
 
-	const convertToSlug = (galleryName) => {
-		return galleryName.toLowerCase().replaceAll(" ", "_");
+	const IMPORT_METHODS = {
+		OPENSEA: "Opensea",
+		CUSTOM_CONTRACT: "Ethereum Contract",
+		SOLANA_WALLET: "Phantom Wallet",
+	};
+
+	let ImportComponents = {
+		OPENSEA: (
+			<ImportFromOpensea
+				prevButton={props.prevButton}
+				handleSubmit={handleSubmit}
+			/>
+		),
+		CUSTOM_CONTRACT: (
+			<ImportFromContract
+				prevButton={props.prevButton}
+				handleSubmit={handleSubmit}
+				contractAddress={contractAddress}
+			/>
+		),
+		SOLANA_WALLET: (
+			<ImportFromPhantomWallet
+				prevButton={props.prevButton}
+				handleSubmit={handleSubmit}
+			/>
+		),
 	};
 
 	const nextButton = (
@@ -129,18 +144,6 @@ const CreateGallery = (props) => {
 			Next
 		</Button>
 	);
-
-	const prevButton = (
-		<Button
-			className={classes.navigationButton}
-			variant="contained"
-			size="large"
-			onClick={() => setActiveStep((prevActiveStep) => prevActiveStep - 1)}
-		>
-			Previous
-		</Button>
-	);
-
 	const handleDropzoneSubmit = async (file) => {
 		setCoverImage(file);
 	};
@@ -170,27 +173,13 @@ const CreateGallery = (props) => {
 				galleryDescription={galleryDescription}
 				setGalleryDescription={setGalleryDescription}
 				importMethod={importMethod}
+				importMethods={IMPORT_METHODS}
 				setImportMethod={setImportMethod}
 				contractAddress={contractAddress}
 				setContractAddress={setContractAddress}
 			/>,
+			ImportComponents[importMethod],
 		];
-
-		let importComponent =
-			importMethod === IMPORT_METHODS.OPENSEA ? (
-				<ImportFromOpensea
-					prevButton={prevButton}
-					handleSubmit={handleSubmit}
-				/>
-			) : (
-				<ImportFromContract
-					prevButton={prevButton}
-					handleSubmit={handleSubmit}
-					contractAddress={contractAddress}
-				/>
-			);
-
-		steps.push(importComponent);
 
 		return steps[activeStep];
 	};

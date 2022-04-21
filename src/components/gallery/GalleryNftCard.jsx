@@ -1,8 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Card, CardMedia, CardContent } from "@material-ui/core";
-import { Link as RouterLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { withDefault } from "../../utils/commons";
+
 const useStyles = makeStyles((theme) => ({
 	link: {
 		textDecoration: "none",
@@ -57,22 +58,21 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const GalleryCard = (props) => {
+const GalleryNftCard = (props) => {
 	let asset = props.asset;
-	let slug = props.slug;
 
 	const contractAddressId = asset?.item?.asset_contract?.address;
 	const tokenId = asset?.item?.token_id;
 	const item = Object.keys(asset).includes("item") ? asset?.item : asset;
 	const defaultImagePath = "/images/no-image.png";
-	const currentPrice = 1.25; // dummy -> asset does not contain price info
+	const currentPrice = null; // dummy -> asset does not contain price info
 
 	const classes = useStyles();
 	return (
 		<div className={classes.root}>
-			<RouterLink
+			<Link
 				className={classes.link}
-				to={`/gallery/${slug}/${contractAddressId}/${tokenId}`}
+				to={`/eth-token/${contractAddressId}/${tokenId}`}
 			>
 				<Card variant="outlined" className={classes.card}>
 					<CardMedia
@@ -82,12 +82,14 @@ const GalleryCard = (props) => {
 						title={item.name}
 					/>
 					<CardContent className={classes.collectionSection}>
-						<RouterLink
-							className={classes.collectionLink}
-							to={`/collection/${asset.collection.slug}`}
-						>
-							{item.collection.name}
-						</RouterLink>
+						{item.collection && (
+							<Link
+								className={classes.collectionLink}
+								to={`/collection/${asset.collection.slug}`}
+							>
+								{item.collection.name}
+							</Link>
+						)}
 						<Typography variant="h6" component="h2" className={classes.nftText}>
 							{item.name ? item.name : "-"}
 						</Typography>
@@ -115,9 +117,9 @@ const GalleryCard = (props) => {
 						</CardContent>
 					)}
 				</Card>
-			</RouterLink>
+			</Link>
 		</div>
 	);
 };
 
-export default GalleryCard;
+export default GalleryNftCard;

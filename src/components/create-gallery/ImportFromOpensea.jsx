@@ -63,11 +63,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function ImportFromOpensea({
-	collections,
-	prevButton,
-	handleSubmit,
-}) {
+export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 	const classes = useStyles();
 	const theme = useTheme();
 	const [activeTab, setActiveTab] = useState(0);
@@ -82,7 +78,7 @@ export default function ImportFromOpensea({
 	useEffect(async () => {
 		if (isUserLoggedIn()) {
 			let collectionsData = await fetchCollectionsOfUser(
-				getLoggedInUser().walletAddress
+				getLoggedInUser().ethAddress
 			);
 			let collectionsWithAssets = [];
 			collectionsWithAssets.push(

@@ -1,147 +1,125 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useHistory } from "react-router";
-import { createTheme, ThemeProvider } from "@material-ui/core";
-import CircularSpinner from "../components/common/CircularSpinner";
-import RenderGallery from "../components/gallery/RenderGallery";
-import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
-import {
-	fetchGallery,
-	updateGallery,
-	uploadImageToMediaGallery,
-} from "../api/strapi";
+import { createTheme, makeStyles, ThemeProvider } from "@material-ui/core";
+import { isUserLoggedIn } from "../utils/auth-utils";
+import { convertToSlug, withDefault } from "../utils/commons";
+import { updateGallery, uploadImageToMediaGallery } from "../api/strapi";
+import { useHistory } from "react-router-dom";
+import GalleryHeader from "../components/gallery/GalleryHeader";
+import GalleryNfts from "../components/gallery/GalleryNfts";
+import EditGalleryModal from "../components/gallery/gallery-edit-manager/EditGalleryModal";
 
-const Gallery = ({
-	setGalleryData,
-	setShowAddAssetsView,
-	setShowRemoveAssetsView,
-}) => {
-	const [gallery, setGallery] = useState(null);
-	const [isEditable, setIsEditable] = useState(false);
-	const [isOwner, setIsOwner] = useState(false);
+const useStyles = makeStyles((theme) => ({
+	galleryContainer: {
+		backgroundColor: theme.palette.background.default,
+		paddingTop: "10vh",
+		height: "100%",
+	},
+}));
+
+const Gallery = (props) => {
+	const [inEditMode, setInEditMode] = useState(false);
 	const [coverImage, setCoverImage] = useState(null);
-	const [galleryId, setGalleryId] = useState(null);
-	const [galleryName, setGalleryName] = useState("");
-	const [galleryDescription, setGalleryDescription] = useState("");
 	const [galleryTheme, setGalleryTheme] = useState(null);
 	const [headerLayout, setHeaderLayout] = useState("default");
 	const [isCoverImageUpdated, setIsCoverImageUpdated] = useState(false);
 
-	let { slug } = useParams();
-	const currentUser = getLoggedInUser();
+	const [openEditGalleryModal, setOpenEditGalleryModal] = useState(false);
+	const closeEditGalleryModal = () => setOpenEditGalleryModal(false);
+
 	const history = useHistory();
+	const classes = useStyles();
+
+	const defaultTheme = createTheme({
+		palette: {
+			background: {
+				default: "#fff",
+			},
+			text: {
+				primary: "#000",
+			},
+			primary: {
+				main: "#000",
+				contrastText: "#fff",
+			},
+		},
+	});
 
 	useEffect(async () => {
-		if (!slug) return;
-
-		const json = await fetchGallery(slug);
-		const gallery = {
-			userId: json.userId,
-			creator: json.username,
-			nfts: json.assets,
-		};
-		const defaultTheme = createTheme({
-			palette: {
-				background: {
-					default: "#fff",
-				},
-				text: {
-					primary: "#000",
-				},
-				primary: {
-					main: "#000",
-					contrastText: "#fff",
-				},
-			},
-		});
-		let selectedTheme = json.theme === undefined ? defaultTheme : json.theme;
-
-		setGalleryId(json.id);
-		setGallery(gallery);
-		setGalleryName(json.galleryName);
-		setGalleryDescription(json.description);
-		setCoverImage(json.coverImage);
-		setGalleryData({ galleryId: json.id, nfts: gallery.nfts, slug: slug });
-		if (currentUser.id === gallery.userId) setIsOwner(true);
-		setGalleryTheme(createTheme(selectedTheme));
-		setHeaderLayout(json.headerLayout);
-	}, [slug]);
+		if (props.gallery) {
+			let selectedTheme = withDefault(props.gallery.theme, defaultTheme)
+			setGalleryTheme(createTheme(selectedTheme));
+			setHeaderLayout(props.gallery.headerLayout);
+		}
+	}, [props.gallery]);
 
 	const switchEditableMode = () => {
-		setIsEditable(!isEditable);
+		setInEditMode(!inEditMode);
 	};
 
 	const handleDropzoneSubmit = async (file) => {
 		setCoverImage(file);
 	};
 
-	const handleUpdateGallery = async () => {
+	const handleUpdateGallery = async (updatedMetadata) => {
 		if (!isUserLoggedIn()) {
-			history.push("/");
 			return;
 		}
 
-		const changedParams = {
-			galleryName,
-			description: galleryDescription,
-			slug: convertToSlug(galleryName),
-			theme: galleryTheme,
-			headerLayout: headerLayout,
-		};
-
-		history.push(`${convertToSlug(galleryName)}`);
+		updatedMetadata.slug = convertToSlug(updatedMetadata.galleryName);
+		updatedMetadata.theme = galleryTheme;
+		updatedMetadata.headerLayout = headerLayout;
 
 		if (isCoverImageUpdated) {
 			const uploadResult = await uploadImageToMediaGallery(coverImage);
-			const imageIdentifier = uploadResult.data[0];
-
-			changedParams.coverImage = imageIdentifier;
+			updatedMetadata.coverImage = uploadResult.data[0];
 		}
 
 		setIsCoverImageUpdated(false);
 
-		const updateResult = await updateGallery(galleryId, changedParams);
+		const updateResult = await updateGallery(props.gallery.id, updatedMetadata);
 
 		if (updateResult.status === 200) {
-			history.push(`/gallery/${changedParams.slug}`);
+			history.push(`/gallery/${updatedMetadata.slug}`);
 			window.location.reload();
 		}
 	};
 
-	const convertToSlug = (galleryName) => {
-		return galleryName.toLowerCase().replaceAll(" ", "_");
-	};
 	return (
 		<>
 			{galleryTheme && (
 				<ThemeProvider theme={galleryTheme}>
-					<>
-						{gallery ? (
-							<RenderGallery
-								slug={slug}
-								galleryJson={gallery}
-								switchEditableMode={switchEditableMode}
-								isEditable={isEditable}
-								isOwner={isOwner}
-								coverImage={coverImage}
-								handleDropzoneSubmit={handleDropzoneSubmit}
-								galleryName={galleryName}
-								galleryDescription={galleryDescription}
-								setGalleryName={setGalleryName}
-								setGalleryDescription={setGalleryDescription}
-								handleUpdateGallery={handleUpdateGallery}
-								galleryTheme={galleryTheme}
-								setGalleryTheme={setGalleryTheme}
-								headerLayout={headerLayout}
-								setHeaderLayout={setHeaderLayout}
-								isCoverImageUpdated={isCoverImageUpdated}
-								setIsCoverImageUpdated={setIsCoverImageUpdated}
-								setShowAddAssetsView={setShowAddAssetsView}
-								setShowRemoveAssetsView={setShowRemoveAssetsView}
-							/>
-						) : (
-							<CircularSpinner />
-						)}
-					</>
+					<div className={classes.galleryContainer}>
+						<GalleryHeader
+							openEditGalleryModal={openEditGalleryModal}
+							closeEditGalleryModal={closeEditGalleryModal}
+							setOpenEditGalleryModal={setOpenEditGalleryModal}
+							isOwner={props.isOwner}
+							inEditMode={inEditMode}
+							switchEditableMode={switchEditableMode}
+							handleUpdateGallery={handleUpdateGallery}
+							gallery={props.gallery}
+							coverImage={coverImage}
+							handleDropzoneSubmit={handleDropzoneSubmit}
+							headerLayout={headerLayout}
+							setHeaderLayout={setHeaderLayout}
+							galleryTheme={galleryTheme}
+							setGalleryTheme={setGalleryTheme}
+							isCoverImageUpdated={isCoverImageUpdated}
+							setIsCoverImageUpdated={setIsCoverImageUpdated}
+							setShowAddAssetsView={props.setShowAddAssetsView}
+							setShowRemoveAssetsView={props.setShowRemoveAssetsView}
+						/>
+						<GalleryNfts nfts={props.gallery.assets} slug={props.slug} />
+						<EditGalleryModal
+							openEditGalleryModal={openEditGalleryModal}
+							closeEditGalleryModal={closeEditGalleryModal}
+							switchEditableMode={switchEditableMode}
+							headerLayout={headerLayout}
+							setHeaderLayout={setHeaderLayout}
+							galleryTheme={galleryTheme}
+							setGalleryTheme={setGalleryTheme}
+						/>
+					</div>
 				</ThemeProvider>
 			)}
 		</>

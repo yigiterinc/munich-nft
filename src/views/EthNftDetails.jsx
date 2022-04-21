@@ -1,22 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { makeStyles } from "@material-ui/core/styles";
-import { createTheme, ThemeProvider } from "@material-ui/core";
 import { fetchSingleAsset } from "../api/opensea";
 import { getCurrentCryptoPriceInCurrency } from "../api/currencyHelper";
 import { formatOpenseaPrice } from "../utils/currency-utils";
-
-import RenderNftDetails from "../components/nft-details/RenderNftDetails";
+import NftDetails from "../components/nft-details/NftDetails";
 import withSpinner from "../components/common/WithSpinner";
 
-const useStyles = makeStyles({
-	nftDetailsContainer: {
-		display: "flex",
-		paddingTop: "2vw",
-	},
-});
-
-const NaiveNftDetails = () => {
+const EthNftDetails = () => {
 	const [nftJson, setNftJson] = useState(null);
 	const { contractAddressId, tokenId } = useParams();
 	const [dataIsLoading, setDataIsLoading] = useState(true);
@@ -32,10 +22,11 @@ const NaiveNftDetails = () => {
 			const tokenData = await fetchSingleAsset(contractAddressId, tokenId);
 			const ethPrice = await getCurrentCryptoPriceInCurrency("ETH", "USD");
 			let listedPrice = null;
-			if (tokenData.orders.length !== 0) {
+			if (tokenData.orders && tokenData.orders.length !== 0) {
 				listedPrice = formatOpenseaPrice(tokenData.orders[0].current_price);
 			}
 			let json = {
+				blockchain: "Ethereum",
 				name: tokenData.name,
 				imageSrc: tokenData.image_url,
 				backgroundColor: tokenData.background_color,
@@ -57,24 +48,9 @@ const NaiveNftDetails = () => {
 		fetchData();
 	}, [contractAddressId, tokenId]);
 
-	const defaultTheme = createTheme({
-		palette: {
-			background: {
-				default: "#fff",
-			},
-			text: {
-				primary: "#000",
-			},
-			primary: {
-				main: "#000",
-				contrastText: "#fff",
-			},
-		},
-	});
-
 	return (
 		<>
-			{withSpinner(renderPage(nftJson, defaultTheme), dataIsLoading, {
+			{withSpinner(<NftDetails nftJson={nftJson} />, dataIsLoading, {
 				position: "absolute",
 				left: "50%",
 				top: "50%",
@@ -83,12 +59,4 @@ const NaiveNftDetails = () => {
 	);
 };
 
-const renderPage = (nftJson, defaultTheme) => {
-	return (
-		<ThemeProvider theme={defaultTheme}>
-			<RenderNftDetails nftJson={nftJson} />;
-		</ThemeProvider>
-	);
-};
-
-export default NaiveNftDetails;
+export default EthNftDetails;

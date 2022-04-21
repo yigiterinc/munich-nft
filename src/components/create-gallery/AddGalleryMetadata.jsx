@@ -56,6 +56,15 @@ const useStyles = makeStyles((theme) => ({
 const AddGalleryMetadata = (props) => {
 	const classes = useStyles();
 
+	const ImportOptions = () => {
+		const elements = [];
+		for (const [key, value] of Object.entries(props.importMethods)) {
+			elements.push(<MenuItem value={key}>{value}</MenuItem>);
+		}
+
+		return elements;
+	};
+
 	return (
 		<Grid
 			container
@@ -66,19 +75,22 @@ const AddGalleryMetadata = (props) => {
 			className={classes.gridContainer}
 		>
 			<Grid item xs={12} className={classes.gridItem}>
-				<Typography variant="h5" component="h2" className={classes.coverImageText}>
+				<Typography
+					variant="h5"
+					component="h2"
+					className={classes.coverImageText}
+				>
 					Cover Image
 				</Typography>
-				{
-					props.coverImage ?
-						<img
-							src={props.coverImage.preview}
-							alt="preview"
-							className={classes.image}
-						/>
-						:
-						props.fileUploader
-				}
+				{props.coverImage ? (
+					<img
+						src={props.coverImage.preview}
+						alt="preview"
+						className={classes.image}
+					/>
+				) : (
+					props.fileUploader
+				)}
 			</Grid>
 
 			<Grid item xs={12} className={classes.gridItem}>
@@ -105,29 +117,27 @@ const AddGalleryMetadata = (props) => {
 						props.setImportMethod(event.target.value);
 					}}
 				>
-					<MenuItem value={"OPENSEA"}>Opensea</MenuItem>
-					<MenuItem value={"CONTRACT"}>Contract</MenuItem>
+					{ImportOptions()}
 				</Select>
 			</Grid>
 
-			{
-				props.importMethod === "CONTRACT" ?
-					(<Grid item xs={12} className={classes.gridItem}>
-						<Typography variant="h5" component="h2">
-							Contract address
-						</Typography>
-						<TextField
-							className={classes.textField}
-							variant="outlined"
-							placeholder="0xd26330c38C756215Ed82258283fb4c36025D431E"
-							fullWidth
-							value={props.contractAddress}
-							onChange={(event) => props.setContractAddress(event.target.value)}
-						/>
-					</Grid>)
-					:
-					<></>
-			}
+			{props.importMethod === "CONTRACT" ? (
+				<Grid item xs={12} className={classes.gridItem}>
+					<Typography variant="h5" component="h2">
+						Contract address
+					</Typography>
+					<TextField
+						className={classes.textField}
+						variant="outlined"
+						placeholder="0xd26330c38C756215Ed82258283fb4c36025D431E"
+						fullWidth
+						value={props.contractAddress}
+						onChange={(event) => props.setContractAddress(event.target.value)}
+					/>
+				</Grid>
+			) : (
+				<></>
+			)}
 
 			<Grid item xs={12} className={classes.gridItem}>
 				<Typography variant="h5" component="h2">
