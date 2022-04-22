@@ -70,7 +70,6 @@ export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 		if (isUserLoggedIn()) {
 			const user = getLoggedInUser();
 			const assets = await getNftTokenDetails(user.solAddress);
-			console.log(assets);
 			setUserAssets(assets);
 		}
 	}, []);
@@ -107,7 +106,7 @@ export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 						<Grid key={asset.image_url} item lg={3} md={4} sm={6} xs={12}>
 							<NFTImportCard
 								name={asset.name}
-								image={withDefault(asset.image_url, DEFAULT_IMAGE_PATH)}
+								image={withDefault(asset.image, DEFAULT_IMAGE_PATH)}
 								addToSelected={() => addToSelectedItems(asset)}
 								removeFromSelected={() => removeNftFromSelectedItems(asset)}
 							/>
