@@ -9,6 +9,9 @@ import {
 
 let connection;
 let connect;
+const TOKEN_PROGRAM_ID = new PublicKey(
+	"TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+);
 
 if (SOL_NETWORK === "mainnet") {
 	connection = new Connection("https://api.mainnet-beta.solana.com");
@@ -39,35 +42,66 @@ export const getSolNftDetailsFromUri = async (tokenmeta) => {
 };
 
 export const getAllNftDataByWalletAddress = async (solAddress) => {
-	const nfts = await getParsedNftAccountsByOwner({
-		publicAddress: solAddress,
-		connection: connect,
-		serialization: true,
+	const accounts = await connection.getParsedProgramAccounts(TOKEN_PROGRAM_ID, {
+		filters: [
+			{
+				dataSize: 165,
+			},
+			{
+				memcmp: {
+					offset: 32,
+					bytes: solAddress,
+				},
+			},
+		],
 	});
 
-	return nfts;
+	return accounts;
 };
 
 export const getNftTokenDetails = async (solAddress) => {
 	try {
-		let nftData = await getAllNftDataByWalletAddress(solAddress);
-		let nftTokenDetails = [];
+		let ownedNfts = await getAllNftDataByWalletAddress(solAddress);
 		let promises = [];
 
-		nftData.forEach((nft) =>
+		ownedNfts.forEach((nft) => {
+			if (nft.account.data.parsed.info.tokenAmount.decimals !== 0) {
+				return;
+			}
+			if (parseInt(nft.account.data.parsed.info.tokenAmount.amount, 10) <= 0) {
+				return;
+			}
 			promises.push(
-				axios.get(nft.data.uri).then((response) => {
-					nftTokenDetails.push(response.data);
+				new Promise(async (resolve) => {
+					try {
+						const nftMetaData = await fetchSolNftMetadata(
+							nft.account.data.parsed.info.mint
+						);
+						if (nftMetaData.data.data.uri === "") {
+							resolve();
+							return;
+						}
+						axios.get(nftMetaData.data.data.uri).then((response) => {
+							const nftObj = {};
+							Object.assign(nftObj, response.data);
+							Object.assign(nftObj, nft.account.data.parsed.info);
+							resolve(nftObj);
+						});
+					} catch (ex) {
+						console.log("Could not load", nft);
+						resolve();
+					}
 				})
-			)
-		);
-		await Promise.all(promises);
-
-		nftTokenDetails.map((nft) => {
-			delete Object.assign(nft, { image_url: nft.image }).image;
+			);
 		});
-
-		return nftTokenDetails;
+		const result = await Promise.all(promises);
+		const nfts = [];
+		for (let i = 0; i < result.length; i += 1) {
+			if (result[i]) {
+				nfts.push(result[i]);
+			}
+		}
+		return nfts;
 	} catch (error) {
 		console.log(error);
 	}

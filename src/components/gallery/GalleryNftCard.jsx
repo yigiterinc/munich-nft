@@ -63,6 +63,7 @@ const GalleryNftCard = (props) => {
 
 	const contractAddressId = asset?.item?.asset_contract?.address;
 	const tokenId = asset?.item?.token_id;
+	const mint = asset?.mint;
 	const item = Object.keys(asset).includes("item") ? asset?.item : asset;
 	const defaultImagePath = "/images/no-image.png";
 	const currentPrice = null; // dummy -> asset does not contain price info
@@ -72,13 +73,17 @@ const GalleryNftCard = (props) => {
 		<div className={classes.root}>
 			<Link
 				className={classes.link}
-				to={`/eth-token/${contractAddressId}/${tokenId}`}
+				to={
+					mint
+						? `/sol-token/${mint}`
+						: `/eth-token/${contractAddressId}/${tokenId}`
+				}
 			>
 				<Card variant="outlined" className={classes.card}>
 					<CardMedia
 						component="img"
 						className={classes.image}
-						image={withDefault(item.image_url, defaultImagePath)}
+						image={withDefault(item.image_url || item.image, defaultImagePath)}
 						title={item.name}
 					/>
 					<CardContent className={classes.collectionSection}>
