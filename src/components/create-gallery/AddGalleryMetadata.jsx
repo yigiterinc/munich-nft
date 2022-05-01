@@ -121,7 +121,7 @@ const AddGalleryMetadata = (props) => {
 				</Select>
 			</Grid>
 
-			{props.importMethod === "CONTRACT" ? (
+			{props.importMethod === "CUSTOM_CONTRACT" ? (
 				<Grid item xs={12} className={classes.gridItem}>
 					<Typography variant="h5" component="h2">
 						Contract address
