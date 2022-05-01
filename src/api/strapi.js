@@ -166,7 +166,7 @@ export const saveImportedNfts = async (user, selectedCollectionNftPairs) => {
 
 	return await updateUser(user);
 };
-export const convertSelectedNftsToGalleryAssets = (
+export const convertSelectedEthNftsToGalleryAssets = (
 	selectedNftCollectionPairs
 ) => {
 	if (!selectedNftCollectionPairs) return;
@@ -217,6 +217,20 @@ export const fetchGallery = async (slug) => {
 
 	return resp.data[0];
 };
+
+// Updates a gallery to add new assets
+export const addAssetsToGallery = async (galleryId, assetsToAdd) => {
+	let selectedItemsAreEthNft = assetsToAdd.hasOwnProperty("nft");
+
+	if (selectedItemsAreEthNft) {
+		assetsToAdd = convertSelectedEthNftsToGalleryAssets(assetsToAdd);
+	}
+
+	const existingAssets = (await axios.get(GALLERY_URL(galleryId))).assets;
+	return updateGallery(galleryId, {
+		assets: assetsToAdd.concat(existingAssets)
+	})
+}
 
 export const updateUserProfile = async (
 	username,

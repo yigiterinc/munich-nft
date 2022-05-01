@@ -4,6 +4,11 @@ import { Select, MenuItem, Typography, Button } from "@material-ui/core";
 import RemoveAssets from "./RemoveAssets";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
+import ImportFromOpensea from "../create-gallery/ImportFromOpensea";
+import ImportFromContract from "../create-gallery/ImportFromContract";
+import ImportFromPhantomWallet from "../create-gallery/ImportFromPhantomWallet";
+import { addAssetsToGallery } from "../../api/strapi";
+import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles((theme) => ({
 	gridContainer: {
@@ -18,7 +23,22 @@ const useStyles = makeStyles((theme) => ({
 	},
 	selectMethodText: {
 		fontSize: "20px",
-	}
+	},
+	textField: {
+		marginTop: 20,
+		[theme.breakpoints.up("xs")]: {
+			width: "70vw",
+		},
+		[theme.breakpoints.up("sm")]: {
+			width: "60vw",
+		},
+		[theme.breakpoints.up("md")]: {
+			width: "45vw",
+		},
+		[theme.breakpoints.up("lg")]: {
+			width: "30vw",
+		},
+	},
 }));
 
 function AddorRemoveAssetsContainer(props) {
@@ -27,9 +47,27 @@ function AddorRemoveAssetsContainer(props) {
 
 	const [activeStep, setActiveStep] = useState(0);
 
+	const [contractAddress, setContractAddress] = useState();
+
 	const classes = useStyles()
 
+	const IMPORT_METHODS = {
+		OPENSEA: "Opensea",
+		CUSTOM_CONTRACT: "Ethereum Contract",
+		SOLANA_WALLET: "Phantom Wallet",
+	};
+
+	const ImportOptions = () => {
+		const elements = [];
+		for (const [key, value] of Object.entries(IMPORT_METHODS)) {
+			elements.push(<MenuItem value={key}>{value}</MenuItem>);
+		}
+
+		return elements;
+	};
+
 	const SelectImportMethod = () => {
+
 			return (
 				<Grid
 					container
@@ -46,17 +84,36 @@ function AddorRemoveAssetsContainer(props) {
 					</Grid>
 
 					<Grid item xs={12} className={classes.gridItem}>
+						<Typography variant="h5" component="h2">
+							Import Method
+						</Typography>
 						<Select
 							value={importMethod}
 							onChange={(event) => {
 								setImportMethod(event.target.value);
 							}}
 						>
-							<MenuItem value={"OPENSEA"}>Opensea</MenuItem>
-							<MenuItem value={"SOL"}>Solana</MenuItem>
-							<MenuItem value={"ETH_CONTRACT"}>Ethereum Contract</MenuItem>
+							{ImportOptions()}
 						</Select>
 					</Grid>
+
+					{importMethod === "CUSTOM_CONTRACT" ? (
+						<Grid item xs={12} className={classes.gridItem}>
+							<Typography variant="h5" component="h2">
+								Contract address
+							</Typography>
+							<TextField
+								className={classes.textField}
+								variant="outlined"
+								placeholder="0xd26330c38C756215Ed82258283fb4c36025D431E"
+								fullWidth
+								value={contractAddress}
+								onChange={(event) => setContractAddress(event.target.value)}
+							/>
+						</Grid>
+					) : (
+						<></>
+					)}
 
 					<Grid item xs={12} className={classes.gridItem}>
 						<Button
@@ -72,15 +129,29 @@ function AddorRemoveAssetsContainer(props) {
 			)
 	};
 
-	const SelectedImportComponent = () => {
-		if (importMethod === "OPENSEA") {
-			return <RemoveAssets {...props} />;
-		} else if (importMethod === "ETH_CONTRACT") {
-		} else if (importMethod === "SOL") {
-		}
+	let ImportComponents = {
+		OPENSEA: (
+			<ImportFromOpensea
+				prevButton={props.prevButton}
+				handleSubmit={async () => await addAssetsToGallery()}
+			/>
+		),
+		ETH_CONTRACT: (
+			<ImportFromContract
+				prevButton={props.prevButton}
+				handleSubmit={async () => await addAssetsToGallery()}
+				contractAddress={contractAddress}
+			/>
+		),
+		SOLANA_WALLET: (
+			<ImportFromPhantomWallet
+				prevButton={props.prevButton}
+				handleSubmit={async () => await addAssetsToGallery()}
+			/>
+		),
 	};
 
-	const stepComponents = [<SelectImportMethod />, <SelectedImportComponent />];
+	const stepComponents = [<SelectImportMethod />, ImportComponents[importMethod]];
 
 	return stepComponents[activeStep];
 }
