@@ -10,7 +10,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import SwipeableViews from "react-swipeable-views";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
