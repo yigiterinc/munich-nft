@@ -21,22 +21,17 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: "center",
 	},
 	galleriesContainer: {
-		paddingLeft: "5vw",
-		paddingRight: "5vw",
+		position: "relative",
+		padding: "4vh 6vw",
 		borderRadius: "2px",
 		marginBottom: "5vh",
 		width: "75vw",
 		minHeight: "30vh",
-		paddingBottom: "1vh",
 		boxShadow: "0px 0px 1px #b35bff, 0 5px 20px #ca8eff",
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",
 		flexDirection: "column",
-	},
-	importButton: {
-		display: "block",
-		margin: "0 auto",
 	},
 	createGalleryDescription: {
 		fontSize: "20px",
@@ -62,8 +57,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	addGalleryButton: {
 		position: "absolute",
-		right: "8vw",
-		top: "72vh",
+		top: 7,
+		right: 7,
 		boxShadow: "0px 0px 1px #b35bff, 0 0px 2px #ca8eff",
 	},
 }));
@@ -100,7 +95,7 @@ const Profile = () => {
 
 	const Galleries = () => {
 		return (
-			<>
+			<Grid container spacing={3}>
 				{userIdParam === user?.id && (
 					<IconButton
 						component={Link}
@@ -110,14 +105,12 @@ const Profile = () => {
 						<AddIcon />
 					</IconButton>
 				)}
-				<Grid container spacing={4}>
-					{profileOwnerGalleries.map((gallery) => (
-						<Grid key={gallery.id} item lg={3} md={4} sm={6} xs={12}>
-							<GalleryCard gallery={gallery} />
-						</Grid>
-					))}
-				</Grid>
-			</>
+				{profileOwnerGalleries.map((gallery) => (
+					<Grid key={gallery.id} item lg={3} md={4} sm={6} xs={12}>
+						<GalleryCard gallery={gallery} />
+					</Grid>
+				))}
+			</Grid>
 		);
 	};
 
