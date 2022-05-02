@@ -4,7 +4,6 @@ import AddorRemoveAssetsContainer from "../components/edit-gallery/AddorRemoveAs
 import { isUserLoggedIn, getLoggedInUser } from "../utils/auth-utils";
 import { useHistory } from "react-router-dom";
 import { fetchGallery, updateGallery } from "../api/strapi";
-import RemoveAssets from "../components/edit-gallery/RemoveAssets";
 import { useParams } from "react-router-dom";
 
 const GalleryContainer = () => {
@@ -14,16 +13,22 @@ const GalleryContainer = () => {
 	const [showRemoveAssetsView, setShowRemoveAssetsView] = useState(false);
 	const [galleryData, setGalleryData] = useState(null);
 
+	const [updatePerformed, setUpdatePerformed] = useState(false);
+
 	const history = useHistory();
 
 	const user = getLoggedInUser();
 
-	useEffect(async () => {
-		if (!galleryData) {
+	useEffect( () => {
+		const loadGalleryData = async () => {
 			setGalleryData(await fetchGallery(slug))
 		}
-	}, []);
 
+		if (!galleryData || updatePerformed) {
+			loadGalleryData()
+			setUpdatePerformed(false)
+		}
+	}, [galleryData, updatePerformed]);
 
 	const handleAddSelectedAssets = async (selectedItems) => {
 		if (!isUserLoggedIn()) {
@@ -51,12 +56,15 @@ const GalleryContainer = () => {
 
 		const updatedAssets = galleryData.assets.concat(addedGalleryAssets);
 
-		const updateResult = await updateGallery(galleryData.galleryId, {
+		console.log(galleryData);
+
+		const updateResult = await updateGallery(galleryData.id, {
 			assets: updatedAssets,
 		});
 
 		if (updateResult.status === 200) {
 			setShowAddAssetsView(false);
+			setUpdatePerformed(true)
 		}
 	};
 
@@ -77,11 +85,6 @@ const GalleryContainer = () => {
 				...pair.item,
 			};
 
-			galleryAsset.collection = {
-				name: pair.collection.name,
-				slug: pair.collection.slug,
-			};
-
 			removedGalleryAssets.push(galleryAsset);
 		});
 
@@ -91,31 +94,26 @@ const GalleryContainer = () => {
 			(item) => !removedAssetIds.includes(item.id)
 		);
 
-		const updateResult = await updateGallery(galleryData.galleryId, {
+		const updateResult = await updateGallery(galleryData.id, {
 			assets: updatedAssets,
 		});
 
 		if (updateResult.status === 200) {
 			setShowRemoveAssetsView(false);
+			setUpdatePerformed(true)
 		}
 	};
 
 	const getActiveComponent = () => {
-		if (showAddAssetsView) {
+		if (showAddAssetsView || showRemoveAssetsView) {
 			return (
 				<AddorRemoveAssetsContainer
-					add={true}
+					add={showAddAssetsView}
 					galleryAssets={galleryData.assets}
-					handleChangeGalleryAssets={handleAddSelectedAssets}
-					setShowSelectedView={setShowAddAssetsView}
-				/>
-			);
-		} else if (showRemoveAssetsView) {
-			return (
-				<RemoveAssets
-					galleryAssets={galleryData.assets}
-					handleChangeGalleryAssets={handleRemoveSelectedAssets}
-					setShowSelectedView={setShowRemoveAssetsView}
+					handleAddGalleryAssets={handleAddSelectedAssets}
+					setShowAddAssetsView={setShowAddAssetsView}
+					setShowRemoveAssetsView={setShowRemoveAssetsView}
+					handleRemoveGalleryAssets={handleRemoveSelectedAssets}
 				/>
 			);
 		} else {

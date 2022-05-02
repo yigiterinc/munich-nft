@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 
 import { Select, MenuItem, Typography, Button } from "@material-ui/core";
-import RemoveAssets from "./RemoveAssets";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import ImportFromOpensea from "../create-gallery/ImportFromOpensea";
 import ImportFromContract from "../create-gallery/ImportFromContract";
 import ImportFromPhantomWallet from "../create-gallery/ImportFromPhantomWallet";
-import { addAssetsToGallery } from "../../api/strapi";
 import TextField from "@material-ui/core/TextField";
+import RemoveAssets from "./RemoveAssets";
 
 const useStyles = makeStyles((theme) => ({
 	gridContainer: {
@@ -50,6 +49,8 @@ function AddorRemoveAssetsContainer(props) {
 	const [contractAddress, setContractAddress] = useState();
 
 	const classes = useStyles()
+
+	console.log(props);
 
 	const IMPORT_METHODS = {
 		OPENSEA: "Opensea",
@@ -133,27 +134,31 @@ function AddorRemoveAssetsContainer(props) {
 		OPENSEA: (
 			<ImportFromOpensea
 				prevButton={props.prevButton}
-				handleSubmit={async () => await addAssetsToGallery()}
+				handleSubmit={props.handleAddGalleryAssets}
 			/>
 		),
 		ETH_CONTRACT: (
 			<ImportFromContract
 				prevButton={props.prevButton}
-				handleSubmit={async () => await addAssetsToGallery()}
+				handleSubmit={props.handleAddGalleryAssets}
 				contractAddress={contractAddress}
 			/>
 		),
 		SOLANA_WALLET: (
 			<ImportFromPhantomWallet
 				prevButton={props.prevButton}
-				handleSubmit={async () => await addAssetsToGallery()}
+				handleSubmit={props.handleAddGalleryAssets}
 			/>
 		),
 	};
 
-	const stepComponents = [<SelectImportMethod />, ImportComponents[importMethod]];
+	const addAssetsSteps = [<SelectImportMethod />, ImportComponents[importMethod]];
 
-	return stepComponents[activeStep];
+	return props.add ?
+		addAssetsSteps[activeStep] :
+		<RemoveAssets galleryAssets={props.galleryAssets}
+									handleChangeGalleryAssets={props.handleRemoveGalleryAssets}
+								  setShowSelectedView={props.setShowRemoveAssetsView}/>;
 }
 
 export default AddorRemoveAssetsContainer;

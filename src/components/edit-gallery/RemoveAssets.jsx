@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 	button: {
 		background: "#b35bff",
 		color: "white",
-		margin: "13px 25px",
+		margin: "13px 20px",
 		padding: "13px 25px",
 		"&:hover": {
 			background: darken("#b35bff", 0.1),
@@ -134,7 +134,6 @@ const RemoveAssets = ({
 						);
 					})
 				}
-				)}
 			</Grid>)
 	};
 
@@ -161,7 +160,7 @@ const RemoveAssets = ({
 				size="large"
 				onClick={() => setShowSelectedView(false)}
 			>
-				Back
+				Close
 			</Button>
 			<Button
 				variant="contained"
@@ -193,7 +192,7 @@ const RemoveAssets = ({
 			>
 				{TabPanelWithSpinner(0, AssetCardsGrid())}
 			</SwipeableViews>
-			;{!dataIsLoading && ButtonsMenu()}
+			{!dataIsLoading && ButtonsMenu()}
 		</div>
 	);
 };
