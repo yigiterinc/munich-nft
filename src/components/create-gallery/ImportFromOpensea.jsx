@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 		paddingLeft: "5vw",
 		paddingRight: "5vw",
 		paddingTop: "5vh",
+		paddingBottom: "5vh",
 		overflow: "scroll",
 		height: "auto",
 	},
@@ -165,7 +166,7 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 									}
 								/>
 							</Grid>
-						);
+						)
 					})
 				)}
 			</Grid>
@@ -243,7 +244,7 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 				{TabPanelWithSpinner(collectionsTabIndex, CollectionCardsGrid)}
 				{TabPanelWithSpinner(nftsTabIndex, AssetCardsGrid)}
 			</SwipeableViews>
-			;{!dataIsLoading && ButtonsMenu}
+			{!dataIsLoading && ButtonsMenu}
 		</div>
 	);
 }
