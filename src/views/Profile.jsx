@@ -6,7 +6,8 @@ import { makeStyles, darken } from "@material-ui/core/styles";
 import { Link, useParams } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import AddIcon from "@material-ui/icons/Add";
+import Tooltip from "@material-ui/core/Tooltip";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { fetchExistingUserWithId, fetchUserGalleries } from "../api/strapi";
 import GalleryCard from "../components/common/GalleryCard";
 import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
@@ -59,7 +60,6 @@ const useStyles = makeStyles((theme) => ({
 		position: "absolute",
 		top: 7,
 		right: 7,
-		boxShadow: "0px 0px 1px #b35bff, 0 0px 2px #ca8eff",
 	},
 }));
 
@@ -97,13 +97,15 @@ const Profile = () => {
 		return (
 			<Grid container spacing={3}>
 				{userIdParam === user?.id && (
-					<IconButton
-						component={Link}
-						to="/create-gallery"
-						className={classes.addGalleryButton}
-					>
-						<AddIcon />
-					</IconButton>
+					<Tooltip title="Add Gallery">
+						<IconButton
+							component={Link}
+							to="/create-gallery"
+							className={classes.addGalleryButton}
+						>
+							<AddCircleOutlineIcon fontSize="large" />
+						</IconButton>
+					</Tooltip>
 				)}
 				{profileOwnerGalleries.map((gallery) => (
 					<Grid key={gallery.id} item lg={3} md={4} sm={6} xs={12}>
