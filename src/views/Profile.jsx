@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: "5vh",
 		width: "75vw",
 		minHeight: "30vh",
-		boxShadow: "0px 0px 1px #b35bff, 0 5px 20px #ca8eff",
+		boxShadow: "0px 0px 5px #b35bff, 0px 5px 20px #ca8eff",
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",

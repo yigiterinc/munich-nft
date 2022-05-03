@@ -4,6 +4,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import Avatar from "@material-ui/core/Avatar";
+import Tooltip from "@material-ui/core/Tooltip";
 import { Link } from "react-router-dom";
 import { darken, lighten, makeStyles } from "@material-ui/core/styles";
 import { truncateWalletAddress } from "../../utils/commons";
@@ -194,13 +195,15 @@ const ProfileHeader = ({ ownProfile, profile }) => {
 				}}
 			/>
 			{ownProfile && (
-				<IconButton
-					component={Link}
-					to="/profile-settings"
-					className={classes.profileSettingsButton}
-				>
-					<SettingsIcon fontSize="large" />
-				</IconButton>
+				<Tooltip title="Profile Settings">
+					<IconButton
+						component={Link}
+						to="/profile-settings"
+						className={classes.profileSettingsButton}
+					>
+						<SettingsIcon fontSize="large" />
+					</IconButton>
+				</Tooltip>
 			)}
 			{profile && renderProfile()}
 		</div>
