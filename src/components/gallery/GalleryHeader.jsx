@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import EditGalleryMenu from "./gallery-edit-manager/EditGalleryMenu";
-import { Grid, Link, TextField, Typography } from "@material-ui/core";
+import { Grid, TextField, Typography } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import GalleryCoverImage from "./gallery-header/GalleryCoverImage";
 import { truncateString } from "../../utils/commons";

@@ -169,19 +169,13 @@ const Profile = () => {
 
 	return (
 		<div className={classes.mainContainer}>
-			{user && (
-				<>
-					<ProfileHeader
-						ownProfile={userIdParam === user?.id}
-						profile={profileOwner}
-					/>
-					{withSpinner(
-						<div className={classes.galleriesContainer}>
-							{GallerySection()}
-						</div>,
-						gallerySectionLoading
-					)}
-				</>
+			<ProfileHeader
+				ownProfile={userIdParam === user?.id}
+				profile={profileOwner}
+			/>
+			{withSpinner(
+				<div className={classes.galleriesContainer}>{GallerySection()}</div>,
+				gallerySectionLoading
 			)}
 		</div>
 	);
