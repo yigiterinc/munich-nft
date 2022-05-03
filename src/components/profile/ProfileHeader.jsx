@@ -36,20 +36,21 @@ const useStyles = makeStyles((theme) => ({
 	name: {
 		marginTop: theme.spacing(1),
 		fontSize: "25px",
-		fontWeight: "lighter",
+		fontWeight: 500,
 		letterSpacing: "1px",
 	},
 	walletAddresses: {
-		marginTop: "10px",
+		marginTop: theme.spacing(1),
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",
 		gap: "10px",
 	},
 	bio: {
-		marginTop: theme.spacing(1),
+		marginTop: theme.spacing(2),
 		fontSize: "18px",
-		fontWeight: "lighter",
+		color: "gray",
+		fontWeight: 400,
 		letterSpacing: "1px",
 	},
 	profileSettingsButton: {
