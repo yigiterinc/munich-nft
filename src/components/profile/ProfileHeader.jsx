@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import SettingsIcon from "@material-ui/icons/Settings";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
+import Chip from "@material-ui/core/Chip";
+import Avatar from "@material-ui/core/Avatar";
 import { Link } from "react-router-dom";
 import { darken, lighten, makeStyles } from "@material-ui/core/styles";
 import { truncateWalletAddress } from "../../utils/commons";
@@ -37,10 +39,12 @@ const useStyles = makeStyles((theme) => ({
 		fontWeight: "lighter",
 		letterSpacing: "1px",
 	},
-	address: {
+	walletAddresses: {
 		marginTop: "10px",
-		letterSpacing: "1.5px",
-		display: "block",
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		gap: "10px",
 	},
 	bio: {
 		marginTop: theme.spacing(1),
@@ -59,6 +63,8 @@ const ProfileHeader = ({ ownProfile, profile }) => {
 	const classes = useStyles();
 	const [updatedProfileImage, setUpdatedProfileImage] = useState();
 	const [updatedBannerImage, setUpdatedBannerImage] = useState();
+	const [isEthAddressClicked, setIsEthAddressClicked] = useState(false);
+	const [isSolAddressClicked, setIsSolAddressClicked] = useState(false);
 
 	useEffect(async () => {
 		if (updatedProfileImage) {
@@ -81,6 +87,28 @@ const ProfileHeader = ({ ownProfile, profile }) => {
 			console.log(bannerImageUploadResult);
 		}
 	}, [updatedBannerImage]);
+
+	useEffect(() => {
+		if (isEthAddressClicked) {
+			setTimeout(() => {
+				setIsEthAddressClicked(false);
+			}, "1000");
+		}
+	}, [isEthAddressClicked]);
+
+	useEffect(() => {
+		if (isSolAddressClicked) {
+			setTimeout(() => {
+				setIsSolAddressClicked(false);
+			}, "1000");
+		}
+	}, [isSolAddressClicked]);
+
+	const copyToClipboard = (str) => {
+		if (navigator && navigator.clipboard && navigator.clipboard.writeText)
+			return navigator.clipboard.writeText(str);
+		return Promise.reject("The Clipboard API is not available.");
+	};
 
 	const ProfileImage = () => {
 		return (
@@ -105,24 +133,39 @@ const ProfileHeader = ({ ownProfile, profile }) => {
 				<Typography className={classes.name} variant="h5" component="h2">
 					{profile?.username ? profile.username : "Alien"}
 				</Typography>
-				<Typography
-					className={classes.address}
-					variant="h6"
-					component="h2"
-					color="textSecondary"
-				>
-					{profile.ethAddress &&
-						`ETH: ${truncateWalletAddress(`${profile?.ethAddress}`, 13)}`}
-				</Typography>
-				<Typography
-					className={classes.address}
-					variant="h6"
-					component="h2"
-					color="textSecondary"
-				>
-					{profile.solAddress &&
-						`SOL: ${truncateWalletAddress(`${profile?.solAddress}`, 13)}`}
-				</Typography>
+				<div className={classes.walletAddresses}>
+					{profile.ethAddress && (
+						<Chip
+							avatar={<Avatar alt="Eth" src="/images/eth_logo.png" />}
+							label={
+								isEthAddressClicked
+									? "Copied!"
+									: truncateWalletAddress(`${profile?.ethAddress}`, 13)
+							}
+							onClick={() => {
+								setIsEthAddressClicked(true);
+								copyToClipboard(profile.ethAddress);
+							}}
+							variant="outlined"
+						/>
+					)}
+					{profile.solAddress && (
+						<Chip
+							avatar={<Avatar alt="Sol" src="/images/sol_logo.png" />}
+							label={
+								isSolAddressClicked
+									? "Copied!"
+									: truncateWalletAddress(`${profile?.solAddress}`, 13)
+							}
+							onClick={() => {
+								setIsSolAddressClicked(true);
+								copyToClipboard(profile.solAddress);
+							}}
+							variant="outlined"
+						/>
+					)}
+				</div>
+
 				<Typography className={classes.bio} variant="h6" component="h2">
 					{profile.bio}
 				</Typography>
