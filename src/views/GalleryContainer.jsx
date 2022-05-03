@@ -42,6 +42,7 @@ const GalleryContainer = () => {
 
 		let addedGalleryAssets = [];
 		selectedItems.forEach((pair) => {
+			console.log(pair);
 			const galleryAsset = {
 				...pair.item,
 			};
@@ -51,7 +52,8 @@ const GalleryContainer = () => {
 				slug: pair.collection.slug,
 			};
 
-			addedGalleryAssets.push(galleryAsset);
+			const collection = pair.collection;
+			addedGalleryAssets.push({ item: galleryAsset, collection });
 		});
 
 		const updatedAssets = galleryData.assets.concat(addedGalleryAssets);

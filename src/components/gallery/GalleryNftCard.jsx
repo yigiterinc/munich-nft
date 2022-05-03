@@ -60,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
 
 const GalleryNftCard = (props) => {
 	let asset = props.asset;
+	console.log(asset);
 
 	const contractAddressId = asset?.item?.asset_contract?.address;
 	const tokenId = asset?.item?.token_id;
