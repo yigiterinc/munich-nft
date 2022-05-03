@@ -102,6 +102,7 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 
 	const addToSelectedItems = (item) => {
 		setSelectedItems([...selectedItems, item]);
+		console.log(selectedItems);
 	};
 
 	const removeCollectionFromSelectedItems = (itemToBeRemoved) => {
@@ -133,9 +134,9 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 							<CollectionImportCard
 								name={collection.name}
 								image={withDefault(collection.image_url, DEFAULT_IMAGE_PATH)}
-								addToSelected={(coll) => addToSelectedItems(coll)}
-								removeFromSelected={(coll) =>
-									removeCollectionFromSelectedItems(coll)
+								addToSelected={() => addToSelectedItems(collection)}
+								removeFromSelected={() =>
+									removeCollectionFromSelectedItems(collection)
 								}
 							/>
 						</Grid>

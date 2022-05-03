@@ -139,63 +139,6 @@ export const saveImportedCollections = async (user, collectionsToSave) => {
 	return await updateUser(user);
 };
 
-export const saveImportedNfts = async (user, selectedCollectionNftPairs) => {
-	selectedCollectionNftPairs.map((collectionNftPair) => {
-		let existingCollectionInStrapi = user.importedCollections.find(
-			(collection) => collection.slug === collectionNftPair.collection.slug
-		);
-
-		if (existingCollectionInStrapi) {
-			existingCollectionInStrapi.assets.push(collectionNftPair.nft);
-		} else {
-			const allAssetsFromOpenseaInThisCollection =
-				collectionNftPair.collection.assets;
-
-			const selectedAssetsOnly = allAssetsFromOpenseaInThisCollection.filter(
-				(asset) =>
-					anySelectedCollectionNftPairContainsThisAsset(
-						asset,
-						selectedCollectionNftPairs
-					)
-			);
-
-			collectionNftPair.collection.assets = selectedAssetsOnly;
-			user.importedCollections.push(collectionNftPair.collection);
-		}
-	});
-
-	return await updateUser(user);
-};
-export const convertSelectedEthNftsToGalleryAssets = (
-	selectedNftCollectionPairs
-) => {
-	if (!selectedNftCollectionPairs) return;
-	let galleryAssets = [];
-	selectedNftCollectionPairs.forEach((pair) => {
-		const galleryAsset = {
-			...pair.nft,
-		};
-
-		galleryAsset.collection = {
-			name: pair.collection.name,
-			slug: pair.collection.slug,
-		};
-
-		galleryAssets.push(galleryAsset);
-	});
-
-	return galleryAssets;
-};
-
-const anySelectedCollectionNftPairContainsThisAsset = (
-	asset,
-	selectedCollectionNftPairs
-) => {
-	return selectedCollectionNftPairs.some(
-		(nftCollection) => nftCollection.nft === asset
-	);
-};
-
 export const fetchGalleries = async () => {
 	const resp = await axios.get(GALLERIES_URL);
 	console.log(resp);

@@ -11,6 +11,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import SwipeableViews from "react-swipeable-views";
 import { useParams } from "react-router-dom";
+import { withDefault } from "../../utils/commons";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -110,24 +111,25 @@ const RemoveAssets = ({
 	};
 
 	const DEFAULT_IMAGE_PATH = "/images/no-image.png";
-
-	const galleryAssetIds = galleryAssets.map((asset) => asset.id);
+	const DEFAULT_NAME = "Nameless"
 
 	const AssetCardsGrid = () => {
 		return (
 			<Grid container spacing={3} direction="row" alignItems="center">
 				{galleryAssets
-					.map((item) => {
+					.map((asset) => {
+						let importedAsAsset = Object.keys(asset).includes("item");
+
 						return (
-							<Grid key={item?.id} item lg={3} md={4} sm={6} xs={12}>
+							<Grid key={asset.item?.id} item lg={3} md={4} sm={6} xs={12}>
 								<NFTImportCard
-									name={item.name}
-									image={item.image_url}
+									name={withDefault(importedAsAsset ? asset?.item.name : asset.name, DEFAULT_NAME)}
+									image={withDefault(importedAsAsset ? asset?.item.image_url : asset.image_url, DEFAULT_IMAGE_PATH)}
 									addToSelected={() =>
-										addToSelectedItems({ item })
+										addToSelectedItems({ asset })
 									}
 									removeFromSelected={() =>
-										removeNftFromSelectedItems({ item })
+										removeNftFromSelectedItems({ asset })
 									}
 								/>
 							</Grid>

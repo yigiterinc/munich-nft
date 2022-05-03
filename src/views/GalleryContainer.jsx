@@ -30,6 +30,30 @@ const GalleryContainer = () => {
 		}
 	}, [galleryData, updatePerformed]);
 
+	const handleImportAssetsOrCollection = async (selectedItems) => {
+		if (!selectedItems)	return;
+
+		let selectedItemsAreEthNft = selectedItems[0].hasOwnProperty("item"); // and not collection
+		if (selectedItemsAreEthNft) {
+			return await handleAddSelectedAssets(selectedItems)
+		}
+
+		/* At this point we know that selectedItems is a collection
+			 Only one collection can be selected at a time, so we can take 0th index
+		*/
+		selectedItems = selectedItems[0]
+		let updatedAssets;
+		if (selectedItems.assets) {
+		 updatedAssets = selectedItems.assets.concat(galleryData.assets);
+		} else {
+			console.log("assets field not found in selected items");
+		}
+
+		console.log(updatedAssets, selectedItems);
+
+		return await postGalleryAssetsUpdate(updatedAssets);
+	}
+
 	const handleAddSelectedAssets = async (selectedItems) => {
 		if (!isUserLoggedIn()) {
 			history.push("/");
@@ -60,15 +84,20 @@ const GalleryContainer = () => {
 
 		console.log(galleryData);
 
+		return await postGalleryAssetsUpdate(updatedAssets)
+	};
+
+	const postGalleryAssetsUpdate = async (updatedAssets) => {
 		const updateResult = await updateGallery(galleryData.id, {
 			assets: updatedAssets,
 		});
 
 		if (updateResult.status === 200) {
 			setShowAddAssetsView(false);
+			setShowRemoveAssetsView(false);
 			setUpdatePerformed(true)
 		}
-	};
+	}
 
 	const handleRemoveSelectedAssets = async (selectedItems) => {
 		console.log(selectedItems);
@@ -83,11 +112,17 @@ const GalleryContainer = () => {
 
 		let removedGalleryAssets = [];
 		selectedItems.forEach((pair) => {
-			const galleryAsset = {
-				...pair.item,
-			};
+			const isImportedAsAsset = Object.keys(pair).includes('item');
 
-			removedGalleryAssets.push(galleryAsset);
+			if (isImportedAsAsset) {
+				const galleryAsset = {
+					...pair.item,
+				};
+
+				removedGalleryAssets.push(galleryAsset);
+			} else {
+				removedGalleryAssets.push(pair.asset)
+			}
 		});
 
 		const removedAssetIds = removedGalleryAssets.map((item) => item.id);
@@ -96,14 +131,9 @@ const GalleryContainer = () => {
 			(item) => !removedAssetIds.includes(item.id)
 		);
 
-		const updateResult = await updateGallery(galleryData.id, {
-			assets: updatedAssets,
-		});
+		console.log(updatedAssets);
 
-		if (updateResult.status === 200) {
-			setShowRemoveAssetsView(false);
-			setUpdatePerformed(true)
-		}
+		return await postGalleryAssetsUpdate(updatedAssets)
 	};
 
 	const getActiveComponent = () => {
@@ -112,7 +142,7 @@ const GalleryContainer = () => {
 				<AddorRemoveAssetsContainer
 					add={showAddAssetsView}
 					galleryAssets={galleryData.assets}
-					handleAddGalleryAssets={handleAddSelectedAssets}
+					handleAddGalleryAssets={handleImportAssetsOrCollection}
 					setShowAddAssetsView={setShowAddAssetsView}
 					setShowRemoveAssetsView={setShowRemoveAssetsView}
 					handleRemoveGalleryAssets={handleRemoveSelectedAssets}
