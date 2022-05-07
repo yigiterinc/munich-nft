@@ -46,8 +46,6 @@ const useStyles = makeStyles((theme) => ({
 	buttonsContainer: {
 		display: "flex",
 		justifyContent: "center",
-		marginBottom: "10vh",
-		marginTop: "2vh",
 	},
 	tabPanel: {
 		paddingLeft: "5vw",

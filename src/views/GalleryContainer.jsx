@@ -6,6 +6,8 @@ import { useHistory } from "react-router-dom";
 import { fetchGallery, updateGallery } from "../api/strapi";
 import { useParams } from "react-router-dom";
 
+import Modal from '../components/common/Modal'
+
 const GalleryContainer = () => {
 	const { slug } = useParams();
 
@@ -54,6 +56,11 @@ const GalleryContainer = () => {
 		return await postGalleryAssetsUpdate(updatedAssets);
 	}
 
+	const setOpenModal = (open) => {
+		setShowAddAssetsView(open)
+		setShowRemoveAssetsView(open)
+	}
+
 	const handleAddSelectedAssets = async (selectedItems) => {
 		if (!isUserLoggedIn()) {
 			history.push("/");
@@ -93,8 +100,7 @@ const GalleryContainer = () => {
 		});
 
 		if (updateResult.status === 200) {
-			setShowAddAssetsView(false);
-			setShowRemoveAssetsView(false);
+			setOpenModal(false)
 			setUpdatePerformed(true)
 		}
 	}
@@ -136,9 +142,10 @@ const GalleryContainer = () => {
 		return await postGalleryAssetsUpdate(updatedAssets)
 	};
 
-	const getActiveComponent = () => {
-		if (showAddAssetsView || showRemoveAssetsView) {
-			return (
+	return (
+		galleryData &&
+		<>
+			<Modal title="Edit Gallery" openModal={showAddAssetsView || showRemoveAssetsView} setOpenModal={setOpenModal}>
 				<AddorRemoveAssetsContainer
 					add={showAddAssetsView}
 					galleryAssets={galleryData.assets}
@@ -147,21 +154,17 @@ const GalleryContainer = () => {
 					setShowRemoveAssetsView={setShowRemoveAssetsView}
 					handleRemoveGalleryAssets={handleRemoveSelectedAssets}
 				/>
-			);
-		} else {
-			return (
-				<Gallery
-					gallery={galleryData}
-					slug={slug}
-					isOwner={user && (user.id === galleryData?.userId)}
-					setShowAddAssetsView={setShowAddAssetsView}
-					setShowRemoveAssetsView={setShowRemoveAssetsView}
-				/>
-			);
-		}
-	};
+			</Modal>
 
-	return getActiveComponent();
+			<Gallery
+				gallery={galleryData}
+				slug={slug}
+				isOwner={user && (user.id === galleryData?.userId)}
+				setShowAddAssetsView={setShowAddAssetsView}
+				setShowRemoveAssetsView={setShowRemoveAssetsView}
+			/>
+		</>
+	);
 };
 
 export default GalleryContainer;

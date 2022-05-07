@@ -46,12 +46,12 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
 	root: {
 		backgroundColor: theme.palette.background.paper,
-		width: "100vw",
+		width: "auto",
+		height: "auto"
 	},
 	buttonsContainer: {
 		display: "flex",
 		justifyContent: "center",
-		marginBottom: "10vh",
 		marginTop: "2vh",
 	},
 	tabPanel: {
@@ -61,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
 		paddingBottom: "5vh",
 		overflow: "scroll",
 		height: "auto",
+		width: "auto"
 	},
 }));
 
@@ -130,7 +131,7 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 			<Grid container spacing={3}>
 				{userCollections?.map((collection) => {
 					return (
-						<Grid key={collection.slug} item lg={3} md={4} sm={6} xs={12}>
+						<Grid key={collection.slug} item xs={4}>
 							<CollectionImportCard
 								name={collection.name}
 								image={withDefault(collection.image_url, DEFAULT_IMAGE_PATH)}
@@ -157,7 +158,7 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 				{userCollections?.map((collection) =>
 					collection?.assets.map((item) => {
 						return (
-							<Grid key={item?.id} item lg={3} md={4} sm={6} xs={12}>
+							<Grid key={item?.id} item xs={4}>
 								<NFTImportCard
 									name={item.name}
 									image={item.image_url}
