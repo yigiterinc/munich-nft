@@ -4,24 +4,24 @@ import { truncateWalletAddress } from "../../../../utils/commons";
 import {
 	getLoggedInUser,
 	isLoggedInWithMetamask,
-	loginWithMetamask,
 } from "../../../../utils/auth-utils";
-import Button from "@material-ui/core/Button";
+import { Typography } from "@material-ui/core";
 
 function MetamaskButton() {
 	const metamaskButton = () => {
 		return (
-
-			<Button onClick={() => loginWithMetamask()}>
-				Login
-			</Button>
+			<Typography style={{ fontSize: 14, marginLeft: 8 }}>
+				LOGIN WITH METAMASK
+			</Typography>
 		);
 	};
 
-	return (
-		isLoggedInWithMetamask()
-			? <Button disabled>{truncateWalletAddress(getLoggedInUser().ethAddress)}</Button>
-			: metamaskButton()
+	return isLoggedInWithMetamask() ? (
+		<Typography style={{ fontSize: 14, marginLeft: 8 }}>
+			{truncateWalletAddress(getLoggedInUser().ethAddress)}
+		</Typography>
+	) : (
+		metamaskButton()
 	);
 }
 
