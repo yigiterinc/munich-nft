@@ -56,8 +56,12 @@ const LoginMenu = (props) => {
 
 	return (
 		<div>
-			<Button aria-controls="simple-menu" aria-haspopup="true">
-				<AccountBalanceWalletTwoToneIcon onClick={handleClick} size={30} />
+			<Button
+				aria-controls="simple-menu"
+				aria-haspopup="true"
+				onClick={handleClick}
+			>
+				<AccountBalanceWalletTwoToneIcon size={30} />
 			</Button>
 			<Menu
 				id="simple-menu"
