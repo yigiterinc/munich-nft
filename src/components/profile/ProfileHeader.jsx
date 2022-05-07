@@ -14,6 +14,7 @@ import {
 	uploadImageToMediaGallery,
 } from "../../api/strapi";
 import ImageUploadWithPreview from "../common/ImageUploadWithPreview";
+import ImageContainer from "../common/ImageContainer";
 
 const useStyles = makeStyles((theme) => ({
 	mainContainer: {
@@ -115,16 +116,25 @@ const ProfileHeader = ({ ownProfile, profile }) => {
 	const ProfileImage = () => {
 		return (
 			<div className={classes.profileImage}>
-				<ImageUploadWithPreview
-					isCircle
-					height={100}
-					width={100}
-					userId={profile?.id}
-					image={profile?.profilePicture}
-					setNewImage={(uploadedImage) => {
-						setUpdatedProfileImage(uploadedImage);
-					}}
-				/>
+				{ownProfile ? (
+					<ImageUploadWithPreview
+						isCircle
+						height={100}
+						width={100}
+						userId={profile?.id}
+						image={profile?.profilePicture}
+						setNewImage={(uploadedImage) => {
+							setUpdatedProfileImage(uploadedImage);
+						}}
+					/>
+				) : (
+					<ImageContainer
+						isCircle
+						height={100}
+						width={100}
+						image={profile?.profilePicture}
+					/>
+				)}
 			</div>
 		);
 	};
@@ -185,15 +195,23 @@ const ProfileHeader = ({ ownProfile, profile }) => {
 
 	return (
 		<div className={classes.mainContainer}>
-			<ImageUploadWithPreview
-				height={"30vh"}
-				width={"80vw"}
-				userId={profile?.id}
-				image={profile?.bannerImage}
-				setNewImage={(uploadedImage) => {
-					setUpdatedBannerImage(uploadedImage);
-				}}
-			/>
+			{ownProfile ? (
+				<ImageUploadWithPreview
+					height={"30vh"}
+					width={"80vw"}
+					userId={profile?.id}
+					image={profile?.bannerImage}
+					setNewImage={(uploadedImage) => {
+						setUpdatedBannerImage(uploadedImage);
+					}}
+				/>
+			) : (
+				<ImageContainer
+					height={"30vh"}
+					width={"80vw"}
+					image={profile?.bannerImage}
+				/>
+			)}
 			{ownProfile && (
 				<Tooltip title="Profile Settings">
 					<IconButton
