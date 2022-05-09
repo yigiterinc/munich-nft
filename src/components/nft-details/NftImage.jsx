@@ -4,16 +4,12 @@ import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
 	nftImageContainer: {
-		width: "35vw",
-		borderRadius: "10px",
-		border: "1px solid rgb(229, 232, 235)",
+		width: "30vw",
 		background: theme.palette.background.default,
 	},
 	image: ({ backgroundColor }) => ({
-		height: "inherit",
-		width: "inherit",
-		objectFit: "contain",
-		borderRadius: "inherit",
+		height: "400px",
+		width: "400px",
 		backgroundColor: backgroundColor,
 	}),
 }));

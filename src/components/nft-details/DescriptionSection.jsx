@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const DescriptionTab = (nftJson) => {
+const DescriptionSection = (nftJson) => {
 	const classes = useStyles();
 	return (
 		<div className={classes.descriptionTabContainer}>
@@ -20,4 +20,4 @@ const DescriptionTab = (nftJson) => {
 	);
 };
 
-export default DescriptionTab;
+export default DescriptionSection;

@@ -4,17 +4,21 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles({
+	properties: {
+		paddingTop: "4vh",
+		paddingBottom: "4vh",
+	},
 	propertyBox: {
 		backgroundColor: "rgba(220, 94, 132, 0.06)",
 		borderRadius: "6px",
 		border: "1px solid rgb(230,46,132)",
-		padding: "10px",
+		padding: "8px",
 		textAlign: "center",
 	},
 	propertyType: {
 		color: "rgb(255, 0, 117)",
 		textTransform: "uppercase",
-		fontSize: "12px",
+		fontSize: "13px",
 		fontWeight: "500",
 		overflow: "hidden",
 		whiteSpace: "nowrap",
@@ -22,9 +26,9 @@ const useStyles = makeStyles({
 	},
 	propertyValue: {
 		color: "rgb(53, 56, 64)",
-		fontSize: "13px",
+		fontSize: "14px",
 		fontWeight: "500",
-		lineHeight: "28px",
+		lineHeight: "26px",
 		overflow: "hidden",
 		textOverflow: "ellipsis",
 		whiteSpace: "nowrap",
@@ -32,13 +36,13 @@ const useStyles = makeStyles({
 	},
 	propertyRarity: {
 		color: "rgb(112, 122, 131)",
-		fontSize: "12px",
+		fontSize: "14px",
 		lineHeight: "16px",
 		minHeight: "16px",
 	},
 });
 
-const PropertiesTab = (nftJson) => {
+const PropertiesSection = (nftJson) => {
 	const classes = useStyles();
 	let sorted = nftJson.properties.sort(
 		(a, b) => (a.trait_type > b.trait_type && 1) || -1
@@ -50,27 +54,37 @@ const PropertiesTab = (nftJson) => {
 
 export const renderProperties = (classes, properties) => {
 	return (
-		<Grid container spacing={1} justifyContent="flex-start">
-			{properties.map((property, key) => {
-				return (
-					<Grid item xs={4} key={key}>
-						<div className={classes.propertyBox}>
-							<Typography className={classes.propertyType}>
-								{property.type}
-							</Typography>
-							<Typography className={classes.propertyValue}>
-								{property.value}
-							</Typography>
-							{property.rarity && (
-								<Typography className={classes.propertyRarity}>
-									{"Rarity: " + property.rarity}
+		<>
+			<Grid xs={1} />
+			<Grid
+				container
+				spacing={2}
+				justifyContent="flex-start"
+				className={classes.properties}
+				xs={10}
+			>
+				{properties.map((property, key) => {
+					return (
+						<Grid item xs={3} key={key}>
+							<div className={classes.propertyBox}>
+								<Typography className={classes.propertyType}>
+									{property.type}
 								</Typography>
-							)}
-						</div>
-					</Grid>
-				);
-			})}
-		</Grid>
+								<Typography className={classes.propertyValue}>
+									{property.value}
+								</Typography>
+								{property.rarity && (
+									<Typography className={classes.propertyRarity}>
+										{"Rarity: " + property.rarity}
+									</Typography>
+								)}
+							</div>
+						</Grid>
+					);
+				})}
+			</Grid>
+			<Grid xs={1} />
+		</>
 	);
 };
 
@@ -94,4 +108,4 @@ export const customPropertiesHelper = (traits, collectionSize) => {
 	return properties;
 };
 
-export default PropertiesTab;
+export default PropertiesSection;

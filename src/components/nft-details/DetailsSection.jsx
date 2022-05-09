@@ -1,18 +1,15 @@
 import React, { useMemo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, List, ListItem, ListItemText } from "@material-ui/core";
-import { SOL_NETWORK, ETH_NETWORK } from "../../../config/config";
+import { List, ListItem, ListItemText } from "@material-ui/core";
+import { SOL_NETWORK, ETH_NETWORK } from "../../config/config";
 
 const useStyles = makeStyles((theme) => ({
 	listItemText: {
 		color: theme.palette.text.primary,
-		"& span, & svg": {
-			fontSize: "14px",
-			padding: 0,
-			textOverflow: "ellipsis",
-			whiteSpace: "nowrap",
-			overflow: "hidden",
-		},
+		fontSize: "16px",
+		textOverflow: "ellipsis",
+		whiteSpace: "nowrap",
+		overflow: "hidden",
 	},
 	explorerButtonPanel: {
 		textAlign: "center",
@@ -20,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const DetailsTab = (nftJson) => {
+const DetailsSection = (nftJson) => {
 	let explorerPath;
 	let listItems = [];
 
@@ -41,10 +38,9 @@ const DetailsTab = (nftJson) => {
 
 		listItems.push(
 			"Blockchain: " + nftJson.blockchain,
-			"Contract: " + nftJson.contractAddressId,
+			"Network: " + network,
 			"Token ID: " + nftJson.tokenId,
-			"Token Standard: " + tokenStandard,
-			"Network: " + network
+			"Token Standard: " + tokenStandard
 		);
 	}
 
@@ -69,22 +65,11 @@ const DetailsTab = (nftJson) => {
 	const classes = useStyles();
 
 	return (
-		<div className={classes.detailsTabContainer}>
-			<div className={classes.explorerButtonPanel}>
-				<Button
-					href={explorerPath}
-					color="primary"
-					variant="contained"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					View on Explorer
-				</Button>
-			</div>
-			<List component={"span"}>
+		<div>
+			<List>
 				{listItems.map((item) => {
 					return (
-						<ListItem>
+						<ListItem disableGutters={true}>
 							<ListItemText className={classes.listItemText} primary={item} />
 						</ListItem>
 					);
@@ -94,4 +79,4 @@ const DetailsTab = (nftJson) => {
 	);
 };
 
-export default DetailsTab;
+export default DetailsSection;
