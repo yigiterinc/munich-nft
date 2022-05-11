@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
 	nftDetailsContainer: {
 		display: "flex",
 		justifyContent: "center",
-		margin: "auto",
 		paddingBottom: "3vh",
 	},
 	nftImageContainer: {
@@ -22,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "flex-end",
 	},
 	detailsTabPanel: {
-		paddingTop: "6vh",
+		marginTop: "6vh",
 	},
 	rarityContainer: {
 		display: "flex",
@@ -51,14 +50,7 @@ const NftDetails = (props) => {
 
 	const NftImageContainer = () => {
 		return (
-			<Grid
-				item
-				lg={3}
-				md={3}
-				sm={4}
-				xs={6}
-				className={classes.nftImageContainer}
-			>
+			<Grid item className={classes.nftImageContainer}>
 				<NftImage nftJson={props.nftJson} />
 			</Grid>
 		);
