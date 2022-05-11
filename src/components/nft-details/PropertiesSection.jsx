@@ -5,14 +5,14 @@ import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles({
 	properties: {
-		paddingTop: "4vh",
-		paddingBottom: "4vh",
+		paddingTop: "1vh",
+		marginBottom: "2.5vh",
 	},
 	propertyBox: {
 		backgroundColor: "rgba(220, 94, 132, 0.06)",
 		borderRadius: "6px",
 		border: "1px solid rgb(230,46,132)",
-		padding: "8px",
+		padding: "6px",
 		textAlign: "center",
 	},
 	propertyType: {
@@ -37,8 +37,8 @@ const useStyles = makeStyles({
 	propertyRarity: {
 		color: "rgb(112, 122, 131)",
 		fontSize: "14px",
-		lineHeight: "16px",
-		minHeight: "16px",
+		lineHeight: "12px",
+		minHeight: "12px",
 	},
 });
 
@@ -54,37 +54,33 @@ const PropertiesSection = (nftJson) => {
 
 export const renderProperties = (classes, properties) => {
 	return (
-		<>
-			<Grid xs={1} />
-			<Grid
-				container
-				spacing={2}
-				justifyContent="flex-start"
-				className={classes.properties}
-				xs={10}
-			>
-				{properties.map((property, key) => {
-					return (
-						<Grid item xs={3} key={key}>
-							<div className={classes.propertyBox}>
-								<Typography className={classes.propertyType}>
-									{property.type}
+		<Grid
+			container
+			spacing={2}
+			justifyContent="flex-start"
+			className={classes.properties}
+			xs={12}
+		>
+			{properties.map((property, key) => {
+				return (
+					<Grid item xs={3} key={key}>
+						<div className={classes.propertyBox}>
+							<Typography className={classes.propertyType}>
+								{property.type}
+							</Typography>
+							<Typography className={classes.propertyValue}>
+								{property.value}
+							</Typography>
+							{property.rarity && (
+								<Typography className={classes.propertyRarity}>
+									{"Rarity: " + property.rarity}
 								</Typography>
-								<Typography className={classes.propertyValue}>
-									{property.value}
-								</Typography>
-								{property.rarity && (
-									<Typography className={classes.propertyRarity}>
-										{"Rarity: " + property.rarity}
-									</Typography>
-								)}
-							</div>
-						</Grid>
-					);
-				})}
-			</Grid>
-			<Grid xs={1} />
-		</>
+							)}
+						</div>
+					</Grid>
+				);
+			})}
+		</Grid>
 	);
 };
 

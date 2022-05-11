@@ -1,9 +1,11 @@
 import React from "react";
-import { makeStyles, Grid } from "@material-ui/core";
+import { makeStyles, Grid, Typography } from "@material-ui/core";
 
 import NftImage from "./NftImage";
 import Details from "./Details";
 import PropertiesSection from "./PropertiesSection";
+import StatsSection from "./StatsSection";
+
 import { createTheme, ThemeProvider } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -14,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 	nftDetailsContainer: {
 		display: "flex",
 		justifyContent: "center",
-		paddingBottom: "3vh",
+		marginBottom: "4vh",
 	},
 	nftImageContainer: {
 		display: "flex",
@@ -23,10 +25,26 @@ const useStyles = makeStyles((theme) => ({
 	detailsTabPanel: {
 		marginTop: "6vh",
 	},
-	rarityContainer: {
-		display: "flex",
-		margin: "auto",
+	sectionsContainer: {
 		backgroundColor: "#FAFAFA",
+	},
+	sectionContainer: {
+		marginBottom: "4vh",
+	},
+	sectionText: {
+		marginTop: "2.5vh",
+	},
+	statsContainer: {
+		border: "1px solid rgb(225, 225, 225)",
+		borderRadius: "10px",
+		marginBottom: "40px",
+		display: "flex",
+		flexFlow: "row wrap",
+		width: "100%",
+	},
+	statItem: {
+		borderBottom: "1px solid rgb(225, 225, 225)",
+		borderRight: "1px solid rgb(225, 225, 225)",
 	},
 }));
 
@@ -48,6 +66,10 @@ const defaultTheme = createTheme({
 const NftDetails = (props) => {
 	const classes = useStyles();
 
+	const EmptyGrid = () => {
+		return <Grid item lg={1} md={1} sm={1} xs={1} />;
+	};
+
 	const NftImageContainer = () => {
 		return (
 			<Grid item className={classes.nftImageContainer}>
@@ -64,15 +86,34 @@ const NftDetails = (props) => {
 		);
 	};
 
-	const EmptyGrid = () => {
-		return <Grid item lg={1} md={1} sm={1} xs={1} />;
-	};
-
 	const Properties = () => {
 		return (
-			<div className={classes.rarityContainer}>
+			<Grid container className={classes.sectionContainer}>
+				<Grid item lg={2} md={2} sm={2} xs={2} />
+				<Grid
+					container
+					spacing={2}
+					justifyContent="flex-start"
+					className={classes.properties}
+					xs={8}
+				>
+					<Typography className={classes.sectionText}>
+						Traits for <b>{`${props.nftJson.name}`}</b>
+					</Typography>
+					{props.nftJson.properties.length !== 0 && (
+						<PropertiesSection {...props.nftJson} />
+					)}
+				</Grid>
+				<Grid item lg={2} md={2} sm={2} xs={2} />
+			</Grid>
+		);
+	};
+
+	const Stats = () => {
+		return (
+			<div className={classes.statsContainer}>
 				{props.nftJson.properties.length !== 0 && (
-					<PropertiesSection {...props.nftJson} />
+					<StatsSection {...props.nftJson} />
 				)}
 			</div>
 		);
@@ -87,7 +128,12 @@ const NftDetails = (props) => {
 					<DetailsTabContainer />
 					<EmptyGrid />
 				</Grid>
-				<Properties />
+				<div className={classes.sectionsContainer}>
+					<Properties />
+					<Grid container className={classes.statsContainer}>
+						<Stats />
+					</Grid>
+				</div>
 			</div>
 		</ThemeProvider>
 	);
