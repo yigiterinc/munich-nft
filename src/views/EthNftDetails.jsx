@@ -21,7 +21,7 @@ const EthNftDetails = () => {
 		const fetchData = async () => {
 			const tokenData = await fetchSingleAsset(contractAddressId, tokenId);
 			const ethPrice = await getCurrentCryptoPriceInCurrency("ETH", "USD");
-			let listedPrice = null;
+			let listedPrice = 1; // dummy now --> feat: read price from contract instead of opensea api --> it does not return price properly
 			if (tokenData.orders && tokenData.orders.length !== 0) {
 				listedPrice = formatOpenseaPrice(tokenData.orders[0].current_price);
 			}

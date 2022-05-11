@@ -6,11 +6,11 @@ import { MAX_BOUNDARY_FOR_NUMBER_OF_DECIMALS_NFT_PRICE } from "../../constants/p
 
 const useStyles = makeStyles((theme) => ({
 	priceFieldContainer: {
-		marginTop: "5vh",
+		marginTop: "1vh",
 		borderRadius: "10px",
 		border: `1px solid ${theme.palette.text.primary}`,
 		overflow: "hidden",
-		padding: "20px",
+		padding: "16px",
 		display: "flex",
 		justifyContent: "flex-end",
 		alignItems: "center",
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 	usdPrice: {
 		color: theme.palette.text.primary,
 		marginLeft: "8px",
-		fontSize: "18px",
+		fontSize: "16px",
 	},
 }));
 

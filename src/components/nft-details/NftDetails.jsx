@@ -2,27 +2,32 @@ import React from "react";
 import { makeStyles, Grid } from "@material-ui/core";
 
 import NftImage from "./NftImage";
-import NftHeader from "./NftHeader";
-import CollectionGroup from "./CollectionGroup";
-import DetailsSection from "./DetailsSection";
-import DescriptionSection from "./DescriptionSection";
+import Details from "./Details";
 import PropertiesSection from "./PropertiesSection";
 import { createTheme, ThemeProvider } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
+	rootContainer: {
+		height: "100%",
+		paddingTop: "6vh",
+	},
 	nftDetailsContainer: {
 		display: "flex",
-		paddingTop: "8vh",
-		margin: "0 auto",
-		paddingBottom: "4vh",
+		justifyContent: "center",
+		margin: "auto",
+		paddingBottom: "3vh",
+	},
+	nftImageContainer: {
+		display: "flex",
+		justifyContent: "flex-end",
+	},
+	detailsTabPanel: {
+		paddingTop: "6vh",
 	},
 	rarityContainer: {
 		display: "flex",
 		margin: "auto",
 		backgroundColor: "#FAFAFA",
-	},
-	detailsTabPanel: {
-		paddingTop: "8vh",
 	},
 }));
 
@@ -43,31 +48,54 @@ const defaultTheme = createTheme({
 
 const NftDetails = (props) => {
 	const classes = useStyles();
-	return (
-		<ThemeProvider theme={defaultTheme}>
-			<div className={classes.nftDetailsContainer}>
-				<Grid container>
-					<Grid xs={2} />
-					<Grid item xs={4}>
-						<NftImage nftJson={props.nftJson} />
-					</Grid>
-					<Grid item xs={4} className={classes.detailsTabPanel}>
-						<NftHeader nftJson={props.nftJson} />
-						{props.nftJson.blockchain === "Ethereum" && (
-							<>
-								<CollectionGroup nftJson={props.nftJson} />
-								<DetailsSection {...props.nftJson} />
-								{/* <DescriptionSection {...props.nftJson} /> */}
-							</>
-						)}
-					</Grid>
-					<Grid xs={2} />
-				</Grid>
-			</div>
+
+	const NftImageContainer = () => {
+		return (
+			<Grid
+				item
+				lg={3}
+				md={3}
+				sm={4}
+				xs={6}
+				className={classes.nftImageContainer}
+			>
+				<NftImage nftJson={props.nftJson} />
+			</Grid>
+		);
+	};
+
+	const DetailsTabContainer = () => {
+		return (
+			<Grid item xs={4} className={classes.detailsTabPanel}>
+				<Details nftJson={props.nftJson} />
+			</Grid>
+		);
+	};
+
+	const EmptyGrid = () => {
+		return <Grid item lg={1} md={1} sm={1} xs={1} />;
+	};
+
+	const Properties = () => {
+		return (
 			<div className={classes.rarityContainer}>
 				{props.nftJson.properties.length !== 0 && (
 					<PropertiesSection {...props.nftJson} />
 				)}
+			</div>
+		);
+	};
+
+	return (
+		<ThemeProvider theme={defaultTheme}>
+			<div className={classes.rootContainer}>
+				<Grid container spacing={6} className={classes.nftDetailsContainer}>
+					<EmptyGrid />
+					<NftImageContainer />
+					<DetailsTabContainer />
+					<EmptyGrid />
+				</Grid>
+				<Properties />
 			</div>
 		</ThemeProvider>
 	);

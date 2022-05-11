@@ -92,16 +92,14 @@ export const customPropertiesHelper = (traits, collectionSize) => {
 	let properties = [];
 	traits.forEach((trait) => {
 		if (trait.value !== 0) {
-			if (trait.trait_count !== 0) {
-				const type = trait.trait_type;
-				const value = trait.value;
-				if (collectionSize) {
-					const rarity =
-						((trait.trait_count / collectionSize) * 100).toFixed(1) + "%";
-					properties.push({ type, value, rarity });
-				} else {
-					properties.push({ type, value });
-				}
+			const type = trait.trait_type;
+			const value = trait.value;
+			if (collectionSize) {
+				const rarity =
+					((trait.trait_count / collectionSize) * 100).toFixed(1) + "%";
+				properties.push({ type, value, rarity });
+			} else {
+				properties.push({ type, value });
 			}
 		}
 	});

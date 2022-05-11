@@ -37,6 +37,8 @@ const DetailsSection = (nftJson) => {
 			ETH_NETWORK?.charAt(0)?.toUpperCase() + ETH_NETWORK?.slice(1);
 
 		listItems.push(
+			"Created By: " + "Test123", // not coming from nftJson
+			"Owned By: " + "test123", // not coming from nftJson
 			"Blockchain: " + nftJson.blockchain,
 			"Network: " + network,
 			"Token ID: " + nftJson.tokenId,
@@ -70,7 +72,11 @@ const DetailsSection = (nftJson) => {
 				{listItems.map((item) => {
 					return (
 						<ListItem disableGutters={true}>
-							<ListItemText className={classes.listItemText} primary={item} />
+							<ListItemText
+								disableTypography
+								className={classes.listItemText}
+								primary={item}
+							/>
 						</ListItem>
 					);
 				})}
