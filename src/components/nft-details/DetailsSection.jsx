@@ -107,7 +107,7 @@ const DetailsSection = (nftJson) => {
 				Blockchain: <b>{nftJson.blockchain}</b>
 			</Box>
 			<Box className={classes.box}>
-				Token Standard <b>{tokenStandard}</b>
+				Token Standard: <b>{tokenStandard}</b>
 			</Box>
 		</Box>
 	);

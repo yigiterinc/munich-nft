@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	sectionsContainer: {
 		backgroundColor: "#FAFAFA",
+		height: "650px",
 	},
 	sectionContainer: {
 		height: "240px",
@@ -35,10 +36,10 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: "4vh",
 	},
 	propertiesContainer: {
-		paddingTop: "4vh",
+		paddingTop: "3vh",
 	},
 	collectionLink: {
-		fontSize: "18px",
+		fontSize: "16px",
 		color: "#000",
 		cursor: "pointer",
 		"&:focus, &:hover, &:visited, &:link, &:active": {
@@ -49,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: "1vh",
 		justifyContent: "center",
 		paddingTop: "12px",
+		fontSize: "16px",
 		height: "40px",
 		color: "rgb(88, 106, 109)",
 	},
@@ -63,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
 		display: "flex",
 		flexFlow: "row wrap",
 		width: "100%",
+		height: "350px",
 	},
 	statItem: {
 		borderBottom: "1px solid rgb(225, 225, 225)",
@@ -156,10 +159,7 @@ const NftDetails = (props) => {
 							platform
 						</Typography>
 					</div>
-
-					{props.nftJson.properties.length !== 0 && (
-						<StatsSection {...props.nftJson} />
-					)}
+					<StatsSection {...props.nftJson} />
 				</Grid>
 				<EmptyGrid />
 			</Grid>
@@ -179,7 +179,7 @@ const NftDetails = (props) => {
 					{props.nftJson.properties.length !== 0 && <Properties />}
 
 					<Grid container className={classes.sectionContainer}>
-						<Stats />
+						{props.nftJson.stats.length !== 0 && <Stats />}
 					</Grid>
 				</div>
 			</div>
