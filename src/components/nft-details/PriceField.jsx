@@ -6,7 +6,7 @@ import { MAX_BOUNDARY_FOR_NUMBER_OF_DECIMALS_NFT_PRICE } from "../../constants/p
 
 const useStyles = makeStyles((theme) => ({
 	priceFieldContainer: {
-		marginTop: "1vh",
+		marginTop: "2.5vh",
 		borderRadius: "10px",
 		border: `1px solid ${theme.palette.text.primary}`,
 		overflow: "hidden",

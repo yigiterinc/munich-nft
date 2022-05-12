@@ -1,25 +1,54 @@
-import React, { useMemo } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
+import { makeStyles, Box, Avatar } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+
 import { List, ListItem, ListItemText } from "@material-ui/core";
 import { SOL_NETWORK, ETH_NETWORK } from "../../config/config";
 
 const useStyles = makeStyles((theme) => ({
-	listItemText: {
-		color: theme.palette.text.primary,
-		fontSize: "16px",
-		textOverflow: "ellipsis",
-		whiteSpace: "nowrap",
-		overflow: "hidden",
-	},
 	explorerButtonPanel: {
 		textAlign: "center",
 		marginBottom: "1vh",
+	},
+	detailsContainer: {
+		display: "flex",
+		flexDirection: "column",
+		gap: "16px",
+		marginTop: "2vh",
+	},
+	link: {
+		fontWeight: "500",
+		color: theme.palette.primary.main,
+		cursor: "pointer",
+		"&:focus, &:hover, &:visited, &:link, &:active": {
+			textDecoration: "underline",
+		},
+	},
+	ownedByLink: {
+		fontWeight: "lighter",
+		"&:focus, &:hover, &:visited, &:link, &:active": {
+			textDecoration: "underline",
+		},
+		color: theme.palette.primary.main,
+		lineHeight: "30px",
+	},
+	ownedBy: {
+		display: "flex",
+		textAlign: "center",
+		marginTop: "2.5vh",
+	},
+	ownedByBox: {
+		marginLeft: "0.5vw",
+	},
+	box: {
+		lineHeight: "30px",
 	},
 }));
 
 const DetailsSection = (nftJson) => {
 	let explorerPath;
-	let listItems = [];
+	let tokenStandard;
 
 	if (nftJson.blockchain === "Ethereum") {
 		explorerPath =
@@ -28,22 +57,10 @@ const DetailsSection = (nftJson) => {
 				: "https://rinkeby.etherscan.io/address/";
 		explorerPath += nftJson.contractAddressId;
 
-		const tokenStandard =
+		tokenStandard =
 			nftJson.tokenStandard.substring(0, 3) +
 			"-" +
 			nftJson.tokenStandard.slice(3, 7);
-
-		const network =
-			ETH_NETWORK?.charAt(0)?.toUpperCase() + ETH_NETWORK?.slice(1);
-
-		listItems.push(
-			"Created By: " + "Test123", // not coming from nftJson
-			"Owned By: " + "test123", // not coming from nftJson
-			"Blockchain: " + nftJson.blockchain,
-			"Network: " + network,
-			"Token ID: " + nftJson.tokenId,
-			"Token Standard: " + tokenStandard
-		);
 	}
 
 	if (nftJson.blockchain === "Solana") {
@@ -57,31 +74,42 @@ const DetailsSection = (nftJson) => {
 			creators.push(`Creator ${index + 1}: ${creator.address}`);
 		});
 
-		listItems.push(
-			"Blockchain: " + nftJson.blockchain,
-			"Update Authority: " + nftJson.updateAuthority
-		);
-		listItems = listItems.concat(creators);
+		// listItems.push(
+		// 	"Blockchain: " + nftJson.blockchain,
+		// 	"Update Authority: " + nftJson.updateAuthority
+		// );
+		// listItems = listItems.concat(creators);
 	}
 
 	const classes = useStyles();
 
 	return (
-		<div>
-			<List>
-				{listItems.map((item) => {
-					return (
-						<ListItem disableGutters={true}>
-							<ListItemText
-								disableTypography
-								className={classes.listItemText}
-								primary={item}
-							/>
-						</ListItem>
-					);
-				})}
-			</List>
-		</div>
+		<Box className={classes.detailsContainer}>
+			<Box className={classes.ownedBy}>
+				<Avatar
+					style={{
+						maxWidth: "28px",
+						maxHeight: "28px",
+						minWidth: "28px",
+						minHeight: "28px",
+					}}
+				>
+					<AccountCircleIcon />
+				</Avatar>
+				<Box className={classes.ownedByBox}>
+					Owned By <Link className={classes.ownedByLink}>Test123</Link>
+				</Box>
+			</Box>
+			<Box className={classes.box}>
+				Created by: <Link className={classes.link}>Test123</Link>
+			</Box>
+			<Box className={classes.box}>
+				Blockchain: <b>{nftJson.blockchain}</b>
+			</Box>
+			<Box className={classes.box}>
+				Token Standard <b>{tokenStandard}</b>
+			</Box>
+		</Box>
 	);
 };
 

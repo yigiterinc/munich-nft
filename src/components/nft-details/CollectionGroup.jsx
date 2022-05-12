@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 		paddingTop: "10px",
 	},
 	collectionLink: {
-		fontSize: "18px",
+		fontSize: "17px",
 		color: theme.palette.primary.main,
 		cursor: "pointer",
 		"&:focus, &:hover, &:visited, &:link, &:active": {
@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	contractSection: {
 		paddingTop: "10px",
+		fontWeight: "lighter",
 	},
 	icon: {
 		paddingRight: "0.5vw",

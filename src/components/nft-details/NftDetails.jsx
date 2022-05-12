@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles, Grid, Typography } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 import NftImage from "./NftImage";
 import Details from "./Details";
@@ -23,16 +24,37 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "flex-end",
 	},
 	detailsTabPanel: {
-		marginTop: "6vh",
+		marginTop: "7.5vh",
 	},
 	sectionsContainer: {
 		backgroundColor: "#FAFAFA",
 	},
 	sectionContainer: {
+		height: "240px",
+		marginTop: "4vh",
 		marginBottom: "4vh",
 	},
+	propertiesContainer: {
+		paddingTop: "4vh",
+	},
+	collectionLink: {
+		fontSize: "18px",
+		color: "#000",
+		cursor: "pointer",
+		"&:focus, &:hover, &:visited, &:link, &:active": {
+			textDecoration: "underline",
+		},
+	},
 	sectionText: {
-		marginTop: "2.5vh",
+		marginBottom: "1vh",
+		justifyContent: "center",
+		paddingTop: "12px",
+		height: "40px",
+		color: "rgb(88, 106, 109)",
+	},
+	innerText: {
+		fontWeight: 200,
+		fontSize: "12px",
 	},
 	statsContainer: {
 		border: "1px solid rgb(225, 225, 225)",
@@ -88,34 +110,59 @@ const NftDetails = (props) => {
 
 	const Properties = () => {
 		return (
-			<Grid container className={classes.sectionContainer}>
-				<Grid item lg={2} md={2} sm={2} xs={2} />
+			<Grid container className={classes.propertiesContainer}>
+				<EmptyGrid />
 				<Grid
-					container
-					spacing={2}
 					justifyContent="flex-start"
 					className={classes.properties}
-					xs={8}
+					container
+					xs
 				>
-					<Typography className={classes.sectionText}>
-						Traits for <b>{`${props.nftJson.name}`}</b>
-					</Typography>
-					{props.nftJson.properties.length !== 0 && (
-						<PropertiesSection {...props.nftJson} />
-					)}
+					<div className={classes.sectionText}>
+						<Typography>
+							Traits for <b>{`${props.nftJson.name}`}</b>
+						</Typography>
+					</div>
+
+					<PropertiesSection {...props.nftJson} />
 				</Grid>
-				<Grid item lg={2} md={2} sm={2} xs={2} />
+				<EmptyGrid />
 			</Grid>
 		);
 	};
 
 	const Stats = () => {
 		return (
-			<div className={classes.statsContainer}>
-				{props.nftJson.properties.length !== 0 && (
-					<StatsSection {...props.nftJson} />
-				)}
-			</div>
+			<Grid container className={classes.propertiesContainer}>
+				<EmptyGrid />
+				<Grid
+					justifyContent="flex-start"
+					className={classes.properties}
+					container
+					xs
+				>
+					<div className={classes.sectionText}>
+						<Typography>
+							Market statistics for the{" "}
+							<Link
+								className={classes.collectionLink}
+								to={`/collection/${props.nftJson.slug}`}
+							>
+								{props.nftJson.collection}
+							</Link>
+						</Typography>
+						<Typography classsName={classes.innerText}>
+							* Statistics are generated from the NFT activity on Opensea
+							platform
+						</Typography>
+					</div>
+
+					{props.nftJson.properties.length !== 0 && (
+						<StatsSection {...props.nftJson} />
+					)}
+				</Grid>
+				<EmptyGrid />
+			</Grid>
 		);
 	};
 
@@ -129,8 +176,9 @@ const NftDetails = (props) => {
 					<EmptyGrid />
 				</Grid>
 				<div className={classes.sectionsContainer}>
-					<Properties />
-					<Grid container className={classes.statsContainer}>
+					{props.nftJson.properties.length !== 0 && <Properties />}
+
+					<Grid container className={classes.sectionContainer}>
 						<Stats />
 					</Grid>
 				</div>

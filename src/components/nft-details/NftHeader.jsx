@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => ({
 	nftTitle: {
 		marginRight: "auto",
 		fontSize: "26px",
+		fontWeight: "700",
 		overflow: "hidden",
 		whiteSpace: "nowrap",
 		textOverflow: "ellipsis",

@@ -25,6 +25,7 @@ const EthNftDetails = () => {
 			if (tokenData.orders && tokenData.orders.length !== 0) {
 				listedPrice = formatOpenseaPrice(tokenData.orders[0].current_price);
 			}
+			console.log(tokenData);
 			let json = {
 				blockchain: "Ethereum",
 				name: tokenData.name,

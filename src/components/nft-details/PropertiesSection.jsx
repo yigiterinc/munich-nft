@@ -5,40 +5,26 @@ import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles({
 	properties: {
-		paddingTop: "1vh",
-		marginBottom: "2.5vh",
+		display: "flex",
+		marginTop: "-8px",
+		width: "calc(100% + 8px)",
+		marginLeft: "-8px",
+		marginBottom: "-15px",
+		flexFlow: "row wrap",
 	},
 	propertyBox: {
-		backgroundColor: "rgba(220, 94, 132, 0.06)",
-		borderRadius: "6px",
-		border: "1px solid rgb(230,46,132)",
-		padding: "6px",
+		justifyContent: "center",
 		textAlign: "center",
-	},
-	propertyType: {
-		color: "rgb(255, 0, 117)",
-		textTransform: "uppercase",
-		fontSize: "13px",
-		fontWeight: "500",
-		overflow: "hidden",
+		marginRight: "12.5px",
+		marginBottom: "10px",
+		display: "inline-flex",
+		backgroundColor: "rgb(25, 44, 48)",
+		borderRadius: "40px",
 		whiteSpace: "nowrap",
-		textOverflow: "ellipsis",
-	},
-	propertyValue: {
-		color: "rgb(53, 56, 64)",
+		border: "1.5px solid transparent",
+		color: "rgb(255, 255, 255)",
+		padding: "8px 12px",
 		fontSize: "14px",
-		fontWeight: "500",
-		lineHeight: "26px",
-		overflow: "hidden",
-		textOverflow: "ellipsis",
-		whiteSpace: "nowrap",
-		textTransform: "capitalize",
-	},
-	propertyRarity: {
-		color: "rgb(112, 122, 131)",
-		fontSize: "14px",
-		lineHeight: "12px",
-		minHeight: "12px",
 	},
 });
 
@@ -56,26 +42,23 @@ export const renderProperties = (classes, properties) => {
 	return (
 		<Grid
 			container
-			spacing={2}
 			justifyContent="flex-start"
 			className={classes.properties}
 			xs={12}
 		>
 			{properties.map((property, key) => {
+				if (property.rarity === "0.0%") {
+					property.rarity = "New trait";
+				}
 				return (
-					<Grid item xs={3} key={key}>
+					<Grid item key={key}>
 						<div className={classes.propertyBox}>
-							<Typography className={classes.propertyType}>
+							<Typography>
 								{property.type}
+								{": "} {property.value} {"("}
+								{property.rarity}
+								{")"}
 							</Typography>
-							<Typography className={classes.propertyValue}>
-								{property.value}
-							</Typography>
-							{property.rarity && (
-								<Typography className={classes.propertyRarity}>
-									{"Rarity: " + property.rarity}
-								</Typography>
-							)}
 						</div>
 					</Grid>
 				);
