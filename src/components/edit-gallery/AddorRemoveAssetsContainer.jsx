@@ -11,9 +11,8 @@ import RemoveAssets from "./RemoveAssets";
 
 const useStyles = makeStyles((theme) => ({
 	gridContainer: {
-		paddingTop: "3vw",
-		paddingLeft: "10vw",
-		paddingRight: "10vw",
+		paddingLeft: "2vw",
+		paddingRight: "2vw",
 	},
 	gridItem: {
 		display: "flex",
@@ -22,21 +21,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 	selectMethodText: {
 		fontSize: "20px",
+		letterSpacing: "1.5",
+		lineHeight: "120%"
 	},
 	textField: {
 		marginTop: 20,
-		[theme.breakpoints.up("xs")]: {
-			width: "70vw",
-		},
-		[theme.breakpoints.up("sm")]: {
-			width: "60vw",
-		},
-		[theme.breakpoints.up("md")]: {
-			width: "45vw",
-		},
-		[theme.breakpoints.up("lg")]: {
-			width: "30vw",
-		},
+		width: "20vw"
 	},
 }));
 
@@ -53,7 +43,7 @@ function AddorRemoveAssetsContainer(props) {
 	console.log(props);
 
 	const IMPORT_METHODS = {
-		OPENSEA: "Opensea",
+		OPENSEA: "Import from OpenSea",
 		CUSTOM_CONTRACT: "Ethereum Contract",
 		SOLANA_WALLET: "Phantom Wallet",
 	};
@@ -79,15 +69,13 @@ function AddorRemoveAssetsContainer(props) {
 					className={classes.gridContainer}
 				>
 					<Grid item xs={12} className={classes.gridItem}>
-						<Typography classes={classes.selectMethodText} variant={"p"}>
-							How would you like to add or NFTs to your gallery?
+						<Typography class={classes.selectMethodText} variant={"p"}>
+							There are various ways to import your existing assets to your gallery.
+							Select one and we will retrieve your assets for your selection.
 						</Typography>
 					</Grid>
 
 					<Grid item xs={12} className={classes.gridItem}>
-						<Typography variant="h5" component="h2">
-							Import Method
-						</Typography>
 						<Select
 							value={importMethod}
 							onChange={(event) => {

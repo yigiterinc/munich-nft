@@ -5,6 +5,8 @@ import reportWebVitals from "./reportWebVitals";
 import axiosRetry from "axios-retry";
 import axios from "axios";
 
+import "@fontsource/roboto";
+
 require("dotenv").config();
 
 axiosRetry(axios, {

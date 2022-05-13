@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
   dialogTitle: {
     display: 'flex',
     alignItems: 'center',
+    marginLeft: "2vw"
   },
   dialogTitleText: {
     flexGrow: 1,

@@ -145,7 +145,7 @@ const GalleryContainer = () => {
 	return (
 		galleryData &&
 		<>
-			<Modal title="Edit Gallery" openModal={showAddAssetsView || showRemoveAssetsView} setOpenModal={setOpenModal}>
+			<Modal title={showAddAssetsView ? "Import Assets" : "Remove Assets"} openModal={showAddAssetsView || showRemoveAssetsView} setOpenModal={setOpenModal}>
 				<AddorRemoveAssetsContainer
 					add={showAddAssetsView}
 					galleryAssets={galleryData.assets}

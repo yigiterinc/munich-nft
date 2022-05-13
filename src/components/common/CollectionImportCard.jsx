@@ -82,7 +82,7 @@ const CollectionImportCard = ({
 						src={image} // ipfsImage ? nft.image : withDefault(nft.image_url, DEFAULT_IMAGE_PATH)
 						className={classes.avatar}
 					/>
-					<Typography className={classes.name} variant="body1">
+					<Typography className={classes.name}>
 						{truncateString(withDefault(name, DEFAULT_COLLECTION_NAME), 20)}
 					</Typography>
 				</CardContent>

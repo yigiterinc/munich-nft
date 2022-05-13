@@ -52,11 +52,11 @@ function UploadArt({ addedFileHash, nextButton, setAddedFileHash }) {
 	const renderUploadResult = () => {
 		return (
 			<Container className={classes.textContainer}>
-				<Typography className={classes.title} variant="body1">
+				<Typography className={classes.title}>
 					Your file is successfully uploaded to IPFS with the following hash:{" "}
 					<div className={classes.addedFileHash}>{addedFileHash}</div>
 				</Typography>
-				<Typography className={classes.title} variant="body1">
+				<Typography className={classes.title}>
 					You can view it{" "}
 					<a href={getIpfsUrl()} className={classes.ipfsUrl}>
 						here on IPFS

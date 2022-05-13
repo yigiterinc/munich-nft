@@ -100,7 +100,6 @@ export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 	const AssetCardsGrid = () => {
 		return (
 			<Grid container spacing={3}>
-				{console.log(userAssets)}
 				{userAssets?.map((asset) => {
 					return (
 						<Grid key={asset.image_url} item lg={3} md={4} sm={6} xs={12}>
@@ -155,7 +154,7 @@ export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 				size="large"
 				onClick={() => handleSubmit(selectedItems)}
 			>
-				Create gallery with Selected Items
+				Add items
 			</Button>
 		</div>
 	);
