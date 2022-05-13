@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import SettingsIcon from "@material-ui/icons/Settings";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
+import Chip from "@material-ui/core/Chip";
+import Avatar from "@material-ui/core/Avatar";
+import Tooltip from "@material-ui/core/Tooltip";
 import { Link } from "react-router-dom";
 import { darken, lighten, makeStyles } from "@material-ui/core/styles";
 import { truncateWalletAddress } from "../../utils/commons";
@@ -11,6 +14,7 @@ import {
 	uploadImageToMediaGallery,
 } from "../../api/strapi";
 import ImageUploadWithPreview from "../common/ImageUploadWithPreview";
+import ImageContainer from "../common/ImageContainer";
 
 const useStyles = makeStyles((theme) => ({
 	mainContainer: {
@@ -18,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: "column",
 		justifyContent: "center",
 		alignItems: "center",
+		position: "relative",
 	},
 	profileImage: {
 		marginTop: theme.spacing(-11),
@@ -33,24 +38,27 @@ const useStyles = makeStyles((theme) => ({
 	name: {
 		marginTop: theme.spacing(1),
 		fontSize: "25px",
-		fontWeight: "lighter",
+		fontWeight: 500,
 		letterSpacing: "1px",
 	},
-	address: {
-		marginTop: "10px",
-		letterSpacing: "1.5px",
-		display: "block",
+	walletAddresses: {
+		marginTop: theme.spacing(1),
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		gap: "10px",
 	},
 	bio: {
-		marginTop: theme.spacing(1),
+		marginTop: theme.spacing(2),
 		fontSize: "18px",
-		fontWeight: "lighter",
+		color: "gray",
+		fontWeight: 400,
 		letterSpacing: "1px",
 	},
 	profileSettingsButton: {
 		position: "absolute",
-		right: "10vw",
-		top: "45vh",
+		top: "32vh",
+		right: 0,
 	},
 }));
 
@@ -58,13 +66,15 @@ const ProfileHeader = ({ ownProfile, profile }) => {
 	const classes = useStyles();
 	const [updatedProfileImage, setUpdatedProfileImage] = useState();
 	const [updatedBannerImage, setUpdatedBannerImage] = useState();
+	const [isEthAddressClicked, setIsEthAddressClicked] = useState(false);
+	const [isSolAddressClicked, setIsSolAddressClicked] = useState(false);
 
 	useEffect(async () => {
 		if (updatedProfileImage) {
 			let profileImage = await uploadImageToMediaGallery(updatedProfileImage);
 			let profileImageUploadResult = await changeUserProfilePicture(
 				profileImage,
-				profile,
+				profile
 			);
 			console.log(profileImageUploadResult);
 		}
@@ -75,25 +85,56 @@ const ProfileHeader = ({ ownProfile, profile }) => {
 			let bannerImage = await uploadImageToMediaGallery(updatedBannerImage);
 			let bannerImageUploadResult = await changeUserBannerImage(
 				bannerImage,
-				profile,
+				profile
 			);
 			console.log(bannerImageUploadResult);
 		}
 	}, [updatedBannerImage]);
 
+	useEffect(() => {
+		if (isEthAddressClicked) {
+			setTimeout(() => {
+				setIsEthAddressClicked(false);
+			}, "1000");
+		}
+	}, [isEthAddressClicked]);
+
+	useEffect(() => {
+		if (isSolAddressClicked) {
+			setTimeout(() => {
+				setIsSolAddressClicked(false);
+			}, "1000");
+		}
+	}, [isSolAddressClicked]);
+
+	const copyToClipboard = (str) => {
+		if (navigator && navigator.clipboard && navigator.clipboard.writeText)
+			return navigator.clipboard.writeText(str);
+		return Promise.reject("The Clipboard API is not available.");
+	};
+
 	const ProfileImage = () => {
 		return (
 			<div className={classes.profileImage}>
-				<ImageUploadWithPreview
-					isCircle
-					height={100}
-					width={100}
-					userId={profile?.id}
-					image={profile?.profilePicture}
-					setNewImage={(uploadedImage) => {
-						setUpdatedProfileImage(uploadedImage);
-					}}
-				/>
+				{ownProfile ? (
+					<ImageUploadWithPreview
+						isCircle
+						height={100}
+						width={100}
+						userId={profile?.id}
+						image={profile?.profilePicture}
+						setNewImage={(uploadedImage) => {
+							setUpdatedProfileImage(uploadedImage);
+						}}
+					/>
+				) : (
+					<ImageContainer
+						isCircle
+						height={100}
+						width={100}
+						image={profile?.profilePicture}
+					/>
+				)}
 			</div>
 		);
 	};
@@ -104,22 +145,39 @@ const ProfileHeader = ({ ownProfile, profile }) => {
 				<Typography className={classes.name} variant="h5" component="h2">
 					{profile?.username ? profile.username : "Alien"}
 				</Typography>
-				<Typography
-					className={classes.address}
-					variant="h6"
-					component="h2"
-					color="textSecondary"
-				>
-					{profile.ethAddress && `ETH: ${truncateWalletAddress(`${profile?.ethAddress}`, 13)}`}
-				</Typography>
-				<Typography
-					className={classes.address}
-					variant="h6"
-					component="h2"
-					color="textSecondary"
-				>
-					{profile.solAddress && `SOL: ${truncateWalletAddress(`${profile?.solAddress}`, 13)}`}
-				</Typography>
+				<div className={classes.walletAddresses}>
+					{profile.ethAddress && (
+						<Chip
+							avatar={<Avatar alt="Eth" src="/images/eth_logo.png" />}
+							label={
+								isEthAddressClicked
+									? "Copied!"
+									: truncateWalletAddress(`${profile?.ethAddress}`, 13)
+							}
+							onClick={() => {
+								setIsEthAddressClicked(true);
+								copyToClipboard(profile.ethAddress);
+							}}
+							variant="outlined"
+						/>
+					)}
+					{profile.solAddress && (
+						<Chip
+							avatar={<Avatar alt="Sol" src="/images/sol_logo.png" />}
+							label={
+								isSolAddressClicked
+									? "Copied!"
+									: truncateWalletAddress(`${profile?.solAddress}`, 13)
+							}
+							onClick={() => {
+								setIsSolAddressClicked(true);
+								copyToClipboard(profile.solAddress);
+							}}
+							variant="outlined"
+						/>
+					)}
+				</div>
+
 				<Typography className={classes.bio} variant="h6" component="h2">
 					{profile.bio}
 				</Typography>
@@ -137,23 +195,33 @@ const ProfileHeader = ({ ownProfile, profile }) => {
 
 	return (
 		<div className={classes.mainContainer}>
-			<ImageUploadWithPreview
-				height={"30vh"}
-				width={"80vw"}
-				userId={profile?.id}
-				image={profile?.bannerImage}
-				setNewImage={(uploadedImage) => {
-					setUpdatedBannerImage(uploadedImage);
-				}}
-			/>
+			{ownProfile ? (
+				<ImageUploadWithPreview
+					height={"30vh"}
+					width={"80vw"}
+					userId={profile?.id}
+					image={profile?.bannerImage}
+					setNewImage={(uploadedImage) => {
+						setUpdatedBannerImage(uploadedImage);
+					}}
+				/>
+			) : (
+				<ImageContainer
+					height={"30vh"}
+					width={"80vw"}
+					image={profile?.bannerImage}
+				/>
+			)}
 			{ownProfile && (
-				<IconButton
-					component={Link}
-					to="/profile-settings"
-					className={classes.profileSettingsButton}
-				>
-					<SettingsIcon fontSize="large" />
-				</IconButton>
+				<Tooltip title="Profile Settings">
+					<IconButton
+						component={Link}
+						to="/profile-settings"
+						className={classes.profileSettingsButton}
+					>
+						<SettingsIcon fontSize="large" />
+					</IconButton>
+				</Tooltip>
 			)}
 			{profile && renderProfile()}
 		</div>
