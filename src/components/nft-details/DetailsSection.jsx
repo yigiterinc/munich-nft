@@ -1,7 +1,7 @@
 import React from "react";
-import { makeStyles, Box, Avatar, Typography } from "@material-ui/core";
+import { makeStyles, Box, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import MuiLink from "@material-ui/core/Link";
 
 import { SOL_NETWORK, ETH_NETWORK } from "../../config/config";
 
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 		display: "flex",
 		flexDirection: "column",
 		gap: "16px",
-		marginTop: "2vh",
+		marginTop: "6.5vh",
 	},
 	link: {
 		fontWeight: "500",
@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 const DetailsSection = (nftJson) => {
 	let explorerPath;
+	let creatorPath;
 	let tokenStandard;
 
 	if (nftJson.blockchain === "Ethereum") {
@@ -63,6 +64,13 @@ const DetailsSection = (nftJson) => {
 			nftJson.tokenStandard.substring(0, 3) +
 			"-" +
 			nftJson.tokenStandard.slice(3, 7);
+
+		creatorPath =
+			ETH_NETWORK === "mainnet"
+				? "https://opensea.io/"
+				: "https://testnets.opensea.io/";
+
+		creatorPath += nftJson.createdBy;
 	}
 
 	if (nftJson.blockchain === "Solana") {
@@ -84,27 +92,21 @@ const DetailsSection = (nftJson) => {
 	}
 
 	const classes = useStyles();
-
 	return (
 		<Box className={classes.detailsContainer}>
-			<Box className={classes.ownedBy}>
-				<Avatar
-					style={{
-						maxWidth: "28px",
-						maxHeight: "28px",
-						minWidth: "28px",
-						minHeight: "28px",
-					}}
-				>
-					<AccountCircleIcon />
-				</Avatar>
-				<Box className={classes.ownedByBox}>
-					Owned By <Link className={classes.ownedByLink}>Test123</Link>
+			{nftJson.createdBy && (
+				<Box className={classes.box}>
+					Created by:{" "}
+					<MuiLink
+						className={classes.link}
+						href={creatorPath}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						{nftJson.createdBy}
+					</MuiLink>
 				</Box>
-			</Box>
-			<Box className={classes.box}>
-				Created by: <Link className={classes.link}>Test123</Link>
-			</Box>
+			)}
 			<Box className={classes.box}>
 				Blockchain: <b>{nftJson.blockchain}</b>
 			</Box>

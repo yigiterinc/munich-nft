@@ -22,10 +22,14 @@ const EthNftDetails = () => {
 			const tokenData = await fetchSingleAsset(contractAddressId, tokenId);
 			const ethPrice = await getCurrentCryptoPriceInCurrency("ETH", "USD");
 			let listedPrice = 1; // dummy now --> feat: read price from contract instead of opensea api --> it does not return price properly
+			let creator = null;
 			if (tokenData.orders && tokenData.orders.length !== 0) {
 				listedPrice = formatOpenseaPrice(tokenData.orders[0].current_price);
 			}
-			console.log(tokenData);
+			if (tokenData.creator.user.username !== null) {
+				creator = tokenData.creator.user.username;
+			}
+
 			let json = {
 				blockchain: "Ethereum",
 				name: tokenData.name,
@@ -42,6 +46,7 @@ const EthNftDetails = () => {
 				collectionSize: tokenData.collection.stats.count,
 				price: listedPrice,
 				priceUsd: listedPrice * ethPrice,
+				createdBy: creator,
 				stats: [
 					{ items: tokenData.collection.stats.total_supply },
 					{ owners: tokenData.collection.stats.num_owners },
@@ -49,7 +54,7 @@ const EthNftDetails = () => {
 					{ volume: tokenData.collection.stats.total_volume },
 				],
 			};
-
+			console.log(json);
 			setNftJson(json);
 		};
 		fetchData();
