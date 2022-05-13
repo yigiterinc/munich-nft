@@ -1,9 +1,8 @@
 import React from "react";
-import { makeStyles, Box, Avatar } from "@material-ui/core";
+import { makeStyles, Box, Avatar, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
-import { List, ListItem, ListItemText } from "@material-ui/core";
 import { SOL_NETWORK, ETH_NETWORK } from "../../config/config";
 
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	box: {
 		lineHeight: "30px",
+	},
+	desriptionBox: {
+		textOverflow: "ellipsis",
 	},
 }));
 
@@ -108,6 +110,12 @@ const DetailsSection = (nftJson) => {
 			</Box>
 			<Box className={classes.box}>
 				Token Standard: <b>{tokenStandard}</b>
+			</Box>
+			<Box className={classes.desriptionBox}>
+				Description:{" "}
+				<Typography component="span" className={classes.descriptionText}>
+					{nftJson.description || "No description"}
+				</Typography>
 			</Box>
 		</Box>
 	);

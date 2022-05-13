@@ -3,7 +3,6 @@ import React from "react";
 import NftHeader from "./NftHeader";
 import CollectionGroup from "./CollectionGroup";
 import DetailsSection from "./DetailsSection";
-import PriceField from "./PriceField";
 
 const Details = (props) => {
 	return (
@@ -13,8 +12,6 @@ const Details = (props) => {
 				<>
 					<CollectionGroup nftJson={props.nftJson} />
 					<DetailsSection {...props.nftJson} />
-					<PriceField nftJson={props.nftJson} />
-					{/* <DescriptionSection {...props.nftJson} /> */}
 				</>
 			)}
 		</>
