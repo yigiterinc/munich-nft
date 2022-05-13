@@ -1,33 +1,39 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
-	properties: {
-		border: "2px solid rgb(225, 225, 225)",
+	statsContainer: {
+		border: "1px solid rgb(229, 232, 235)",
 		borderRadius: "10px",
+		flexWrap: "wrap",
+		alignItems: "center",
+		width: "fit-content",
 		marginBottom: "40px",
 		marginTop: "4vh",
 		display: "flex",
-		width: "100%",
-		boxSizing: "border-box",
 	},
-	propertyBox: {
-		borderBottom: "2px solid rgb(225, 225, 225)",
-		borderRight: "2px solid rgb(225, 225, 225)",
-		overflow: "hidden",
-		textAlign: "center",
-		width: "100%",
+	statBox: {
+		borderRight: "1px solid rgb(229, 232, 235)",
+		display: "block",
+	},
+	lastBox: {
+		display: "block",
+	},
+	statInnerBox: {
+		width: "144px",
+		height: "88px",
+		borderRadius: "inherit",
+		flexDirection: "column",
+		display: "flex",
 		alignItems: "center",
+		fontSize: "14px",
+		justifyContent: "center",
+		padding: "10px 0px",
+		textAlign: "center",
+		color: "rgb(138, 147, 155)",
 	},
-	propertyInnerBox: {
-		borderRadius: "16px",
-		width: "100%",
-		border: 0,
-	},
-	propertyType: {
+	statType: {
 		color: "rgb(88, 106, 109)",
 		fontSize: "16px",
 		fontWeight: "500",
@@ -35,7 +41,7 @@ const useStyles = makeStyles({
 		whiteSpace: "nowrap",
 		textOverflow: "ellipsis",
 	},
-	propertyValue: {
+	statVal: {
 		color: "rgb(53, 56, 64)",
 		fontSize: "14.5px",
 		fontWeight: "500",
@@ -54,44 +60,42 @@ const StatsSection = (nftJson) => {
 export const renderStats = (classes, stats) => {
 	return (
 		<>
-			<Grid xs={1} />
-			<Grid
-				container
-				justifyContent="flex-start"
-				className={classes.properties}
-				xs={12}
-			>
-				{stats.map((stat, key) => {
+			<div className={classes.statsContainer}>
+				{stats.map((stat, i, key) => {
 					let statType = Object.keys(stat)[0];
 					let statValue = Object.values(stat)[0];
-					return (
-						<Grid item xs={3} key={key} className={classes.propertyBox}>
-							<div className={classes.propertyInnerBox}>
-								<Typography className={classes.propertyType}>
-									{statNameHelper(statType)}
-								</Typography>
-								<Typography className={classes.propertyValue}>
-									{statValueHelper(statType, statValue)}
-								</Typography>
+					if (i + 1 === key.length) {
+						return (
+							<div className={classes.lastBox}>
+								<div className={classes.statInnerBox}>
+									<Typography className={classes.statVal}>
+										{statType === "floor" || statType === "volume"
+											? statValue.toFixed() + " ETH"
+											: statValue.toFixed()}
+									</Typography>
+									<Typography className={classes.statType}>
+										{statType}
+									</Typography>
+								</div>
 							</div>
-						</Grid>
+						);
+					}
+					return (
+						<div className={classes.statBox}>
+							<div className={classes.statInnerBox}>
+								<Typography className={classes.statVal}>
+									{statType === "floor" || statType === "volume"
+										? statValue.toFixed() + " ETH"
+										: statValue.toFixed()}
+								</Typography>
+								<Typography className={classes.statType}>{statType}</Typography>
+							</div>
+						</div>
 					);
 				})}
-			</Grid>
-			<Grid xs={1} />
+			</div>
 		</>
 	);
-};
-
-export const statNameHelper = (str) => {
-	return str.replace(/_+/g, " ");
-};
-
-export const statValueHelper = (type, val) => {
-	if (type.includes("Volume")) {
-		val = (val / 1000).toFixed(2) + "K";
-	} else if (type === "Average_Sales_Price") val = val.toFixed() + " ETH";
-	return val;
 };
 
 export default StatsSection;

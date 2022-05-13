@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	sectionContainer: {
 		height: "240px",
-		marginTop: "4vh",
+		marginTop: "6.5vh",
 		marginBottom: "4vh",
 	},
 	propertiesContainer: {
@@ -59,13 +59,8 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: "12px",
 	},
 	statsContainer: {
-		border: "1px solid rgb(225, 225, 225)",
-		borderRadius: "10px",
-		marginBottom: "40px",
 		display: "flex",
-		flexFlow: "row wrap",
-		width: "100%",
-		height: "350px",
+		flexDirection: "column",
 	},
 	statItem: {
 		borderBottom: "1px solid rgb(225, 225, 225)",
@@ -136,13 +131,13 @@ const NftDetails = (props) => {
 
 	const Stats = () => {
 		return (
-			<Grid container className={classes.propertiesContainer}>
+			<Grid container>
 				<EmptyGrid />
 				<Grid
 					justifyContent="flex-start"
-					className={classes.properties}
 					container
 					xs
+					className={classes.statsContainer}
 				>
 					<div className={classes.sectionText}>
 						<Typography>

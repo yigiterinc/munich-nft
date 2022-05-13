@@ -43,14 +43,10 @@ const EthNftDetails = () => {
 				price: listedPrice,
 				priceUsd: listedPrice * ethPrice,
 				stats: [
-					{ Average_Sales_Price: tokenData.collection.stats.average_price },
-					{ Total_Supply: tokenData.collection.stats.total_supply },
-					{ Total_Sales: tokenData.collection.stats.total_sales },
-					{ Unique_Owners: tokenData.collection.stats.num_owners },
-					{ Floor_Price: tokenData.collection.stats.floor_price },
-					{ Volume_Last_7_Days: tokenData.collection.stats.seven_day_volume },
-					{ Volume_Last_30_Days: tokenData.collection.stats.thirty_day_volume },
-					{ Volume_Traded: tokenData.collection.stats.total_volume },
+					{ items: tokenData.collection.stats.total_supply },
+					{ owners: tokenData.collection.stats.num_owners },
+					{ floor: tokenData.collection.stats.floor_price },
+					{ volume: tokenData.collection.stats.total_volume },
 				],
 			};
 
