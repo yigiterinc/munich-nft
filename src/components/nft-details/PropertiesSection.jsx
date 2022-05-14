@@ -21,6 +21,9 @@ const useStyles = makeStyles({
 		marginBottom: "-15px",
 		flexFlow: "row wrap",
 	},
+	noPropertyText: {
+		lineHeight: "60px",
+	},
 	propertyBox: {
 		justifyContent: "center",
 		textAlign: "center",
@@ -58,7 +61,7 @@ export const renderProperties = (classes, properties) => {
 		<>
 			{properties === null ? (
 				<div className={classes.noPropertyContainer}>
-					<Typography>
+					<Typography className={classes.noPropertyText}>
 						<b>This NFT has not any properties </b>
 					</Typography>
 				</div>
