@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 		paddingTop: "10px",
 	},
 	collectionLink: {
-		fontSize: "17px",
+		fontSize: "21px",
 		color: theme.palette.primary.main,
 		cursor: "pointer",
 		"&:focus, &:hover, &:visited, &:link, &:active": {
@@ -25,6 +25,14 @@ const useStyles = makeStyles((theme) => ({
 	contractSection: {
 		paddingTop: "10px",
 		fontWeight: "lighter",
+	},
+	contractLink: {
+		fontSize: "18px",
+		color: theme.palette.primary.main,
+		cursor: "pointer",
+		"&:focus, &:hover, &:visited, &:link, &:active": {
+			textDecoration: "underline",
+		},
 	},
 	icon: {
 		paddingRight: "0.5vw",
@@ -59,7 +67,7 @@ const CollectionGroup = (props) => {
 			</div>
 			<div className={classes.contractSection}>
 				<MuiLink
-					className={classes.collectionLink}
+					className={classes.contractLink}
 					href={explorerPath}
 					target="_blank"
 					rel="noopener noreferrer"

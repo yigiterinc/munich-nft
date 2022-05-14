@@ -121,7 +121,6 @@ const NftDetails = (props) => {
 							Traits for <b>{`${props.nftJson.name}`}</b>
 						</Typography>
 					</div>
-
 					<PropertiesSection {...props.nftJson} />
 				</Grid>
 				<EmptyGrid />
@@ -171,7 +170,7 @@ const NftDetails = (props) => {
 					<EmptyGrid />
 				</Grid>
 				<div className={classes.sectionsContainer}>
-					{props.nftJson.properties.length !== 0 && <Properties />}
+					<Properties />
 
 					<Grid container className={classes.sectionContainer}>
 						{props.nftJson.stats.length !== 0 && <Stats />}

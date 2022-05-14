@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 const useStyles = makeStyles((theme) => ({
 	nftTitle: {
 		marginRight: "auto",
-		fontSize: "26px",
+		fontSize: "36px",
 		fontWeight: "700",
 		overflow: "hidden",
 		whiteSpace: "nowrap",

@@ -12,6 +12,15 @@ const useStyles = makeStyles({
 		marginBottom: "-15px",
 		flexFlow: "row wrap",
 	},
+	noPropertyContainer: {
+		display: "flex",
+		marginTop: "-8px",
+		width: "calc(100% + 8px)",
+		verticalAlign: "center",
+		textAlign: "center",
+		marginBottom: "-15px",
+		flexFlow: "row wrap",
+	},
 	propertyBox: {
 		justifyContent: "center",
 		textAlign: "center",
@@ -30,40 +39,56 @@ const useStyles = makeStyles({
 
 const PropertiesSection = (nftJson) => {
 	const classes = useStyles();
-	let sorted = nftJson.properties.sort(
-		(a, b) => (a.trait_type > b.trait_type && 1) || -1
-	);
-	let properties = customPropertiesHelper(sorted, nftJson.collectionSize);
+
+	let traits = nftJson.properties;
+	let sorted;
+	let properties = null;
+
+	if (traits.length > 0) {
+		sorted = traits.sort((a, b) => (a.trait_type > b.trait_type && 1) || -1);
+		properties = customPropertiesHelper(sorted, nftJson.collectionSize);
+	}
 
 	return <>{renderProperties(classes, properties)}</>;
 };
 
 export const renderProperties = (classes, properties) => {
+	console.log(properties);
 	return (
-		<Grid
-			container
-			justifyContent="flex-start"
-			className={classes.properties}
-			xs={12}
-		>
-			{properties.map((property, key) => {
-				if (property.rarity === "0.0%") {
-					property.rarity = "New trait";
-				}
-				return (
-					<Grid item key={key}>
-						<div className={classes.propertyBox}>
-							<Typography>
-								{property.type}
-								{": "} {property.value} {"("}
-								{property.rarity}
-								{")"}
-							</Typography>
-						</div>
-					</Grid>
-				);
-			})}
-		</Grid>
+		<>
+			{properties === null ? (
+				<div className={classes.noPropertyContainer}>
+					<Typography>
+						<b>This NFT has not any properties </b>
+					</Typography>
+				</div>
+			) : (
+				<Grid
+					container
+					justifyContent="flex-start"
+					className={classes.properties}
+					xs={12}
+				>
+					{properties.map((property, key) => {
+						if (property.rarity === "0.0%") {
+							property.rarity = "New trait";
+						}
+						return (
+							<Grid item key={key}>
+								<div className={classes.propertyBox}>
+									<Typography>
+										{property.type}
+										{": "} {property.value} {"("}
+										{property.rarity}
+										{")"}
+									</Typography>
+								</div>
+							</Grid>
+						);
+					})}
+				</Grid>
+			)}
+		</>
 	);
 };
 
