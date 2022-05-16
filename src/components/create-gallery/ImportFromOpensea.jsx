@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		backgroundColor: theme.palette.background.paper,
 		width: "auto",
-		height: "auto"
+		height: "auto",
 	},
 	buttonsContainer: {
 		display: "flex",
@@ -55,13 +55,11 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: "2vh",
 	},
 	tabPanel: {
-		paddingLeft: "5vw",
-		paddingRight: "5vw",
 		paddingTop: "5vh",
-		paddingBottom: "5vh",
-		overflow: "scroll",
-		height: "auto",
-		width: "auto"
+		paddingLeft: "1vw",
+		paddingRight: "1vw",
+		paddingBottom: "3vh",
+		overflow: "hidden",
 	},
 }));
 
@@ -128,7 +126,7 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 
 	const CollectionCardsGrid = () => {
 		return (
-			<Grid container spacing={3}>
+			<Grid container spacing={2}>
 				{userCollections?.map((collection) => {
 					return (
 						<Grid key={collection.slug} item xs={4}>
@@ -154,7 +152,7 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 
 	const AssetCardsGrid = () => {
 		return (
-			<Grid container spacing={3} direction="row" alignItems="center">
+			<Grid container spacing={2} direction="row" alignItems="center">
 				{userCollections?.map((collection) =>
 					collection?.assets.map((item) => {
 						return (
@@ -168,7 +166,7 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 									}
 								/>
 							</Grid>
-						)
+						);
 					})
 				)}
 			</Grid>
