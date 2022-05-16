@@ -52,7 +52,6 @@ const useStyles = makeStyles((theme) => ({
 	buttonsContainer: {
 		display: "flex",
 		justifyContent: "center",
-		marginTop: "2vh",
 	},
 	tabPanel: {
 		paddingTop: "5vh",
@@ -184,7 +183,7 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 				{data}
 			</TabPanel>,
 			dataIsLoading,
-			{ marginTop: "10vh", marginBottom: "4vh", marginLeft: "48vw" }
+			{ marginLeft: 300, marginTop: "10vh", marginBottom: "10vh" }
 		);
 	};
 
