@@ -205,7 +205,7 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 				size="large"
 				onClick={() => handleSubmit(selectedItems)}
 			>
-				Create gallery with Selected Items
+				Add Selected Items to the Gallery
 			</Button>
 		</div>
 	);
