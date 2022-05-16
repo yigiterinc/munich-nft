@@ -54,6 +54,22 @@ const useStyles = makeStyles((theme) => ({
 		paddingBottom: "3vh",
 		overflow: "hidden",
 	},
+	button: {
+		background: "#b35bff",
+		color: "#FFFFFF",
+		margin: "13px 25px",
+		padding: "13px 25px",
+		"&:hover": {
+			background: darken("#b35bff", 0.1),
+		},
+		"&:disabled": {
+			border: "#e0e0e0",
+			background: "#e0e0e0",
+			color: "#a6a6a6",
+			margin: "13px 25px",
+			padding: "13px 25px",
+		},
+	},
 }));
 
 export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
@@ -140,17 +156,10 @@ export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 			{prevButton}
 
 			<Button
+				className={classes.button}
 				variant="contained"
-				style={{
-					background: "#b35bff",
-					color: "#FFFFFF",
-					margin: "13px 25px",
-					padding: "13px 25px",
-					"&:hover": {
-						background: darken("#b35bff", 0.1),
-					},
-				}}
 				size="large"
+				disabled={selectedItems.length === 0}
 				onClick={() => handleSubmit(selectedItems)}
 			>
 				Add Selected Items to the Gallery
