@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { STRAPI_BASE_URL } from "../../constants/strapiConstants";
 import { useHistory } from "react-router-dom";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
 	root: {
 		minWidth: 200,
 		minHeight: 200,
@@ -22,9 +22,14 @@ const useStyles = makeStyles({
 		},
 	},
 	image: {
-		height: "25vh",
+		[theme.breakpoints.up("xs")]: {
+			height: "30vh",
+		},
+		[theme.breakpoints.up("sm")]: {
+			height: "25vh",
+		},
 	},
-});
+}));
 
 const GalleryCard = ({ gallery, add }) => {
 	const classes = useStyles();

@@ -9,9 +9,8 @@ import { truncateString, withDefault } from "../../utils/commons";
 
 const useStyles = makeStyles((theme) => ({
 	card: {
-		minWidth: 200,
-		minHeight: 200,
-		height: "auto",
+		minWidth: 140,
+		height: 250,
 		cursor: "pointer",
 		transition: "all 0.2s ease-out",
 		"&:hover": {
@@ -30,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: "18px",
 	},
 	image: {
-		height: "30vh",
+		height: "20vh",
 		borderRadius: "4px",
 	},
 }));

@@ -47,21 +47,34 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		backgroundColor: theme.palette.background.paper,
 		width: "auto",
-		height: "auto"
+		height: "auto",
 	},
 	buttonsContainer: {
 		display: "flex",
 		justifyContent: "center",
-		marginTop: "2vh",
 	},
 	tabPanel: {
-		paddingLeft: "5vw",
-		paddingRight: "5vw",
 		paddingTop: "5vh",
-		paddingBottom: "5vh",
-		overflow: "scroll",
-		height: "auto",
-		width: "auto"
+		paddingLeft: "1vw",
+		paddingRight: "1vw",
+		paddingBottom: "3vh",
+		overflow: "hidden",
+	},
+	button: {
+		background: "#b35bff",
+		color: "#FFFFFF",
+		margin: "13px 25px",
+		padding: "13px 25px",
+		"&:hover": {
+			background: darken("#b35bff", 0.1),
+		},
+		"&:disabled": {
+			border: "#e0e0e0",
+			background: "#e0e0e0",
+			color: "#a6a6a6",
+			margin: "13px 25px",
+			padding: "13px 25px",
+		},
 	},
 }));
 
@@ -128,7 +141,7 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 
 	const CollectionCardsGrid = () => {
 		return (
-			<Grid container spacing={3}>
+			<Grid container spacing={2}>
 				{userCollections?.map((collection) => {
 					return (
 						<Grid key={collection.slug} item xs={4}>
@@ -154,7 +167,7 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 
 	const AssetCardsGrid = () => {
 		return (
-			<Grid container spacing={3} direction="row" alignItems="center">
+			<Grid container spacing={2} direction="row" alignItems="center">
 				{userCollections?.map((collection) =>
 					collection?.assets.map((item) => {
 						return (
@@ -168,7 +181,7 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 									}
 								/>
 							</Grid>
-						)
+						);
 					})
 				)}
 			</Grid>
@@ -186,7 +199,7 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 				{data}
 			</TabPanel>,
 			dataIsLoading,
-			{ marginTop: "10vh", marginBottom: "4vh", marginLeft: "48vw" }
+			{ marginLeft: 300, marginTop: "10vh", marginBottom: "10vh" }
 		);
 	};
 
@@ -195,20 +208,13 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 			{prevButton}
 
 			<Button
+				className={classes.button}
 				variant="contained"
-				style={{
-					background: "#b35bff",
-					color: "#FFFFFF",
-					margin: "13px 25px",
-					padding: "13px 25px",
-					"&:hover": {
-						background: darken("#b35bff", 0.1),
-					},
-				}}
 				size="large"
+				disabled={selectedItems.length === 0}
 				onClick={() => handleSubmit(selectedItems)}
 			>
-				Create gallery with Selected Items
+				Add Selected Items to the Gallery
 			</Button>
 		</div>
 	);

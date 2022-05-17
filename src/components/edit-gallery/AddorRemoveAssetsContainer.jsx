@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Select, MenuItem, Typography, Button } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
+import { darken, makeStyles } from "@material-ui/core/styles";
 import ImportFromOpensea from "../create-gallery/ImportFromOpensea";
 import ImportFromContract from "../create-gallery/ImportFromContract";
 import ImportFromPhantomWallet from "../create-gallery/ImportFromPhantomWallet";
@@ -22,11 +22,11 @@ const useStyles = makeStyles((theme) => ({
 	selectMethodText: {
 		fontSize: "20px",
 		letterSpacing: "1.5",
-		lineHeight: "120%"
+		lineHeight: "120%",
 	},
 	textField: {
 		marginTop: 20,
-		width: "20vw"
+		width: "20vw",
 	},
 }));
 
@@ -38,7 +38,7 @@ function AddorRemoveAssetsContainer(props) {
 
 	const [contractAddress, setContractAddress] = useState();
 
-	const classes = useStyles()
+	const classes = useStyles();
 
 	console.log(props);
 
@@ -58,64 +58,73 @@ function AddorRemoveAssetsContainer(props) {
 	};
 
 	const SelectImportMethod = () => {
-
-			return (
-				<Grid
-					container
-					direction="column"
-					justifyContent="center"
-					alignItems="center"
-					spacing={4}
-					className={classes.gridContainer}
-				>
-					<Grid item xs={12} className={classes.gridItem}>
-						<Typography class={classes.selectMethodText} variant={"p"}>
-							There are various ways to import your existing assets to your gallery.
-							Select one and we will retrieve your assets for your selection.
-						</Typography>
-					</Grid>
-
-					<Grid item xs={12} className={classes.gridItem}>
-						<Select
-							value={importMethod}
-							onChange={(event) => {
-								setImportMethod(event.target.value);
-							}}
-						>
-							{ImportOptions()}
-						</Select>
-					</Grid>
-
-					{importMethod === "CUSTOM_CONTRACT" ? (
-						<Grid item xs={12} className={classes.gridItem}>
-							<Typography variant="h5" component="h2">
-								Contract address
-							</Typography>
-							<TextField
-								className={classes.textField}
-								variant="outlined"
-								placeholder="0xd26330c38C756215Ed82258283fb4c36025D431E"
-								fullWidth
-								value={contractAddress}
-								onChange={(event) => setContractAddress(event.target.value)}
-							/>
-						</Grid>
-					) : (
-						<></>
-					)}
-
-					<Grid item xs={12} className={classes.gridItem}>
-						<Button
-							color="primary"
-							size="large"
-							onClick={() => setActiveStep((prevActiveStep) => prevActiveStep + 1)}
-							variant="outlined"
-						>
-							Next
-						</Button>
-					</Grid>
+		return (
+			<Grid
+				container
+				direction="column"
+				justifyContent="center"
+				alignItems="center"
+				spacing={4}
+				className={classes.gridContainer}
+			>
+				<Grid item xs={12} className={classes.gridItem}>
+					<Typography class={classes.selectMethodText} variant={"p"}>
+						There are various ways to import your existing assets to your
+						gallery. Select one and we will retrieve your assets for your
+						selection.
+					</Typography>
 				</Grid>
-			)
+
+				<Grid item xs={12} className={classes.gridItem}>
+					<Select
+						value={importMethod}
+						onChange={(event) => {
+							setImportMethod(event.target.value);
+						}}
+					>
+						{ImportOptions()}
+					</Select>
+				</Grid>
+
+				{importMethod === "CUSTOM_CONTRACT" ? (
+					<Grid item xs={12} className={classes.gridItem}>
+						<Typography variant="h5" component="h2">
+							Contract address
+						</Typography>
+						<TextField
+							className={classes.textField}
+							variant="outlined"
+							placeholder="0xd26330c38C756215Ed82258283fb4c36025D431E"
+							fullWidth
+							value={contractAddress}
+							onChange={(event) => setContractAddress(event.target.value)}
+						/>
+					</Grid>
+				) : (
+					<></>
+				)}
+
+				<Grid item xs={12} className={classes.gridItem}>
+					<Button
+						color="primary"
+						variant="contained"
+						style={{
+							background: "#b35bff",
+							color: "#FFFFFF",
+							"&:hover": {
+								background: darken("#b35bff", 0.1),
+							},
+						}}
+						size="large"
+						onClick={() =>
+							setActiveStep((prevActiveStep) => prevActiveStep + 1)
+						}
+					>
+						Next
+					</Button>
+				</Grid>
+			</Grid>
+		);
 	};
 
 	let ImportComponents = {
@@ -140,13 +149,20 @@ function AddorRemoveAssetsContainer(props) {
 		),
 	};
 
-	const addAssetsSteps = [<SelectImportMethod />, ImportComponents[importMethod]];
+	const addAssetsSteps = [
+		<SelectImportMethod />,
+		ImportComponents[importMethod],
+	];
 
-	return props.add ?
-		addAssetsSteps[activeStep] :
-		<RemoveAssets galleryAssets={props.galleryAssets}
-									handleChangeGalleryAssets={props.handleRemoveGalleryAssets}
-								  setShowSelectedView={props.setShowRemoveAssetsView}/>;
+	return props.add ? (
+		addAssetsSteps[activeStep]
+	) : (
+		<RemoveAssets
+			galleryAssets={props.galleryAssets}
+			handleChangeGalleryAssets={props.handleRemoveGalleryAssets}
+			setShowSelectedView={props.setShowRemoveAssetsView}
+		/>
+	);
 }
 
 export default AddorRemoveAssetsContainer;

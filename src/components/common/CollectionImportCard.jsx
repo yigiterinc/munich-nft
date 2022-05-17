@@ -9,7 +9,7 @@ import { truncateString, withDefault } from "../../utils/commons";
 
 const useStyles = makeStyles((theme) => ({
 	card: {
-		minWidth: 200,
+		minWidth: 140,
 		minHeight: 200,
 		height: "auto",
 		cursor: "pointer",
@@ -31,9 +31,9 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: "center",
 	},
 	avatar: {
-		width: theme.spacing(15),
-		height: theme.spacing(15),
-		marginBottom: "5vh",
+		width: theme.spacing(9),
+		height: theme.spacing(9),
+		marginBottom: "2vh",
 	},
 	name: {
 		marginTop: "10px",
