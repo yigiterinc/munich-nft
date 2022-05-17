@@ -10,14 +10,12 @@ import EditGalleryModal from "../components/gallery/gallery-edit-manager/EditGal
 
 const useStyles = makeStyles((theme) => ({
 	galleryContainer: {
-		backgroundColor: theme.palette.background.default,
 		paddingTop: "10vh",
 		height: "100%",
 	},
 }));
 
 const Gallery = (props) => {
-	const [inEditMode, setInEditMode] = useState(false);
 	const [coverImage, setCoverImage] = useState(null);
 	const [galleryTheme, setGalleryTheme] = useState(null);
 	const [headerLayout, setHeaderLayout] = useState("default");
@@ -30,18 +28,6 @@ const Gallery = (props) => {
 	const classes = useStyles();
 
 	const defaultTheme = createTheme({
-		palette: {
-			background: {
-				default: "#fff",
-			},
-			text: {
-				primary: "#000",
-			},
-			primary: {
-				main: "#000",
-				contrastText: "#fff",
-			},
-		},
 	});
 
 	useEffect(async () => {
@@ -51,10 +37,6 @@ const Gallery = (props) => {
 			setHeaderLayout(props.gallery.headerLayout);
 		}
 	}, [props.gallery]);
-
-	const switchEditableMode = () => {
-		setInEditMode(!inEditMode);
-	};
 
 	const handleDropzoneSubmit = async (file) => {
 		setCoverImage(file);
@@ -94,8 +76,6 @@ const Gallery = (props) => {
 							closeEditGalleryModal={closeEditGalleryModal}
 							setOpenEditGalleryModal={setOpenEditGalleryModal}
 							isOwner={props.isOwner}
-							inEditMode={inEditMode}
-							switchEditableMode={switchEditableMode}
 							handleUpdateGallery={handleUpdateGallery}
 							gallery={props.gallery}
 							coverImage={coverImage}
@@ -113,7 +93,6 @@ const Gallery = (props) => {
 						<EditGalleryModal
 							openEditGalleryModal={openEditGalleryModal}
 							closeEditGalleryModal={closeEditGalleryModal}
-							switchEditableMode={switchEditableMode}
 							headerLayout={headerLayout}
 							setHeaderLayout={setHeaderLayout}
 							galleryTheme={galleryTheme}

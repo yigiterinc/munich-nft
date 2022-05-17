@@ -1,7 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import { Card, CardMedia, makeStyles } from "@material-ui/core";
 import FileDropzone from "../../common/FileDropzone";
 import { STRAPI_BASE_URL } from "../../../constants/strapiConstants";
+import ImageUploadWithPreview from "../../common/ImageUploadWithPreview";
+import { getLoggedInUser } from "../../../utils/auth-utils";
 
 const useStyles = makeStyles({
 	galleryCoverImageContainer: {
@@ -17,43 +19,28 @@ const useStyles = makeStyles({
 });
 
 const GalleryCoverImage = (props) => {
-	let imageSrc;
-	if (props.coverImage !== null) {
-		if ("preview" in props.coverImage) {
-			imageSrc = props.coverImage.preview;
-		} else {
-			imageSrc = STRAPI_BASE_URL + props.coverImage.url;
-		}
-	}
+	const [updatedGalleryImage, setUpdatedGalleryImage] = useState();
 
 	const classes = useStyles();
 	return (
 		<>
 			{props.coverImage && (
 				<div key={props.coverImage}>
-					{props.isOwner && props.isEditable && !props.isCoverImageUpdated ? (
-						<FileDropzone
-							dropzoneStyles={{
-								width: "300px",
-								height: "300px",
-							}}
-							handleSubmit={(file) => {
-								props.handleDropzoneSubmit(file);
-								props.setIsCoverImageUpdated(true);
-							}}
-							handleChangeStatus={() => console.log("status changed")}
-							coverImage={
-								<Card className={classes.galleryCoverImageContainer}>
-									<CardMedia component="img" src={imageSrc} />
-								</Card>
-							}
+					{props.isEditable ? (
+						<ImageUploadWithPreview
+							height={300}
+							width={300}
+							userId={getLoggedInUser().id}
+							image={props.coverImage}
+							setNewImage={(uploadedImage) => setUpdatedGalleryImage(uploadedImage)}
 						/>
+
 					) : (
 						<Card className={classes.galleryCoverImageContainer}>
 							<CardMedia
 								component="img"
 								className={classes.galleryCoverImage}
-								src={imageSrc}
+								src={props.coverImage}
 							/>
 						</Card>
 					)}

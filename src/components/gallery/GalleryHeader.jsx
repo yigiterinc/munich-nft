@@ -10,8 +10,21 @@ const useStyles = makeStyles((theme) => ({
 	galleryHeaderContainer: {
 		display: "flex",
 		justifyContent: "center",
-		width: "96vw",
-		margin: "auto",
+		[theme.breakpoints.down("xs")]: {
+			display: "flex",
+			flexDirection: "column",
+			alignItems: "center",
+			justifyContent: "center"
+		},
+		[theme.breakpoints.up("md")]: {
+			paddingRight: "15vw"
+		},
+	},
+	galleryMetadata: {
+		marginLeft: "3vw",
+		[theme.breakpoints.down("xs")]: {
+			marginLeft: "0vw"
+		}
 	},
 	title: {
 		fontSize: "36px", // will be updated after theme variable setup
@@ -20,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	galleryOwner: {
 		display: "flex",
-		marginLeft: "0.2vw",
 		marginTop: "0.5vh",
 		marginBottom: "4vh",
 		textAlign: "center",
@@ -66,23 +78,19 @@ const GalleryHeader = (props) => {
 		});
 	}, []);
 
-	const canEditGallery = () => {
-		return props.isOwner && props.inEditMode;
-	};
-
 	const CoverImage = () => {
 		return (
 			<Grid
 				className={classes.coverImageContainer}
 				item
-				lg={3}
-				md={3}
+				lg={2}
+				md={2}
 				sm={4}
 				xs={6}
 			>
 				<GalleryCoverImage
 					coverImage={props.gallery.coverImage}
-					isEditable={props.inEditMode}
+					isEditable={props.isOwner}
 					isOwner={props.isOwner}
 					handleDropzoneSubmit={props.handleDropzoneSubmit}
 					isCoverImageUpdated={props.isCoverImageUpdated}
@@ -171,69 +179,22 @@ const GalleryHeader = (props) => {
 		return (
 			<>
 				<CoverImage />
-				<Grid item lg={5} md={5} sm={4} xs={2}>
-					{canEditGallery() ? <EditGalleryName /> : <GalleryName />}
-
+				<Grid item lg={6} md={6} sm={4} xs={2} className={classes.galleryMetadata}>
+					<GalleryName />
 					<CreatedBy />
-
-					{canEditGallery() ? <EditDescription /> : <Description />}
+					<Description />
 				</Grid>
 			</>
-		);
-	};
-
-	const HeaderLayout1 = () => {
-		return (
-			<>
-				<Grid item lg={5} md={5} sm={4} xs={2}>
-					{canEditGallery() ? <EditGalleryName /> : <GalleryName />}
-
-					<CreatedBy />
-
-					{canEditGallery() ? <EditDescription /> : <Description />}
-				</Grid>
-
-				<CoverImage />
-			</>
-		);
-	};
-
-	const HeaderLayout2 = () => {
-		return (
-			<Grid item lg={8} md={8} sm={8} xs={8}>
-				{canEditGallery() ? <EditGalleryName /> : <GalleryName />}
-
-				<CoverImage />
-				<CreatedBy />
-				{canEditGallery() ? <EditDescription /> : <Description />}
-			</Grid>
 		);
 	};
 
 	const LAYOUT_PROP_TO_COMPONENT = {
 		default: <HeaderDefaultLayout {...props} />,
 	};
-	LAYOUT_PROP_TO_COMPONENT["layout-1"] = <HeaderLayout1 {...props} />;
-	LAYOUT_PROP_TO_COMPONENT["layout-2"] = <HeaderLayout2 {...props} />;
 
 	return (
-		<Grid container spacing={6} className={classes.galleryHeaderContainer}>
-			<Grid item lg={1} md={1} sm={1} xs={1}>
-				<EditGalleryMenu
-					setOpenEditGalleryModal={props.setOpenEditGalleryModal}
-					inEditMode={props.inEditMode}
-					isOwner={props.isOwner}
-					switchEditableMode={props.switchEditableMode}
-					handleUpdateGallery={props.handleUpdateGallery}
-					setShowAddAssetsView={props.setShowAddAssetsView}
-					setShowRemoveAssetsView={props.setShowRemoveAssetsView}
-					updatedMetadata={updatedMetadata}
-				/>
-			</Grid>
-
-			{LAYOUT_PROP_TO_COMPONENT[props.headerLayout]}
-
-			<Grid item lg={1} md={1} sm={1} xs={1} />
+		<Grid container className={classes.galleryHeaderContainer}>
+			{<HeaderDefaultLayout {...props}/>}
 		</Grid>
 	);
 };
