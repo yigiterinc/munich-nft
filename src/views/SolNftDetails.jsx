@@ -31,6 +31,7 @@ const SolNftDetails = () => {
 			tokenStandard: tokenData.tokenStandard,
 			mint: tokenData.mint,
 			updateAuthority: tokenData.updateAuthority,
+			properties: [],
 			creators: tokenData.data.creators,
 		};
 
