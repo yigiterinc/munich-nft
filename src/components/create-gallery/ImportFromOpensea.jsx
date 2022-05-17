@@ -116,7 +116,6 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 
 	const addToSelectedItems = (item) => {
 		setSelectedItems([...selectedItems, item]);
-		console.log(selectedItems);
 	};
 
 	const removeCollectionFromSelectedItems = (itemToBeRemoved) => {
@@ -127,8 +126,9 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 	};
 
 	const removeNftFromSelectedItems = (itemToBeRemoved) => {
+		console.log(itemToBeRemoved);
 		const itemsWithoutTheSubject = selectedItems.filter(
-			(item) => item.nft !== itemToBeRemoved
+			(item) => item.item !== itemToBeRemoved.item
 		);
 		setSelectedItems(itemsWithoutTheSubject);
 	};
