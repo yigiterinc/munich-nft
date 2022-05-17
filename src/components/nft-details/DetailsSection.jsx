@@ -94,19 +94,6 @@ const DetailsSection = (nftJson) => {
 	const classes = useStyles();
 	return (
 		<Box className={classes.detailsContainer}>
-			{nftJson.createdBy && (
-				<Box className={classes.box}>
-					Created by:{" "}
-					<MuiLink
-						className={classes.link}
-						href={creatorPath}
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						{nftJson.createdBy}
-					</MuiLink>
-				</Box>
-			)}
 			<Box className={classes.box}>
 				Blockchain: <b>{nftJson.blockchain}</b>
 			</Box>

@@ -23,6 +23,7 @@ const useStyles = makeStyles({
 	},
 	noPropertyText: {
 		lineHeight: "60px",
+		marginTop: "-16px",
 	},
 	propertyBox: {
 		justifyContent: "center",
@@ -56,7 +57,6 @@ const PropertiesSection = (nftJson) => {
 };
 
 export const renderProperties = (classes, properties) => {
-	console.log(properties);
 	return (
 		<>
 			{properties === null ? (
@@ -70,7 +70,6 @@ export const renderProperties = (classes, properties) => {
 					container
 					justifyContent="flex-start"
 					className={classes.properties}
-					xs={12}
 				>
 					{properties.map((property, key) => {
 						if (property.rarity === "0.0%") {

@@ -26,7 +26,7 @@ const NftImage = (props) => {
 			<Card className={classes.nftImageContainer}>
 				<CardMedia
 					component="img"
-					clasName={classes.image}
+					className={classes.image}
 					src={props.nftJson.imageSrc}
 				></CardMedia>
 			</Card>

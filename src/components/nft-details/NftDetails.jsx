@@ -1,11 +1,9 @@
 import React from "react";
 import { makeStyles, Grid, Typography } from "@material-ui/core";
-import { Link } from "react-router-dom";
 
 import NftImage from "./NftImage";
 import Details from "./Details";
 import PropertiesSection from "./PropertiesSection";
-import StatsSection from "./StatsSection";
 
 import { createTheme, ThemeProvider } from "@material-ui/core";
 
@@ -98,7 +96,7 @@ const NftDetails = (props) => {
 		);
 	};
 
-	const DetailsTabContainer = () => {
+	const DetailsContainer = () => {
 		return (
 			<Grid item xs={4} className={classes.detailsTabPanel}>
 				<Details nftJson={props.nftJson} />
@@ -110,12 +108,7 @@ const NftDetails = (props) => {
 		return (
 			<Grid container className={classes.propertiesContainer}>
 				<EmptyGrid />
-				<Grid
-					justifyContent="flex-start"
-					className={classes.properties}
-					container
-					xs
-				>
+				<Grid item className={classes.properties} xs>
 					<div className={classes.sectionText}>
 						<Typography>
 							Traits for <b>{`${props.nftJson.name}`}</b>
@@ -128,53 +121,17 @@ const NftDetails = (props) => {
 		);
 	};
 
-	const Stats = () => {
-		return (
-			<Grid container>
-				<EmptyGrid />
-				<Grid
-					justifyContent="flex-start"
-					container
-					xs
-					className={classes.statsContainer}
-				>
-					<div className={classes.sectionText}>
-						<Typography>
-							Market statistics for the{" "}
-							<Link
-								className={classes.collectionLink}
-								to={`/collection/${props.nftJson.slug}`}
-							>
-								{props.nftJson.collection}
-							</Link>
-						</Typography>
-						<Typography classsName={classes.innerText}>
-							* Statistics are generated from the NFT activity on Opensea
-							platform
-						</Typography>
-					</div>
-					<StatsSection {...props.nftJson} />
-				</Grid>
-				<EmptyGrid />
-			</Grid>
-		);
-	};
-
 	return (
 		<ThemeProvider theme={defaultTheme}>
 			<div className={classes.rootContainer}>
 				<Grid container spacing={6} className={classes.nftDetailsContainer}>
 					<EmptyGrid />
 					<NftImageContainer />
-					<DetailsTabContainer />
+					<DetailsContainer />
 					<EmptyGrid />
 				</Grid>
 				<div className={classes.sectionsContainer}>
 					<Properties />
-
-					<Grid container className={classes.sectionContainer}>
-						{props.nftJson.stats.length !== 0 && <Stats />}
-					</Grid>
 				</div>
 			</div>
 		</ThemeProvider>
