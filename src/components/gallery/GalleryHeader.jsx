@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import EditGalleryMenu from "./gallery-edit-manager/EditGalleryMenu";
-import { Grid, Link, TextField, Typography } from "@material-ui/core";
+import { Grid, TextField, Typography } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import GalleryCoverImage from "./gallery-header/GalleryCoverImage";
+import { truncateString } from "../../utils/commons";
 
 const useStyles = makeStyles((theme) => ({
 	galleryHeaderContainer: {
@@ -66,11 +68,18 @@ const GalleryHeader = (props) => {
 
 	const canEditGallery = () => {
 		return props.isOwner && props.inEditMode;
-	}
+	};
 
 	const CoverImage = () => {
 		return (
-			<Grid className={classes.coverImageContainer} item lg={3} md={3} sm={4} xs={6}>
+			<Grid
+				className={classes.coverImageContainer}
+				item
+				lg={3}
+				md={3}
+				sm={4}
+				xs={6}
+			>
 				<GalleryCoverImage
 					coverImage={props.gallery.coverImage}
 					isEditable={props.inEditMode}
@@ -80,16 +89,16 @@ const GalleryHeader = (props) => {
 					setIsCoverImageUpdated={props.setIsCoverImageUpdated}
 				/>
 			</Grid>
-		)
-	}
+		);
+	};
 
 	const GalleryName = () => {
 		return (
 			<Typography className={classes.title}>
 				{props.gallery.galleryName}
 			</Typography>
-		)
-	}
+		);
+	};
 
 	const EditGalleryName = () => {
 		return (
@@ -100,13 +109,16 @@ const GalleryHeader = (props) => {
 						value={updatedMetadata.galleryName}
 						inputProps={{ style: { fontSize: "36px" } }}
 						onChange={(event) =>
-							setUpdatedMetadata({ ...updatedMetadata, galleryName: event.target.value })
+							setUpdatedMetadata({
+								...updatedMetadata,
+								galleryName: event.target.value,
+							})
 						}
 					/>
 				</form>
 			</div>
-		)
-	}
+		);
+	};
 
 	const CreatedBy = () => {
 		return (
@@ -120,47 +132,51 @@ const GalleryHeader = (props) => {
 					className={classes.creator}
 					variant="h5"
 				>
-					{props.gallery?.username}
+					{props.gallery?.username
+						? props.gallery?.username
+						: truncateString(props.gallery?.userId, 8)}
 				</Typography>
 			</div>
-		)
-	}
+		);
+	};
 
 	const Description = () => {
-		return (<Typography className={classes.description} variant="h5">
-			{props.gallery?.description}
-		</Typography>)
-	}
+		return (
+			<Typography className={classes.description} variant="h5">
+				{props.gallery?.description}
+			</Typography>
+		);
+	};
 
 	const EditDescription = () => {
 		return (
-			<form
-				noValidate
-				autoComplete="off"
-			>
+			<form noValidate autoComplete="off">
 				<TextField
 					multiline
 					fullWidth
 					value={updatedMetadata.description}
 					inputProps={{ style: { fontSize: "18px" } }}
 					onChange={(event) =>
-						setUpdatedMetadata({ ...updatedMetadata, description: event.target.value })
+						setUpdatedMetadata({
+							...updatedMetadata,
+							description: event.target.value,
+						})
 					}
 				/>
 			</form>
-		)
-	}
+		);
+	};
 
 	const HeaderDefaultLayout = () => {
 		return (
 			<>
-				<CoverImage/>
+				<CoverImage />
 				<Grid item lg={5} md={5} sm={4} xs={2}>
-					{ canEditGallery() ? <EditGalleryName/> : <GalleryName/> }
+					{canEditGallery() ? <EditGalleryName /> : <GalleryName />}
 
-					<CreatedBy/>
+					<CreatedBy />
 
-					{canEditGallery() ? <EditDescription/> : <Description/>}
+					{canEditGallery() ? <EditDescription /> : <Description />}
 				</Grid>
 			</>
 		);
@@ -170,27 +186,28 @@ const GalleryHeader = (props) => {
 		return (
 			<>
 				<Grid item lg={5} md={5} sm={4} xs={2}>
-					{canEditGallery() ? <EditGalleryName/> : <GalleryName/>}
+					{canEditGallery() ? <EditGalleryName /> : <GalleryName />}
 
-					<CreatedBy/>
+					<CreatedBy />
 
-					{canEditGallery() ? <EditDescription/> : <Description/>}
+					{canEditGallery() ? <EditDescription /> : <Description />}
 				</Grid>
 
-				<CoverImage/>
+				<CoverImage />
 			</>
-		)
+		);
 	};
 
 	const HeaderLayout2 = () => {
 		return (
 			<Grid item lg={8} md={8} sm={8} xs={8}>
-				{canEditGallery() ? <EditGalleryName/> : <GalleryName/>}
+				{canEditGallery() ? <EditGalleryName /> : <GalleryName />}
 
-				<CoverImage/>
-			  <CreatedBy/>
-			{canEditGallery() ? <EditDescription/> : <Description/>}
-		</Grid>);
+				<CoverImage />
+				<CreatedBy />
+				{canEditGallery() ? <EditDescription /> : <Description />}
+			</Grid>
+		);
 	};
 
 	const LAYOUT_PROP_TO_COMPONENT = {
@@ -214,15 +231,11 @@ const GalleryHeader = (props) => {
 				/>
 			</Grid>
 
-			{
-				LAYOUT_PROP_TO_COMPONENT[props.headerLayout]
-			}
+			{LAYOUT_PROP_TO_COMPONENT[props.headerLayout]}
 
 			<Grid item lg={1} md={1} sm={1} xs={1} />
 		</Grid>
-
 	);
 };
-
 
 export default GalleryHeader;
