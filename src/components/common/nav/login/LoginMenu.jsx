@@ -8,7 +8,7 @@ import metamaskLogo from "../../../../assets/images/metamask.png";
 import phantomLogo from "../../../../assets/images/phantom.png";
 import {
 	loginWithMetamask,
-	isLoggedInWithMetamask,
+	isLoggedInWithMetamask, isUserLoggedIn
 } from "../../../../utils/auth-utils";
 import {
 	loginWithPhantom,
@@ -55,7 +55,7 @@ const LoginMenu = (props) => {
 	};
 
 	return (
-		<div>
+		<div style={!props.userLoggedIn ? { marginLeft: "auto"} : {}}>
 			<Button
 				aria-controls="simple-menu"
 				aria-haspopup="true"
