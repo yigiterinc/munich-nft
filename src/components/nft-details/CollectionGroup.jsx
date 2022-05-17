@@ -42,10 +42,10 @@ const useStyles = makeStyles((theme) => ({
 
 const CollectionGroup = (props) => {
 	const classes = useStyles();
-	let explorerPath;
-	let collection = props.nftJson.collection;
 
-	console.log(collection);
+	let collection = props.nftJson.collection;
+	let explorerPath;
+	let walletAddress;
 
 	if (props.nftJson.blockchain === "Ethereum") {
 		explorerPath =
@@ -53,15 +53,18 @@ const CollectionGroup = (props) => {
 				? "https://etherscan.io/address/"
 				: "https://rinkeby.etherscan.io/address/";
 		explorerPath += props.nftJson.contractAddressId;
+		walletAddress = props.nftJson.contractAddressId;
 	} else if (props.nftJson.blockchain === "Solana") {
 		if (collection !== undefined) collection = collection["key"];
 		explorerPath = "https://explorer.solana.com/address/" + props.nftJson.mint;
 		if (SOL_NETWORK === "devnet") {
 			explorerPath = explorerPath + "?cluster=devnet";
 		}
+		walletAddress = props.nftJson.mint;
 	}
 	return (
 		<>
+			{console.log(collection)}
 			{collection && (
 				<div className={classes.collectionSection}>
 					<Link
@@ -79,7 +82,7 @@ const CollectionGroup = (props) => {
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					{`${truncateWalletAddress(`${props.nftJson.mint}`, 13)}`}
+					{`${truncateWalletAddress(`${walletAddress}`, 13)}`}
 				</MuiLink>
 			</div>
 		</>
