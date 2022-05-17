@@ -8,12 +8,10 @@ const Details = (props) => {
 	return (
 		<>
 			<NftHeader nftJson={props.nftJson} />
-			{props.nftJson.blockchain === "Ethereum" && (
-				<>
-					<CollectionGroup nftJson={props.nftJson} />
-					<DetailsSection {...props.nftJson} />
-				</>
-			)}
+			<>
+				<CollectionGroup nftJson={props.nftJson} />
+				<DetailsSection {...props.nftJson} />
+			</>
 		</>
 	);
 };

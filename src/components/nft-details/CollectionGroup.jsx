@@ -5,6 +5,7 @@ import MuiLink from "@material-ui/core/Link";
 
 import { SOL_NETWORK, ETH_NETWORK } from "../../config/config";
 import { truncateWalletAddress } from "../../utils/commons";
+import { convertSelectedNftsToGalleryAssets } from "../../api/strapi";
 
 const useStyles = makeStyles((theme) => ({
 	collectionSection: {
@@ -42,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 const CollectionGroup = (props) => {
 	const classes = useStyles();
 	let explorerPath;
+	let collection = props.nftJson.collection;
 
 	if (props.nftJson.blockchain === "Ethereum") {
 		explorerPath =
@@ -50,6 +52,7 @@ const CollectionGroup = (props) => {
 				: "https://rinkeby.etherscan.io/address/";
 		explorerPath += props.nftJson.contractAddressId;
 	} else if (props.nftJson.blockchain === "Solana") {
+		collection = collection["key"];
 		explorerPath = "https://explorer.solana.com/address/" + props.nftJson.mint;
 		if (SOL_NETWORK === "devnet") {
 			explorerPath = explorerPath + "?cluster=devnet";
@@ -62,7 +65,7 @@ const CollectionGroup = (props) => {
 					className={classes.collectionLink}
 					to={`/collection/${props.nftJson.slug}`}
 				>
-					{props.nftJson.collection}
+					{collection}
 				</Link>
 			</div>
 			<div className={classes.contractSection}>
@@ -72,7 +75,7 @@ const CollectionGroup = (props) => {
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					{`${truncateWalletAddress(`${props.nftJson.contractAddressId}`, 13)}`}
+					{`${truncateWalletAddress(`${props.nftJson.mint}`, 13)}`}
 				</MuiLink>
 			</div>
 		</>

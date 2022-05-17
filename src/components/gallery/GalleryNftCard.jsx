@@ -61,8 +61,10 @@ const useStyles = makeStyles((theme) => ({
 const GalleryNftCard = (props) => {
 	let asset = props.asset;
 
-	const contractAddressId = asset?.item?.asset_contract?.address;
-	const tokenId = asset?.item?.token_id;
+	const importedAsAsset = Object.keys(asset).includes("item");
+
+	const contractAddressId = importedAsAsset ? asset?.item?.asset_contract?.address : asset.asset_contract.address;
+	const tokenId = importedAsAsset ? asset?.item?.token_id : asset.token_id;
 	const mint = asset?.mint;
 	const item = Object.keys(asset).includes("item") ? asset?.item : asset;
 	const defaultImagePath = "/images/no-image.png";

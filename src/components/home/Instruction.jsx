@@ -45,7 +45,7 @@ function Instruction({ data }) {
 				{label}
 			</Typography>
 			<div className={classes.descriptionContainer}>
-				<Typography variant="body1" className={classes.description}>
+				<Typography className={classes.description}>
 					{description}
 				</Typography>
 			</div>

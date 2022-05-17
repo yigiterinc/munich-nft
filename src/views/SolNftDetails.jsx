@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import NftDetails from "../components/nft-details/NftDetails";
 import withSpinner from "../components/common/WithSpinner";
 import { fetchSolNftMetadata, getSolNftDetailsFromUri } from "../api/sol";
@@ -31,6 +31,7 @@ const SolNftDetails = () => {
 			tokenStandard: tokenData.tokenStandard,
 			mint: tokenData.mint,
 			updateAuthority: tokenData.updateAuthority,
+			properties: [],
 			creators: tokenData.data.creators,
 		};
 

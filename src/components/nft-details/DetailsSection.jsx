@@ -97,9 +97,11 @@ const DetailsSection = (nftJson) => {
 			<Box className={classes.box}>
 				Blockchain: <b>{nftJson.blockchain}</b>
 			</Box>
-			<Box className={classes.box}>
-				Token Standard: <b>{tokenStandard}</b>
-			</Box>
+			{tokenStandard && (
+				<Box className={classes.box}>
+					Token Standard: <b>{tokenStandard}</b>
+				</Box>
+			)}
 			<Box className={classes.desriptionBox}>
 				Description:{" "}
 				<Typography component="span" className={classes.descriptionText}>

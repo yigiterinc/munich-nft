@@ -46,24 +46,43 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
 	root: {
 		backgroundColor: theme.palette.background.paper,
-		width: "100vw",
+		width: "auto",
+		height: "auto",
 	},
 	buttonsContainer: {
 		display: "flex",
 		justifyContent: "center",
-		marginBottom: "10vh",
-		marginTop: "2vh",
 	},
 	tabPanel: {
-		paddingLeft: "5vw",
-		paddingRight: "5vw",
 		paddingTop: "5vh",
-		overflow: "scroll",
-		height: "auto",
+		paddingLeft: "1vw",
+		paddingRight: "1vw",
+		paddingBottom: "3vh",
+		overflow: "hidden",
+	},
+	button: {
+		background: "#b35bff",
+		color: "#FFFFFF",
+		margin: "13px 25px",
+		padding: "13px 25px",
+		"&:hover": {
+			background: darken("#b35bff", 0.1),
+		},
+		"&:disabled": {
+			border: "#e0e0e0",
+			background: "#e0e0e0",
+			color: "#a6a6a6",
+			margin: "13px 25px",
+			padding: "13px 25px",
+		},
 	},
 }));
 
-export default function ImportFromOpensea({ prevButton, handleSubmit }) {
+export default function ImportFromOpensea({
+	galleryAssets,
+	prevButton,
+	handleSubmit,
+}) {
 	const classes = useStyles();
 	const theme = useTheme();
 	const [activeTab, setActiveTab] = useState(0);
@@ -111,8 +130,9 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 	};
 
 	const removeNftFromSelectedItems = (itemToBeRemoved) => {
+		console.log(itemToBeRemoved);
 		const itemsWithoutTheSubject = selectedItems.filter(
-			(item) => item.nft !== itemToBeRemoved
+			(item) => item.item !== itemToBeRemoved.item
 		);
 		setSelectedItems(itemsWithoutTheSubject);
 	};
@@ -125,16 +145,16 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 
 	const CollectionCardsGrid = () => {
 		return (
-			<Grid container spacing={3}>
+			<Grid container spacing={2}>
 				{userCollections?.map((collection) => {
 					return (
-						<Grid key={collection.slug} item lg={3} md={4} sm={6} xs={12}>
+						<Grid key={collection.slug} item xs={4}>
 							<CollectionImportCard
 								name={collection.name}
 								image={withDefault(collection.image_url, DEFAULT_IMAGE_PATH)}
-								addToSelected={(coll) => addToSelectedItems(coll)}
-								removeFromSelected={(coll) =>
-									removeCollectionFromSelectedItems(coll)
+								addToSelected={() => addToSelectedItems(collection)}
+								removeFromSelected={() =>
+									removeCollectionFromSelectedItems(collection)
 								}
 							/>
 						</Grid>
@@ -149,24 +169,33 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 		setActiveTab(newValue);
 	};
 
+	const galleryItemIds = [];
+	galleryAssets.map((asset) => {
+		galleryItemIds.push(asset.item.id);
+	});
+
 	const AssetCardsGrid = () => {
 		return (
-			<Grid container spacing={3} direction="row" alignItems="center">
+			<Grid container spacing={2} direction="row" alignItems="center">
 				{userCollections?.map((collection) =>
-					collection?.assets.map((item) => {
-						return (
-							<Grid key={item?.id} item lg={3} md={4} sm={6} xs={12}>
-								<NFTImportCard
-									name={item.name}
-									image={item.image_url}
-									addToSelected={() => addToSelectedItems({ collection, item })}
-									removeFromSelected={() =>
-										removeNftFromSelectedItems({ collection, item })
-									}
-								/>
-							</Grid>
-						);
-					})
+					collection?.assets
+						.filter((item) => !galleryItemIds.includes(item.id))
+						.map((item) => {
+							return (
+								<Grid key={item?.id} item xs={4}>
+									<NFTImportCard
+										name={item.name}
+										image={item.image_url}
+										addToSelected={() =>
+											addToSelectedItems({ collection, item })
+										}
+										removeFromSelected={() =>
+											removeNftFromSelectedItems({ collection, item })
+										}
+									/>
+								</Grid>
+							);
+						})
 				)}
 			</Grid>
 		);
@@ -183,7 +212,7 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 				{data}
 			</TabPanel>,
 			dataIsLoading,
-			{ marginTop: "10vh", marginBottom: "4vh", marginLeft: "48vw" }
+			{ marginLeft: 300, marginTop: "10vh", marginBottom: "10vh" }
 		);
 	};
 
@@ -192,20 +221,13 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 			{prevButton}
 
 			<Button
+				className={classes.button}
 				variant="contained"
-				style={{
-					background: "#b35bff",
-					color: "#FFFFFF",
-					margin: "13px 25px",
-					padding: "13px 25px",
-					"&:hover": {
-						background: darken("#b35bff", 0.1),
-					},
-				}}
 				size="large"
+				disabled={selectedItems.length === 0}
 				onClick={() => handleSubmit(selectedItems)}
 			>
-				Create gallery with Selected Items
+				Add Selected Items to the Gallery
 			</Button>
 		</div>
 	);
@@ -243,7 +265,7 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 				{TabPanelWithSpinner(collectionsTabIndex, CollectionCardsGrid)}
 				{TabPanelWithSpinner(nftsTabIndex, AssetCardsGrid)}
 			</SwipeableViews>
-			;{!dataIsLoading && ButtonsMenu}
+			{!dataIsLoading && ButtonsMenu}
 		</div>
 	);
 }

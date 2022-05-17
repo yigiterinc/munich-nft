@@ -74,7 +74,7 @@ function AddMetadata({
 	const renderResult = () => {
 		return (
 			<Container>
-				<Typography className={classes.completed} variant="body1">
+				<Typography className={classes.completed}>
 					Done!
 				</Typography>
 				{prevButton}
@@ -111,7 +111,7 @@ function AddMetadata({
 				<Typography className={classes.title} variant="h5">
 					Add Information to your Art
 				</Typography>
-				<Typography className={classes.info} variant="body1">
+				<Typography className={classes.info}>
 					Please enter a name and description for your art
 				</Typography>
 				<Grid container spacing={2} direction="column" alignContent="center">

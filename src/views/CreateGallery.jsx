@@ -5,7 +5,6 @@ import AddGalleryMetadata from "../components/create-gallery/AddGalleryMetadata"
 
 import { darken, makeStyles } from "@material-ui/core/styles";
 import {
-	convertSelectedNftsToGalleryAssets,
 	createGallery,
 	uploadImageToMediaGallery,
 } from "../api/strapi";
@@ -13,9 +12,6 @@ import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { getLoggedInUser, isUserLoggedIn } from "../utils/auth-utils";
 import { useHistory } from "react-router-dom";
-import ImportFromOpensea from "../components/create-gallery/ImportFromOpensea";
-import ImportFromContract from "../components/create-gallery/ImportFromContract";
-import ImportFromPhantomWallet from "../components/create-gallery/ImportFromPhantomWallet";
 import { convertToSlug } from "../utils/commons";
 
 const Alert = (props) => {
@@ -41,35 +37,26 @@ const CreateGallery = (props) => {
 	const [galleryName, setGalleryName] = useState();
 	const [galleryDescription, setGalleryDescription] = useState();
 	const [coverImage, setCoverImage] = useState();
-	const [activeStep, setActiveStep] = useState(0);
 	const [error, setError] = useState(false);
 	const [success, setSuccess] = useState(false);
-	const [importMethod, setImportMethod] = useState("OPENSEA");
-	const [contractAddress, setContractAddress] = useState();
 
 	const user = getLoggedInUser();
 
 	const history = useHistory();
 	const classes = useStyles();
 
-	const handleSubmit = async (selectedItems) => {
-		let selectedItemsAreEthNft = selectedItems.hasOwnProperty("nft"); // and not collection
+	const createGallerySubmit = async () => {
 		if (!isUserLoggedIn()) {
 			history.push("/");
 			return;
 		}
 
 		const allRequiredParamsEntered =
-			galleryName && galleryDescription && coverImage && selectedItems;
+			galleryName && galleryDescription && coverImage;
 
 		if (!user || !allRequiredParamsEntered) {
 			setError(true);
 			return;
-		}
-
-		let assets = selectedItems;
-		if (selectedItemsAreEthNft) {
-			assets = convertSelectedNftsToGalleryAssets(selectedItems);
 		}
 
 		const uploadResult = await uploadImageToMediaGallery(coverImage);
@@ -79,10 +66,12 @@ const CreateGallery = (props) => {
 			description: galleryDescription,
 			slug: convertToSlug(galleryName),
 			coverImage: imageIdentifier,
-			assets: assets,
+			assets: [],
 			userId: user.id,
 			username: user.username,
 		};
+
+		console.log(gallery);
 
 		const updateResult = await createGallery(gallery);
 		if (updateResult.status === 200) {
@@ -105,43 +94,15 @@ const CreateGallery = (props) => {
 		}, delay);
 	};
 
-	const IMPORT_METHODS = {
-		OPENSEA: "Opensea",
-		CUSTOM_CONTRACT: "Ethereum Contract",
-		SOLANA_WALLET: "Phantom Wallet",
-	};
-
-	let ImportComponents = {
-		OPENSEA: (
-			<ImportFromOpensea
-				prevButton={props.prevButton}
-				handleSubmit={handleSubmit}
-			/>
-		),
-		CUSTOM_CONTRACT: (
-			<ImportFromContract
-				prevButton={props.prevButton}
-				handleSubmit={handleSubmit}
-				contractAddress={contractAddress}
-			/>
-		),
-		SOLANA_WALLET: (
-			<ImportFromPhantomWallet
-				prevButton={props.prevButton}
-				handleSubmit={handleSubmit}
-			/>
-		),
-	};
-
-	const nextButton = (
+	const submitButton = (
 		<Button
 			className={classes.navigationButton}
 			size="large"
-			onClick={() => setActiveStep((prevActiveStep) => prevActiveStep + 1)}
+			onClick={async () => await createGallerySubmit()}
 			variant="contained"
-			disabled={!(coverImage && galleryName && galleryDescription)}
+			disabled={!(galleryName && galleryDescription && coverImage)}
 		>
-			Next
+			Submit
 		</Button>
 	);
 	const handleDropzoneSubmit = async (file) => {
@@ -156,15 +117,15 @@ const CreateGallery = (props) => {
 				textAlign: "center",
 			}}
 			text="Click or drag to upload a cover image"
-			handleSubmit={handleDropzoneSubmit} // TODO
+			handleSubmit={handleDropzoneSubmit}
 			handleChangeStatus={() => console.log("status changed")}
 		/>
 	);
 
-	const ActiveStep = () => {
-		const steps = [
+	return (
+		<>
 			<AddGalleryMetadata
-				nextButton={nextButton}
+				submitButton={submitButton}
 				fileUploader={dropzone}
 				coverImage={coverImage}
 				setCoverImage={setCoverImage}
@@ -172,21 +133,7 @@ const CreateGallery = (props) => {
 				setGalleryName={setGalleryName}
 				galleryDescription={galleryDescription}
 				setGalleryDescription={setGalleryDescription}
-				importMethod={importMethod}
-				importMethods={IMPORT_METHODS}
-				setImportMethod={setImportMethod}
-				contractAddress={contractAddress}
-				setContractAddress={setContractAddress}
-			/>,
-			ImportComponents[importMethod],
-		];
-
-		return steps[activeStep];
-	};
-
-	return (
-		<>
-			{ActiveStep()}
+			/>
 			<Snackbar
 				open={success}
 				anchorOrigin={{ vertical: "bottom", horizontal: "right" }}

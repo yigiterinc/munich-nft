@@ -27,7 +27,7 @@ const GalleryNfts = (props) => {
 					spacing={4}
 					className={classes.nftContainer}
 				>
-					{renderNfts(props)}
+					{renderNfts(props.nfts, props.slug)}
 				</Grid>
 			) : (
 				<Grid
@@ -37,16 +37,15 @@ const GalleryNfts = (props) => {
 					spacing={4}
 					className={classes.nftContainer}
 				>
-					{renderNfts(props)}
+					{renderNfts(props.nfts, props.slug)}
 				</Grid>
 			)}
 		</>
 	);
 };
 
-const renderNfts = (props) => {
-	return props.nfts.map((item, i) => {
-		let slug = props.slug;
+const renderNfts = (nfts, slug) => {
+	return nfts.map((item, i) => {
 		return (
 			<Grid key={i} container item lg={4} md={4} sm={6} xs={12}>
 				<GalleryNftCard asset={item} slug={slug} />
