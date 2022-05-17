@@ -68,7 +68,7 @@ const GalleryNftCard = (props) => {
 	const importedEthAsset = Object.keys(asset).includes("item");
 
 	if (importedSolAsset) {
-		const mint = asset?.mint;
+		mint = asset?.mint;
 	}
 
 	if (!importedSolAsset) {
