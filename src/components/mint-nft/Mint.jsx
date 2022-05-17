@@ -87,7 +87,7 @@ function Mint({
 					Mint your NFT
 				</Typography>
 				<div className={classes.textContainer}>
-					<Typography className={classes.info} variant="body1">
+					<Typography className={classes.info}>
 						We are almost there! Now let's mint your NFT on the Ethereum
 						blockchain. This might take some time to be completed.
 					</Typography>

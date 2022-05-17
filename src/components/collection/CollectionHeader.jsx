@@ -77,7 +77,6 @@ const CollectionHeader = ({ collection, assets }) => {
 			)}
 			<Typography
 				className={classes.description}
-				variant="body1"
 				component="h2"
 			>
 				{collection?.description}

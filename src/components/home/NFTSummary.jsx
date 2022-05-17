@@ -43,10 +43,10 @@ const NFTSummary = ({ nft }) => {
 					className={classes.cardMedia}
 				/>
 				<CardContent>
-					<Typography variant="body1" color="textSecondary" gutterBottom>
+					<Typography color="textSecondary" gutterBottom>
 						CollectionName
 					</Typography>
-					<Typography variant="body1" component="h2">
+					<Typography component="h2">
 						NftName
 					</Typography>
 				</CardContent>

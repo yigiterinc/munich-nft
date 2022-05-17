@@ -40,20 +40,35 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
 	root: {
 		backgroundColor: theme.palette.background.paper,
-		width: "100vw",
+		width: "auto",
+		height: "auto",
 	},
 	buttonsContainer: {
 		display: "flex",
 		justifyContent: "center",
-		marginBottom: "10vh",
-		marginTop: "2vh",
 	},
 	tabPanel: {
-		paddingLeft: "5vw",
-		paddingRight: "5vw",
 		paddingTop: "5vh",
-		overflow: "scroll",
-		height: "auto",
+		paddingLeft: "1vw",
+		paddingRight: "1vw",
+		paddingBottom: "3vh",
+		overflow: "hidden",
+	},
+	button: {
+		background: "#b35bff",
+		color: "#FFFFFF",
+		margin: "13px 25px",
+		padding: "13px 25px",
+		"&:hover": {
+			background: darken("#b35bff", 0.1),
+		},
+		"&:disabled": {
+			border: "#e0e0e0",
+			background: "#e0e0e0",
+			color: "#a6a6a6",
+			margin: "13px 25px",
+			padding: "13px 25px",
+		},
 	},
 }));
 
@@ -99,11 +114,10 @@ export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 
 	const AssetCardsGrid = () => {
 		return (
-			<Grid container spacing={3}>
-				{console.log(userAssets)}
+			<Grid container spacing={2}>
 				{userAssets?.map((asset) => {
 					return (
-						<Grid key={asset.image_url} item lg={3} md={4} sm={6} xs={12}>
+						<Grid key={asset.image_url} item xs={4}>
 							<NFTImportCard
 								name={asset.name}
 								image={withDefault(asset.image, DEFAULT_IMAGE_PATH)}
@@ -133,7 +147,7 @@ export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 				{data}
 			</TabPanel>,
 			dataIsLoading,
-			{ marginTop: "10vh", marginBottom: "4vh", marginLeft: "48vw" }
+			{ marginLeft: 300, marginTop: "10vh", marginBottom: "10vh" }
 		);
 	};
 
@@ -142,20 +156,13 @@ export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 			{prevButton}
 
 			<Button
+				className={classes.button}
 				variant="contained"
-				style={{
-					background: "#b35bff",
-					color: "#FFFFFF",
-					margin: "13px 25px",
-					padding: "13px 25px",
-					"&:hover": {
-						background: darken("#b35bff", 0.1),
-					},
-				}}
 				size="large"
+				disabled={selectedItems.length === 0}
 				onClick={() => handleSubmit(selectedItems)}
 			>
-				Create gallery with Selected Items
+				Add Selected Items to the Gallery
 			</Button>
 		</div>
 	);

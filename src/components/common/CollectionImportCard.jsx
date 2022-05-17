@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
@@ -10,7 +9,7 @@ import { truncateString, withDefault } from "../../utils/commons";
 
 const useStyles = makeStyles((theme) => ({
 	card: {
-		minWidth: 200,
+		minWidth: 140,
 		minHeight: 200,
 		height: "auto",
 		cursor: "pointer",
@@ -32,9 +31,9 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: "center",
 	},
 	avatar: {
-		width: theme.spacing(15),
-		height: theme.spacing(15),
-		marginBottom: "5vh",
+		width: theme.spacing(9),
+		height: theme.spacing(9),
+		marginBottom: "2vh",
 	},
 	name: {
 		marginTop: "10px",
@@ -83,7 +82,7 @@ const CollectionImportCard = ({
 						src={image} // ipfsImage ? nft.image : withDefault(nft.image_url, DEFAULT_IMAGE_PATH)
 						className={classes.avatar}
 					/>
-					<Typography className={classes.name} variant="body1">
+					<Typography className={classes.name}>
 						{truncateString(withDefault(name, DEFAULT_COLLECTION_NAME), 20)}
 					</Typography>
 				</CardContent>

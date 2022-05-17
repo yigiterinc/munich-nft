@@ -94,7 +94,7 @@ const GalleryHeader = (props) => {
 
 	const GalleryName = () => {
 		return (
-			<Typography className={classes.title} variant="h4">
+			<Typography className={classes.title}>
 				{props.gallery.galleryName}
 			</Typography>
 		);

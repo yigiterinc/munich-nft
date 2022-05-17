@@ -23,6 +23,13 @@ import EthNftDetails from "./views/EthNftDetails";
 import SolNftDetails from "./views/SolNftDetails";
 import { isUserLoggedIn } from "./utils/auth-utils";
 
+import "@fontsource/quicksand";
+
+import "@fontsource/quicksand/300.css";
+import "@fontsource/quicksand/500.css";
+import "@fontsource/quicksand/600.css";
+import "@fontsource/quicksand/700.css";
+
 let web3;
 
 function App() {

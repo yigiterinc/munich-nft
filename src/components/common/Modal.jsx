@@ -1,25 +1,52 @@
 import React from "react";
-import { Dialog, DialogContent, DialogTitle, IconButton, makeStyles, Typography } from "@material-ui/core";
+import {
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	Typography,
+	IconButton,
+	makeStyles,
+} from "@material-ui/core";
 import CancelIcon from "@material-ui/icons/Cancel";
+import { useTheme } from "@material-ui/core/styles";
+import { useMediaQuery } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
 	dialogWrapper: {
-		padding: theme.spacing(3),
 		position: "absolute",
-		top: theme.spacing(8),
+		paddingLeft: 0,
+		paddingRight: 0,
+		minWidth: 700,
+		[theme.breakpoints.up("xs")]: {
+			paddingBottom: theme.spacing(1),
+			paddingTop: theme.spacing(1),
+		},
+		[theme.breakpoints.up("sm")]: {
+			paddingTop: theme.spacing(3),
+			paddingBottom: theme.spacing(3),
+		},
 	},
 	dialogTitle: {
 		display: "flex",
 		alignItems: "center",
+		marginLeft: "2vw",
 	},
 	dialogTitleText: {
 		flexGrow: 1,
-		fontSize: "26px",
 		fontWeight: "bold",
+		color: "#b35bff",
+		[theme.breakpoints.up("xs")]: {
+			fontSize: "23px",
+		},
+		[theme.breakpoints.up("sm")]: {
+			fontSize: "26px",
+		},
 	},
 }));
 
 const Modal = ({ title, children, openModal, setOpenModal }) => {
+	const theme = useTheme();
+	const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 	const classes = useStyles();
 	return (
 		<Dialog
@@ -31,7 +58,7 @@ const Modal = ({ title, children, openModal, setOpenModal }) => {
 				<div className={classes.dialogTitle}>
 					<Typography className={classes.dialogTitleText}>{title}</Typography>
 					<IconButton onClick={() => setOpenModal(false)}>
-						<CancelIcon fontSize="large" />
+						<CancelIcon fontSize={isSmallScreen ? "medium" : "large"} />
 					</IconButton>
 				</div>
 			</DialogTitle>

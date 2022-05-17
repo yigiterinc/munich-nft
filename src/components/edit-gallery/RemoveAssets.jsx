@@ -10,7 +10,8 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import SwipeableViews from "react-swipeable-views";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
+import { withDefault } from "../../utils/commons";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -38,24 +39,23 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
 	root: {
 		backgroundColor: theme.palette.background.paper,
-		width: "100vw",
+		width: "auto",
+		height: "auto",
 	},
 	buttonsContainer: {
 		display: "flex",
 		justifyContent: "center",
-		marginBottom: "10vh",
-		marginTop: "2vh",
 	},
 	tabPanel: {
-		paddingLeft: "5vw",
-		paddingRight: "5vw",
 		paddingTop: "5vh",
-		overflow: "scroll",
-		height: "auto",
+		paddingLeft: "1vw",
+		paddingRight: "1vw",
+		paddingBottom: "3vh",
+		overflow: "hidden",
 	},
 	button: {
 		background: "#b35bff",
-		color: "white",
+		color: "#FFFFFF",
 		margin: "13px 25px",
 		padding: "13px 25px",
 		"&:hover": {
@@ -63,8 +63,9 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	buttonDisabled: {
-		background: "gray",
-		color: "white",
+		border: "#e0e0e0",
+		background: "#e0e0e0",
+		color: "#a6a6a6",
 		margin: "13px 25px",
 		padding: "13px 25px",
 	},
@@ -104,38 +105,39 @@ const RemoveAssets = ({
 
 	const removeNftFromSelectedItems = (itemToBeRemoved) => {
 		const itemsWithoutTheSubject = selectedItems.filter(
-			(selectedItem) => selectedItem.item !== itemToBeRemoved.item
+			(selectedItem) => selectedItem.asset !== itemToBeRemoved.asset
 		);
 		setSelectedItems(itemsWithoutTheSubject);
 	};
 
 	const DEFAULT_IMAGE_PATH = "/images/no-image.png";
-
-	const galleryAssetIds = galleryAssets.map((asset) => asset.id);
+	const DEFAULT_NAME = "Nameless";
 
 	const AssetCardsGrid = () => {
 		return (
-			<Grid container spacing={3} direction="row" alignItems="center">
-				{galleryAssets
-					.map((item) => {
-						return (
-							<Grid key={item?.id} item lg={3} md={4} sm={6} xs={12}>
-								<NFTImportCard
-									name={item.name}
-									image={item.image_url}
-									addToSelected={() =>
-										addToSelectedItems({ item })
-									}
-									removeFromSelected={() =>
-										removeNftFromSelectedItems({ item })
-									}
-								/>
-							</Grid>
-						);
-					})
-				}
-				)}
-			</Grid>)
+			<Grid container spacing={2} direction="row" alignItems="center">
+				{galleryAssets.map((asset) => {
+					let importedAsAsset = Object.keys(asset).includes("item");
+
+					return (
+						<Grid key={asset.item?.id} item xs={4}>
+							<NFTImportCard
+								name={withDefault(
+									importedAsAsset ? asset?.item.name : asset.name,
+									DEFAULT_NAME
+								)}
+								image={withDefault(
+									importedAsAsset ? asset?.item.image_url : asset.image_url,
+									DEFAULT_IMAGE_PATH
+								)}
+								addToSelected={() => addToSelectedItems({ asset })}
+								removeFromSelected={() => removeNftFromSelectedItems({ asset })}
+							/>
+						</Grid>
+					);
+				})}
+			</Grid>
+		);
 	};
 
 	const TabPanelWithSpinner = (index, data) => {
@@ -149,7 +151,7 @@ const RemoveAssets = ({
 				{data}
 			</TabPanel>,
 			dataIsLoading,
-			{ marginTop: "10vh", marginBottom: "4vh", marginLeft: "48vw" }
+			{ marginLeft: 300, marginTop: "10vh", marginBottom: "10vh" }
 		);
 	};
 
@@ -161,7 +163,7 @@ const RemoveAssets = ({
 				size="large"
 				onClick={() => setShowSelectedView(false)}
 			>
-				Back
+				Close
 			</Button>
 			<Button
 				variant="contained"
@@ -193,7 +195,7 @@ const RemoveAssets = ({
 			>
 				{TabPanelWithSpinner(0, AssetCardsGrid())}
 			</SwipeableViews>
-			;{!dataIsLoading && ButtonsMenu()}
+			{!dataIsLoading && ButtonsMenu()}
 		</div>
 	);
 };
