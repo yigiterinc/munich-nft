@@ -1,19 +1,18 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+import { Card, CardMedia } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
 	nftImageContainer: {
-		width: "35vw",
-		borderRadius: "10px",
-		border: "1px solid rgb(229, 232, 235)",
+		display: "flex",
+		height: "500px",
+		width: "500px",
 		background: theme.palette.background.default,
 	},
 	image: ({ backgroundColor }) => ({
-		height: "inherit",
-		width: "inherit",
-		objectFit: "contain",
-		borderRadius: "inherit",
+		height: "500px",
+		width: "500px",
+		objectFit: "cover",
 		backgroundColor: backgroundColor,
 	}),
 }));
@@ -23,13 +22,15 @@ const NftImage = (props) => {
 	const classes = useStyles({ backgroundColor });
 
 	return (
-		<Grid
-			className={classes.nftImageContainer}
-			container
-			justifyContent="center"
-		>
-			<img src={props.nftJson.imageSrc} className={classes.image} />
-		</Grid>
+		<div>
+			<Card className={classes.nftImageContainer}>
+				<CardMedia
+					component="img"
+					className={classes.image}
+					src={props.nftJson.imageSrc}
+				></CardMedia>
+			</Card>
+		</div>
 	);
 };
 

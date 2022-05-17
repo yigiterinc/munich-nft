@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { fetchSingleAsset } from "../api/opensea";
-import { getCurrentCryptoPriceInCurrency } from "../api/currencyHelper";
-import { formatOpenseaPrice } from "../utils/currency-utils";
 import NftDetails from "../components/nft-details/NftDetails";
 import withSpinner from "../components/common/WithSpinner";
 
@@ -20,11 +18,7 @@ const EthNftDetails = () => {
 	useEffect(async () => {
 		const fetchData = async () => {
 			const tokenData = await fetchSingleAsset(contractAddressId, tokenId);
-			const ethPrice = await getCurrentCryptoPriceInCurrency("ETH", "USD");
-			let listedPrice = null;
-			if (tokenData.orders && tokenData.orders.length !== 0) {
-				listedPrice = formatOpenseaPrice(tokenData.orders[0].current_price);
-			}
+
 			let json = {
 				blockchain: "Ethereum",
 				name: tokenData.name,
@@ -39,10 +33,7 @@ const EthNftDetails = () => {
 				tokenId,
 				properties: tokenData.traits,
 				collectionSize: tokenData.collection.stats.count,
-				price: listedPrice,
-				priceUsd: listedPrice * ethPrice,
 			};
-
 			setNftJson(json);
 		};
 		fetchData();
