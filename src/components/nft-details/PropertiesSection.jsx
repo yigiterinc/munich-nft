@@ -47,16 +47,17 @@ const PropertiesSection = (nftJson) => {
 	let traits = nftJson.properties;
 	let sorted;
 	let properties = null;
+	let blockchain = nftJson.blockchain;
 
 	if (traits.length > 0) {
 		sorted = traits.sort((a, b) => (a.trait_type > b.trait_type && 1) || -1);
 		properties = customPropertiesHelper(sorted, nftJson.collectionSize);
 	}
 
-	return <>{renderProperties(classes, properties)}</>;
+	return <>{renderProperties(classes, properties, blockchain)}</>;
 };
 
-export const renderProperties = (classes, properties) => {
+export const renderProperties = (classes, properties, blockchain) => {
 	return (
 		<>
 			{properties === null ? (
@@ -78,12 +79,20 @@ export const renderProperties = (classes, properties) => {
 						return (
 							<Grid item key={key}>
 								<div className={classes.propertyBox}>
-									<Typography>
-										{property.type}
-										{": "} {property.value} {"("}
-										{property.rarity}
-										{")"}
-									</Typography>
+									{blockchain === "Ethereum" ? (
+										<Typography>
+											{property.type}
+											{": "} {property.value}
+											{"("}
+											{property.rarity}
+											{")"}
+										</Typography>
+									) : (
+										<Typography>
+											{property.type}
+											{": "} {property.value}
+										</Typography>
+									)}
 								</div>
 							</Grid>
 						);

@@ -45,6 +45,8 @@ const CollectionGroup = (props) => {
 	let explorerPath;
 	let collection = props.nftJson.collection;
 
+	console.log(collection);
+
 	if (props.nftJson.blockchain === "Ethereum") {
 		explorerPath =
 			ETH_NETWORK === "mainnet"
@@ -52,7 +54,7 @@ const CollectionGroup = (props) => {
 				: "https://rinkeby.etherscan.io/address/";
 		explorerPath += props.nftJson.contractAddressId;
 	} else if (props.nftJson.blockchain === "Solana") {
-		collection = collection["key"];
+		if (collection !== undefined) collection = collection["key"];
 		explorerPath = "https://explorer.solana.com/address/" + props.nftJson.mint;
 		if (SOL_NETWORK === "devnet") {
 			explorerPath = explorerPath + "?cluster=devnet";
@@ -60,14 +62,16 @@ const CollectionGroup = (props) => {
 	}
 	return (
 		<>
-			<div className={classes.collectionSection}>
-				<Link
-					className={classes.collectionLink}
-					to={`/collection/${props.nftJson.slug}`}
-				>
-					{collection}
-				</Link>
-			</div>
+			{collection && (
+				<div className={classes.collectionSection}>
+					<Link
+						className={classes.collectionLink}
+						to={`/collection/${props.nftJson.slug}`}
+					>
+						{collection}
+					</Link>
+				</div>
+			)}
 			<div className={classes.contractSection}>
 				<MuiLink
 					className={classes.contractLink}
