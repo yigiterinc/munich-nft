@@ -130,6 +130,7 @@ function AddorRemoveAssetsContainer(props) {
 	let ImportComponents = {
 		OPENSEA: (
 			<ImportFromOpensea
+				galleryAssets={props.galleryAssets}
 				prevButton={props.prevButton}
 				handleSubmit={props.handleAddGalleryAssets}
 			/>
@@ -143,6 +144,7 @@ function AddorRemoveAssetsContainer(props) {
 		),
 		SOLANA_WALLET: (
 			<ImportFromPhantomWallet
+				galleryAssets={props.galleryAssets}
 				prevButton={props.prevButton}
 				handleSubmit={props.handleAddGalleryAssets}
 			/>
