@@ -60,12 +60,24 @@ const useStyles = makeStyles((theme) => ({
 
 const GalleryNftCard = (props) => {
 	let asset = props.asset;
+	let contractAddressId;
+	let tokenId;
+	let mint;
 
-	const importedAsAsset = Object.keys(asset).includes("item");
+	const importedSolAsset = Object.keys(asset).includes("mint");
+	const importedEthAsset = Object.keys(asset).includes("item");
 
-	const contractAddressId = importedAsAsset ? asset?.item?.asset_contract?.address : asset.asset_contract.address;
-	const tokenId = importedAsAsset ? asset?.item?.token_id : asset.token_id;
-	const mint = asset?.mint;
+	if (importedSolAsset) {
+		const mint = asset?.mint;
+	}
+
+	if (!importedSolAsset) {
+		contractAddressId = importedEthAsset
+			? asset?.item?.asset_contract?.address
+			: asset.asset_contract.address;
+		tokenId = importedEthAsset ? asset?.item?.token_id : asset.token_id;
+	}
+
 	const item = Object.keys(asset).includes("item") ? asset?.item : asset;
 	const defaultImagePath = "/images/no-image.png";
 	const currentPrice = null; // dummy -> asset does not contain price info

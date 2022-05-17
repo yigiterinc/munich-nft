@@ -10,174 +10,196 @@ import Modal from "../components/common/Modal";
 import withSpinner from "../components/common/WithSpinner";
 
 const GalleryContainer = () => {
-  const { slug } = useParams();
+	const { slug } = useParams();
 
-  const [showAddAssetsView, setShowAddAssetsView] = useState(false);
-  const [showRemoveAssetsView, setShowRemoveAssetsView] = useState(false);
-  const [galleryData, setGalleryData] = useState(null);
+	const [showAddAssetsView, setShowAddAssetsView] = useState(false);
+	const [showRemoveAssetsView, setShowRemoveAssetsView] = useState(false);
+	const [galleryData, setGalleryData] = useState(null);
 
-  const [updatePerformed, setUpdatePerformed] = useState(false);
-  const [dataLoading, setDataLoading] = useState(true);
+	const [updatePerformed, setUpdatePerformed] = useState(false);
+	const [dataLoading, setDataLoading] = useState(true);
 
-  const history = useHistory();
+	const history = useHistory();
 
-  const user = getLoggedInUser();
+	const user = getLoggedInUser();
 
-  useEffect(() => {
-    const loadGalleryData = async () => {
-      let galleryData;
+	useEffect(() => {
+		const loadGalleryData = async () => {
+			let galleryData;
 
-      galleryData = await fetchGallery(slug);
-      galleryData ? setGalleryData(galleryData) : history.push("/");
-      setDataLoading(false);
-    };
+			galleryData = await fetchGallery(slug);
+			galleryData ? setGalleryData(galleryData) : history.push("/");
+			setDataLoading(false);
+		};
 
-    if (!galleryData || updatePerformed) {
-      loadGalleryData();
-      setUpdatePerformed(false);
-    }
-  }, [galleryData, updatePerformed]);
+		if (!galleryData || updatePerformed) {
+			loadGalleryData();
+			setUpdatePerformed(false);
+		}
+	}, [galleryData, updatePerformed]);
 
-  const handleImportAssetsOrCollection = async (selectedItems) => {
-    if (!selectedItems) return;
+	const handleImportAssetsOrCollection = async (selectedItems) => {
+		if (!selectedItems) return;
 
-    let selectedItemsAreEthNft = selectedItems[0].hasOwnProperty("item"); // and not collection
-    if (selectedItemsAreEthNft) {
-      return await handleAddSelectedAssets(selectedItems);
-    }
+		console.log(selectedItems);
 
-    /* At this point we know that selectedItems is a collection
+		let selectedItemsAreSolNft = selectedItems[0].hasOwnProperty("mint");
+		if (selectedItemsAreSolNft) {
+			return await handleAddSelectedAssets(
+				selectedItems,
+				selectedItemsAreSolNft
+			);
+		}
+
+		let selectedItemsAreEthNft = selectedItems[0].hasOwnProperty("item"); // and not collection
+		if (selectedItemsAreEthNft) {
+			return await handleAddSelectedAssets(selectedItems);
+		}
+
+		/* At this point we know that selectedItems is a collection
        Only one collection can be selected at a time, so we can take 0th index
     */
-    selectedItems = selectedItems[0];
-    let updatedAssets;
-    if (selectedItems.assets) {
-      updatedAssets = selectedItems.assets.concat(galleryData.assets);
-    } else {
-      console.log("assets field not found in selected items");
-    }
+		selectedItems = selectedItems[0];
+		let updatedAssets;
+		if (selectedItems.assets) {
+			updatedAssets = selectedItems.assets.concat(galleryData.assets);
+		} else {
+			console.log("assets field not found in selected items");
+		}
 
-    console.log(updatedAssets, selectedItems);
+		console.log(updatedAssets, selectedItems);
 
-    return await postGalleryAssetsUpdate(updatedAssets);
-  };
+		return await postGalleryAssetsUpdate(updatedAssets);
+	};
 
-  const setOpenModal = (open) => {
-    setShowAddAssetsView(open);
-    setShowRemoveAssetsView(open);
-  };
+	const setOpenModal = (open) => {
+		setShowAddAssetsView(open);
+		setShowRemoveAssetsView(open);
+	};
 
-  const handleAddSelectedAssets = async (selectedItems) => {
-    if (!isUserLoggedIn()) {
-      history.push("/");
-      return;
-    }
+	const handleAddSelectedAssets = async (
+		selectedItems,
+		selectedItemsAreSolNft = false
+	) => {
+		if (!isUserLoggedIn()) {
+			history.push("/");
+			return;
+		}
 
-    if (!user || !selectedItems) {
-      return;
-    }
+		if (!user || !selectedItems) {
+			return;
+		}
 
-    let addedGalleryAssets = [];
-    selectedItems.forEach((pair) => {
-      console.log(pair);
-      const galleryAsset = {
-        ...pair.item
-      };
+		let addedGalleryAssets = [];
 
-      galleryAsset.collection = {
-        name: pair.collection.name,
-        slug: pair.collection.slug
-      };
+		if (selectedItemsAreSolNft) {
+			addedGalleryAssets.push(selectedItems[0]);
+		} else {
+			selectedItems.forEach((pair) => {
+				console.log(pair);
+				const galleryAsset = {
+					...pair.item,
+				};
 
-      const collection = pair.collection;
-      addedGalleryAssets.push({ item: galleryAsset, collection });
-    });
+				galleryAsset.collection = {
+					name: pair.collection.name,
+					slug: pair.collection.slug,
+				};
 
-    const updatedAssets = galleryData.assets.concat(addedGalleryAssets);
+				const collection = pair.collection;
+				addedGalleryAssets.push({ item: galleryAsset, collection });
+			});
+		}
 
-    console.log(galleryData);
+		const updatedAssets = galleryData.assets.concat(addedGalleryAssets);
 
-    return await postGalleryAssetsUpdate(updatedAssets);
-  };
+		console.log(galleryData);
 
-  const postGalleryAssetsUpdate = async (updatedAssets) => {
-    const updateResult = await updateGallery(galleryData.id, {
-      assets: updatedAssets
-    });
+		return await postGalleryAssetsUpdate(updatedAssets);
+	};
 
-    if (updateResult.status === 200) {
-      setOpenModal(false);
-      setUpdatePerformed(true);
-    }
-  };
+	const postGalleryAssetsUpdate = async (updatedAssets) => {
+		const updateResult = await updateGallery(galleryData.id, {
+			assets: updatedAssets,
+		});
 
-  const handleRemoveSelectedAssets = async (selectedItems) => {
-    console.log(selectedItems);
-    if (!isUserLoggedIn()) {
-      history.push("/");
-      return;
-    }
+		if (updateResult.status === 200) {
+			setOpenModal(false);
+			setUpdatePerformed(true);
+		}
+	};
 
-    if (!user || !selectedItems) {
-      return;
-    }
+	const handleRemoveSelectedAssets = async (selectedItems) => {
+		console.log(selectedItems);
+		if (!isUserLoggedIn()) {
+			history.push("/");
+			return;
+		}
 
-    let removedGalleryAssets = [];
-    selectedItems.forEach((pair) => {
-      const isImportedAsAsset = Object.keys(pair).includes("item");
+		if (!user || !selectedItems) {
+			return;
+		}
 
-      if (isImportedAsAsset) {
-        const galleryAsset = {
-          ...pair.item
-        };
+		let removedGalleryAssets = [];
+		selectedItems.forEach((pair) => {
+			const isImportedAsAsset = Object.keys(pair).includes("item");
 
-        removedGalleryAssets.push(galleryAsset);
-      } else {
-        removedGalleryAssets.push(pair.asset);
-      }
-    });
+			if (isImportedAsAsset) {
+				const galleryAsset = {
+					...pair.item,
+				};
 
-    const removedAssetIds = removedGalleryAssets.map((item) => item.id);
+				removedGalleryAssets.push(galleryAsset);
+			} else {
+				removedGalleryAssets.push(pair.asset);
+			}
+		});
 
-    const updatedAssets = galleryData.assets.filter(
-      (item) => !removedAssetIds.includes(item.id)
-    );
+		const removedAssetIds = removedGalleryAssets.map((item) => item.id);
 
-    console.log(updatedAssets);
+		const updatedAssets = galleryData.assets.filter(
+			(item) => !removedAssetIds.includes(item.id)
+		);
 
-    return await postGalleryAssetsUpdate(updatedAssets);
-  };
+		console.log(updatedAssets);
 
-  const GalleryWithEditMenu = () => {
-    return (
-      <>
-        <Modal title={showAddAssetsView ? "Import Assets" : "Remove Assets"}
-               openModal={showAddAssetsView || showRemoveAssetsView} setOpenModal={setOpenModal}>
-          <AddorRemoveAssetsContainer
-            add={showAddAssetsView}
-            galleryAssets={galleryData?.assets}
-            handleAddGalleryAssets={handleImportAssetsOrCollection}
-            setShowAddAssetsView={setShowAddAssetsView}
-            setShowRemoveAssetsView={setShowRemoveAssetsView}
-            handleRemoveGalleryAssets={handleRemoveSelectedAssets}
-          />
-        </Modal>
+		return await postGalleryAssetsUpdate(updatedAssets);
+	};
 
-        <Gallery
-          gallery={galleryData}
-          slug={slug}
-          isOwner={user && (user.id === galleryData?.userId)}
-          setShowAddAssetsView={setShowAddAssetsView}
-          setShowRemoveAssetsView={setShowRemoveAssetsView}
-        />
-      </>);
-  };
+	const GalleryWithEditMenu = () => {
+		return (
+			<>
+				<Modal
+					title={showAddAssetsView ? "Import Assets" : "Remove Assets"}
+					openModal={showAddAssetsView || showRemoveAssetsView}
+					setOpenModal={setOpenModal}
+				>
+					<AddorRemoveAssetsContainer
+						add={showAddAssetsView}
+						galleryAssets={galleryData?.assets}
+						handleAddGalleryAssets={handleImportAssetsOrCollection}
+						setShowAddAssetsView={setShowAddAssetsView}
+						setShowRemoveAssetsView={setShowRemoveAssetsView}
+						handleRemoveGalleryAssets={handleRemoveSelectedAssets}
+					/>
+				</Modal>
 
-  return withSpinner(<GalleryWithEditMenu/>, dataLoading,{
-    position: "absolute",
-    left: "50%",
-    top: "50%"
-  });
+				<Gallery
+					gallery={galleryData}
+					slug={slug}
+					isOwner={user && user.id === galleryData?.userId}
+					setShowAddAssetsView={setShowAddAssetsView}
+					setShowRemoveAssetsView={setShowRemoveAssetsView}
+				/>
+			</>
+		);
+	};
+
+	return withSpinner(<GalleryWithEditMenu />, dataLoading, {
+		position: "absolute",
+		left: "50%",
+		top: "50%",
+	});
 };
 
 export default GalleryContainer;
