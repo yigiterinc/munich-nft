@@ -71,11 +71,9 @@ const GalleryNftCard = (props) => {
 		mint = asset?.item?.mint;
 	}
 
-	if (!importedSolAsset) {
-		contractAddressId = importedEthAsset
-			? asset?.item?.asset_contract?.address
-			: asset.asset_contract.address;
-		tokenId = importedEthAsset ? asset?.item?.token_id : asset.token_id;
+	if (importedEthAsset) {
+		contractAddressId = asset?.item?.asset_contract?.address;
+		tokenId = asset?.item?.token_id;
 	}
 
 	const item = Object.keys(asset).includes("item") ? asset?.item : asset;
