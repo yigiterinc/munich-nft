@@ -50,7 +50,6 @@ const NavbarItems = (props) => {
   const classes = useStyles();
 
   const theme = useTheme();
-
   const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const history = useHistory();

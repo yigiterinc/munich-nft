@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
 	}),
 	image: ({ height, width, isCircle }) => ({
 		objectFit: "cover",
-		marginTop: "2vh",
 		borderRadius: isCircle ? "50%" : 10,
 		height: height,
 		width: width,

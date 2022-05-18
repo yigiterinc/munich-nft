@@ -28,8 +28,8 @@ const GalleryCoverImage = (props) => {
 				<div key={props.coverImage}>
 					{props.isEditable ? (
 						<ImageUploadWithPreview
-							height={300}
-							width={300}
+							height={250}
+							width={250}
 							userId={getLoggedInUser().id}
 							image={props.coverImage}
 							setNewImage={(uploadedImage) => setUpdatedGalleryImage(uploadedImage)}

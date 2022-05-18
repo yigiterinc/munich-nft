@@ -79,6 +79,7 @@ const Gallery = (props) => {
 							handleUpdateGallery={handleUpdateGallery}
 							gallery={props.gallery}
 							coverImage={coverImage}
+							user={props.user}
 							handleDropzoneSubmit={handleDropzoneSubmit}
 							headerLayout={headerLayout}
 							setHeaderLayout={setHeaderLayout}

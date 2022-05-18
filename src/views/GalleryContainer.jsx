@@ -3,7 +3,7 @@ import Gallery from "./Gallery";
 import AddorRemoveAssetsContainer from "../components/edit-gallery/AddorRemoveAssetsContainer";
 import { isUserLoggedIn, getLoggedInUser } from "../utils/auth-utils";
 import { Redirect, useHistory } from "react-router-dom";
-import { fetchGallery, updateGallery } from "../api/strapi";
+import { fetchExistingUserWithId, fetchGallery, updateGallery } from "../api/strapi";
 import { useParams } from "react-router-dom";
 
 import Modal from "../components/common/Modal";
@@ -18,6 +18,7 @@ const GalleryContainer = () => {
 
   const [updatePerformed, setUpdatePerformed] = useState(false);
   const [dataLoading, setDataLoading] = useState(true);
+  const [creatorDetails, setCreatorDetails] = useState({});
 
   const history = useHistory();
 
@@ -29,6 +30,9 @@ const GalleryContainer = () => {
 
       galleryData = await fetchGallery(slug);
       galleryData ? setGalleryData(galleryData) : history.push("/");
+      const userDet = await fetchExistingUserWithId(galleryData.userId);
+      setCreatorDetails(userDet.data[0]);
+
       setDataLoading(false);
     };
 
@@ -167,6 +171,7 @@ const GalleryContainer = () => {
           gallery={galleryData}
           slug={slug}
           isOwner={user && (user.id === galleryData?.userId)}
+          user={creatorDetails}
           setShowAddAssetsView={setShowAddAssetsView}
           setShowRemoveAssetsView={setShowRemoveAssetsView}
         />

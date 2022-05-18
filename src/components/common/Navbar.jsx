@@ -11,7 +11,7 @@ import { fetchGalleries } from "../../api/strapi";
 import { useMediaQuery, useTheme } from "@material-ui/core";
 import { isUserLoggedIn } from "../../utils/auth-utils";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
   },
@@ -20,9 +20,12 @@ const useStyles = makeStyles({
   },
   searchBarContainer: {
     width: "400px",
-
+    height: "70%",
+    [theme.breakpoints.down("md")]: {
+      width: "300px"
+    }
   }
-});
+}));
 
 const Navbar = (props) => {
   const [options, setOptions] = useState();
