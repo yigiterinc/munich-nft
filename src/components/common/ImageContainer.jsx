@@ -7,7 +7,6 @@ import { STRAPI_BASE_URL } from "../../constants/strapiConstants";
 
 const useStyles = makeStyles((theme) => ({
 	avatar: ({ isCircle, height, width }) => ({
-		marginTop: "2vh",
 		borderRadius: isCircle ? "50%" : 10,
 		width: width,
 		height: height,

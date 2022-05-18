@@ -13,6 +13,14 @@ const useStyles = makeStyles((theme) => ({
 		paddingTop: "10vh",
 		height: "100%",
 	},
+	hrStyle: {
+		marginTop: "10vh",
+		marginBottom: "3vh",
+		border: 0,
+		height: 0,
+		borderTop: "1px solid rgba(0, 0, 0, 0.1)",
+		borderBottom: "1px solid rgba(255, 255, 255, 0.3)"
+	}
 }));
 
 const Gallery = (props) => {
@@ -90,6 +98,7 @@ const Gallery = (props) => {
 							setShowAddAssetsView={props.setShowAddAssetsView}
 							setShowRemoveAssetsView={props.setShowRemoveAssetsView}
 						/>
+						<hr className={classes.hrStyle}/>
 						<GalleryNfts nfts={props.gallery.assets} slug={props.slug} />
 						<EditGalleryModal
 							openEditGalleryModal={openEditGalleryModal}

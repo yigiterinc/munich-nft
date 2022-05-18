@@ -6,7 +6,6 @@ import { Grid } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
 	nftContainer: {
 		maxWidth: "1552px",
-		paddingTop: "10vh",
 		paddingLeft: "5vw",
 		paddingRight: "5vw",
 		width: "96vw",

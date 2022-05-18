@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import GalleryCoverImage from "./gallery-header/GalleryCoverImage";
 import { truncateString } from "../../utils/commons";
 import ImageContainer from "../common/ImageContainer";
+import GalleryMenu from "../common/GalleryMenu";
 
 const useStyles = makeStyles((theme) => ({
   galleryHeaderContainer: {
@@ -89,7 +90,7 @@ const GalleryHeader = (props) => {
       <Grid
         className={classes.coverImageContainer}
         item
-        lg={2}
+        lg={3}
         md={2}
         sm={4}
         xs={6}
@@ -191,6 +192,16 @@ const GalleryHeader = (props) => {
           <GalleryName />
           <CreatedBy />
           <Description />
+        </Grid>
+        <Grid item xs={1}>
+          {
+            props.isOwner &&
+            <GalleryMenu
+              setShowRemoveAssetsView={props.setShowRemoveAssetsView}
+              setShowAddAssetsView={props.setShowAddAssetsView}
+              handleUpdateGallery={props.handleUpdateGallery}
+            />
+          }
         </Grid>
       </>
     );
