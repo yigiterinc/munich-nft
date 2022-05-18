@@ -13,6 +13,7 @@ import SwipeableViews from "react-swipeable-views";
 import { getLoggedInUser, isUserLoggedIn } from "../../utils/auth-utils";
 import { withDefault } from "../../utils/commons";
 import { getNftTokenDetails } from "../../api/sol";
+import { Typography } from "@material-ui/core";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -53,6 +54,8 @@ const useStyles = makeStyles((theme) => ({
 		paddingRight: "1vw",
 		paddingBottom: "3vh",
 		overflow: "hidden",
+		display: "flex",
+		justifyContent: "center",
 	},
 	button: {
 		background: "#b35bff",
@@ -123,12 +126,15 @@ export default function ImportFromPhantomWallet({
 		}
 	});
 
+	const userAssetsFiltered = userAssets?.filter(
+		(asset) => !galleryItemIds.includes(asset.mint)
+	);
+
 	const AssetCardsGrid = () => {
-		return (
-			<Grid container spacing={2}>
-				{userAssets
-					?.filter((asset) => !galleryItemIds.includes(asset.mint))
-					.map((asset) => {
+		if (userAssetsFiltered.length !== 0) {
+			return (
+				<Grid container spacing={2}>
+					{userAssetsFiltered.map((asset) => {
 						return (
 							<Grid key={asset.image_url} item xs={4}>
 								<NFTImportCard
@@ -140,8 +146,11 @@ export default function ImportFromPhantomWallet({
 							</Grid>
 						);
 					})}
-			</Grid>
-		);
+				</Grid>
+			);
+		} else {
+			return <Typography>No assets found</Typography>;
+		}
 	};
 
 	const handleTabSwitch = (event, newValue) => {
