@@ -3,19 +3,21 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Card, CardMedia, CardContent } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { withDefault } from "../../utils/commons";
+import Avatar from "@material-ui/core/Avatar";
 
 const useStyles = makeStyles((theme) => ({
 	link: {
 		textDecoration: "none",
 	},
 	root: {
-		width: "100%",
-		height: "100%",
+		maxWidth: "350px",
+		maxHeight: "300px",
 		cursor: "pointer",
 		transition: "all 0.2s ease-out",
 		"&:hover": {
 			transform: "scale(1.05)",
 			boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+			borderRadius: "150%"
 		},
 	},
 	card: {
@@ -23,8 +25,11 @@ const useStyles = makeStyles((theme) => ({
 		borderRadius: "10px",
 	},
 	image: {
-		width: "100%",
-		height: "auto",
+		minWidth: "350px",
+		maxWidth: "350px",
+		maxHeight: "300px",
+		minHeight: "300px",
+		objectFit: "cover"
 	},
 	collectionSection: {},
 	collectionLink: {
@@ -40,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	nftText: {
 		color: theme.palette.text.primary,
-		marginTop: "2vh",
+		marginTop: "1vh",
 		fontWeight: "bold",
 		fontSize: "24px",
 	},
@@ -56,6 +61,15 @@ const useStyles = makeStyles((theme) => ({
 	priceText: {
 		paddingTop: "1vh",
 	},
+	chainLogo: {
+		marginLeft: "auto",
+		height: "25px",
+		width: "25px"
+	},
+	nameLogoContainer: {
+		display: "flex",
+		alignItems: "center"
+	}
 }));
 
 const GalleryNftCard = (props) => {
@@ -69,6 +83,33 @@ const GalleryNftCard = (props) => {
 	const item = Object.keys(asset).includes("item") ? asset?.item : asset;
 	const defaultImagePath = "/images/no-image.png";
 	const currentPrice = null; // dummy -> asset does not contain price info
+
+	const CollectionSection = () => {
+		if (asset.blockchain === "Ethereum") {
+			return (
+				<Link
+					className={classes.collectionLink}
+					to={`/collection/${asset.collection.slug}`}
+				>
+					{item.collection.name}
+				</Link>
+			)
+		} else if (asset.blockchain === "Solana") {
+			return (
+				<Typography>
+					{item.symbol}
+				</Typography>
+			)
+		}
+	}
+
+	const ChainLogo = () => {
+		if (asset?.blockchain === "Solana") {
+			return <Avatar className={classes.chainLogo} alt="Sol" src="/images/sol_logo.png" />
+		} else if (asset?.blockchain === "Ethereum") {
+			return <Avatar className={classes.chainLogo} alt="Eth" src="/images/eth_logo.png" />
+		}
+	}
 
 	const classes = useStyles();
 	return (
@@ -89,40 +130,17 @@ const GalleryNftCard = (props) => {
 						title={item.name}
 					/>
 					<CardContent className={classes.collectionSection}>
-						{item.collection && (
-							<Link
-								className={classes.collectionLink}
-								to={`/collection/${asset.collection.slug}`}
-							>
-								{item.collection.name}
-							</Link>
-						)}
-						<Typography variant="h6" component="h2" className={classes.nftText}>
-							{item.name ? item.name : "-"}
-						</Typography>
+						{
+							<CollectionSection/>
+						}
+						<div className={classes.nameLogoContainer}>
+							<Typography variant="h6" component="h2" className={classes.nftText}>
+								{item.name ? item.name : "-"}
+							</Typography>
+
+							<ChainLogo/>
+						</div>
 					</CardContent>
-					{currentPrice ? (
-						<CardContent className={classes.priceSection}>
-							<div className={classes.priceLabel}>Current Price</div>
-							<Typography
-								variant="h6"
-								component="h2"
-								className={classes.priceText}
-							>
-								{currentPrice + " ETH"}
-							</Typography>
-						</CardContent>
-					) : (
-						<CardContent className={classes.priceSection}>
-							<Typography
-								variant="h6"
-								component="h2"
-								className={classes.priceText}
-							>
-								Not listed yet
-							</Typography>
-						</CardContent>
-					)}
 				</Card>
 			</Link>
 		</div>
