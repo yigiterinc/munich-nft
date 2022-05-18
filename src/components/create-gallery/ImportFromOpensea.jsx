@@ -171,7 +171,9 @@ export default function ImportFromOpensea({
 
 	const galleryItemIds = [];
 	galleryAssets.map((asset) => {
-		galleryItemIds.push(asset.item.id);
+		if (asset.blockchain === "Ethereum") {
+			galleryItemIds.push(asset.item.id);
+		}
 	});
 
 	const AssetCardsGrid = () => {

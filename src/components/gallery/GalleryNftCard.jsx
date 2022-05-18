@@ -64,11 +64,11 @@ const GalleryNftCard = (props) => {
 	let tokenId;
 	let mint;
 
-	const importedSolAsset = Object.keys(asset).includes("mint");
-	const importedEthAsset = Object.keys(asset).includes("item");
+	const importedSolAsset = asset.blockchain === "Solana";
+	const importedEthAsset = asset.blockchain === "Ethereum";
 
 	if (importedSolAsset) {
-		mint = asset?.mint;
+		mint = asset?.item?.mint;
 	}
 
 	if (!importedSolAsset) {
@@ -88,7 +88,7 @@ const GalleryNftCard = (props) => {
 			<Link
 				className={classes.link}
 				to={
-					mint
+					importedSolAsset
 						? `/sol-token/${mint}`
 						: `/eth-token/${contractAddressId}/${tokenId}`
 				}

@@ -93,7 +93,10 @@ const GalleryContainer = () => {
 		let addedGalleryAssets = [];
 
 		if (selectedItemsAreSolNft) {
-			addedGalleryAssets.push(selectedItems[0]);
+			selectedItems.forEach((item) => {
+				const blockchain = "Solana";
+				addedGalleryAssets.push({ item, blockchain });
+			});
 		} else {
 			selectedItems.forEach((pair) => {
 				console.log(pair);
@@ -107,7 +110,8 @@ const GalleryContainer = () => {
 				};
 
 				const collection = pair.collection;
-				addedGalleryAssets.push({ item: galleryAsset, collection });
+				const blockchain = "Ethereum";
+				addedGalleryAssets.push({ item: galleryAsset, collection, blockchain });
 			});
 		}
 
