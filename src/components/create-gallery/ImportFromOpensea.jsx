@@ -78,7 +78,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function ImportFromOpensea({ prevButton, handleSubmit }) {
+export default function ImportFromOpensea({
+	galleryAssets,
+	prevButton,
+	handleSubmit,
+}) {
 	const classes = useStyles();
 	const theme = useTheme();
 	const [activeTab, setActiveTab] = useState(0);
@@ -116,7 +120,6 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 
 	const addToSelectedItems = (item) => {
 		setSelectedItems([...selectedItems, item]);
-		console.log(selectedItems);
 	};
 
 	const removeCollectionFromSelectedItems = (itemToBeRemoved) => {
@@ -127,8 +130,9 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 	};
 
 	const removeNftFromSelectedItems = (itemToBeRemoved) => {
+		console.log(itemToBeRemoved);
 		const itemsWithoutTheSubject = selectedItems.filter(
-			(item) => item.nft !== itemToBeRemoved
+			(item) => item.item !== itemToBeRemoved.item
 		);
 		setSelectedItems(itemsWithoutTheSubject);
 	};
@@ -165,24 +169,35 @@ export default function ImportFromOpensea({ prevButton, handleSubmit }) {
 		setActiveTab(newValue);
 	};
 
+	const galleryItemIds = [];
+	galleryAssets.map((asset) => {
+		if (asset.blockchain === "Ethereum") {
+			galleryItemIds.push(asset.item.id);
+		}
+	});
+
 	const AssetCardsGrid = () => {
 		return (
 			<Grid container spacing={2} direction="row" alignItems="center">
 				{userCollections?.map((collection) =>
-					collection?.assets.map((item) => {
-						return (
-							<Grid key={item?.id} item xs={4}>
-								<NFTImportCard
-									name={item.name}
-									image={item.image_url}
-									addToSelected={() => addToSelectedItems({ collection, item })}
-									removeFromSelected={() =>
-										removeNftFromSelectedItems({ collection, item })
-									}
-								/>
-							</Grid>
-						);
-					})
+					collection?.assets
+						.filter((item) => !galleryItemIds.includes(item.id))
+						.map((item) => {
+							return (
+								<Grid key={item?.id} item xs={4}>
+									<NFTImportCard
+										name={item.name}
+										image={item.image_url}
+										addToSelected={() =>
+											addToSelectedItems({ collection, item })
+										}
+										removeFromSelected={() =>
+											removeNftFromSelectedItems({ collection, item })
+										}
+									/>
+								</Grid>
+							);
+						})
 				)}
 			</Grid>
 		);

@@ -10,23 +10,23 @@ import Modal from "../components/common/Modal";
 import withSpinner from "../components/common/WithSpinner";
 
 const GalleryContainer = () => {
-  const { slug } = useParams();
+	const { slug } = useParams();
 
-  const [showAddAssetsView, setShowAddAssetsView] = useState(false);
-  const [showRemoveAssetsView, setShowRemoveAssetsView] = useState(false);
-  const [galleryData, setGalleryData] = useState(null);
+	const [showAddAssetsView, setShowAddAssetsView] = useState(false);
+	const [showRemoveAssetsView, setShowRemoveAssetsView] = useState(false);
+	const [galleryData, setGalleryData] = useState(null);
 
-  const [updatePerformed, setUpdatePerformed] = useState(false);
-  const [dataLoading, setDataLoading] = useState(true);
   const [creatorDetails, setCreatorDetails] = useState({});
+	const [updatePerformed, setUpdatePerformed] = useState(false);
+	const [dataLoading, setDataLoading] = useState(true);
 
-  const history = useHistory();
+	const history = useHistory();
 
-  const user = getLoggedInUser();
+	const user = getLoggedInUser();
 
-  useEffect(() => {
-    const loadGalleryData = async () => {
-      let galleryData;
+	useEffect(() => {
+		const loadGalleryData = async () => {
+			let galleryData;
 
       galleryData = await fetchGallery(slug);
       galleryData ? setGalleryData(galleryData) : history.push("/");
@@ -45,12 +45,22 @@ const GalleryContainer = () => {
   const handleImportAssetsOrCollection = async (selectedItems) => {
     if (!selectedItems) return;
 
-    let selectedItemsAreEthNft = selectedItems[0].hasOwnProperty("item"); // and not collection
-    if (selectedItemsAreEthNft) {
-      return await handleAddSelectedAssets(selectedItems);
-    }
+		console.log(selectedItems);
 
-    /* At this point we know that selectedItems is a collection
+		let selectedItemsAreSolNft = selectedItems[0].hasOwnProperty("mint");
+		if (selectedItemsAreSolNft) {
+			return await handleAddSelectedAssets(
+				selectedItems,
+				selectedItemsAreSolNft
+			);
+		}
+
+		let selectedItemsAreEthNft = selectedItems[0].hasOwnProperty("item"); // and not collection
+		if (selectedItemsAreEthNft) {
+			return await handleAddSelectedAssets(selectedItems);
+		}
+
+		/* At this point we know that selectedItems is a collection
        Only one collection can be selected at a time, so we can take 0th index
     */
     selectedItems = selectedItems[0];
@@ -71,38 +81,50 @@ const GalleryContainer = () => {
     setShowRemoveAssetsView(open);
   };
 
-  const handleAddSelectedAssets = async (selectedItems) => {
-    if (!isUserLoggedIn()) {
-      history.push("/");
-      return;
-    }
+	const handleAddSelectedAssets = async (
+		selectedItems,
+		selectedItemsAreSolNft = false
+	) => {
+		if (!isUserLoggedIn()) {
+			history.push("/");
+			return;
+		}
 
     if (!user || !selectedItems) {
       return;
     }
 
-    let addedGalleryAssets = [];
-    selectedItems.forEach((pair) => {
-      console.log(pair);
-      const galleryAsset = {
-        ...pair.item
-      };
+		let addedGalleryAssets = [];
 
-      galleryAsset.collection = {
-        name: pair.collection.name,
-        slug: pair.collection.slug
-      };
+		if (selectedItemsAreSolNft) {
+			selectedItems.forEach((item) => {
+				const blockchain = "Solana";
+				addedGalleryAssets.push({ item, blockchain });
+			});
+		} else {
+			selectedItems.forEach((pair) => {
+				console.log(pair);
+				const galleryAsset = {
+					...pair.item,
+				};
 
-      const collection = pair.collection;
-      addedGalleryAssets.push({ item: galleryAsset, collection });
-    });
+				galleryAsset.collection = {
+					name: pair.collection.name,
+					slug: pair.collection.slug,
+				};
 
-    const updatedAssets = galleryData.assets.concat(addedGalleryAssets);
+				const collection = pair.collection;
+				const blockchain = "Ethereum";
+				addedGalleryAssets.push({ item: galleryAsset, collection, blockchain });
+			});
+		}
+
+		const updatedAssets = galleryData.assets.concat(addedGalleryAssets);
 
     console.log(galleryData);
 
-    return await postGalleryAssetsUpdate(updatedAssets);
-  };
+		return await postGalleryAssetsUpdate(updatedAssets);
+	};
 
   const postGalleryAssetsUpdate = async (updatedAssets) => {
     const updateResult = await updateGallery(galleryData.id, {
@@ -152,20 +174,23 @@ const GalleryContainer = () => {
     return await postGalleryAssetsUpdate(updatedAssets);
   };
 
-  const GalleryWithEditMenu = () => {
-    return (
-      <>
-        <Modal title={showAddAssetsView ? "Import Assets" : "Remove Assets"}
-               openModal={showAddAssetsView || showRemoveAssetsView} setOpenModal={setOpenModal}>
-          <AddorRemoveAssetsContainer
-            add={showAddAssetsView}
-            galleryAssets={galleryData?.assets}
-            handleAddGalleryAssets={handleImportAssetsOrCollection}
-            setShowAddAssetsView={setShowAddAssetsView}
-            setShowRemoveAssetsView={setShowRemoveAssetsView}
-            handleRemoveGalleryAssets={handleRemoveSelectedAssets}
-          />
-        </Modal>
+	const GalleryWithEditMenu = () => {
+		return (
+			<>
+				<Modal
+					title={showAddAssetsView ? "Import Assets" : "Remove Assets"}
+					openModal={showAddAssetsView || showRemoveAssetsView}
+					setOpenModal={setOpenModal}
+				>
+					<AddorRemoveAssetsContainer
+						add={showAddAssetsView}
+						galleryAssets={galleryData?.assets}
+						handleAddGalleryAssets={handleImportAssetsOrCollection}
+						setShowAddAssetsView={setShowAddAssetsView}
+						setShowRemoveAssetsView={setShowRemoveAssetsView}
+						handleRemoveGalleryAssets={handleRemoveSelectedAssets}
+					/>
+				</Modal>
 
         <Gallery
           gallery={galleryData}

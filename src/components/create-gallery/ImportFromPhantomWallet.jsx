@@ -72,7 +72,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
+export default function ImportFromPhantomWallet({
+	galleryAssets,
+	prevButton,
+	handleSubmit,
+}) {
 	const classes = useStyles();
 	const theme = useTheme();
 	const [activeTab, setActiveTab] = useState(0);
@@ -112,21 +116,30 @@ export default function ImportFromPhantomWallet({ prevButton, handleSubmit }) {
 
 	const DEFAULT_IMAGE_PATH = "/images/no-image.png";
 
+	const galleryItemIds = [];
+	galleryAssets.map((asset) => {
+		if (asset.blockchain === "Solana") {
+			galleryItemIds.push(asset.item.mint);
+		}
+	});
+
 	const AssetCardsGrid = () => {
 		return (
 			<Grid container spacing={2}>
-				{userAssets?.map((asset) => {
-					return (
-						<Grid key={asset.image_url} item xs={4}>
-							<NFTImportCard
-								name={asset.name}
-								image={withDefault(asset.image, DEFAULT_IMAGE_PATH)}
-								addToSelected={() => addToSelectedItems(asset)}
-								removeFromSelected={() => removeNftFromSelectedItems(asset)}
-							/>
-						</Grid>
-					);
-				})}
+				{userAssets
+					?.filter((asset) => !galleryItemIds.includes(asset.mint))
+					.map((asset) => {
+						return (
+							<Grid key={asset.image_url} item xs={4}>
+								<NFTImportCard
+									name={asset.name}
+									image={withDefault(asset.image, DEFAULT_IMAGE_PATH)}
+									addToSelected={() => addToSelectedItems(asset)}
+									removeFromSelected={() => removeNftFromSelectedItems(asset)}
+								/>
+							</Grid>
+						);
+					})}
 			</Grid>
 		);
 	};

@@ -74,12 +74,22 @@ const useStyles = makeStyles((theme) => ({
 
 const GalleryNftCard = (props) => {
 	let asset = props.asset;
+	let contractAddressId;
+	let tokenId;
+	let mint;
 
-	const importedAsAsset = Object.keys(asset).includes("item");
+	const importedSolAsset = asset.blockchain === "Solana";
+	const importedEthAsset = asset.blockchain === "Ethereum";
 
-	const contractAddressId = importedAsAsset ? asset?.item?.asset_contract?.address : asset.asset_contract.address;
-	const tokenId = importedAsAsset ? asset?.item?.token_id : asset.token_id;
-	const mint = asset?.mint;
+	if (importedSolAsset) {
+		mint = asset?.item?.mint;
+	}
+
+	if (importedEthAsset) {
+		contractAddressId = asset?.item?.asset_contract?.address;
+		tokenId = asset?.item?.token_id;
+	}
+
 	const item = Object.keys(asset).includes("item") ? asset?.item : asset;
 	const defaultImagePath = "/images/no-image.png";
 	const currentPrice = null; // dummy -> asset does not contain price info
@@ -117,7 +127,7 @@ const GalleryNftCard = (props) => {
 			<Link
 				className={classes.link}
 				to={
-					mint
+					importedSolAsset
 						? `/sol-token/${mint}`
 						: `/eth-token/${contractAddressId}/${tokenId}`
 				}

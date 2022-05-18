@@ -39,33 +39,33 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
 	root: {
 		backgroundColor: theme.palette.background.paper,
-		width: "100vw",
+		width: "auto",
+		height: "auto",
 	},
 	buttonsContainer: {
 		display: "flex",
 		justifyContent: "center",
-		marginBottom: "10vh",
-		marginTop: "2vh",
 	},
 	tabPanel: {
-		paddingLeft: "5vw",
-		paddingRight: "5vw",
 		paddingTop: "5vh",
-		overflow: "scroll",
-		height: "auto",
+		paddingLeft: "1vw",
+		paddingRight: "1vw",
+		paddingBottom: "3vh",
+		overflow: "hidden",
 	},
 	button: {
 		background: "#b35bff",
-		color: "white",
-		margin: "13px 20px",
+		color: "#FFFFFF",
+		margin: "13px 25px",
 		padding: "13px 25px",
 		"&:hover": {
 			background: darken("#b35bff", 0.1),
 		},
 	},
 	buttonDisabled: {
-		background: "gray",
-		color: "white",
+		border: "#e0e0e0",
+		background: "#e0e0e0",
+		color: "#a6a6a6",
 		margin: "13px 25px",
 		padding: "13px 25px",
 	},
@@ -105,38 +105,39 @@ const RemoveAssets = ({
 
 	const removeNftFromSelectedItems = (itemToBeRemoved) => {
 		const itemsWithoutTheSubject = selectedItems.filter(
-			(selectedItem) => selectedItem.item !== itemToBeRemoved.item
+			(selectedItem) => selectedItem.asset !== itemToBeRemoved.asset
 		);
 		setSelectedItems(itemsWithoutTheSubject);
 	};
 
 	const DEFAULT_IMAGE_PATH = "/images/no-image.png";
-	const DEFAULT_NAME = "Nameless"
+	const DEFAULT_NAME = "Nameless";
 
 	const AssetCardsGrid = () => {
 		return (
-			<Grid container spacing={3} direction="row" alignItems="center">
-				{galleryAssets
-					.map((asset) => {
-						let importedAsAsset = Object.keys(asset).includes("item");
+			<Grid container spacing={2} direction="row" alignItems="center">
+				{galleryAssets.map((asset) => {
+					let importedAsAsset = Object.keys(asset).includes("item");
 
-						return (
-							<Grid key={asset.item?.id} item lg={3} md={4} sm={6} xs={12}>
-								<NFTImportCard
-									name={withDefault(importedAsAsset ? asset?.item.name : asset.name, DEFAULT_NAME)}
-									image={withDefault(importedAsAsset ? asset?.item.image_url : asset.image_url, DEFAULT_IMAGE_PATH)}
-									addToSelected={() =>
-										addToSelectedItems({ asset })
-									}
-									removeFromSelected={() =>
-										removeNftFromSelectedItems({ asset })
-									}
-								/>
-							</Grid>
-						);
-					})
-				}
-			</Grid>)
+					return (
+						<Grid key={asset.item?.id} item xs={4}>
+							<NFTImportCard
+								name={withDefault(
+									importedAsAsset ? asset?.item.name : asset.name,
+									DEFAULT_NAME
+								)}
+								image={withDefault(
+									importedAsAsset ? asset?.item.image_url : asset.image_url,
+									DEFAULT_IMAGE_PATH
+								)}
+								addToSelected={() => addToSelectedItems({ asset })}
+								removeFromSelected={() => removeNftFromSelectedItems({ asset })}
+							/>
+						</Grid>
+					);
+				})}
+			</Grid>
+		);
 	};
 
 	const TabPanelWithSpinner = (index, data) => {
@@ -150,7 +151,7 @@ const RemoveAssets = ({
 				{data}
 			</TabPanel>,
 			dataIsLoading,
-			{ marginTop: "10vh", marginBottom: "4vh", marginLeft: "48vw" }
+			{ marginLeft: 300, marginTop: "10vh", marginBottom: "10vh" }
 		);
 	};
 
