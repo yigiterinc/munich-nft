@@ -15,7 +15,7 @@ import withSpinner from "../components/common/WithSpinner";
 
 const useStyles = makeStyles((theme) => ({
 	mainContainer: {
-		paddingTop: "4vh",
+		paddingTop: "8vh",
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "center",
@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
 		position: "relative",
 		padding: "4vh 6vw",
 		borderRadius: "2px",
-		marginBottom: "5vh",
 		width: "75vw",
 		minHeight: "30vh",
 		boxShadow: "0px 0px 5px #b35bff, 0px 5px 20px #ca8eff",
