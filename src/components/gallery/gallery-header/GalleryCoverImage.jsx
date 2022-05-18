@@ -40,7 +40,7 @@ const GalleryCoverImage = (props) => {
 							<CardMedia
 								component="img"
 								className={classes.galleryCoverImage}
-								src={props.coverImage}
+								src={STRAPI_BASE_URL + props.coverImage.url}
 							/>
 						</Card>
 					)}

@@ -40,7 +40,10 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "4vh",
     textAlign: "center"
   },
-
+  galleryText: {
+    textTransform: "uppercase",
+    fontWeight: "lighter"
+  },
   titleTextField: {
     lineHeight: "64px"
   },
@@ -51,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "5px",
     fontSize: "15px", // will be updated after theme variable setup,
 		fontWeight: "normal",
-    marginTop: "1px"
+    marginTop: "3px"
   },
   description: {
     marginTop: "2vh",
@@ -184,6 +187,7 @@ const GalleryHeader = (props) => {
       <>
         <CoverImage />
         <Grid item lg={6} md={6} sm={4} xs={2} className={classes.galleryMetadata}>
+          <Typography className={classes.galleryText}>Gallery</Typography>
           <GalleryName />
           <CreatedBy />
           <Description />
