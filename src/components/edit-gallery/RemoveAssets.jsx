@@ -12,6 +12,7 @@ import Tab from "@material-ui/core/Tab";
 import SwipeableViews from "react-swipeable-views";
 import { useParams } from "react-router-dom";
 import { withDefault } from "../../utils/commons";
+import { Typography } from "@material-ui/core";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -86,6 +87,10 @@ const RemoveAssets = ({
 	const isInitialMount = useRef(true);
 
 	useEffect(() => {
+		console.log("Selected ", selectedItems);
+	}, [selectedItems]);
+
+	useEffect(() => {
 		if (isInitialMount.current) {
 			isInitialMount.current = false;
 		} else {
@@ -115,7 +120,18 @@ const RemoveAssets = ({
 
 	const AssetCardsGrid = () => {
 		return (
-			<Grid container spacing={2} direction="row" alignItems="center">
+			<Grid
+				container
+				spacing={2}
+				direction="row"
+				alignItems="center"
+				justifyContent="center"
+			>
+				{galleryAssets.length === 0 && (
+					<Typography>
+						There are no assets to remove in your gallery!
+					</Typography>
+				)}
 				{galleryAssets.map((asset) => {
 					let importedAsAsset = Object.keys(asset).includes("item");
 
