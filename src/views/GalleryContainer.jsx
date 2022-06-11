@@ -159,10 +159,8 @@ const GalleryContainer = () => {
 			}
 		});
 
-		const removedAssetIds = removedGalleryAssets.map((item) => item.id);
-
 		const updatedAssets = galleryData.assets.filter(
-			(item) => !removedAssetIds.includes(item.id)
+			(item) => !removedGalleryAssets.includes(item)
 		);
 
 		console.log(updatedAssets);
