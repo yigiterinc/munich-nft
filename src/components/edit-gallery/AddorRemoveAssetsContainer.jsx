@@ -28,6 +28,18 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: 20,
 		width: "20vw",
 	},
+	nextButton: {
+		background: "#b35bff",
+		color: "#FFFFFF",
+		"&:hover": {
+			background: darken("#b35bff", 0.1),
+		},
+		"&:disabled": {
+			border: "#e0e0e0",
+			background: "#e0e0e0",
+			color: "#a6a6a6",
+		},
+	},
 }));
 
 function AddorRemoveAssetsContainer(props) {
@@ -41,6 +53,7 @@ function AddorRemoveAssetsContainer(props) {
 	const classes = useStyles();
 
 	console.log(props);
+	console.log(contractAddress);
 
 	const IMPORT_METHODS = {
 		OPENSEA: "Import from OpenSea",
@@ -74,7 +87,6 @@ function AddorRemoveAssetsContainer(props) {
 						selection.
 					</Typography>
 				</Grid>
-
 				<Grid item xs={12} className={classes.gridItem}>
 					<Select
 						value={importMethod}
@@ -85,7 +97,6 @@ function AddorRemoveAssetsContainer(props) {
 						{ImportOptions()}
 					</Select>
 				</Grid>
-
 				{importMethod === "CUSTOM_CONTRACT" ? (
 					<Grid item xs={12} className={classes.gridItem}>
 						<Typography variant="h5" component="h2">
@@ -103,19 +114,13 @@ function AddorRemoveAssetsContainer(props) {
 				) : (
 					<></>
 				)}
-
 				<Grid item xs={12} className={classes.gridItem}>
 					<Button
+						className={classes.nextButton}
 						color="primary"
 						variant="contained"
-						style={{
-							background: "#b35bff",
-							color: "#FFFFFF",
-							"&:hover": {
-								background: darken("#b35bff", 0.1),
-							},
-						}}
 						size="large"
+						disabled={importMethod === "CUSTOM_CONTRACT" && !contractAddress}
 						onClick={() =>
 							setActiveStep((prevActiveStep) => prevActiveStep + 1)
 						}
